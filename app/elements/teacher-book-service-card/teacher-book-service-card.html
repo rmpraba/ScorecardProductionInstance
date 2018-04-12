@@ -712,7 +712,7 @@
       var glovaluearr=[];
       var gloskarr=[];
       var glosubarr=[];
-      var globldvaluearr=[];
+      var glohomeworkarr=[];
     Polymer({   
       is: 'teacher-book-service-card',
       fnfetchcprgrade:function(){
@@ -745,7 +745,7 @@
       fnfetchcprsubjectResponse:function(e){
         document.querySelector('curriculam-report').subjectarr=e.detail.response.returnval;
       },
- fnmasterplaninsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,bldvaluearr,sno){
+ fnmasterplaninsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr){
   if(subarr.length!=0){
       
        var overall=[];
@@ -787,24 +787,24 @@
         subarr[i].skillid=skillid;
         subarr[i].skillname=skillname;
         }
-          for(var i=0;i<subarr.length;i++){
-        var bldvalueid="";
-        var bldvaluename="";
-        for(var j=0;j<bldvaluearr.length;j++){
-            if(subarr[i].rowid==bldvaluearr[j].rowid)
+   for(var i=0;i<subarr.length;i++){
+        var hometypeid="";
+        var hometype="";
+        for(var j=0;j<homeworkarr.length;j++){
+            if(subarr[i].rowid==homeworkarr[j].rowid)
             {
-                if(bldvalueid=="")
-                bldvalueid=bldvaluearr[j].bldvalueid;
+                if(hometypeid=="")
+                hometypeid=homeworkarr[j].hometypeid;
                 else
-                bldvalueid=bldvalueid+","+bldvaluearr[j].bldvalueid;
-                if(bldvaluename=="")
-                bldvaluename=bldvaluearr[j].bldvaluename;
+                hometypeid=hometypeid+","+homeworkarr[j].bldvalueid;
+                if(hometype=="")
+                hometype=homeworkarr[j].hometype;
                 else
-              bldvaluename=bldvaluename+","+bldvaluearr[j].bldvaluename;
+              hometype=hometype+","+homeworkarr[j].hometype;
             }
         }
-        subarr[i].bldvalueid=bldvalueid;
-        subarr[i].bldvaluename=bldvaluename;
+        subarr[i].hometypeid=hometypeid;
+        subarr[i].hometype=hometype;
         }
         c1=subarr.length;
         for(var i=0;i<subarr.length;i++){
@@ -820,19 +820,24 @@
         obj.chaptername=localStorage.getItem("curr_sess_chaptername");
         obj.rowid=subarr[i].rowid;
         obj.conceptid=subarr[i].conceptid;
+        obj.hometypeid=subarr[i].hometypeid;
+        obj.hometype=subarr[i].hometype;
         obj.conceptname=subarr[i].concept;
         obj.subconceptid=subarr[i].subconceptid;
         obj.subconceptname=subarr[i].subconceptname;
         obj.period=period;
         obj.sno=sno;
+        obj.assesmentdate=localStorage.getItem("assement_curr_sess_date");;
+
+
         obj.plannedfromdate=localStorage.getItem("localsess_from_service");
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.skill=subarr[i].skillname;
         obj.value=subarr[i].valuename;
-        obj.bldvalue=subarr[i].bldvaluename;
+      //  obj.bldvalue=subarr[i].bldvaluename;
         obj.skillid=subarr[i].skillid;
         obj.valueid=subarr[i].valueid;
-        obj.bldvalueid=subarr[i].bldvalueid;
+       // obj.bldvalueid=subarr[i].bldvalueid;
         obj.innovation=innovation;
         obj.teachingaid=teachingaid;
         obj.remarks=remark;
@@ -882,23 +887,23 @@
         conarr[i].skillname=skillname;
         }
           for(var i=0;i<conarr.length;i++){
-        var bldvalueid="";
-        var bldvaluename="";
-        for(var j=0;j<bldvaluearr.length;j++){
+        var hometypeid="";
+        var hometype="";
+        for(var j=0;j<homeworkarr.length;j++){
             if(conarr[i].rowid==bldvaluearr[j].rowid)
             {
-                if(bldvalueid=="")
-                bldvalueid=bldvaluearr[j].bldvalueid;
+                if(hometypeid=="")
+                hometypeid=homeworkarr[j].hometypeid;
                 else
-                bldvalueid=bldvalueid+","+bldvaluearr[j].bldvalueid;
-                if(bldvaluename=="")
-                bldvaluename=bldvaluearr[j].bldvaluename;
+                hometypeid=hometypeid+","+homeworkarr[j].hometypeid;
+                if(hometype=="")
+                hometype=homeworkarr[j].hometype;
                 else
-                bldvaluename=bldvaluename+","+bldvaluearr[j].bldvaluename;
+                hometype=hometype+","+homeworkarr[j].hometype;
             }
         }
-        conarr[i].bldvalueid=bldvalueid;
-        conarr[i].bldvaluename=bldvaluename;
+        conarr[i].hometypeid=hometypeid;
+        conarr[i].hometype=hometype;
         }
         c1=conarr.length;
         for(var i=0;i<conarr.length;i++){
@@ -919,14 +924,20 @@
         obj.subconceptname="";
          obj.period=period;
          obj.sno=sno;
-       obj.plannedfromdate=localStorage.getItem("localsess_from_service");
+
+    obj.plannedfromdate=localStorage.getItem("localsess_from_service");
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.skill=conarr[i].skillname;
         obj.skillid=conarr[i].skillid;
         obj.valueid=conarr[i].valueid;
-        obj.bldvalueid=conarr[i].bldvalueid;
+        obj.hometypeid=conarr[i].hometypeid;
+        obj.hometype=conarr[i].hometype;
+    obj.assesmentdate=localStorage.getItem("assement_curr_sess_date");;
+       
+        
+       // obj.bldvalueid=conarr[i].bldvalueid;
         obj.value=conarr[i].valuename;
-        obj.bldvalue=conarr[i].bldvaluename;
+     //   obj.bldvalue=conarr[i].bldvaluename;
         obj.innovation=innovation; 
         obj.teachingaid=teachingaid;
         obj.remarks=remark;
@@ -953,7 +964,7 @@
     document.uerySelector('aproval-book-innovatiosn-item-card').failureopen();
         }
       },
- fnmasterplanedit:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,bldvaluearr,sno)
+ fnmasterplanedit:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,assesmentdate,homework)
  {
 
      
@@ -974,7 +985,7 @@
       gloconarr=conarr;
       glovaluearr=valuearr;
       glosubarr=subarr;
-      globldvaluearr=bldvaluearr;
+      glohomeworkarr=homework;
       gloskarr=skarr;
       this.gloperiod=period;
       this.gloinnovation=innovation;
@@ -983,6 +994,8 @@
       this.gloteachingaid=teachingaid;
       this.glorowid=rowid;
       this.glosno=sno;
+      this.assesmentdate=assesmentdate;
+     
 
 
  
@@ -1000,7 +1013,8 @@
       var valuearr1=[];
       var skarr1=[];
       var subarr1=[];
-      var bldvaluearr1=[];
+      var work1=[];
+   //   var bldvaluearr1=[];
  
       /*  alert(JSON.stringify(gloconarr));
         alert(JSON.stringify(glovaluearr));
@@ -1012,16 +1026,20 @@
       valuearr1=glovaluearr;
       skarr1=gloskarr;
       subarr1=glosubarr;
-      bldvaluearr1=globldvaluearr;
+      work1=glohomeworkarr;
+      //bldvaluearr1=globldvaluearr;
 
-       var  period=this.gloperiod;
+      var  period=this.gloperiod;
       var innovation=this.gloinnovation;
       var remark=this.gloremark;
       var period=this.gloperiod;
       var teachingaid=this.gloteachingaid;
       var rowid=this.glorowid;
       var sno=this.glosno;
+      var assesmentdate=this.assesmentdate;
+      var homework=this.homework;
        
+ 
 
 if(subarr1.length!=0){
         var overall=[];
@@ -1063,24 +1081,24 @@ if(subarr1.length!=0){
         subarr1[i].skillid=skillid;
         subarr1[i].skillname=skillname;
         }
-          for(var i=0;i<subarr1.length;i++){
-        var bldvalueid="";
-        var bldvaluename="";
-        for(var j=0;j<bldvaluearr1.length;j++){
-            if(subarr1[i].rowid==bldvaluearr1[j].rowid)
+      for(var i=0;i<subarr1.length;i++){
+        var hometype="";
+        var hometypeid="";
+        for(var j=0;j<work1.length;j++){
+            if(subarr1[i].rowid==work1[j].rowid)
             {
-                if(bldvalueid=="")
-                bldvalueid=bldvaluearr1[j].bldvalueid;
+                if(hometypeid=="")
+                hometypeid=work1[j].hometypeid;
                 else
-                bldvalueid=bldvalueid+","+bldvaluearr1[j].bldvalueid;
-                if(bldvaluename=="")
-                bldvaluename=bldvaluearr1[j].bldvaluename;
+                hometypeid=hometypeid+","+work1[j].hometypeid;
+                if(hometype=="")
+                hometype=work1[j].hometype;
                 else
-              bldvaluename=bldvaluename+","+bldvaluearr1[j].bldvaluename;
+              hometype=hometype+","+work1[j].hometype;
             }
         }
-        subarr1[i].bldvalueid=bldvalueid;
-        subarr1[i].bldvaluename=bldvaluename;
+        subarr1[i].hometypeid=hometypeid;
+        subarr1[i].hometype=hometype;
         }
         c1=subarr1.length;
         for(var i=0;i<subarr1.length;i++){
@@ -1105,13 +1123,15 @@ if(subarr1.length!=0){
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.skill=subarr1[i].skillname;
         obj.value=subarr1[i].valuename;
-        obj.bldvalue=subarr1[i].bldvaluename;
+        obj.hometype=subarr1[i].hometype;
         obj.skillid=subarr1[i].skillid;
         obj.valueid=subarr1[i].valueid;
-        obj.bldvalueid=subarr1[i].bldvalueid;
+        obj.hometypeid=subarr1[i].hometypeid;
         obj.innovation=innovation;
         obj.teachingaid=teachingaid;
         obj.remarks=remark;
+        obj.assesmentdate=assesmentdate;
+        obj.homework=homework;
         obj.termid=sessionStorage.getItem("termid"); 
      //  alert(JSON.stringify(obj));
         this.fnmasterplaneditparam=obj;
@@ -1159,23 +1179,23 @@ if(subarr1.length!=0){
         conarr1[i].skillname=skillname;
         }
           for(var i=0;i<conarr1.length;i++){
-        var bldvalueid="";
-        var bldvaluename="";
-        for(var j=0;j<bldvaluearr1.length;j++){
-            if(conarr1[i].rowid==bldvaluearr1[j].rowid)
+        var hometype="";
+        var hometypeid="";
+        for(var j=0;j<workl.length;j++){
+            if(conarr1[i].rowid==workl[j].rowid)
             {
-                if(bldvalueid=="")
-                bldvalueid=bldvaluearr1[j].bldvalueid;
+                if(hometypeid=="")
+                hometypeid=workl[j].hometypeid;
                 else
-                bldvalueid=bldvalueid+","+bldvaluearr1[j].bldvalueid;
-                if(bldvaluename=="")
-                bldvaluename=bldvaluearr1[j].bldvaluename;
+                hometypeid=hometypeid+","+workl[j].hometypeid;
+                if(hometype=="")
+                hometype=workl[j].hometype;
                 else
-                bldvaluename=bldvaluename+","+bldvaluearr1[j].bldvaluename;
+                hometype=hometype+","+workl[j].hometype;
             }
         }
-        conarr1[i].bldvalueid=bldvalueid;
-        conarr1[i].bldvaluename=bldvaluename;
+        conarr1[i].hometypeid=hometypeid;
+        conarr1[i].hometype=hometype;
         }
         c1=conarr1.length;
         for(var i=0;i<conarr1.length;i++){
@@ -1201,12 +1221,14 @@ if(subarr1.length!=0){
         obj.skill=conarr1[i].skillname;
         obj.skillid=conarr1[i].skillid;
         obj.valueid=conarr1[i].valueid;
-        obj.bldvalueid=conarr1[i].bldvalueid;
+        obj.hometypeid=conarr1[i].hometypeid;
         obj.value=conarr1[i].valuename;
-        obj.bldvalue=conarr1[i].bldvaluename;
+        obj.hometype=conarr1[i].hometype;
         obj.innovation=innovation; 
         obj.teachingaid=teachingaid;
         obj.remarks=remark;
+        obj.assesmentdate=assesmentdate;
+      
         obj.termid=sessionStorage.getItem("termid"); 
         this.fnmasterplaneditparam=obj;
        // alert(JSON.stringify(obj));
@@ -1227,8 +1249,9 @@ if(subarr1.length!=0){
       gloconarr=[];
       glovaluearr=[];
       glosubarr=[];
-      globldvaluearr=[];
+      //globldvaluearr=[];
       gloskarr=[];
+      glohomeworkarr=[];
       this.gloperiod="";
       this.gloinnovation="";
       this.gloremark="";
@@ -1241,7 +1264,7 @@ if(subarr1.length!=0){
       
      }
       },
-      fnmasterplandisplyinsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,bldvaluearr,sno){
+      fnmasterplandisplyinsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr){
         var valueid="";
         var valuename="";
          for(var j=0;j<valuearr.length;j++){
@@ -1301,19 +1324,19 @@ if(subarr1.length!=0){
          this.skillfid=skillid;
          this.skillfname=skillname;
         }
-        var bldvalueid="";
-        var bldvaluename="";
-        for(var j=0;j<bldvaluearr.length;j++){
-           if(bldvalueid=="")
-                bldvalueid=bldvaluearr[j].bldvalueid;
+        var hometype="";
+        var hometypeid="";
+        for(var j=0;j<homeworkarr.length;j++){
+           if(hometypeid=="")
+                hometypeid=homeworkarr[j].hometypeid;
                 else
-                bldvalueid=bldvalueid+","+bldvaluearr[j].bldvalueid;
-                if(bldvaluename=="")
-                bldvaluename=bldvaluearr[j].bldvaluename;
+                hometypeid=hometypeid+","+homeworkarr[j].hometypeid;
+                if(hometype=="")
+                hometype=homeworkarr[j].hometype;
                 else
-              bldvaluename=bldvaluename+","+bldvaluearr[j].bldvaluename;
-           this.bldfvalueid=bldvalueid;
-           this.bldfvaluename=bldvaluename;
+              hometype=hometype+","+homeworkarr[j].hometype;
+           this.hometype=hometype;
+           this.hometypeid=hometypeid;
           }
     //alert(this.bldfvaluename+"--"+this.skillfname+"--"+this.subconcepfname+"--"+this.vaufname+"--"+this.conceptfname);
  this.fnmasterplandisplyinserturl=sessionStorage.getItem("addrinfo")+"/fnmasterplandisplyinsert-service";
@@ -1337,16 +1360,20 @@ if(subarr1.length!=0){
         obj.subconceptid=this.subconcepfid;
         obj.subconceptname=this.subconcepfname;
           }
+        obj.assesmentdate=localStorage.getItem("assement_curr_sess_date");
+       
         obj.period=period;
         obj.sno=sno;
         obj.plannedfromdate=localStorage.getItem("localsess_from_service");
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.skill=this.skillfname;
         obj.value=this.vaufname;
-        obj.bldvalue=this.bldfvaluename;
+       // obj.bldvalue=this.bldfvaluename;
         obj.skillid=this.skillfid;
         obj.valueid=this.vaufid;
-        obj.bldvalueid=this.bldfvalueid;
+        obj.hometype=this.hometype;
+        obj.hometypeid=this.hometypeid;
+        
         obj.innovation=innovation;
         obj.teachingaid=teachingaid;
         obj.remarks=remark;
@@ -1355,7 +1382,7 @@ if(subarr1.length!=0){
         this.$.fnmasterplandisplyinsertajax.generateRequest(); 
              
        },
- fnmasterplandisplyedit:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,bldvaluearr,sno){
+ fnmasterplandisplyedit:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,assesmentdate,homework){
         var valueid="";
         var valuename="";
          for(var j=0;j<valuearr.length;j++){
@@ -1415,19 +1442,19 @@ if(subarr1.length!=0){
          this.skillfid=skillid;
          this.skillfname=skillname;
         }
-        var bldvalueid="";
-        var bldvaluename="";
-        for(var j=0;j<bldvaluearr.length;j++){
-           if(bldvalueid=="")
-                bldvalueid=bldvaluearr[j].bldvalueid;
+        var hometype="";
+        var hometypeid="";
+        for(var j=0;j<homework.length;j++){
+           if(hometypeid=="")
+                hometypeid=homework[j].hometypeid;
                 else
-                bldvalueid=bldvalueid+","+bldvaluearr[j].bldvalueid;
-                if(bldvaluename=="")
-                bldvaluename=bldvaluearr[j].bldvaluename;
+                hometypeid=hometypeid+","+homework[j].hometypeid;
+                if(hometype=="")
+                hometype=homework[j].hometype;
                 else
-              bldvaluename=bldvaluename+","+bldvaluearr[j].bldvaluename;
-           this.bldfvalueid=bldvalueid;
-           this.bldfvaluename=bldvaluename;
+              hometype=hometype+","+homework[j].hometype;
+           this.hometypeid=hometypeid;
+           this.hometype=hometype;
           }
     //alert(this.bldfvaluename+"--"+this.skillfname+"--"+this.subconcepfname+"--"+this.vaufname+"--"+this.conceptfname);
       
@@ -1458,13 +1485,15 @@ if(subarr1.length!=0){
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.skill=this.skillfname;
         obj.value=this.vaufname;
-        obj.bldvalue=this.bldfvaluename;
         obj.skillid=this.skillfid;
         obj.valueid=this.vaufid;
-        obj.bldvalueid=this.bldfvalueid;
+        obj.hometype=this.hometype;
+        obj.hometypeid=this.hometypeid;
         obj.innovation=innovation;
         obj.teachingaid=teachingaid;
         obj.remarks=remark;
+       
+        obj.assesmentdate=assesmentdate;
         obj.termid=sessionStorage.getItem("termid"); 
         this.fnmasterplandisplyeditparam=obj;
         this.$.fnmasterplandisplyeditajax.generateRequest(); 
@@ -1933,12 +1962,14 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
                       obj.concept_id=temp1[i].concept_id;
                       obj.concept_name=temp1[i].concept_name;
                       obj.sub_concept_id=temp1[i].sub_concept_id;
-                    obj.sub_concept_name=temp1[i].sub_concept_name;
+                     obj.sub_concept_name=temp1[i].sub_concept_name;
                       obj.period=temp1[i].period;  
                       obj.innovation=temp1[i].innovation;  
                       obj.remarks=temp1[i].remarks;  
                       obj.planned_date_from=temp1[i].planned_date_from; 
                       obj.skill=temp1[i].skill;
+                      obj.homework=temp1[i].homework_type;
+                      obj.assesmentdate=temp1[i].assesment_date;
                            
                       obj.value=temp1[i].value;
                       obj.rowidz=temp1[i].row_id;
@@ -1973,8 +2004,6 @@ if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafte
                    obj.planned_date_from="empty" ;
                    obj.planned_to_date="" ;
                    obj.rowidz="";
-
-              
                    obj.teaching_aid="";
                    obj.hidecheck=true; 
                    obj.hidecheck1=false; 
@@ -2177,7 +2206,7 @@ fnsetcoskill11:function(skarr,period,rowid,sno)
         obj.flag="active";
         obj.conc_date=skarr[i].skillid+localStorage.getItem("localsess_from_service")
         this.fnsetcoskill11param=obj;
-        this.$.fnsetcoskill11ajax.generateRequest();
+       this.$.fnsetcoskill11ajax.generateRequest();
       
         }
       },
@@ -2402,17 +2431,20 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
             res[i].hideflag=false;
             temp.push(res[i]);
             }
-        // alert(JSON.stringify(this.approvedarr));
-            for(var i=0;i<temp.length;i++){
-                for(var j=0;j<this.approvedarr.length;j++){
+    // alert(JSON.stringify(this.approvedarr));
+ for(var i=0;i<temp.length;i++){
+        for(var j=0;j<this.approvedarr.length;j++){
                     if(temp[i].concept_id==this.approvedarr[j].concept_id&&temp[i].sub_concept_id==this.approvedarr[j].sub_concept_id&&temp[i].row_id==this.approvedarr[j].row_id){
                         temp[i].completion_status=this.approvedarr[j].completion_status;
                          temp[i].completion_date=this.approvedarr[j].completion_date;
                          temp[i].enrichment_sug=this.approvedarr[j].enrichment_sug;
                          temp[i].correction_status=this.approvedarr[j].correction_status;
-                         temp[i].bld_value_name=this.approvedarr[j].bld_value_name;
-                        temp[i].teaching_aid=this.approvedarr[j].teaching_aid;
-                        temp[i].lr_rectification=this.approvedarr[j].lr_rectification;
+                         temp[i].teaching_aid=this.approvedarr[j].teaching_aid;
+                        temp[i].home_type_id=this.approvedarr[j].home_type_id;
+                        temp[i].homework_type=this.approvedarr[j].homework_type;
+                        temp[i].assesment_date=this.approvedarr[j].assesment_date;
+
+
                         temp[i].co_ordinator_remarks=this.approvedarr[j].co_ordinator_remarks;
                         temp[i].hidetitleflag=false;
                         temp[i].hideflag=true;
@@ -2423,22 +2455,38 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
             document.querySelector('curriculum-plan-conceptapproval-card').hideapprovalcard=false;
             document.querySelector('curriculum-plan-conceptapproval-card').approvearr=temp;
           },
-          updateapprovalstatusofchapterconcept:function(o){
+          updateapprovalstatusofchapterconcept:function(o,assementarr){
+
+        var assesment_type_id="";
+         var assesment_type="";
+ for(var j=0;j<assementarr.length;j++){
+           if(assesment_type_id=="")
+                assesment_type_id=assementarr[j].assesment_type_id;
+                else
+                assesment_type_id=assesment_type_id+","+assementarr[j].assesment_type_id;
+                if(assesment_type=="")
+                assesment_type=assementarr[j].assesment_type;
+                else
+            assesment_type=assesment_type+","+assementarr[j].assesment_type;
+           this.assesment_type=assesment_type;
+           this.assesment_type_id=assesment_type_id;
+          }
+
            this.updateapprovalstatusofchapterconcepturl=sessionStorage.getItem("addrinfo")+"/updateapprovalstatusofchapterconcept-service";
              var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
-           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-           obj.academicyear=localStorage.getItem("curr_sess_academicyear");
-           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
-           obj.empid=sessionStorage.getItem("curr_sess_loggedid");
-           obj.empname=sessionStorage.getItem("curr_sess_loggeduname");
-           obj.sectionid=localStorage.getItem("curr_sess_sectionid");
-           obj.sectionname=localStorage.getItem("curr_sess_sectionname");
-           obj.gradeid=localStorage.getItem("curr_sess_gradeid");
-           obj.gradename=localStorage.getItem("curr_sess_gradename");
-           obj.subjectid=localStorage.getItem("curr_sess_subjectid");
-           obj.subjectname=localStorage.getItem("curr_sess_subjectname");
-           obj.chapterid=localStorage.getItem("curr_sess_chapterid");
-           obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+        obj.empname=sessionStorage.getItem("curr_sess_loggeduname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.sectionname=localStorage.getItem("curr_sess_sectionname");
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
            obj.completion_date=localStorage.getItem("localsess_comp_service");
           obj.termid=sessionStorage.getItem("termid"); 
 
@@ -2463,6 +2511,13 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
            obj.bldvalues=o.bldvalues;
            obj.teachingaid=o.teachingaid;
            obj.coremark=o.coremark;
+           obj.hometypeid=o.hometypeid;
+           obj.hometype=o.hometype;
+           obj.assesmentdate=o.assesmentdate;
+           obj.assesment_type_id=this.assesment_type_id;
+           obj.assesment_type=this.assesment_type;
+           
+      
            this.updateapprovalstatusofchapterconceptparam=obj;
            //alert(JSON.stringify(obj));
            this.$.updateapprovalstatusofchapterconceptajax.generateRequest();

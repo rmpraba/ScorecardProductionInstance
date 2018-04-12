@@ -4,7 +4,7 @@
 <dom-module id="curriculum-plan-conceptapproval-itemcard">
   <template>
     <style>
-    table
+    .bgtable
       {   table-layout: fixed;
           width: 1920px;;
           border-collapse: collapse;
@@ -23,9 +23,23 @@
           width: 354px;
           height: 170px;
         }
+          .home
+      {
+         width: 92%;
+        height: 50%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
+      #Conceptassesmentdialog
+      {
+          border-radius: 10px;
+        width: 650px;
+        height: 300px;
+        margin-left: -6%;
+      }
     </style>
    
-    <table border="1" style="border-collapse: collapse;">
+    <table class="bgtable" border="1" style="border-collapse: collapse;">
         <tr>
               <td style="width: 2.35%;">{{sno}}</td>
               <td style="width: 8.35%;">{{conceptname}}</td>
@@ -35,7 +49,7 @@
               {{skill}}
               </td>
               <td style="width: 5.5%;word-wrap: break-word;">
-                {{bldvalues}}
+                {{assesmentdate}}
               </td>
               <td style="width: 5.5%;word-wrap: break-word;">
                 {{value}}
@@ -49,8 +63,7 @@
                {{todate}}
               </td>     
               <td style="width: 5.5%;">
-               <div hidden$="{{hidetitleflag}}">{{lr}}</div>
-                <paper-input value={{lr}} hidden$="{{hideflag}}"></paper-input>
+                <paper-checkbox id='{{id}}' on-change="fnchange">Assesment</paper-checkbox>
               </td>          
               <td style="word-wrap: break-word;width: 5.5%;">{{remarks}}</td>
               <td style="width: 5.5%;">
@@ -72,12 +85,15 @@
               <td style="width: 5.5%;">
                 <div hidden$="{{hidetitleflag}}">{{enrichmentsug}}</div>
                 <paper-input value={{enrichmentsuggest}} hidden$="{{hideflag}}"></paper-input>
-              </td>              
+              </td>
+              <td style="width: 5.5%;">{{hometype}}
+              <paper-icon-button  icon="add" on-click="fnhomework" style="color:#6699ff;float: right;"></paper-icon-button>
+              </td>
               <td  hidden$="{{hidetitleflag}}"></td>
               <td hidden$="{{hideflag}}"><paper-icon-button icon="save" on-click="FnSave"></paper-icon-button></td>
         </tr>
       </table>
-
+  <P  hidden>hometypeid</P>
        <paper-dialog id="save2dialog" modal>
        <h3><center>UPDATED</center></h3>
        <center>
@@ -91,35 +107,146 @@
          <paper-button on-click="failureclose2" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
        </center>
      </paper-dialog>
-
+   <paper-dialog id="Conceptassesmentdialog" modal>
+     <h3>Assesment Type</h3>
+         <div class="home">
+            <table border="0">
+              <tr>
+                <th></th>
+                <th>Assementname</th>
+                <th>Assesmenttype</th>
+                <th>Link</th>
+              </tr>
+             
+             <template is="dom-repeat" items="{{assementarr}}" as="sa">
+             <tr>
+               <concept-assesment-card rowid='{{rowid}}' assesmenttype="{{sa.assesment_type}}"  id="VVYJ{{rowid}}{{sa.assesment_type_id}}" assementname='{{sa.assement_name}}' assesmenttypeid="{{sa.assesment_type_id}}" assesmenturl='{{sa.assesment_url}}' check="{{sa.check}}"></concept-assesment-card>
+            </tr>
+            </template>
+         
+           </table> 
+        </div>
+          <center style="margin-top: 5%;">
+            <paper-button  on-click="FndialogSave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="taid1" style="color:white;background-color:black" on-click="fnclose" >Close</paper-button>
+          </center>
+    </paper-dialog>
+    <iron-ajax
+        method="post"
+        id="conassesmenttypeajax"
+        url="{{conassesmenttypeurl}}"
+        params="{{conassesmenttypeparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="conassesmenttypeResponse"
+        debounce-duration="300" />
+     </iron-ajax>
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
   <script>
   (function() {
     'use strict';
      var completionstatus;
+     var assesmentarr;
+     var assmentsarr=[];
     Polymer({
       is: 'curriculum-plan-conceptapproval-itemcard',
-      
-     /* FnYes:function(e){
-        if(document.querySelector("#cpayes"+this.rowid+this.subconceptid).checked==true){
-       completionstatus="Yes";
-        document.querySelector("#cpano"+this.rowid+this.subconceptid).checked=false;
-        }
-        if(document.querySelector("#cpayes"+this.rowid+this.subconceptid).checked==false)
-      completionstatus="";
-      },
-      FnNo:function(e){
-        if(document.querySelector("#cpano"+this.rowid+this.subconceptid).checked==true)
-        {
-      completionstatus="No";
-        document.querySelector("#cpayes"+this.rowid+this.subconceptid).checked=false;
-        }
-        if(document.querySelector("#cpano"+this.rowid+this.subconceptid).checked==false)
-       completionstatus="";
-      },*/
+
+fnchange:function(e){
+alert(this.id);
 
 
+if(document.querySelector('#'+this.id).checked==true){
+this.$.Conceptassesmentdialog.toggle();
+this.fnassementtype();
+
+}
+else if(document.querySelector('#'+this.id).checked==false){
+this.$.Conceptassesmentdialog.close();
+//this.fnassementtype();
+  
+}
+
+},
+FndialogSave:function(e){
+   this.$.Conceptassesmentdialog.close();
+},
+assesmentvalues:function(e){
+ assmentsarr=e;
+
+},
+fnassementtype:function(e){
+ this.conassesmenttypeurl=sessionStorage.getItem("addrinfo")+"/conceptassement-service";
+     var obj={};
+     obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+    obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+     obj.capter_id=localStorage.getItem("curr_sess_capters");
+     obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+     obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+     obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+
+     obj.termid=sessionStorage.getItem("termid"); 
+     obj.period=this.period;
+     obj.conceptid=this.conceptid;
+     obj.rowid=this.rowid; 
+     obj.planneddate=this.planneddate;
+     this.conassesmenttypeparam=obj;
+     this.$.conassesmenttypeajax.generateRequest();
+
+},
+conassesmenttypeResponse:function(e){
+var arr1= e.detail.response.returnval;
+var arr= e.detail.response.dbarr;
+//alert(JSON.stringify(arr));
+//alert(JSON.stringify(arr1));
+var hworkarr=[];
+   var temp=[];
+      var k;
+      if(arr1!=""){
+         k=arr1[0].assesment_type_id;
+          temp=k.split(",");
+       }
+for(var j=0;j<arr.length;j++)
+          {
+            var flag=0;
+              for(var i=0;i<temp.length;i++)
+              {  
+                if(arr[j].assesment_type_id==temp[i])
+                  { 
+                   flag=1;
+                   arr[j].check=true;   
+                   var obj={};
+                   obj.assesment_type_id=arr[j].assesment_type_id;
+                   obj.assesment_type=arr[j].assesment_type;
+                   obj.assement_name=arr[j].assement_name;
+                   obj.assesment_url=arr[j].assesment_url;
+                   obj.rowid=this.rowid;
+                   obj.id="VVYJ"+this.rowid+arr[j].assesment_type_id;
+                  
+                    }}
+              if(flag==0)
+                 {
+                  arr[j].check=false;
+                 }}
+//alert(JSON.stringify(arr));
+
+/*for(var j=0;j<arr.length;j++){
+   var flag=0;
+          for(var i=0;i<assmentsarr.length;i++){
+ if(assmentsarr[i].hometypeid==arr[j].assesment_type_id&&this.rowid==assmentsarr[i].rowid){
+           flag=1;
+            arr[j].check=true;
+         }}
+       if(flag==0)
+      arr[j].check=false;
+     }*/
+//alert(JSON.stringify(arr));
+  this.assementarr=arr;
+
+},
+fnclose:function(e){
+this.$.Conceptassesmentdialog.close();
+},
       FnYes:function(e){
         if(document.querySelector("#cpayes"+this.subconceptid).checked==true){
        completionstatus="Yes";
@@ -155,7 +282,7 @@
         obj.fromdate=this.fromdate;
         obj.todate=this.todate;
         obj.skill=this.skill;
-        obj.bldvalues=this.bldvalues;
+        obj.assesmentdate=this.assesmentdate;
         obj.value=this.value;
         obj.teachingaid=this.teachingaid;
         obj.innovation=this.innovation;
@@ -165,8 +292,10 @@
         obj.enrichmentsuggest=this.enrichmentsuggest;
         obj.completionstatus=completionstatus;
         obj.coremark=this.coremark;
+        obj.hometypeid=this.hometypeid;
+        obj.hometype=this.hometype;
              //alert(JSON.stringify(obj));
-        this.$.bookservice.updateapprovalstatusofchapterconcept(obj);
+        this.$.bookservice.updateapprovalstatusofchapterconcept(obj,assmentsarr);
       completionstatus=""; 
         }
         else
@@ -184,24 +313,26 @@
         obj.skill=this.skill;
         obj.value=this.value;
         obj.innovation=this.innovation;
-        obj.lrrectification=this.lr;
+      
         obj.remarks=this.remarks;
         obj.correctionstatus=this.correctionstatus;
         obj.enrichmentsuggest=this.enrichmentsuggest;
         obj.completionstatus=completionstatus;
-        obj.bldvalues=this.bldvalues;
+        obj.assesmentdate=this.assesmentdate;
         obj.teachingaid=this.teachingaid;
         obj.coremark=this.coremark;
+        obj.hometypeid=this.hometypeid;
+        obj.hometype=this.hometype;
               //alert(JSON.stringify(obj));
-        this.$.bookservice.updateapprovalstatusofchapterconcept(obj);
+        this.$.bookservice.updateapprovalstatusofchapterconcept(obj,assmentsarr);
         completionstatus=""; 
          }          
       },
-
-      close2dialog:function()
+   close2dialog:function()
      {
       this.$.save2dialog.close();
      },
+    
      saopen2dialog:function()
      {
       this.$.save2dialog.toggle();

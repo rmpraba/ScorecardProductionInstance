@@ -1,0 +1,108 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/value-card/value-card.html">
+
+<dom-module id="homework-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .skillcard
+      {
+        @apply(--layout-horizontal);
+      }
+      .viewdata{
+        margin-top: 5%;
+        cursor: pointer;
+        color:blue;
+      }
+      .viewdata1{
+        margin-top: 5%;
+        cursor: pointer;
+        color:blue;
+      }
+    </style>
+
+    <div class="skillcard">
+        <p hidden>{{rowid}}</p>
+        <p hidden>{{hometypeid}}</p>
+        <td> <paper-checkbox on-change="fnsezzt1" id={{id}} checked="{{check}}"></paper-checkbox></td>  &nbsp&nbsp&nbsp&nbsp&nbsp
+        <td>{{hometype}}</td>  &nbsp&nbsp&nbsp&nbsp&nbsp
+        <td class="viewdata1"> <a href="{{qusurl}}" target="_blank">Go To Qus&AnsLink</a></td>&nbsp&nbsp&nbsp&nbsp
+     </div>   
+  </template>
+  <script>
+  (function() {
+    'use strict';
+ var homearr=[];
+  var temparr1=[];
+ 
+    Polymer({
+      is: 'homework-card',
+ready:function(e){
+
+},
+  fnsezzt1:function(e){ 
+  
+  
+    document.querySelector('aproval-book-innovatiosn-item-card').bldedit();
+   
+          if(document.querySelector('#'+this.id).checked==true){
+        var obj={};
+        obj.id=this.id;
+        obj.qusurl=this.qusurl;
+        obj.rowid=this.rowid;
+        obj.hometypeid=this.hometypeid;
+        obj.hometype=this.hometype;
+        if(homearr.length==0)
+        homearr.push(obj);
+        else{
+          var f=0;
+          for(var i=0;i<homearr.length;i++){
+            if(homearr[i].id==this.id&&homearr[i].hometypeid==this.hometypeid&&homearr[i].rowid==this.rowid){
+            f=1;
+            }
+          }
+          if(f==0)
+            homearr.push(obj);
+
+        }
+      }
+      if(document.querySelector('#'+this.id).checked==false){
+          for(var i=0;i<homearr.length;i++){
+            if(homearr[i].id==this.id&&homearr[i].hometypeid==this.hometypeid&&homearr[i].rowid==this.rowid){
+            homearr.splice(i,1);
+            }
+          }
+      }
+ document.querySelector('aproval-book-innovatiosn-item-card').workvalue(homearr);
+   // alert(JSON.stringify(homearr));
+
+       },
+       fnclean1:function(e){
+         var obj={};
+         homearr.splice(obj);
+         temparr1.splice(obj);
+       },
+
+       FnRefreshhhh:function(e)
+       {
+        if(homearr!=0)
+        {
+          for(var k=0;k<homearr.length;k++)
+          {
+            var skld=homearr[k].id;
+            document.querySelector('#'+skld).checked=false;
+            homearr.splice(k,1);
+          }
+        }
+        homearr=[];
+       },
+       dbarrvalue:function(e){
+        homearr=e;
+       },
+   }); 
+  })();
+  </script>
+</dom-module>

@@ -53,13 +53,7 @@
           height: 370px;
           margin-left: -5%;
       }
-      #bldvalueidzzzz
-      {
-          border-radius: 10px;
-          width: 700px;
-          height: 370px;
-          margin-left: -5%;
-      }
+    
       #dzfsd1xsasa
       {
           border-radius: 10px;
@@ -137,6 +131,13 @@
         overflow-x: hidden;
         overflow-y: scroll;
       }
+      .home
+      {
+         width: 92%;
+        height: 50%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
       .bldcard
       {
         width: 92%;
@@ -154,11 +155,19 @@
 
        #teachingopendialog
       {
-        border-radius: 10px;
-          width: 380px;
-          height: 270px;
+   border-radius: 10px;
+    width: 54%;
+    height: 61%;
+    margin-top: -2%;
+    margin-left: -6%;
       }
-
+ #homeworkdialog
+      {
+          border-radius: 10px;
+        width: 650px;
+        height: 300px;
+        margin-left: -6%;
+      }
       #savedialog
         {
           border-radius: 10px;
@@ -185,19 +194,18 @@
              <td style="width: 11.8%;padding-left: 2%;">
                 <paper-icon-button  hidden$="{{hidecheck1}}"  icon="add" on-click="fngetconceptz" style="color:#6699ff;float: right;"></paper-icon-button>
                   <template is="dom-repeat" items="{{conceptzz}}" as="r">
-         <h4  style="margin-left:-11%;width: 90%;">{{r.conceptname}}</h4>
+                           <h4  style="margin-left:-11%;width: 90%;">{{r.conceptname}}</h4>
                   </template>
-           <h4 hidden$="{{hidedbconcept}}" style="margin-left: -11%;width: 90%;">{{conceptname}}</h4>
+                  <h4 hidden$="{{hidedbconcept}}" style="margin-left: -11%;width: 90%;">{{conceptname}}</h4>
               </td>
               <td style="width: 12.56%;padding-left: 2%;">
                <paper-icon-button hidden$="{{hidecheck1}}" icon="add" on-click="fngetsubconcept" style="color:#6699ff;float: right;"></paper-icon-button>
                   <template is="dom-repeat" items="{{subconceptarr1}}" as="rse">
                     <h4   style="margin-left: -11%;width: 90%;">{{rse.subconceptname}}</h4>
                   </template>
-                  <h4  hidden$="{{hidedbsubconcept}}" style="margin-left: -11%;width: 90%;">{{subconceptname}}</h4>
-    
+                <h4 hidden$="{{hidedbconcept}}" style="margin-left: -11%;width: 90%;">{{subconceptname}}</h4>
               </td>
-             <td style="width: 4.45%;padding-left: 1%;text-align: center;">
+            <td style="width: 4.45%;padding-left: 1%;text-align: center;">
                 <paper-input style="width: 80%;" value="{{period}}" allowed-pattern="[0-9]"></paper-input>
              </td>
              <td style="width: 8.1%;">
@@ -218,33 +226,41 @@
               <td style="width: 8.1%;">
             <paper-input hidden$="{{hidecheck}}" value="{{plannedtoate}}"></paper-input>
              <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
-             <td style="width: 8.1%;padding-left: 2%;">
-      <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetskill" style="color:#6699ff;float: right;"></paper-icon-button>
+                  <td style="width: 8.1%;">
+            <paper-input hidden$="{{hidecheck}}" value="{{assesmentdate}}"></paper-input>
+             <assesment-date-picker hidden$="{{hidecheck1}}"></assesment-date-picker></td>
+          
+        <td style="width: 8.01%;padding-left: 2%;" >
+            <paper-icon-button on-click="Fnhomeworks" icon="add" hidden$="{{hidecheck1}}" style="color:#6699ff;float: right;"></paper-icon-button>
+
+         <template is="dom-repeat" items="{{homeworks}}" as="r">
+               <h4 style="margin-left: -11%;width: 35%;word-wrap: break-word;">{{r.homeworkurl}}</h4>
+          </template>
+
+        <h4 hidden$="{{hidedbhomewok}}" style="margin-left: -11%;width: 90%;word-wrap: break-word;">{{homework}}</h4>
+         </td>
+
+
+        <td style="width: 8.1%;padding-left: 2%;">
+         <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetskill" style="color:#6699ff;float: right;"></paper-icon-button>
       <template is="dom-repeat" items="{{skillarrzx}}" as="r">
        <h4 style="margin-left: -11%;width: 35%;word-wrap: break-word;">{{r.skillname}}</h4>
              </template>
         <h4 hidden$="{{hidedbskill}}" style="margin-left: -11%;width: 90%;word-wrap: break-word;">{{skill}}</h4>
              </td>
-             <td style="width: 8.01%;padding-left: 2%;">
-               <paper-icon-button hidden$="{{hidecheck1}}" icon="add" on-click="fngetbldvalues" style="color:#6699ff;float: right;"></paper-icon-button>
-               <template is="dom-repeat" items="{{bldvaluez}}" as="r">
-           <h4 style="margin-left: -28%; word-wrap: break-word;">{{r.bldvaluename}}</h4>
-                  </template>
-               <h4  hidden$="{{hidedbvaluebld}}" style="margin-left: -11%;width: 90%;word-wrap: break-word;">{{bldvaluename}}</h4>
-        
-             </td>
+            
+
  
  <td style="width: 8.01%;padding-left: 2%;">
            
-  <paper-icon-button  hidden$="{{hidecheck1}}"  icon="add" on-click="fngetconceptz1" style="color:#6699ff;float: right;"></paper-icon-button>
-  <template is="dom-repeat" items="{{mainarr}}" as="ry">
-       <h4 style="margin-left: 4%;word-wrap: break-word;">{{ry.valuename}}</h4>
-  </template>
- <h4 hidden$="{{hidedbvalue}}"  style="margin-left: -11%;width: 90%;word-wrap: break-word;">{{value}}</h4>
-     
-      </td>
+      <paper-icon-button  hidden$="{{hidecheck1}}"  icon="add" on-click="fngetconceptz1" style="color:#6699ff;float: right;"></paper-icon-button>
+      <template is="dom-repeat" items="{{mainarr}}" as="ry">
+           <h4 style="margin-left: 4%;word-wrap: break-word;">{{ry.valuename}}</h4>
+        </template>
+      <h4 hidden$="{{hidedbvalue}}"  style="margin-left: -11%;width: 90%;word-wrap: break-word;">{{value}}</h4>
+  </td>
             <td style="width: 8.01%;">
-              <paper-button on-click="fnteachingaid"">
+              <paper-button on-click="fnteachingaid">
                 <h4 style="width: 10em;word-wrap: break-word;">{{teachingaid}}</h4>
               </paper-button>
             </td>
@@ -261,7 +277,7 @@
             </td>
 
             
-            <td>
+            <td style="width: 3.4%;">
                 <paper-icon-button id="saveidd"  hidden$="{{hidecheck1}}"  icon="save" on-click="fnsavebook"></paper-icon-button>
                 <paper-tooltip for="saveidd">Save</paper-tooltip>
                 <paper-icon-button id="editidd" hidden$="{{hidecheck}}"  icon="create" on-click="fneditbook"></paper-icon-button> 
@@ -311,18 +327,7 @@
       </center>
       </paper-dialog>
 
-       <paper-dialog id="bldvalueidzzzz" modal>
-          <h3>BlD VALUE</h3>
-        <div class="bldcard">
-          <template is="dom-repeat" items="{{bldarr}}" as="st">
-            <bld-value-card bldvalueid="{{st.bld_value_id}}" id="VVYJ{{rowid}}{{iddate}}{{st.bld_value_id}}" bldvaluename="{{st.bld_value_name}}"  check="{{st.check}}"  rowid="{{rowid}}"></bld-value-card>
-          </template>        
-        </div>  
-      <center style="margin-top: 5%;">
-          <paper-button on-click="bldsubmit"  style="background-color:black;color:white">Submit</paper-button>
-         <paper-button on-click="bldsubmitclose" style="background-color:black;color:white">Close</paper-button>
-      </center>
-      </paper-dialog>
+       
        <paper-dialog id="fngetskilldialogid" modal>
         <h3>Skill Name</h3>
           <div class="skillcardd">
@@ -336,6 +341,25 @@
               <paper-button on-click="skillclose" style="background-color:black;color:white">Close</paper-button>
           </center>
       </paper-dialog>
+<paper-dialog id="homeworkdialog" modal>
+     <h3>Homework</h3>
+         <div class="home">
+          
+          
+          
+           <template is="dom-repeat" items="{{homeworkarr}}" as="sa">
+         
+              <homework-card hometypeid="{{sa.hometypeid}}" rowid="{{rowid}}" id="VVYJ{{rowid}}{{iddate}}{{sa.hometypeid}}" qusurl="{{sa.qus_url}}" ansurl="{{ans_url}}" hometype="{{sa.hometype}}" check="{{sa.check}}" rowid="{{rowid}}"></homework-card>
+            </template> 
+            
+            
+        </div>
+
+       <center style="margin-top: 5%;">
+            <paper-button  on-click="homesave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="taid1" style="color:white;background-color:black" on-click="closehomeid" >Close</paper-button>
+          </center>
+    </paper-dialog>
 
       <paper-dialog id="innovationdialog" modal>
           <paper-textarea id="innovatetextsssss" label="Innovation"  value="{{innovation}}"></paper-textarea>
@@ -360,16 +384,18 @@
     
 
 
-      <paper-dialog id="teachingopendialog" modal>
-          <paper-textarea id="teachingtextttt" label="Teaching Aids"  value="{{teachingaid}}"></paper-textarea>
-          <center style="margin-top: 14%;">
-            <paper-button  on-click="teachingsave" style="color:white;background-color:black">Save</paper-button>
+  <paper-dialog id="teachingopendialog" modal>
+    <h3>Teaching Aids</h3>
+    <body onload="myFunction()">
+         <input type="file" id="myFile" multiple size="50" onchange="myFunction()">
+         <p id="demo"></p>
+    </body>
+        <center style="margin-top: 14%;">
+            <paper-button  on-click="fnupload" style="color:white;background-color:black">Upload</paper-button>
             <paper-button id="taid1" style="color:white;background-color:black" on-click="closeteachingaaid" >Close</paper-button>
-
-            <paper-button id="taidss"  style="color:white;background-color:black" on-click="teachingclose" >Close</paper-button>
-          </center>
-      </paper-dialog>
-
+        </center>
+     </paper-dialog>
+     
     
      <paper-dialog id="savedialog" modal>
        <h3><center>SUCCESS</center></h3>
@@ -385,8 +411,6 @@
        </center>
      </paper-dialog>
 
-
-
        <iron-ajax
         method="post"
         id="fngetconceptcheckajax"
@@ -397,7 +421,7 @@
         on-response="fngetconceptcheckResponse"
         debounce-duration="300" />
        </iron-ajax>
-      <iron-ajax
+       <iron-ajax
         method="post"
         id="fngetbookvaluezajax"
         url="{{fngetbookvaluezurl}}"
@@ -406,6 +430,7 @@
         content-type="application/json"
         on-response="fngetbookvaluezResponse"
         debounce-duration="300" />
+        </iron-ajax>
          <iron-ajax
         method="post"
         id="fngetsubconceptsajax"
@@ -414,7 +439,8 @@
         handle-as="json"
         content-type="application/json"
         on-response="fngetsubconceptsResponse"
-        debounce-duration="300" />
+        debounce-duration="300"/>
+        </iron-ajax>
         <iron-ajax
         method="post"
         id="fngetskillsajax"
@@ -425,19 +451,66 @@
         on-response="fngetskillsResponse"
         debounce-duration="300" />
        </iron-ajax>
-       
        <iron-ajax
         method="post"
-        id="fngetbldvaluesajax"
-        url="{{fngetbldvaluesurl}}"
-        params="{{fngetbldvaluesparam}}"
+        id="fileuplodeajax"
+        url="{{fileuplodeurl}}"
+        params="{{fngetskillsparam}}"
         handle-as="json"
         content-type="application/json"
-        on-response="fngetbldvaluesResponse"
+        on-response="fngetskillsResponse"
+        debounce-duration="300" />
+       </iron-ajax>
+       <iron-ajax
+        method="post"
+        id="homeworkajax"
+        url="{{homeworkurl}}"
+        params="{{homeworkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="homeworkResponse"
         debounce-duration="300" />
        </iron-ajax> 
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
  </template>
+<script type="text/javascript">
+var uploadfiles;
+function myFunction(){
+
+    var x = document.getElementById("myFile");
+    var txt = "";
+    if ('files' in x) {
+        if (x.files.length == 0) {
+            txt = "Select one or more files.";
+        } else {
+            for (var i = 0; i < x.files.length; i++) {
+                txt += "<br><strong>" + (i+1) + ". file</strong><br>";
+                var file = x.files[i];
+                if ('name' in file) {
+                    txt += "name: " + file.name + "<br>";
+                }
+                if ('size' in file) {
+                    txt += "size: " + file.size + " bytes <br>";
+                }
+            }
+        }
+    } 
+    else {
+        if (x.value == "") {
+            txt += "Select one or more files.";
+        } else {
+            txt += "The files property is not supported by your browser!";
+            txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+        }
+    }
+    document.getElementById("demo").innerHTML = txt;
+  uploadfiles=document.getElementById("myFile").value;
+    
+   
+}
+</script>
+
+
   <script>
   (function() {
     'use strict';
@@ -446,13 +519,26 @@
      var valuearr=[];
      var skarr=[];
      var setsubarr=[];
+     var sethomearr=[];
      var subsarrr=[];
+     var hworkarr=[];
      var trmp=[];
      var len1=0;
      var len2=0;
+     var len11=0;
+     var len12=0;
      var bldvaluearr=[];
+    
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
+  fnupload:function(){
+   
+    this.teachingaid=uploadfiles; 
+     this.$.teachingopendialog.toggle();
+  },
+
+
+
     ready:function()
     {
             this.remark="";
@@ -462,7 +548,7 @@
             localStorage.setItem("localsess_from_service",this.showdate);
             this.$.rmclssz.hidden=true;
             this.$.innttvvnn.hidden=true;
-            this.$.taidss.hidden=true;
+            //this.$.taidss.hidden=true;
            
     },
    FnShowDialog:function(){
@@ -551,35 +637,36 @@ fndates:function(e){
      // alert(JSON.stringify(subsarrr));
 
    },
-   bldsubmitclose:function(e){
-   this.$.bldvalueidzzzz.close();
- document.querySelector('bld-value-card').fnRefreshzzz();
-  
-   },
 
-   bldsubmit:function(e){
-this.$.bldvalueidzzzz.toggle();
-this.hidedbvaluebld=true;
-    var temp1=[];
-     for(var i=0;i<bldvaluearr.length;i++){
+ homesave:function(e){
+ this.$.homeworkdialog.toggle();
+ 
 
-      if(bldvaluearr[i].rowid==this.rowid){
-        temp1.push({"bldvaluename":bldvaluearr[i].bldvaluename});
-       }
+
+      var temp1=[];
+     this.hidedbhomewok=true;
+     for(var i=0;i<hworkarr.length;i++){
+      if(hworkarr[i].rowid==this.rowid){
+        temp1.push({"homeworkurl":hworkarr[i].hometype});
       }
-     this.bldvaluez=[];
-     this.bldvaluez=temp1;
-   },
+     }
+     this.homeworks=[];
+     this.homeworks=temp1;
+   
+ },
+
+   
 fnpasssubarr:function(subsarr){
     subsarrr=subsarr;
     },
  fnpassskillarr:function(skillarrr){
- // alert(1);
-  //alert(JSON.stringify(skillarrr));
       skarr=skillarrr;
-  //alert(JSON.stringify(skarr));
   
      }, 
+     workvalue:function(workarr){
+ 
+      hworkarr=workarr;
+      }, 
     fnpasparr:function(e){
     conarr=e;
     // alert(JSON.stringify(conarr));
@@ -601,8 +688,8 @@ fnpasssubarr:function(subsarr){
     },
     fnsavebook:function(e)
     {
-        
-      if(conarr.length!=0 && valuearr.length!=0 && skarr.length!=0 && bldvaluearr.length!=0)
+      
+      if(conarr.length!=0 && valuearr.length!=0 && skarr.length!=0)
       {
         //   alert('1');
      
@@ -614,18 +701,20 @@ fnpasssubarr:function(subsarr){
            }
        else if(this.planneddate=="empty")
       {
-        this.$.bookservice.fnmasterplaninsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,bldvaluearr,this.sno);
+    this.$.bookservice.fnmasterplaninsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,hworkarr);
 
-     this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,bldvaluearr,this.sno);
+    this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,hworkarr);
             this.showdate=moment(new Date()).format('L');
             localStorage.setItem("localsess_from_service",this.showdate);
             setsubarr=[];
+            sethomearr=[];
             trmp=[];
             this.conceptzz="";
             this.mainarr="";
             this.skillarrzx="";
             this.subconceptarr1="";
             this.bldvaluez="";
+            this.homeworks="";
             this.hidecheck1=true;
             this.hidecheck=false;  
             this.planneddate="";
@@ -634,29 +723,32 @@ fnpasssubarr:function(subsarr){
             this.hidedbskill=false;
             this.hidedbsubconcept=false;
             this.hidedbconcept=false;
-            document.querySelector('concept-check-card').fnclean();
-            document.querySelector('aproval-book').fnclean1();
-            document.querySelector('skill-dialog-card').fnclean1();
-            document.querySelector('bld-value-card').fnclean1();
-            document.querySelector('subconcept-dialog-card').fnclean1();
+            this.hidedbhomewok=false;
+          document.querySelector('concept-check-card').fnclean();
+          document.querySelector('aproval-book').fnclean1();
+          document.querySelector('skill-dialog-card').fnclean1();
+          document.querySelector('homework-card').fnclean1();
+       document.querySelector('subconcept-dialog-card').fnclean1();
       
           }
      
         else  
           {
         
-          this.$.bookservice.fnmasterplanedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowidz,this.teachingaid,bldvaluearr,this.sno);
-    this.$.bookservice.fnmasterplandisplyedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowidz,this.teachingaid,bldvaluearr,this.sno);
+      this.$.bookservice.fnmasterplanedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowidz,this.teachingaid,this.sno,this.assesmentdate,hworkarr);
+        this.$.bookservice.fnmasterplandisplyedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowidz,this.teachingaid,this.sno,this.assesmentdate,hworkarr);
            
             this.bldvaluez="";
             this.conceptzz="";
             this.mainarr="";
             this.skillarrzx="";
             this.subconceptarr1="";
-
+            this.homeworks="";
             this.hidedbvaluebld=false;
             this.hidedbvalue=false;
             this.hidedbskill=false;
+            this.hidedbhomewok=false;
+
             this.hidedbsubconcept=false;
             this.hidedbconcept=false;
             }
@@ -728,7 +820,7 @@ fngetsubconceptsResponse:function(e){
              }
           if(len1==len2){
                 this.subconceptarr=[];
-            for(var i=0;i<setsubarr.length;i++){
+              for(var i=0;i<setsubarr.length;i++){
             t2.push(setsubarr[i]);
            }
       var temp=[];
@@ -737,6 +829,8 @@ fngetsubconceptsResponse:function(e){
          k=res1[0].sub_concept_id;
          temp=k.split(",");
        }
+      /// alert(subsarrr.length+'sub');
+      // alert(JSON.stringify(subsarrr));
      if(subsarrr.length==0){
      for(var j=0;j<t2.length;j++)
           {
@@ -784,6 +878,121 @@ fngetskill:function(e){
    this.fnskilldialog();
     
     },
+     Fnhomeworks:function(e){
+    this.$.homeworkdialog.toggle();
+    this.Fngethomework()
+    },
+  Fngethomework:function(){
+
+
+ var localconarr=[];
+     for(var i=0;i<conarr.length;i++){
+      if(this.rowid==conarr[i].rowid)      
+      localconarr.push(conarr[i]);
+     } 
+     len11=localconarr.length;
+     for(var i=0;i<localconarr.length;i++){
+     this.homeworkurl=sessionStorage.getItem("addrinfo")+"/homework-service";
+     var obj={};
+     obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+     obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+     obj.capter_id=localStorage.getItem("curr_sess_capters");
+     obj.subjectid=sessionStorage.getItem("subjectidz");
+     obj.gradeid=sessionStorage.getItem("grdeidz");
+     obj.termid=sessionStorage.getItem("termid"); 
+     obj.period=this.period;
+     obj.conceptid=localconarr[i].conceptid;
+     obj.conceptname=localconarr[i].conceptname;
+     obj.planneddate=this.planneddate;
+     obj.rowid=this.rowidz;
+     this.homeworkparam=obj;
+     this.$.homeworkajax.generateRequest();
+     }
+    },
+
+homeworkResponse:function(e){
+      
+      var res=e.detail.response.homeworkarr;
+      var res3=e.detail.response.dbarr;
+      var res1=e.detail.response.returnval;
+     
+      var t1=[];
+      var t2=[];
+      len12++;  
+          for(var i=0;i<res.length;i++){
+              var obj={};
+              obj.concept=res[i].concept_name;
+              obj.concept_id=res[i].concept_id;
+              obj.hometype=res[i].homework_type;
+              obj.hometypeid=res[i].home_type_id;
+              obj.qus_url=res[i].qus_url;
+              obj.ans_url=res[i].ans_url;
+               t1.push(obj);
+          }
+        
+          for(var i=0;i<t1.length;i++){
+              sethomearr.push(t1[i]);
+             }
+          if(len11==len12){
+                this.homeworkarr=[];
+            for(var i=0;i<sethomearr.length;i++){
+            t2.push(sethomearr[i]);
+           }
+      var temp=[];
+      var k;
+      if(res3!=""){
+         k=res3[0].home_type_id;
+          temp=k.split(",");
+       }
+   
+     if(hworkarr.length==0){
+     for(var j=0;j<t2.length;j++)
+          {
+            var flag=0;
+              for(var i=0;i<temp.length;i++)
+              {  
+                if(t2[j].hometypeid==temp[i])
+                  { 
+                   flag=1;
+                   t2[j].check=true;   
+                   var obj={};
+                   obj.hometype=t2[j].hometype;
+                   obj.hometypeid=t2[j].hometypeid;
+                   obj.concept=t2[j].concept;
+                   obj.conceptid=t2[j].concept_id;
+                   obj.qus_url=t2[j].qus_url;
+                   obj.ans_url=t2[j].ans_url;
+                   obj.rowid=this.rowid;
+                   obj.id="VVYJ"+this.rowid+this.iddate+t2[j].hometypeid;
+                   hworkarr.push(obj);
+                    }}
+             if(flag==0)
+                 {
+                  t2[j].check=false;
+                 }}}
+
+  //  alert(JSON.stringify(hworkarr));
+     
+  for(var j=0;j<t2.length;j++){
+   var flag=0;
+          for(var i=0;i<hworkarr.length;i++){
+ if(hworkarr[i].hometypeid==t2[j].hometypeid&&this.rowid==hworkarr[i].rowid){
+           flag=1;
+            t2[j].check=true;
+         }}
+       if(flag==0)
+      t2[j].check=false;
+     }
+ //this.$.homeworkdialog.toggle();
+        this.homeworkarr=t2;
+          sethomearr=[]; 
+           len11=0;
+           len12=0;
+          }
+    
+  },
+
+
     fnskilldialog:function(e){
   this.fngetskillsurl=sessionStorage.getItem("addrinfo")+"/fngetskills-service";
    var obj={};
@@ -855,11 +1064,18 @@ fngetskillsResponse:function(e){
           }}}}
           this.skillarrz=res;
     },  
+
+Fnhomework:function(e){
+
+},
+
+
+
 fnsett:function(e){
 document.querySelector('skill-dialog-card').dbarrvalue(skarr);
 },
 bldedit:function(e){
-document.querySelector('bld-value-card').bldvalu(bldvaluearr);
+document.querySelector('homework-card').dbarrvalue(hworkarr);
 },
 fneditsetvalue:function(e){
 document.querySelector('aproval-book').setvaluesz(valuearr);
@@ -870,77 +1086,7 @@ document.querySelector('concept-check-card').setchpterclean(conarr);
 fnsetsubchapterz:function(e){
 document.querySelector('subconcept-dialog-card').setsubchpterclean(subsarrr);
 },
-fngetbldvalues:function(e){
- this.$.bldvalueidzzzz.toggle();
- this.fnblddialog()
-   },
-   fnblddialog:function(e){
-  var m;
-   var k;
-   var consplit=[];
-   var subsplit=[];
-    if(this.conceptid!=""){
-    consplit=this.conceptid.split(",");
-    subsplit=this.subconceptid.split(",");
-   for(var i=0;i<consplit.length;i++){
-            m=consplit[i];
-          }
-   for(var j=0;j<subsplit.length;j++){
-            k=subsplit[j];
-          }
-   }
-this.fngetbldvaluesurl=sessionStorage.getItem("addrinfo")+"/fngetbldvalues-service";
-  var obj={};
-  obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-  obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-  obj.capter_id=localStorage.getItem("curr_sess_capters");
-    obj.subjectid=sessionStorage.getItem("subjectidz");
-        obj.gradeid=sessionStorage.getItem("grdeidz");
-        obj.termid=sessionStorage.getItem("termid"); 
-  obj.rowid=this.rowidz;
-  this.fngetbldvaluesparam=obj;
-  this.$.fngetbldvaluesajax.generateRequest();
-   },
-fngetbldvaluesResponse:function(e){
-       var res1=e.detail.response.skillarr;
-       var res=e.detail.response.conceptarr;
-       var temp=[];
-       var temp1=[];
-       var k;
-     if(res1!=""){
-     k=res1[0].bldvalueid;
-     temp=k.split(",");
-       }
-     if(bldvaluearr.length==0){
-        for(var j=0;j<res.length;j++){
-            var flag=0;
-              for(var i=0;i<temp.length;i++){
-                if(res[j].bld_value_id==temp[i])
-                  {    
-                   flag=1;
-                   res[j].check=true; 
-                    var obj={}; 
-                    obj.bldvalueid=res[j].bld_value_id;
-                    obj.bldvaluename=res[j].bld_value_name;
-                    obj.rowid=this.rowid;
-                    obj.id="VVYJ"+this.rowid+this.iddate+res[j].bld_value_id;
-                   bldvaluearr.push(obj);
-                  
-                  }
-                 }
-                 if(flag==0){
-                  res[j].check=false;
-                 }
-                }
-              }
-     if(bldvaluearr.length>0){
-        for(var i=0;i<bldvaluearr.length;i++){
-         for(var j=0;j<res.length;j++){
-          if(bldvaluearr[i].bldvalueid==res[j].bld_value_id&&this.rowid==bldvaluearr[i].rowid){
-            res[j].check=true;
-          }}}} 
-    this.bldarr=res;
-},
+
     fngetinchaptvaluevalue:function(e){
     this.fngetbookvaluezurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue111-service";
       var m;
@@ -1081,18 +1227,20 @@ this.fngetbookvaluezparam=obj;
 
        this.conceparr=res;
      this.fnsubcondialog();
+     this.Fngethomework();
    }, 
    FnfromClearfff:function(e){
             this.conceptzz="";
             this.mainarr="";
             this.skillarrzx="";
+            this.homeworks="";
             this.subconceptarr1="";
             this.bldvaluez="";
             conarr=[];
            valuearr=[];
            skarr=[];
           subsarrr=[];
-          bldvaluearr=[];
+          hworkarr=[];
    },  
     fndelete:function(e){
     this.$.bookservice.buffdel();
@@ -1102,11 +1250,11 @@ this.fngetbookvaluezparam=obj;
        valuearr=[];
        skarr=[];
        subsarrr=[];
-       bldvaluearr=[];
-       this.fnskilldialog();
-       this.fnblddialog();
-       this.fngetconceptcheck();
+       hworkarr=[];
+        this.fnskilldialog();
+        this.fngetconceptcheck();
         this.fngetinchaptvaluevalue();
+
       this.hidecheck1=false;
       this.hidecheck=true;
       this.innovattionvaluezs=false;
@@ -1115,7 +1263,7 @@ this.fngetbookvaluezparam=obj;
       this.$.innvtt.hidden=true;
       this.$.innttvvnn.hidden=false;
       this.$.taid1.hidden=true;
-      this.$.taidss.hidden=false;
+    //  this.$.taidss.hidden=false;
     
     },
  
@@ -1185,14 +1333,21 @@ this.fngetbookvaluezparam=obj;
     {
       this.$.teachingopendialog.toggle();
     },
+   
     teachingsave:function(e)
     {
       this.$.teachingopendialog.toggle();
     },
+   
     closeteachingaaid:function()
     {
       this.$.teachingopendialog.close();
       this.teachingaid="";
+    },
+    closehomeid:function(e){
+    this.$.homeworkdialog.close();
+    document.querySelector('homework-card').FnRefreshhhh();
+      
     },
     teachingclose:function()
     {
@@ -1208,12 +1363,13 @@ this.fngetbookvaluezparam=obj;
              conarr=[];
              valuearr=[];
              skarr=[];
-             subsarrr=[];
+             hworkarr=[];
              bldvaluearr=[];
+           
             document.querySelector('concept-check-card').fnclean();
             document.querySelector('aproval-book').fnclean1();
             document.querySelector('skill-dialog-card').fnclean1();
-            document.querySelector('bld-value-card').fnclean1();
+            document.querySelector('homework-card').fnclean1();
             document.querySelector('subconcept-dialog-card').fnclean1();
      },
      failureopen:function()

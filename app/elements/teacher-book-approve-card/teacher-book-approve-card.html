@@ -187,7 +187,7 @@
 <paper-button style="color:white;background-color:black;margin-left: 3%;" on-click="fnaddbuffer">Add Buffer period</paper-button>  
 
  <template is="dom-repeat" items="{{conceptjhkhzz}}" as="rere">
-<chapter-pass-card conceptname1="{{rere.conceptname}}"></chapter-pass-card>
+   <chapter-pass-card conceptname1="{{rere.conceptname}}"></chapter-pass-card>
 </template>
 
 
@@ -201,8 +201,9 @@
           <th style="width: 6%;">#Periods</th>
           <th style="width: 10.9%;">Plan From</th>
           <th style="width: 10.9%;">Plan To</th>
+          <th style="width: 10.9%;">Assesment Date</th>
+          <th style="width: 10.9%;">Home Work</th>
           <th style="width: 10.9%;">Skill</th>
-          <th style="width: 10.9%;">BLD Values</th>
           <th style="width: 10.9%;">Value</th>
           <th style="width: 10.9%;">Teaching Aids</th>
           <th style="width: 10.9%;">Innovation</th>
@@ -211,9 +212,8 @@
       </tr>  
    <tr>        
    <template  is="dom-repeat" items="{{overallarr1}}" as="view">
-   <tr>   
-<aproval-book-innovatiosn-item-card rowid="{{view.rowid}}" remark="{{view.remarks}}" period="{{view.period}}" planneddate="{{view.planned_date_from}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck11="{{view.hidecheck11}}"  hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" value="{{view.value}}" conceptid="{{view.concept_id}}"
-   conceptname="{{view.concept_name}}" subconceptid="{{view.sub_concept_id}}" subconceptname="{{view.sub_concept_name}}" teachingaid="{{view.teaching_aid}}" sno="{{view.sno}}" bldvaluename="{{view.bld_value_name}}" plannedtoate="{{view.planned_to_date}}" > 
+   <tr>     
+<aproval-book-innovatiosn-item-card assesmentdate="{{view.assesmentdate}}" homework="{{view.homework}}" rowid="{{view.rowid}}" remark="{{view.remarks}}" period="{{view.period}}" planneddate="{{view.planned_date_from}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck11="{{view.hidecheck11}}"  hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" value="{{view.value}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" subconceptid="{{view.sub_concept_id}}" subconceptname="{{view.sub_concept_name}}" teachingaid="{{view.teaching_aid}}" sno="{{view.sno}}" bldvaluename="{{view.bld_value_name}}" plannedtoate="{{view.planned_to_date}}" > 
     </aproval-book-innovatiosn-item-card>
                 </tr> 
               </template>    

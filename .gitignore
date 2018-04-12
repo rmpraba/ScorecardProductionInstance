@@ -1,0 +1,16 @@
+node_modules
+dist
+
+.tmp
+.publish/
+
+*.txt
+*.txt
+app/configfile/logfile.txt
+*.txt
+app/configfile/logfile.txt
+app/configfile/logfile.txt
+*.txt
+*.txt
+app/configfile/logfile.txt
+*.txt

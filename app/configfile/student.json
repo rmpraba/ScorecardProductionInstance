@@ -1,0 +1,11 @@
+
+
+   [{"studenttable":"Health","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade","gradename":"grade","classid":"class_id","section":"section","studentid":"student_id","studentname":"student_name"},
+	{"studenttable":"tr_beginner_assesment_marks","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade_id","gradename":"grade_id","classid":"class_id","section":"section_id","studentid":"student_id","studentname":"student_name"},
+	{"studenttable":"tr_coscholastic_assesment_marks","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade","gradename":"grade","classid":"class_id","section":"section","studentid":"student_id","studentname":"student_name"},
+    {"studenttable":"tr_student_to_subject","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade","gradename":"grade","classid":"class_id","section":"section","studentid":"student_id","studentname":"student_name"},
+	{"studenttable":"tr_term_assesment_marks","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade","gradename":"grade","classid":"class_id","section":"section","studentid":"student_id","studentname":"student_name"},
+	{"studenttable":"tr_term_attendance","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade","gradename":"grade","classid":"class_id","section":"section","studentid":"student_id","studentname":"student_name"},
+	{"studenttable":"tr_term_fa_assesment_marks","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade","gradename":"grade","classid":"class_id","section":"section","studentid":"student_id","studentname":"student_name"},
+	{"studenttable":"tr_term_health","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade","gradename":"grade","classid":"class_id","section":"section","studentid":"student_id","studentname":"student_name"},
+	{"studenttable":"tr_term_overallfa_assesment_marks","schoolid":"school_id","academicyear":"academic_year","grade_id":"grade","gradename":"grade","classid":"section","section":"section","studentid":"student_id","studentname":"student_name"}]

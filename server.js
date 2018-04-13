@@ -16798,6 +16798,37 @@ app.post('/conceptassement-service' ,urlencodedParser, function (req, res)
     
     });
  });
+
+app.post('/home-service' ,urlencodedParser, function (req, res)
+    {  
+       var qur1="SELECT * FROM md_concept_homework  where concept_id='"+req.query.conceptid+"'";
+   
+       var qur2="SELECT * FROM md_curriculum_planning_approval where  chapter_id='"+req.query.capter_id+"' and row_id='"+req.query.rowid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and  term_id='"+req.query.termid+"' and grade_id='"+req.query.gradeid+"'  and subject_id='"+req.query.subjectid+"' and concept_id='"+req.query.conceptid+"' and  section_id='"+req.query.  sectionid+"'";
+        var  dbarr=[];       
+       console.log('--------------Assesment---------');
+       console.log(qur1);
+       console.log(qur2);
+       console.log('-------------------------------');
+        
+         connection.query(qur1,function(err, rows){
+        if(!err){
+          dbarr=rows;
+          connection.query(qur2,function(err, rows){
+        if(!err){
+
+           res.status(200).json({'returnval': rows,'dbarr':dbarr});
+         
+        }
+         console.log(err);
+       });
+          
+     }
+      console.log(err); 
+    
+    });
+ });
+
+
 app.post('/updateapprovalstatusofchapterconcept-service',  urlencodedParser,function (req,res)
   {     
      var response={ 
@@ -16838,6 +16869,7 @@ app.post('/updateapprovalstatusofchapterconcept-service',  urlencodedParser,func
        assesment_date:req.query.assesmentdate,
        assesment_type:req.query.assesment_type,
        assesment_type_id:req.query.assesment_type_id,
+       assesment_check_id:req.query.assesmentcheckid,
     };
   
     connection.query("INSERT INTO md_curriculum_planning_approval SET ?",[response],function(err, rows){

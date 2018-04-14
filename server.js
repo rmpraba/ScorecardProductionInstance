@@ -3,8 +3,10 @@ var mysql      = require('mysql');
 var email   = require("emailjs/email");
 var htmlToPdf = require('html-to-pdf');
 var fs = require('fs');
-var AWS = require('aws-sdk');
+var aws = require('aws-sdk');
 var FCM = require('fcm-node');
+var multer = require('multer'); // "multer": "^1.1.0"
+var multerS3 = require('multer-s3');
 var connection = mysql.createConnection({  
   // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   // database:"scorecarddb",
@@ -24,13 +26,75 @@ var connection = mysql.createConnection({
 var bodyParser = require('body-parser'); 
 var app = express();
 var logfile;
-AWS.config.loadFromPath('app/configfile/credential.json');
+
+aws.config.update({
+    secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
+    accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
+    region: 'ap-south-1'
+});
+s3 = new aws.S3();
+//AWS.config.loadFromPath('app/configfile/credential.json');
+
+
+
+
+
 
 app.use(express.static('app'));
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
   app.get('/', function (req, res){
   res.sendFile("app/index.html" );
 })
+
+
+
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'samsidhreportcard',
+    // acl: 'public-read',
+    key: function (req, file, cb) {
+            console.log('--------------------------');
+            console.log(file);
+            console.log('--------------------------');
+            var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
+            console.log(d);
+            console.log(global.fileprefix+d+file.originalname);
+            global.finalfilename=global.fileprefix+"/"+d+file.originalname
+            console.log('----abbas-----')
+            console.log(global.finalfile);
+            console.log('--------------')
+      cb(null, global.fileprefix+"/"+d+file.originalname);
+    }
+  })
+}).array('upl', 1);
+
+app.post('/upload',urlencodedParser, function (req, res, next) {
+  upload(req, res, function (error) {
+    if (error) {
+      console.log(error);
+      // return response.redirect("/error");
+      res.status(200).json({'returnval': 'Unable to upload the file'});
+    }
+    else{
+    console.log('File uploaded successfully.');
+    // response.redirect("/success");
+    res.status(200).json({'returnval': 'Uploaded!'});
+    }
+  });
+});
+
+app.post('/lessonplanseturl',urlencodedParser, function (req, res, next) {
+    global.fileprefix=req.query.fileprefix;
+    res.status(200).json({'returnval': 'Done!'});
+});
+
+
+
+
+
+
+
 app.post('/smis-fetchvisitortype',  urlencodedParser,function (req, res)
 {
   var arr=[];
@@ -22520,6 +22584,35 @@ app.post('/homework-service' ,urlencodedParser, function (req, res)
     console.log(err); 
     });
  });
+
+app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      row_id: req.query.rowid,
+      url: global.finalfilename,
+     
+    };
+    console.log(response);
+    connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'inserted'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not inserted'}); 
+    }
+    });
+});
+
 function setvalue(){
   console.log("calling setvalue.....");
 }

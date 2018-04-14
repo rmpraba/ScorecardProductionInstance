@@ -697,6 +697,15 @@
         handle-as="json"
         content-type="application/json"
         on-response="deletecuriculamResponse"
+        debounce-duration="300"/> 
+        <iron-ajax
+        method="post"
+        id="fnteacheraidajax"
+        url="{{fnteacheraidurl}}"
+        params="{{fnteacheraidparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fnteacheraidResponse"
         debounce-duration="300"/>
       
   </template>
@@ -890,7 +899,7 @@
         var hometypeid="";
         var hometype="";
         for(var j=0;j<homeworkarr.length;j++){
-            if(conarr[i].rowid==bldvaluearr[j].rowid)
+            if(conarr[i].rowid==homeworkarr[j].rowid)
             {
                 if(hometypeid=="")
                 hometypeid=homeworkarr[j].hometypeid;
@@ -1265,6 +1274,7 @@ if(subarr1.length!=0){
      }
       },
       fnmasterplandisplyinsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr){
+        this.gloabalrowid=rowid;
         var valueid="";
         var valuename="";
          for(var j=0;j<valuearr.length;j++){
@@ -1276,8 +1286,7 @@ if(subarr1.length!=0){
                 valuename=valuearr[j].valuename;
                 else
                 valuename=valuename+","+valuearr[j].valuename;
-
-          this.vaufid=valueid;
+             this.vaufid=valueid;
           this.vaufname=valuename;
          }
         var conceptid="";
@@ -1382,6 +1391,37 @@ if(subarr1.length!=0){
         this.$.fnmasterplandisplyinsertajax.generateRequest(); 
              
        },
+
+   fnmasterplandisplyinsertResponse:function(e){
+ 
+   var res=e.detail.response.returnval
+   this.fnteacheraid();
+       },
+ fnteacheraid:function(e){
+  this.fnteacheraidurl=sessionStorage.getItem("addrinfo")+"/fnteacheraid-service";
+    var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.rowid=this.gloabalrowid;
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        this.fnteacheraidparam=obj;
+
+        this.$.fnteacheraidajax.generateRequest(); 
+},
+fnteacheraidResponse:function(e){
+var res=e.detail.response.returnval;
+   this.conceptseq(); 
+  this.FnFetchConceptService();
+    
+  document.querySelector('aproval-book-innovatiosn-item-card').saveopendialog();
+},      
  fnmasterplandisplyedit:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,assesmentdate,homework){
         var valueid="";
         var valuename="";
@@ -1502,15 +1542,7 @@ if(subarr1.length!=0){
 //document.querySelector('aproval-book-innovatiosn-item-card').saveopendialog();
            
        },
-       fnmasterplandisplyinsertResponse:function(e){
- //alert(JSON.stringify(e.detail.response.returnval));
-   var res=e.detail.response.returnval
-   this.conceptseq(); 
-  this.FnFetchConceptService();
- 
-document.querySelector('aproval-book-innovatiosn-item-card').saveopendialog();
-  
-       },
+    
       conceptsubseq:function(){
  
 this.conceptsubsequrl=sessionStorage.getItem("addrinfo")+"/fetchsubjectseq-service";
@@ -1970,7 +2002,7 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
                       obj.skill=temp1[i].skill;
                       obj.homework=temp1[i].homework_type;
                       obj.assesmentdate=temp1[i].assesment_date;
-                           
+                        
                       obj.value=temp1[i].value;
                       obj.rowidz=temp1[i].row_id;
                       obj.teaching_aid=temp1[i].teaching_aid;
@@ -1982,6 +2014,7 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
                        obj.hidecheck=false; 
                        obj.hidecheck1=true; 
                        obj.hidecheck11=true; 
+
                        res2.push(obj);     
                       }
       var flag=0;
@@ -2076,6 +2109,7 @@ if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafte
                 } 
              for(var i=0;i<temp.length;i++){
             temp[i].sno=i+1;
+
           }
     document.querySelector('teacher-book-approve-card').overallarr1=temp;
               res2=[];

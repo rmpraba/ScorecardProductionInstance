@@ -126,9 +126,10 @@
           <th style="width: 11%;">Home Work</th>          
           <th style="width: 4%;"></th>  
          </tr>       
-          <template is="dom-repeat" items="{{approvearr}}">
-           <tr>           
-             <curriculum-plan-conceptapproval-itemcard assesmentcheckid='{{item.assesment_check_id}}' checkids='{{item.assesment_check_id}}' hometypeid='{{item.home_type_id}}' sno='{{item.sno}}' hometype='{{item.homework_type}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}" lr="{{item.lr_rectification}}" remarks="{{item.remarks}}" correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" hideflag="{{item.hideflag}}" hidetitleflag="{{item.hidetitleflag}}" completiondate="{{item.completion_date}}" enrichmentsug="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.co_ordinator_remarks}}">          
+       <template is="dom-repeat" items="{{approvearr}}">
+        <tr>
+
+        <curriculum-plan-conceptapproval-itemcard assesmentcheckid='{{item.assesment_check_id}}' checkids='{{item.assesment_check_id}}' hometypeid='{{item.home_type_id}}' sno='{{item.sno}}' hometype='{{item.homework_type}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}" lr="{{item.lr_rectification}}" remarks="{{item.remarks}}" correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" hideflag="{{item.hideflag}}" hidetitleflag="{{item.hidetitleflag}}" completiondate="{{item.completion_date}}" enrichmentsug="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.co_ordinator_remarks}}">          
             </curriculum-plan-conceptapproval-itemcard>        
             </tr>  
            </template>  

@@ -1,3 +1,4 @@
+
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
 
 <dom-module id="aproval-book-innovatiosn-item-card">
@@ -11,8 +12,14 @@
           table-layout: fixed;
           width: 1900px;
           border-collapse: collapse;
+        
           margin-left: -1%;
           margin-top: -1%;
+     }
+     th,td{
+        border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
      }
      #remarkareaaaaa
       {
@@ -38,14 +45,7 @@
         width: 45%;
         margin-top: 14%;
       }
-      #dzfsd
-      {
-          border-radius: 10px;
-          width: 700px;
-          height: 360px;
-          margin-left: -3%;
-         
-      }
+     
       #fngetdialogid
       {
           border-radius: 10px;
@@ -110,13 +110,7 @@
          @apply(--layout-horizontal);
         width: 90%;
       }
-      .concptcard
-      {
-        width: 93%;
-        height: 55%;
-        overflow-x: hidden;
-        overflow-y: scroll;
-      }
+    
       .subconceptcard
       {
         width: 93%;
@@ -161,6 +155,10 @@
     margin-top: -2%;
     margin-left: -6%;
       }
+
+      table { table-layout:fixed; }
+      table td { overflow: hidden; }
+
  #homeworkdialog
       {
           border-radius: 10px;
@@ -180,36 +178,41 @@
           width: 354px;
           height: 170px;
         }
+
     </style>
-    <div>
+    <div >
            <paper-input value={{rowid}} hidden></paper-input>
            <paper-input value={{conceptid}} hidden></paper-input>
            <paper-input value={{capterid}} hidden></paper-input>
            <paper-input value={{subconceptid}} hidden></paper-input>
            <paper-input value={{rowidz}} hidden></paper-input>
        
-        <table border="1">
+        <table >
            <tr>
-            <td style="padding-left: 3%;width: 3.7%;">{{sno}}</td>
-             <td style="width: 11.8%;padding-left: 2%;">
-                <paper-icon-button  hidden$="{{hidecheck1}}"  icon="add" on-click="fngetconceptz" style="color:#6699ff;float: right;"></paper-icon-button>
-                  <template is="dom-repeat" items="{{conceptzz}}" as="r">
-                           <h4  style="margin-left:-11%;width: 90%;">{{r.conceptname}}</h4>
-                  </template>
-                  <h4 hidden$="{{hidedbconcept}}" style="margin-left: -11%;width: 90%;">{{conceptname}}</h4>
-              </td>
-              <td style="width: 12.56%;padding-left: 2%;">
-               <paper-icon-button hidden$="{{hidecheck1}}" icon="add" on-click="fngetsubconcept" style="color:#6699ff;float: right;"></paper-icon-button>
+            <td  hidden>{{sno}}</td>
+             
+              <td width="12.56%" style="padding-left: 5%;">
+           
+              <div style="height: 50px; overflow:hidden;">
+             
+              <paper-icon-button hidden$="{{hidecheck1}}" icon="add" on-click="fngetsubconcept" style="color:#6699ff;float: right;"></paper-icon-button>
                   <template is="dom-repeat" items="{{subconceptarr1}}" as="rse">
-                    <h4   style="margin-left: -11%;width: 90%;">{{rse.subconceptname}}</h4>
+                    <h4 >{{rse.subconceptname}}</h4>
                   </template>
                 <h4 hidden$="{{hidedbconcept}}" style="margin-left: -11%;width: 90%;">{{subconceptname}}</h4>
+  
+       </div>
+               
+   
+
+
               </td>
             <td style="width: 4.45%;padding-left: 1%;text-align: center;">
                 <paper-input style="width: 80%;" value="{{period}}" allowed-pattern="[0-9]"></paper-input>
              </td>
              <td style="width: 8.1%;">
-                <paper-input style="margin-left:11%;" hidden$="{{hidecheck}}" value="{{planneddate}}" ></paper-input>
+
+                <paper-input  hidden$="{{hidecheck}}" value="{{planneddate}}" ></paper-input>
                 <div class="card"  hidden$="{{hidecheck1}}">
               <paper-input label="From date" class="btn" on-click="FnShowDialog" raised value="{{showdate}}"></paper-input>
                     <paper-dialog id="dialog" class="paper-date-picker-dialog" modal   on-iron-overlay-closed="FnDismissDialog">
@@ -224,53 +227,64 @@
                   <dialog-page id="ID_Show_Dialog"></dialog-page>
               </td>
               <td style="width: 8.1%;">
-            <paper-input hidden$="{{hidecheck}}" value="{{plannedtoate}}"></paper-input>
+  <paper-input hidden$="{{hidecheck}}" value="{{plannedtoate}}"></paper-input>
              <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
-                  <td style="width: 8.1%;">
-            <paper-input hidden$="{{hidecheck}}" value="{{assesmentdate}}"></paper-input>
-             <assesment-date-picker hidden$="{{hidecheck1}}"></assesment-date-picker></td>
+            <td style="width: 8.1%;">
+              <paper-input hidden$="{{hidecheck}}" value="{{assesmentdate}}"></paper-input>
+              <assesment-date-picker hidden$="{{hidecheck1}}"></assesment-date-picker>
+            </td>
           
-        <td style="width: 8.01%;padding-left: 2%;" >
-            <paper-icon-button on-click="Fnhomeworks" icon="add" hidden$="{{hidecheck1}}" style="color:#6699ff;float: right;"></paper-icon-button>
+        <td style="width: 8.01%;padding-left: 5%;" >
+        <div style="height: 50px; overflow:hidden;">
+               <paper-icon-button on-click="Fnhomeworks" icon="add" hidden$="{{hidecheck1}}" style="color:#6699ff;float: right;"></paper-icon-button>
+ 
+               <template is="dom-repeat" items="{{homeworks}}" as="r">
+               <h4>{{r.homeworkurl}}</h4>
+             </template>
 
-         <template is="dom-repeat" items="{{homeworks}}" as="r">
-               <h4 style="margin-left: -11%;width: 35%;word-wrap: break-word;">{{r.homeworkurl}}</h4>
-          </template>
-
-        <h4 hidden$="{{hidedbhomewok}}" style="margin-left: -11%;width: 90%;word-wrap: break-word;">{{homework}}</h4>
+              <h4 hidden$="{{hidedbhomewok}}">{{homework}}</h4>
+        </div>
          </td>
 
 
-        <td style="width: 8.1%;padding-left: 2%;">
-         <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetskill" style="color:#6699ff;float: right;"></paper-icon-button>
-      <template is="dom-repeat" items="{{skillarrzx}}" as="r">
-       <h4 style="margin-left: -11%;width: 35%;word-wrap: break-word;">{{r.skillname}}</h4>
+        <td style="width: 8.1%;padding-left: 5%;">
+          <div style="height: 50px; overflow:hidden;">
+            <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetskill" style="color:#6699ff;float: right;"></paper-icon-button>
+           <template is="dom-repeat" items="{{skillarrzx}}" as="r">
+           <h4 >{{r.skillname}}</h4>
              </template>
-        <h4 hidden$="{{hidedbskill}}" style="margin-left: -11%;width: 90%;word-wrap: break-word;">{{skill}}</h4>
-             </td>
-            
+           <h4 hidden$="{{hidedbskill}}">{{skill}}</h4>
+            </div>   
+     </td>
+        
 
  
- <td style="width: 8.01%;padding-left: 2%;">
-           
-      <paper-icon-button  hidden$="{{hidecheck1}}"  icon="add" on-click="fngetconceptz1" style="color:#6699ff;float: right;"></paper-icon-button>
-      <template is="dom-repeat" items="{{mainarr}}" as="ry">
-           <h4 style="margin-left: 4%;word-wrap: break-word;">{{ry.valuename}}</h4>
+ <td style="width: 8.01%;padding-left: 5%;">
+      <div style="height: 50px; overflow:hidden;">        
+        <paper-icon-button  hidden$="{{hidecheck1}}"  icon="add" on-click="fngetconceptz1" style="color:#6699ff;float: right;"></paper-icon-button>
+        <template is="dom-repeat" items="{{mainarr}}" as="ry">
+           <h4 style="margin-left: 4%;word-wrap: break-word;"> {{ry.valuename}}</h4>
         </template>
-      <h4 hidden$="{{hidedbvalue}}"  style="margin-left: -11%;width: 90%;word-wrap: break-word;">{{value}}</h4>
+       <h4 hidden$="{{hidedbvalue}}">{{value}}</h4>
+    </div>
   </td>
             <td style="width: 8.01%;">
+               <div style="height: 50px; overflow:hidden;">
               <paper-button on-click="fnteachingaid">
-                <h4 style="width: 10em;word-wrap: break-word;">{{teachingaid}}</h4>
+                <h4 ">{{teachingaid}}</h4>
               </paper-button>
+              </div>
             </td>
             <td style="width: 8.01%;">
+             <div style="height: 50px; overflow:hidden;">
               <paper-button on-click="lsninnovation">
                 <h4 style="width: 10em;word-wrap: break-word;">{{innovation}}</h4>
               </paper-button>
+              </div>
             </td>
             
             <td style="width: 8.01%;">
+               <div style="height: 50px; overflow:hidden;">
               <paper-button on-click="lsnremark">
                 <h4 style="width: 10em;word-wrap: break-word;">{{remark}}</h4>
               </paper-button>  
@@ -288,18 +302,7 @@
        </table>
      </div>
 
-    <paper-dialog id="dzfsd" modal>
-       <h3>Concept Name</h3>
-       <div class="concptcard">    
-        <template is="dom-repeat" items="{{conceparr}}" as="s">
-          <concept-check-card conceptid="{{s.concept_id}}" id="FFYJ{{rowid}}{{iddate}}{{s.concept_id}}" conceptname="{{s.concept}}" check="{{s.check}}" rowid="{{rowid}}"></concept-check-card>
-        </template>  
-       </div> 
-      <center style="margin-top: 5%;">
-          <paper-button on-click="fnsubmit"  style="background-color:black;color:white">Submit</paper-button>
-  <paper-button on-click="fnclose" style="background-color:black;color:white">Close</paper-button>
-      </center>  
-    </paper-dialog>
+    
 
      <paper-dialog id="dzfsd1xsasa" modal>
        <h3>Value Name</h3>
@@ -385,42 +388,47 @@
 
 
   <paper-dialog id="teachingopendialog" modal>
+   
     <h3>Teaching Aids</h3>
-    <body onload="myFunction()">
-         <input type="file" id="myFile" multiple size="50" onchange="myFunction()">
-         <p id="demo"></p>
-    </body>
-        <center style="margin-top: 14%;">
+   
+    <body onload="myFunction()">  
+    <form id="lpteachingaidupload" method="post" enctype="multipart/form-data" action="/upload" target="_blank">
+    <p>
+        <input type="file" name="upl" id="myFile{{rowid}}" onchange="eatFood()"/ >
+    </p>
+    <p>
+        <input type="submit"  value="Submit"  / >
+    </p>
+    </form>  
+  </body>
+
+   <!-- <paper-textarea label="Textarea label"></paper-textarea>
+ -->
+        
+
+   <center style="margin-top: 14%;">
+        <a href="https://s3.ap-south-1.amazonaws.com/samsidhreportcard/13-4-2018lassonpantables.zip">Click</a>
             <paper-button  on-click="fnupload" style="color:white;background-color:black">Upload</paper-button>
             <paper-button id="taid1" style="color:white;background-color:black" on-click="closeteachingaaid" >Close</paper-button>
         </center>
-     </paper-dialog>
+   </paper-dialog>
      
     
      <paper-dialog id="savedialog" modal>
        <h3><center>SUCCESS</center></h3>
        <center>
-         <paper-button on-click="closedialog" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
+       <paper-button on-click="closedialog" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
        </center>
      </paper-dialog>
 
       <paper-dialog id="failuredialog" modal>
        <h3><center>FAILURE</center></h3>
        <center>
-         <paper-button on-click="failureclose" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
+           <paper-button on-click="failureclose" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
        </center>
      </paper-dialog>
-
-       <iron-ajax
-        method="post"
-        id="fngetconceptcheckajax"
-        url="{{fngetconceptcheckurl}}"
-        params="{{fngetconceptcheckparam}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="fngetconceptcheckResponse"
-        debounce-duration="300" />
-       </iron-ajax>
+<p hidden>{{id}}</p>
+      
        <iron-ajax
         method="post"
         id="fngetbookvaluezajax"
@@ -471,13 +479,30 @@
         on-response="homeworkResponse"
         debounce-duration="300" />
        </iron-ajax> 
+        <iron-ajax
+        method="post"
+        id="seturlajax"
+        url="{{seturlurl}}"
+        params="{{seturlparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="seturlResponse"
+        debounce-duration="300" />
+       </iron-ajax> 
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
  </template>
 <script type="text/javascript">
-var uploadfiles;
-function myFunction(){
 
-    var x = document.getElementById("myFile");
+
+
+var rowid;
+function eatFood(){
+
+  alert(document.getElementById("teachingopendialog").opened);
+  
+document.getElementById("teachingopendialog").opened=false;
+    var x = document.getElementById("myFile"+rowid);
+    alert("You selected " + x.value);
     var txt = "";
     if ('files' in x) {
         if (x.files.length == 0) {
@@ -488,6 +513,7 @@ function myFunction(){
                 var file = x.files[i];
                 if ('name' in file) {
                     txt += "name: " + file.name + "<br>";
+                 alert(file.name);
                 }
                 if ('size' in file) {
                     txt += "size: " + file.size + " bytes <br>";
@@ -495,6 +521,7 @@ function myFunction(){
             }
         }
     } 
+
     else {
         if (x.value == "") {
             txt += "Select one or more files.";
@@ -503,14 +530,12 @@ function myFunction(){
             txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
         }
     }
-    document.getElementById("demo").innerHTML = txt;
-  uploadfiles=document.getElementById("myFile").value;
+    
+  
     
    
 }
 </script>
-
-
   <script>
   (function() {
     'use strict';
@@ -532,9 +557,9 @@ function myFunction(){
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
   fnupload:function(){
-   
-    this.teachingaid=uploadfiles; 
+     this.teachingaid=uploadfiles; 
      this.$.teachingopendialog.toggle();
+
   },
 
 
@@ -584,19 +609,7 @@ fndates:function(e){
     },
   
 
-    fnsubmit:function(e){
-     //this.$.bookservice.fnpassinsetconcept(conarr);
-     this.$.dzfsd.toggle();
-     var temp=[];
-     this.hidedbconcept=true;
-    for(var i=0;i<conarr.length;i++){
-      if(conarr[i].rowid==this.rowid){
-        temp.push({"conceptname":conarr[i].conceptname});
-      }
-     }
-     this.conceptzz=[];
-     this.conceptzz=temp;
-    },
+ 
     fnsubmit1:function(e){
      // alert(JSON.stringify(valuearr));
      this.$.dzfsd1xsasa.toggle();
@@ -667,10 +680,7 @@ fnpasssubarr:function(subsarr){
  
       hworkarr=workarr;
       }, 
-    fnpasparr:function(e){
-    conarr=e;
-    // alert(JSON.stringify(conarr));
-    },
+   
     fnpasparr1:function(e){
       
     valuearr=e;
@@ -678,10 +688,10 @@ fnpasssubarr:function(subsarr){
     fnpassbld:function(e){
       bldvaluearr=e;
     },
-    fnclose:function(e){
-    this.$.dzfsd.close();
-   document.querySelector('concept-check-card').fnRefreshzz();
-    },
+  fnconceptvalue:function(arr){
+  conarr=arr;
+
+  },
     fnclose1:function(e){
     this.$.dzfsd1xsasa.close();
     document.querySelector('aproval-book').newRefreshdddd();
@@ -710,6 +720,7 @@ fnpasssubarr:function(subsarr){
             sethomearr=[];
             trmp=[];
             this.conceptzz="";
+ document.querySelector('aproval-book-concept-card').FnClear(this.id);
             this.mainarr="";
             this.skillarrzx="";
             this.subconceptarr1="";
@@ -718,11 +729,11 @@ fnpasssubarr:function(subsarr){
             this.hidecheck1=true;
             this.hidecheck=false;  
             this.planneddate="";
-            this.hidedbvaluebld=false;
+           
             this.hidedbvalue=false;
             this.hidedbskill=false;
             this.hidedbsubconcept=false;
-            this.hidedbconcept=false;
+          
             this.hidedbhomewok=false;
           document.querySelector('concept-check-card').fnclean();
           document.querySelector('aproval-book').fnclean1();
@@ -739,28 +750,25 @@ fnpasssubarr:function(subsarr){
         this.$.bookservice.fnmasterplandisplyedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowidz,this.teachingaid,this.sno,this.assesmentdate,hworkarr);
            
             this.bldvaluez="";
-            this.conceptzz="";
+           
+            document.querySelector('aproval-book-concept-card').FnClear(this.id);
             this.mainarr="";
             this.skillarrzx="";
             this.subconceptarr1="";
             this.homeworks="";
-            this.hidedbvaluebld=false;
+            
             this.hidedbvalue=false;
             this.hidedbskill=false;
             this.hidedbhomewok=false;
 
             this.hidedbsubconcept=false;
-            this.hidedbconcept=false;
+           
             }
            this.conceptjhkhzz="";
            }
           
      },
 
-    fngetconceptz:function(e){
-      this.fngetconceptcheck();
-      this.$.dzfsd.toggle(); 
-    },
     fngetconceptz1:function(e){
        this.$.dzfsd1xsasa.toggle(); 
       this.fngetinchaptvaluevalue();
@@ -771,7 +779,7 @@ fnpasssubarr:function(subsarr){
      this.fnsubcondialog();
     },
   fnsubcondialog:function(e){
-  var localconarr=[];
+    var localconarr=[];
      for(var i=0;i<conarr.length;i++){
       if(this.rowid==conarr[i].rowid)      
       localconarr.push(conarr[i]);
@@ -1080,9 +1088,7 @@ document.querySelector('homework-card').dbarrvalue(hworkarr);
 fneditsetvalue:function(e){
 document.querySelector('aproval-book').setvaluesz(valuearr);
 },
-fnsetchapterz:function(e){
-document.querySelector('concept-check-card').setchpterclean(conarr);
-},
+
 fnsetsubchapterz:function(e){
 document.querySelector('subconcept-dialog-card').setsubchpterclean(subsarrr);
 },
@@ -1160,77 +1166,10 @@ this.fngetbookvaluezparam=obj;
 
   this.valuearrz=res;            
 },
-    fngetconceptcheck:function(e)
-    {
-      this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
-    
-        var obj={};
-        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-        obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-        obj.capter_id=localStorage.getItem("curr_sess_capters");
-          obj.subjectid=sessionStorage.getItem("subjectidz");
-        obj.gradeid=sessionStorage.getItem("grdeidz");
-        obj.termid=sessionStorage.getItem("termid"); 
-        obj.period=this.period;
-        obj.planneddate=this.planneddate;
-        obj.rowid=this.rowid;
-          this.fngetconceptcheckparam=obj;
-      //  alert(JSON.stringify(obj));
-           this.$.fngetconceptcheckajax.generateRequest();
-          },
-
-        fngetconceptcheckResponse:function(e){
-      
-          var res1=e.detail.response.skillarr;
-          var res=e.detail.response.conceptarr;
-            
-       var temp=[];
-       var temp1=[];
-       var k;
-     if(res1!=""){
-     k=res1[0].concept_id;
-     temp=k.split(",");
-       }
-       if(conarr.length==0){
-          for(var j=0;j<res.length;j++){
-              var flag=0;
-              for(var i=0;i<temp.length;i++){
-                  if(res[j].concept_id==temp[i])
-                  
-                  {    
-                    flag=1;
-                    res[j].check=true;  
-                    var obj={}; 
-                  obj.conceptid=res[j].concept_id;
-                  obj.conceptname=res[j].concept;
-                  obj.rowid=this.rowid;
-                  obj.id="FFYJ"+this.rowid+this.iddate+res[j].concept_id;
-                  conarr.push(obj);   
-                  }
-                 }
-                 if(flag==0){
-                  res[j].check=false;
-                 }
-                }
-              }
-           
-    
-      if(conarr.length>0){
-        for(var i=0;i<conarr.length;i++){
-          for(var j=0;j<res.length;j++){
-        if(conarr[i].conceptid==res[j].concept_id&&this.rowid==conarr[i].rowid){
-            res[j].check=true;
-          }
-          }
-        }
-      } 
-
-       this.conceparr=res;
-     this.fnsubcondialog();
-     this.Fngethomework();
-   }, 
+   
    FnfromClearfff:function(e){
-            this.conceptzz="";
+    
+           
             this.mainarr="";
             this.skillarrzx="";
             this.homeworks="";
@@ -1251,8 +1190,9 @@ this.fngetbookvaluezparam=obj;
        skarr=[];
        subsarrr=[];
        hworkarr=[];
+        document.querySelector('aproval-book-concept-card').fngetconceptcheck();
         this.fnskilldialog();
-        this.fngetconceptcheck();
+      
         this.fngetinchaptvaluevalue();
 
       this.hidecheck1=false;
@@ -1264,7 +1204,7 @@ this.fngetbookvaluezparam=obj;
       this.$.innttvvnn.hidden=false;
       this.$.taid1.hidden=true;
     //  this.$.taidss.hidden=false;
-    
+  document.querySelector('aproval-book-concept-card').fnref(this.id);
     },
  
     fnsetpassvalz:function(e){
@@ -1331,7 +1271,17 @@ this.fngetbookvaluezparam=obj;
 
     fnteachingaid:function(e)
     {
-      this.$.teachingopendialog.toggle();
+      rowid=this.rowid;
+      //alert(this.rowid);
+
+    this.fileprefix="Teachingaid"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.rowid;
+        
+    this.seturlurl=sessionStorage.getItem("addrinfo")+"/lessonplanseturl";
+     var obj={};
+     obj.fileprefix=this.fileprefix;
+     this.seturlparam=obj;
+     this.$.seturlajax.generateRequest();
+     this.$.teachingopendialog.toggle();
     },
    
     teachingsave:function(e)

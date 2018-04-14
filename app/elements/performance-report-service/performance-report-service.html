@@ -259,9 +259,13 @@
           var obj={};
           var diff="0";
           var seq="";
+          var asciilevel="";
           obj.studentid=studoverall[i].studentid;
           // obj1.studentid=studoverall[i].studentid;
           for(var j=0;j<studoverall[i].studarr.length;j++){
+            if(j==0){
+              asciilevel=studoverall[i].studarr[j].ascii;
+            }
             if(j!=0){
               diff=parseFloat(studoverall[i].studarr[j].ascii)-parseFloat(studoverall[i].studarr[j-1].ascii);
               // x.push(diff);
@@ -284,14 +288,23 @@
           }
           // alert(seq);
           for(var n=0;n<indicator.length;n++){
-            if(seq==indicator[n].combination){
+            if(seq==indicator[n].combination&&asciilevel==indicator[n].ascii){
               obj.colorcode=indicator[n].colorcode;
               obj.legend=indicator[n].legend;
-              if(diff!=0){
-                obj.level=Math.abs(diff);
-              }
+              // if(diff!=0){
+              //   obj.level=Math.abs(diff);
+              // }
             }
           }
+          // for(var n=0;n<indicator.length;n++){
+          //   if(seq==indicator[n].combination){
+          //     obj.colorcode=indicator[n].colorcode;
+          //     obj.legend=indicator[n].legend;
+          //     if(diff!=0){
+          //       obj.level=Math.abs(diff);
+          //     }
+          //   }
+          // }
           // obj.diffarr=x;
           diffoverall.push(obj);
           // obj1.diffarr=y;

@@ -3,34 +3,109 @@ var mysql      = require('mysql');
 var email   = require("emailjs/email");
 var htmlToPdf = require('html-to-pdf');
 var fs = require('fs');
-var AWS = require('aws-sdk');
+var aws = require('aws-sdk');
+var bodyParser = require('body-parser'); 
 var FCM = require('fcm-node');
+var multer = require('multer'); // "multer": "^1.1.0"
+var multerS3 = require('multer-s3');
 var connection = mysql.createConnection({  
-  // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
-  // database:"scorecarddb",
-  // port:'3306',
-  // user:"smis",
-  // password:"smispass",
-  // reconnect:true,
-  // data_source_provider:"rds",
-  // type:"mysql"   
-
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'scorecardtemp'
+  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
+  database:"scorecarddb",
+  port:'3306',
+  user:"smis",
+  password:"smispass",
+  reconnect:true,
+  data_source_provider:"rds",
+  type:"mysql"   
+  // host     : 'localhost',
+  // user     : 'root',
+  // password : 'admin',
+  // database : 'samsidhreportcard'
  });
 
-var bodyParser = require('body-parser'); 
+
 var app = express();
 var logfile;
-AWS.config.loadFromPath('app/configfile/credential.json');
+// AWS.config.loadFromPath('app/configfile/credential.json');
+aws.config.update({
+    secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
+    accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
+    region: 'ap-south-1'
+});
+s3 = new aws.S3();
 
 app.use(express.static('app'));
+
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
   app.get('/', function (req, res){
   res.sendFile("app/index.html" );
-})
+});
+
+// var upload = multer({
+//     storage: multerS3({
+//         s3: s3,
+//         bucket: 'samsidhreportcard',
+//         key: function (req, file, cb, res) {
+//             console.log('--------------------------');
+//             console.log(file);
+//             console.log('--------------------------');
+//             var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
+//             console.log(d);
+//             console.log(global.fileprefix+d+file.originalname);
+//             cb(null, global.fileprefix+d+file.originalname); //use Date.now() for unique file keys
+//             // res.status(200).json({'returnval': 'Uploaded!'});
+//         }
+//     })
+// });
+
+// //lessonplanteachingaidsupload
+// app.post('/upload', upload.array('upl',1), function (req, res, next) {
+//     // res.send("Uploaded!");
+//     console.log('lesson plan upload---------calling'+req.body.fileprefix);
+//     global.fileprefix=req.body.fileprefix;
+//     res.send('Successfully uploaded ' + req.files.length + ' files!');
+//     // res.status(200).json({'returnval': 'Uploaded!'});
+// });
+
+
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'samsidhreportcard',
+    // acl: 'public-read',
+    key: function (req, file, cb) {
+            console.log('--------------------------');
+            console.log(file);
+            console.log('--------------------------');
+            var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
+            console.log(d);
+            console.log(global.fileprefix+d+file.originalname);
+      cb(null, global.fileprefix+"/"+d+file.originalname);
+    }
+  })
+}).array('upl', 1);
+
+app.post('/upload',urlencodedParser, function (req, res, next) {
+  upload(req, res, function (error) {
+    if (error) {
+      console.log(error);
+      // return response.redirect("/error");
+      res.status(200).json({'returnval': 'Unable to upload the file'});
+    }
+    else{
+    console.log('File uploaded successfully.');
+    // response.redirect("/success");
+    res.status(200).json({'returnval': 'Uploaded!'});
+    }
+  });
+});
+
+app.post('/lessonplanseturl',urlencodedParser, function (req, res, next) {
+    global.fileprefix=req.query.fileprefix;
+    res.status(200).json({'returnval': 'Done!'});
+});
+
+
 app.post('/smis-fetchvisitortype',  urlencodedParser,function (req, res)
 {
   var arr=[];
@@ -252,6 +327,8 @@ app.post('/lprolecheck-service',  urlencodedParser,function (req, res)
       console.log(err);
 });
 });
+
+
 
 app.post('/lessonplan-login',  urlencodedParser,function (req, res)
 {
@@ -8093,7 +8170,7 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
       console.log('pd done....');
   var finalpdf=final;
    /* var base64data = new Buffer(finalpdf, 'binary');
-    var s3 = new AWS.S3();
+    var s3 = new aws.S3();
    s3.putObject({
      Bucket: 'samsidhreportcard',
      Key: 'reportcard.pdf',
@@ -8118,7 +8195,7 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
    // fs.readFile('./app/reportcard/'+global.studentinfo[0].student_name+'.pdf', function (err, data) {
    // if (err) { throw err; }
    // var base64data = new Buffer(data, 'binary');
-   // var s3 = new AWS.S3();
+   // var s3 = new aws.S3();
    // s3.putObject({
    //   Bucket: 'samsidh-helpdesk',
    //   Key: 'reportcard.pdf',
@@ -22488,6 +22565,135 @@ app.post('/homework-service' ,urlencodedParser, function (req, res)
     console.log(err); 
     });
  });
+
+app.post('/performance-fetchexceptionexcelassesmentinfo-service',  urlencodedParser,function (req, res)
+{ 
+    var qur1="SELECT assesment_type,count(distinct(subject_id)) as subcount,count(distinct(category_id)) as catcount, "+
+    " count(distinct(sub_category_id)) as subcatcount FROM enrichment_subject_mapping WHERE school_id='"+req.query.schoolid+"' and "+
+    " academic_year='"+req.query.academicyear+"' and grade_name='"+req.query.grade+"' and assesment_type in(select distinct(assesment_id) "+
+    " from tr_beginner_assesment_marks where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and "+
+    " grade_id='"+req.query.grade+"') and assesment_type in('EBOY','EMOY','EEOY') group by assesment_type order by (SELECT id FROM enrichment_assesment_type where name=assesment_type)";
+
+    var qur2="SELECT assesment_type,subject_id,subject_name,count(distinct(subject_id)) as subcount,count(distinct(category_id)) as catcount, "+
+    " count(distinct(sub_category_id)) as subcatcount FROM enrichment_subject_mapping WHERE school_id='"+req.query.schoolid+"' and "+
+    " academic_year='"+req.query.academicyear+"' and grade_name='"+req.query.grade+"' and assesment_type in(select distinct(assesment_id) "+
+    " from tr_beginner_assesment_marks where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and "+
+    " grade_id='"+req.query.grade+"') and assesment_type in('EBOY','EMOY','EEOY') group by assesment_type,subject_id,subject_name order by (SELECT id FROM enrichment_assesment_type where name=assesment_type),subject_id";
+
+    var qur3="SELECT assesment_type,subject_id,subject_name,category_id,category_name,count(distinct(subject_id)) as subcount,count(distinct(category_id)) as catcount, "+
+    " count(distinct(sub_category_id)) as subcatcount FROM enrichment_subject_mapping WHERE school_id='"+req.query.schoolid+"' and "+
+    " academic_year='"+req.query.academicyear+"' and grade_name='"+req.query.grade+"' and assesment_type in(select distinct(assesment_id) "+
+    " from tr_beginner_assesment_marks where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and "+
+    " grade_id='"+req.query.grade+"') and assesment_type in('EBOY','EMOY','EEOY') group by assesment_type,subject_id,subject_name,category_id,category_name order by (SELECT id FROM enrichment_assesment_type where name=assesment_type),subject_id,category_id";
+
+    var qur4="SELECT assesment_type,subject_id,subject_name,category_id,category_name,sub_category_id,sub_category_name FROM "+
+    " enrichment_subject_mapping WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_name='"+req.query.grade+"' "+
+    " and assesment_type in(select distinct(assesment_id) from tr_beginner_assesment_marks where school_id='"+req.query.schoolid+"' "+
+    " and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.grade+"') and assesment_type in('EBOY','EMOY','EEOY') group by assesment_type,subject_id,subject_name,category_id,category_name,sub_category_id,sub_category_name order by (SELECT id FROM enrichment_assesment_type where name=assesment_type),subject_id,category_id,sub_category_id";
+
+    var qur5="select * from tr_beginner_assesment_marks where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' "+
+    " and grade_id='"+req.query.grade+"' and section_id='"+req.query.sectionname+"' and student_id in(select id from md_student where class_id "+
+    " in(select id from md_class_section where class='"+req.query.grade+"' and section='"+req.query.sectionname+"' and flag='active')) and assesment_type in('EBOY','EMOY','EEOY') order by (SELECT id FROM enrichment_assesment_type where name=assesment_type)";
+
+    var qur6="select * from md_student where class_id in(select id from md_class_section where class='"+req.query.grade+"' and section='"+req.query.sectionname+"' and flag='active') and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'";
+
+    var qur7="select school_id,academic_year,assesment_id,student_id,subject_name,category_name,grade,level, "+
+    " ASCII(grade) as ascii from tr_beginner_assesment_marks where school_id='"+req.query.schoolid+"' and "+
+    " academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.grade+"' and "+
+    " section_id='"+req.query.sectionname+"' and assesment_id in('EBOY','EMOY','EEOY') "+
+    " group by school_id,academic_year,assesment_id,student_id,subject_name,grade,level,category_name "+
+    " order by (select id from enrichment_assesment_type where assesment_id=name)";
+
+    var qur8="SELECT * FROM enrichment_analysis_legend";
+    console.log("---------------------excel performace tracking-------------------");
+    console.log(qur1);
+    console.log(qur2);
+    console.log(qur3);
+    console.log(qur4);
+    console.log(qur5);
+    console.log(qur6);
+    console.log(qur7);
+    console.log(qur8);
+    var typearr=[];
+    var subarr=[];
+    var catarr=[];
+    var subcatarr=[];
+    var enricharr=[];
+    var student=[];
+    var ascii=[];
+        connection.query(qur1,  function(err, rows)
+        {
+        typearr=rows;
+        if(!err)
+        {
+        connection.query(qur2,  function(err, rows)
+        {
+        if(!err)
+        {
+        subarr=rows;
+        connection.query(qur3,  function(err, rows)
+        {
+        if(!err)
+        {
+        catarr=rows;
+        connection.query(qur4,  function(err, rows)
+        {
+        if(!err)
+        {
+        subcatarr=rows;
+        connection.query(qur5,  function(err, rows)
+        {
+        if(!err)
+        {
+        enricharr=rows;
+        connection.query(qur6,  function(err, rows)
+        {
+        if(!err)
+        {
+        student=rows;
+        connection.query(qur7,  function(err, rows)
+        {
+        if(!err)
+        {
+        ascii=rows;
+        connection.query(qur8,  function(err, rows)
+        {
+        if(!err)
+        {
+        res.status(200).json({'assesment':typearr,'subject':subarr,'category':catarr,'subcategory':subcatarr,'enrich':enricharr,'student':student,'ascii':ascii,'indicator':rows});
+        }
+        });
+        }
+        else
+          console.log(err);
+        });
+        }
+        else
+          console.log(err);
+        });
+        }
+        else
+          console.log('1....'+err);
+        });
+        }
+        else
+          console.log('2....'+err);
+        });
+        }
+        else
+          console.log('3....'+err);
+        });
+        }
+        else
+          console.log('4....'+err);
+        });
+        }
+        else
+          console.log('5....'+err);
+        });
+});
+
+
 function setvalue(){
   console.log("calling setvalue.....");
 }

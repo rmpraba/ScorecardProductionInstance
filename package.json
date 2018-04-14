@@ -23,12 +23,13 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
-    "aws-sdk": "^2.176.0",
+    "aws-sdk": "^2.224.1",
     "body-parser": "~1.14.2",
     "emailjs": "~0.3.4",
     "express": "~3.4.4",
     "html-to-pdf": "~0.1.11",
     "moment": "~2.13.0",
+    "multer-s3": "^2.7.0",
     "mysql": "~2.10.0"
   },
   "devDependencies": {},

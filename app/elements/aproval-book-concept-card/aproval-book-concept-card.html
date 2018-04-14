@@ -1,0 +1,212 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="aproval-book-concept-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+       #dzfsd
+      {
+          border-radius: 10px;
+          width: 700px;
+          height: 360px;
+          margin-left: -3%;
+         
+      }
+        .concptcard
+      {
+        width: 93%;
+        height: 55%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+      }
+    </style>
+   <div hidden>
+     {{hidecheck}}{{conceptid}}{{iddate}}{{rowid}}
+     {{sno}}{{plannedtoate}}{{rowidz}}{{hidecheck1}}</div>
+<table >
+ <tr>
+<td style="width: 12.56%;padding-left: 2%;">
+    <paper-icon-button  id="ENR{{id}}" hidden icon="add" on-click="fnsetglobal" style="color:#6699ff;float: right;"></paper-icon-button>
+
+        <div style="height: 50px; overflow:hidden;">
+           <paper-icon-button  hidden$="{{infovalue}}"  icon="add" on-click="fngetconceptz" style="color:#6699ff;float: right;"></paper-icon-button>
+        <template is="dom-repeat" items="{{conceptzz}}" as="r">
+                   <h4 style="margin-left: -11%;width: 90%;">{{r.conceptname}}</h4>
+          </template>
+            <h4  style="margin-left: -11%;width: 90%;" hidden$="{{hidedbconcept}}">{{conceptname}}</h4>
+        </div>
+   </td>      
+</tr>
+</table>
+
+<paper-dialog id="dzfsd" modal>
+       <h3>Concept Name</h3>
+       <div class="concptcard">    
+        <template is="dom-repeat" items="{{conceparr}}" as="s">
+          <concept-check-card conceptid="{{s.concept_id}}" id="FFYJ{{rowid}}{{iddate}}{{s.concept_id}}" conceptname="{{s.concept}}" check="{{s.check}}" rowid="{{rowid}}"></concept-check-card>
+        </template>  
+       </div> 
+      <center style="margin-top: 5%;">
+          <paper-button on-click="fnsubmit"  style="background-color:black;color:white">Submit</paper-button>
+  <paper-button on-click="fnclose" style="background-color:black;color:white">Close</paper-button>
+      </center>  
+    </paper-dialog>
+     <iron-ajax
+        method="post"
+        id="fngetconceptcheckajax"
+        url="{{fngetconceptcheckurl}}"
+        params="{{fngetconceptcheckparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetconceptcheckResponse"
+        debounce-duration="300" />
+       </iron-ajax>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+var conarr1=[];
+ 
+    Polymer({
+      is: 'aproval-book-concept-card',
+      ready:function(){
+       
+      },
+   fnsubmit:function(e){
+     //this.$.bookservice.fnpassinsetconcept(conarr1);
+     this.$.dzfsd.toggle();
+     var temp=[];
+     this.hidedbconcept=true;
+    for(var i=0;i<conarr1.length;i++){
+      if(conarr1[i].rowid==this.rowid){
+        temp.push({"conceptname":conarr1[i].conceptname});
+      }
+     }
+     this.conceptzz=[];
+     this.conceptzz=temp;
+    },
+    fnsetchapterz:function(e){
+document.querySelector('concept-check-card').setchpterclean(conarr1);
+}, 
+fnsetglobal:function(){
+  alert(this.id);
+
+     this.fngetconceptcheck();
+      this.$.dzfsd.toggle(); 
+  
+},
+ fnpasparr:function(e){
+    conarr1=e;
+    // alert(JSON.stringify(conarr));
+    },
+    fngetconceptz:function(e){
+      this.fngetconceptcheck();
+      this.$.dzfsd.toggle(); 
+    },
+    fngetconceptcheck:function(e)
+    {
+      this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
+    
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+        obj.capter_id=localStorage.getItem("curr_sess_capters");
+          obj.subjectid=sessionStorage.getItem("subjectidz");
+        obj.gradeid=sessionStorage.getItem("grdeidz");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.period=this.period;
+        obj.planneddate=this.planneddate;
+        obj.rowid=this.rowid;
+       this.fngetconceptcheckparam=obj;
+      //  alert(JSON.stringify(obj));
+           this.$.fngetconceptcheckajax.generateRequest();
+          },
+
+        fngetconceptcheckResponse:function(e){
+      
+          var res1=e.detail.response.skillarr;
+          var res=e.detail.response.conceptarr;
+            
+       var temp=[];
+       var temp1=[];
+       var k;
+     if(res1!=""){
+     k=res1[0].concept_id;
+     temp=k.split(",");
+       }
+       if(conarr1.length==0){
+          for(var j=0;j<res.length;j++){
+              var flag=0;
+              for(var i=0;i<temp.length;i++){
+                  if(res[j].concept_id==temp[i])
+                  
+                  {    
+                    flag=1;
+                    res[j].check=true;  
+                    var obj={}; 
+                  obj.conceptid=res[j].concept_id;
+                  obj.conceptname=res[j].concept;
+                  obj.rowid=this.rowid;
+                  obj.id="FFYJ"+this.rowid+this.iddate+res[j].concept_id;
+                  conarr1.push(obj);   
+                  }
+                 }
+                 if(flag==0){
+                  res[j].check=false;
+                 }
+                }
+              }
+           
+    
+      if(conarr1.length>0){
+        for(var i=0;i<conarr1.length;i++){
+          for(var j=0;j<res.length;j++){
+        if(conarr1[i].conceptid==res[j].concept_id&&this.rowid==conarr1[i].rowid){
+            res[j].check=true;
+          }
+          }
+        }
+      } 
+  this.conceparr=res;
+   document.querySelector('aproval-book-innovatiosn-item-card').fnconceptvalue(conarr1);
+   document.querySelector('aproval-book-innovatiosn-item-card').fnsubcondialog();
+    document.querySelector('aproval-book-innovatiosn-item-card').Fngethomework();
+
+
+       
+    },
+    fnclose:function(e){
+    this.$.dzfsd.close();
+    document.querySelector('concept-check-card').fnRefreshzz();
+  },
+  FnClear:function(){
+  this.hidedbconcept=false;
+  this.hidecheck1=true;
+  this.hidecheck=false;
+  this.conceptzz="";
+  conarr1=[];
+  },
+  fnref:function(arr){
+  /*  var c=arr;
+    document.getElementById("ENR"+c).hidden=true;
+      this.hidecheck1=false;
+      this.hidecheck=true;*/
+ 
+   }
+   });
+  
+  })();
+  </script>
+</dom-module>

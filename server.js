@@ -4,7 +4,10 @@ var email   = require("emailjs/email");
 var htmlToPdf = require('html-to-pdf');
 var fs = require('fs');
 var aws = require('aws-sdk');
+<<<<<<< HEAD
 var bodyParser = require('body-parser'); 
+=======
+>>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
@@ -26,19 +29,33 @@ var connection = mysql.createConnection({
 
 var app = express();
 var logfile;
+<<<<<<< HEAD
 // AWS.config.loadFromPath('app/configfile/credential.json');
+=======
+
+>>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 aws.config.update({
     secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
     accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
     region: 'ap-south-1'
 });
 s3 = new aws.S3();
+<<<<<<< HEAD
+=======
+//AWS.config.loadFromPath('app/configfile/credential.json');
+
+
+
+
+
+>>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 
 app.use(express.static('app'));
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
   app.get('/', function (req, res){
   res.sendFile("app/index.html" );
+<<<<<<< HEAD
 });
 
 // var upload = multer({
@@ -66,6 +83,10 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 //     res.send('Successfully uploaded ' + req.files.length + ' files!');
 //     // res.status(200).json({'returnval': 'Uploaded!'});
 // });
+=======
+})
+
+>>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 
 
 var upload = multer({
@@ -80,6 +101,13 @@ var upload = multer({
             var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
             console.log(d);
             console.log(global.fileprefix+d+file.originalname);
+<<<<<<< HEAD
+=======
+            global.finalfilename=global.fileprefix+"/"+d+file.originalname
+            console.log('----abbas-----')
+            console.log(global.finalfile);
+            console.log('--------------')
+>>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
       cb(null, global.fileprefix+"/"+d+file.originalname);
     }
   })
@@ -106,6 +134,14 @@ app.post('/lessonplanseturl',urlencodedParser, function (req, res, next) {
 });
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+>>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 app.post('/smis-fetchvisitortype',  urlencodedParser,function (req, res)
 {
   var arr=[];
@@ -16875,6 +16911,37 @@ app.post('/conceptassement-service' ,urlencodedParser, function (req, res)
     
     });
  });
+
+app.post('/home-service' ,urlencodedParser, function (req, res)
+    {  
+       var qur1="SELECT * FROM md_concept_homework  where concept_id='"+req.query.conceptid+"'";
+   
+       var qur2="SELECT * FROM md_curriculum_planning_approval where  chapter_id='"+req.query.capter_id+"' and row_id='"+req.query.rowid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and  term_id='"+req.query.termid+"' and grade_id='"+req.query.gradeid+"'  and subject_id='"+req.query.subjectid+"' and concept_id='"+req.query.conceptid+"' and  section_id='"+req.query.  sectionid+"'";
+        var  dbarr=[];       
+       console.log('--------------Assesment---------');
+       console.log(qur1);
+       console.log(qur2);
+       console.log('-------------------------------');
+        
+         connection.query(qur1,function(err, rows){
+        if(!err){
+          dbarr=rows;
+          connection.query(qur2,function(err, rows){
+        if(!err){
+
+           res.status(200).json({'returnval': rows,'dbarr':dbarr});
+         
+        }
+         console.log(err);
+       });
+          
+     }
+      console.log(err); 
+    
+    });
+ });
+
+
 app.post('/updateapprovalstatusofchapterconcept-service',  urlencodedParser,function (req,res)
   {     
      var response={ 
@@ -16915,6 +16982,7 @@ app.post('/updateapprovalstatusofchapterconcept-service',  urlencodedParser,func
        assesment_date:req.query.assesmentdate,
        assesment_type:req.query.assesment_type,
        assesment_type_id:req.query.assesment_type_id,
+       assesment_check_id:req.query.assesmentcheckid,
     };
   
     connection.query("INSERT INTO md_curriculum_planning_approval SET ?",[response],function(err, rows){
@@ -22566,6 +22634,7 @@ app.post('/homework-service' ,urlencodedParser, function (req, res)
     });
  });
 
+<<<<<<< HEAD
 app.post('/performance-fetchexceptionexcelassesmentinfo-service',  urlencodedParser,function (req, res)
 { 
     var qur1="SELECT assesment_type,count(distinct(subject_id)) as subcount,count(distinct(category_id)) as catcount, "+
@@ -22694,6 +22763,36 @@ app.post('/performance-fetchexceptionexcelassesmentinfo-service',  urlencodedPar
 });
 
 
+=======
+app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      row_id: req.query.rowid,
+      url: global.finalfilename,
+     
+    };
+    console.log(response);
+    connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'inserted'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not inserted'}); 
+    }
+    });
+});
+
+>>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 function setvalue(){
   console.log("calling setvalue.....");
 }

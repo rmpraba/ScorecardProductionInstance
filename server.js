@@ -16030,7 +16030,7 @@ app.post('/fnmasterplaninsert-service' , urlencodedParser,function (req, res)
       assesment_date:req.query.assesmentdate,
       home_type_id:req.query.hometypeid,
       homework_type:req.query.hometype,
-
+       current_url:req.query.currurl,
     };
     console.log('Coming for master insertion....');
     connection.query("INSERT INTO md_curriculum_planning SET ?",[response],
@@ -16074,13 +16074,12 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
       teaching_aid:req.query.teachingaid,
       remarks: req.query.remarks,
       term_id:req.query.termid,
-      
+      current_url:req.query.currurl,
       sno:req.query.sno,
       skillid:req.query.skillid,
       valueid:req.query.valueid,
-      
+      currurl:req.query.currurl,
       assesment_date:req.query.assesmentdate,
-    
       homework_type:req.query.hometype,
       home_type_id:req.query.hometypeid,
         
@@ -22776,7 +22775,7 @@ app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
       concept_id: req.query.conceptid,
       row_id: req.query.rowid,
       url: global.finalfilename,
-     
+      link:req.query.currurl,
     };
     console.log(response);
     connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){

@@ -7,7 +7,7 @@
       :host {   
         display: block;
       }
-      table
+      .bintable
       {   
           table-layout: fixed;
           width: 1900px;
@@ -147,7 +147,7 @@
         overflow-y: scroll;
       }
 
-       #teachingopendialog
+       .teachingopendialog1
       {
    border-radius: 10px;
     width: 54%;
@@ -156,9 +156,9 @@
     margin-left: -6%;
       }
 
-      table { table-layout:fixed; }
+     /* table { table-layout:fixed; }
       table td { overflow: hidden; }
-
+*/
  #homeworkdialog
       {
           border-radius: 10px;
@@ -187,11 +187,11 @@
            <paper-input value={{subconceptid}} hidden></paper-input>
            <paper-input value={{rowidz}} hidden></paper-input>
        
-        <table >
+        <table class="bintable" >
            <tr>
             <td  hidden>{{sno}}</td>
              
-              <td width="12.56%" style="padding-left: 5%;">
+              <td width="12.56%">
            
               <div style="height: 50px; overflow:hidden;">
              
@@ -199,15 +199,11 @@
                   <template is="dom-repeat" items="{{subconceptarr1}}" as="rse">
                     <h4 >{{rse.subconceptname}}</h4>
                   </template>
-                <h4 hidden$="{{hidedbconcept}}" style="margin-left: -11%;width: 90%;">{{subconceptname}}</h4>
-  
-       </div>
+                <h4 hidden$="{{hidedbconcept}}" >{{subconceptname}}</h4>
+        </div>
                
-   
-
-
-              </td>
-            <td style="width: 4.45%;padding-left: 1%;text-align: center;">
+          </td>
+            <td style="width: 4.45%;text-align: center;">
                 <paper-input style="width: 80%;" value="{{period}}" allowed-pattern="[0-9]"></paper-input>
              </td>
              <td style="width: 8.1%;">
@@ -227,14 +223,15 @@
                   <dialog-page id="ID_Show_Dialog"></dialog-page>
               </td>
               <td style="width: 8.1%;">
-  <paper-input hidden$="{{hidecheck}}" value="{{plannedtoate}}"></paper-input>
-             <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker></td>
+              <paper-input hidden$="{{hidecheck}}" value="{{plannedtoate}}"></paper-input>
+             <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker>
+             </td>
             <td style="width: 8.1%;">
               <paper-input hidden$="{{hidecheck}}" value="{{assesmentdate}}"></paper-input>
               <assesment-date-picker hidden$="{{hidecheck1}}"></assesment-date-picker>
             </td>
           
-        <td style="width: 8.01%;padding-left: 5%;" >
+        <td style="width: 8.01%;" >
         <div style="height: 50px; overflow:hidden;">
                <paper-icon-button on-click="Fnhomeworks" icon="add" hidden$="{{hidecheck1}}" style="color:#6699ff;float: right;"></paper-icon-button>
  
@@ -247,7 +244,7 @@
          </td>
 
 
-        <td style="width: 8.1%;padding-left: 5%;">
+        <td style="width: 8.1%;">
           <div style="height: 50px; overflow:hidden;">
             <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetskill" style="color:#6699ff;float: right;"></paper-icon-button>
            <template is="dom-repeat" items="{{skillarrzx}}" as="r">
@@ -259,7 +256,7 @@
         
 
  
- <td style="width: 8.01%;padding-left: 5%;">
+ <td style="width: 8.01%;">
       <div style="height: 50px; overflow:hidden;">        
         <paper-icon-button  hidden$="{{hidecheck1}}"  icon="add" on-click="fngetconceptz1" style="color:#6699ff;float: right;"></paper-icon-button>
         <template is="dom-repeat" items="{{mainarr}}" as="ry">
@@ -271,7 +268,8 @@
             <td style="width: 8.01%;">
                <div style="height: 50px; overflow:hidden;">
               <paper-button on-click="fnteachingaid">
-                <h4 ">{{teachingaid}}</h4>
+                <h4  hidden$="{{hidedbvalue}}">{{teachingaid}}</h4>
+                <paper-input id="fomeid{{rowid}}"  readonly value="{{teachingaid}}"></paper-input>
               </paper-button>
               </div>
             </td>
@@ -387,21 +385,40 @@
     
 
 
-  <paper-dialog id="teachingopendialog" modal>
+  <paper-dialog id="teachingopendialog{{rowid}}"  class="teachingopendialog1" modal>
    
-    <h3>Teaching Aids</h3>
-   
-    <body onload="myFunction()">  
-    <form id="lpteachingaidupload" method="post" enctype="multipart/form-data" action="/upload" target="_blank">
-    <p>
-        <input type="file" name="upl" id="myFile{{rowid}}" onchange="eatFood()"/ >
+    <center><h3>Teaching Aids</h3></center>
+       
+   <table style="width:20%">
+       <tr>
+         <th>file uploding</th>
+         <th>Url</th>
+       </tr>
+       <tr>
+          <td>
+            
+        <body onload="myFunction()">  
+       <form id="lpteachingaidupload" method="post" enctype="multipart/form-data" action="/upload" target="_blank">
+     <p>
+      <input type="file" name="upl" id="myFile{{rowid}}" onchange="eatFood()"/>
     </p>
     <p>
-        <input type="submit"  value="Submit"  / >
+        <input type="submit"  value="Submit"  onclick="fnfood1()" / >
     </p>
     </form>  
   </body>
+   </td>
+     <td>
+        <iron-autogrow-textarea id="strengthvalue" placeholder="url here..." value="{{currurl}}" ></iron-autogrow-textarea>
+    </td>
+       </tr>
+   </table>
 
+  
+  
+   
+
+  
    <!-- <paper-textarea label="Textarea label"></paper-textarea>
  -->
         
@@ -493,14 +510,38 @@
  </template>
 <script type="text/javascript">
 
-
-
 var rowid;
+var glfilename;
+var teachertempaids=[];
+function fnfood1(){
+   alert(glfilename);
+   alert(document.getElementById("teachingopendialog"+rowid).opened);
+   document.getElementById("teachingopendialog"+rowid).opened=false;
+   document.getElementById("fomeid"+rowid).value=glfilename;
+   teachertempaids.push({"filenames":glfilename});
+
+       /* for( var i=0;i<teachertempaids.length;i++){
+            if(teachertempaids[i].filenames==glfilename){
+                teachertempaids.splice(i,1);
+            }
+        }*/
+
+        alert(JSON.stringify(teachertempaids));
+         var filenames="";
+         for(var j=0;j<teachertempaids.length;j++){
+             if(filenames=="")
+                filenames=teachertempaids[j].filenames;
+                else
+                filenames=filenames+","+teachertempaids[j].filenames;
+                this.filenames=filenames;
+           }
+           alert(filenames);
+     document.getElementById("fomeid"+rowid).value=this.filenames;
+    }
+
 function eatFood(){
 
-  alert(document.getElementById("teachingopendialog").opened);
-  
-document.getElementById("teachingopendialog").opened=false;
+
     var x = document.getElementById("myFile"+rowid);
     alert("You selected " + x.value);
     var txt = "";
@@ -513,7 +554,7 @@ document.getElementById("teachingopendialog").opened=false;
                 var file = x.files[i];
                 if ('name' in file) {
                     txt += "name: " + file.name + "<br>";
-                 alert(file.name);
+                glfilename=file.name;
                 }
                 if ('size' in file) {
                     txt += "size: " + file.size + " bytes <br>";
@@ -557,9 +598,9 @@ document.getElementById("teachingopendialog").opened=false;
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
   fnupload:function(){
-     this.teachingaid=uploadfiles; 
-     this.$.teachingopendialog.toggle();
-
+    
+   
+ document.getElementById("teachingopendialog"+this.rowid).opened=false;
   },
 
 
@@ -711,9 +752,9 @@ fnpasssubarr:function(subsarr){
            }
        else if(this.planneddate=="empty")
       {
-    this.$.bookservice.fnmasterplaninsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,hworkarr);
+    this.$.bookservice.fnmasterplaninsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,hworkarr,this.currurl);
 
-    this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,hworkarr);
+    this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,hworkarr,this.currurl);
             this.showdate=moment(new Date()).format('L');
             localStorage.setItem("localsess_from_service",this.showdate);
             setsubarr=[];
@@ -1281,28 +1322,22 @@ this.fngetbookvaluezparam=obj;
      obj.fileprefix=this.fileprefix;
      this.seturlparam=obj;
      this.$.seturlajax.generateRequest();
-     this.$.teachingopendialog.toggle();
+    ;
+     document.getElementById("teachingopendialog"+this.rowid).opened=true;
     },
    
-    teachingsave:function(e)
-    {
-      this.$.teachingopendialog.toggle();
-    },
-   
+
     closeteachingaaid:function()
     {
-      this.$.teachingopendialog.close();
-      this.teachingaid="";
+     document.getElementById("teachingopendialog"+this.rowid).opened=false;
+     
     },
     closehomeid:function(e){
     this.$.homeworkdialog.close();
     document.querySelector('homework-card').FnRefreshhhh();
       
     },
-    teachingclose:function()
-    {
-      this.$.teachingopendialog.close();
-    },
+   
     closedialog:function()
      {
       this.$.savedialog.close();

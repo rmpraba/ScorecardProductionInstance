@@ -754,7 +754,7 @@
       fnfetchcprsubjectResponse:function(e){
         document.querySelector('curriculam-report').subjectarr=e.detail.response.returnval;
       },
- fnmasterplaninsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr){
+ fnmasterplaninsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr,currurl){
   if(subarr.length!=0){
       
        var overall=[];
@@ -835,7 +835,9 @@
         obj.subconceptid=subarr[i].subconceptid;
         obj.subconceptname=subarr[i].subconceptname;
         obj.period=period;
+        obj.currurl=currurl;
         obj.sno=sno;
+       
         obj.assesmentdate=localStorage.getItem("assement_curr_sess_date");;
 
 
@@ -933,7 +935,7 @@
         obj.subconceptname="";
          obj.period=period;
          obj.sno=sno;
-
+        obj.currurl=currurl;
     obj.plannedfromdate=localStorage.getItem("localsess_from_service");
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.skill=conarr[i].skillname;
@@ -1273,8 +1275,9 @@ if(subarr1.length!=0){
       
      }
       },
-      fnmasterplandisplyinsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr){
+      fnmasterplandisplyinsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr,currurl){
         this.gloabalrowid=rowid;
+        this.currurl=currurl;
         var valueid="";
         var valuename="";
          for(var j=0;j<valuearr.length;j++){
@@ -1287,7 +1290,7 @@ if(subarr1.length!=0){
                 else
                 valuename=valuename+","+valuearr[j].valuename;
              this.vaufid=valueid;
-          this.vaufname=valuename;
+            this.vaufname=valuename;
          }
         var conceptid="";
         var conceptname="";
@@ -1359,6 +1362,7 @@ if(subarr1.length!=0){
         obj.chapterid=localStorage.getItem("curr_sess_chapterid");
         obj.chaptername=localStorage.getItem("curr_sess_chaptername");
         obj.rowid=rowid;
+        obj.currurl=currurl;
         obj.conceptid=this.conceptfid;
         obj.conceptname=this.conceptfname;
           if(subarr.length==0){
@@ -1410,6 +1414,7 @@ if(subarr1.length!=0){
         obj.chaptername=localStorage.getItem("curr_sess_chaptername");
         obj.termid=sessionStorage.getItem("termid"); 
         obj.rowid=this.gloabalrowid;
+         obj.currurl=this.currurl;
         obj.conceptid=localStorage.getItem("curr_sess_conceptid");
         this.fnteacheraidparam=obj;
 

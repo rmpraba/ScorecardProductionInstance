@@ -61,7 +61,7 @@
    {
           table-layout: fixed;
           border-collapse: collapse;
-          width: 1900px;
+          width: 1901px;
           /*margin-left: 5%;*/
           margin-top: 5%;
           /*border-style: none solid none solid;*/
@@ -142,12 +142,12 @@
          width: 100px;
          height: 100px;
         }
-        paper-dialog > *:first-child 
+        paper-dialog > 
         {
           margin-top: 50px;
         }
         .zui-scroller {
-    margin-left: 467px;
+    margin-left: 426.1px;
     overflow-x: scroll;
     overflow-y: visible;
     padding-bottom: 5px;
@@ -155,21 +155,18 @@
 }
  
   .zui-sticky-col1 {
-    /*border-left: solid 1px #DDEFEF;*/
-    /*border-right: solid 1px #DDEFEF;*/
-    left: 0;
-    position: absolute;
-    top: auto;
+      left: 0;
+      position: absolute;
+      top: auto;
     
-}
+  }
 .zui-sticky-col {
-    /*border-left: solid 1px #DDEFEF;*/
-    /*border-right: solid 1px #DDEFEF;*/
+  
     left: 0;
     position: absolute;
     top: auto;
    
-    height: 9%;
+    height: 9.4%;
    
 }
 }
@@ -233,8 +230,8 @@ th{
       <table class="report1" id="reporttabzzzzz">
        
        <tr>
-           <th style="width: 10%; margin-left: 10%;" class="zui-sticky-col1">S.NO</th>
-          <th style="width: 16%;margin-left: 20.2%;" class="zui-sticky-col1">Concept</th>
+           <th style="width: 10%; margin-left: 7%;" class="zui-sticky-col1">S.NO</th>
+          <th style="width: 16%; margin-left: 17.2%;" class="zui-sticky-col1">Concept</th>
           <th style="width: 17%;">Work schdule</th>
           <th style="width: 6%;">#Periods</th>
           <th style="width: 10.9%;">Plan From</th>
@@ -251,8 +248,8 @@ th{
    <!-- <tr>         -->
   <template  is="dom-repeat" items="{{overallarr1}}" as="view">
    <tr> 
-      <td class="zui-sticky-col" style="width: 10%; margin-left: 10%;">{{view.sno}}</td>    
-      <td class="zui-sticky-col" style="width: 16%;margin-left: 20.2%;">
+      <td class="zui-sticky-col" style="width: 10%; margin-left:7%;">{{view.sno}}</td>    
+      <td class="zui-sticky-col" style="width: 16%;margin-left:17.2%;">
 
    <aproval-book-concept-card  hidecheck="{{view.hidecheck}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" iddate="{{view.id_date}}" rowid="{{view.rowid}}"  sno="{{view.sno}}" plannedtoate="{{view.planned_to_date}}" id="{{view.id_date}}{{view.rowid}}{{view.sno}}"></aproval-book-concept-card >
 
@@ -461,13 +458,13 @@ th{
 
      planningcloseddd:function()
      {
-        //alert('close');
+     
         this.$.planningspinnerwxy.active=false;
         document.querySelector('#planspinxyz').close();
      },
      planningopenddd:function()
      {
-        //alert('active');
+        
         
         document.querySelector('#planspinxyz').open();
         this.$.planningspinnerwxy.active=true;

@@ -43,9 +43,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div style="height: 50px; overflow:hidden;">
            <paper-icon-button  hidden$="{{infovalue}}"  icon="add" on-click="fngetconceptz" style="color:#6699ff;float: right;"></paper-icon-button>
         <template is="dom-repeat" items="{{conceptzz}}" as="r">
-                   <h4 style="margin-left: -11%;width: 90%;">{{r.conceptname}}</h4>
+                   <h4 style="margin-left: 11%; width: 90%;">{{r.conceptname}}</h4>
           </template>
-            <h4  style="margin-left: -11%;width: 90%;" hidden$="{{hidedbconcept}}">{{conceptname}}</h4>
+             <h4  style="margin-left: 11%; width: 90%;" hidden$="{{hidedbconcept}}">{{conceptname}}</h4>
         </div>
    </td>      
 </tr>
@@ -203,7 +203,7 @@ fnsetglobal:function(){
     document.getElementById("ENR"+c).hidden=true;
       this.hidecheck1=false;
       this.hidecheck=true;*/
- 
+
    }
    });
   

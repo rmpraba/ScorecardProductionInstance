@@ -164,6 +164,7 @@
     'use strict';
  var temp=[];
  var categoryvalus;
+ 
  var c1=0,c2=0,c3=0,c4=0;
  var flags=0;
     Polymer({
@@ -206,9 +207,7 @@
            }
         }
        
-   
-  
-  },
+   },
  CategoryEditinfo:function(subjectid,subjectname,assesmenttype,categoryid,categoryname,flag){
        this.CategoryEditinfourl=sessionStorage.getItem("addrinfo")+"/CategoryEditinfo-service";
      var obj={};

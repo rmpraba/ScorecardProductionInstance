@@ -514,8 +514,8 @@ var rowid;
 var glfilename;
 var teachertempaids=[];
 function fnfood1(){
-   alert(glfilename);
-   alert(document.getElementById("teachingopendialog"+rowid).opened);
+   //alert(glfilename);
+  // alert(document.getElementById("teachingopendialog"+rowid).opened);
    document.getElementById("teachingopendialog"+rowid).opened=false;
    document.getElementById("fomeid"+rowid).value=glfilename;
    teachertempaids.push({"filenames":glfilename});
@@ -526,7 +526,7 @@ function fnfood1(){
             }
         }*/
 
-        alert(JSON.stringify(teachertempaids));
+      //  alert(JSON.stringify(teachertempaids));
          var filenames="";
          for(var j=0;j<teachertempaids.length;j++){
              if(filenames=="")
@@ -535,7 +535,7 @@ function fnfood1(){
                 filenames=filenames+","+teachertempaids[j].filenames;
                 this.filenames=filenames;
            }
-           alert(filenames);
+          // alert(filenames);
      document.getElementById("fomeid"+rowid).value=this.filenames;
     }
 
@@ -752,6 +752,8 @@ fnpasssubarr:function(subsarr){
            }
        else if(this.planneddate=="empty")
       {
+    //    alert(this.currurl);
+
     this.$.bookservice.fnmasterplaninsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,hworkarr,this.currurl);
 
     this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,hworkarr,this.currurl);
@@ -776,6 +778,9 @@ fnpasssubarr:function(subsarr){
             this.hidedbsubconcept=false;
           
             this.hidedbhomewok=false;
+            glfilename="";
+           teachertempaids=[];
+            this.currurl="";
           document.querySelector('concept-check-card').fnclean();
           document.querySelector('aproval-book').fnclean1();
           document.querySelector('skill-dialog-card').fnclean1();

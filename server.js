@@ -4,58 +4,46 @@ var email   = require("emailjs/email");
 var htmlToPdf = require('html-to-pdf');
 var fs = require('fs');
 var aws = require('aws-sdk');
-<<<<<<< HEAD
 var bodyParser = require('body-parser'); 
-=======
->>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
+
+
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
 var connection = mysql.createConnection({  
-  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
+/*  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   database:"scorecarddb",
   port:'3306',
   user:"smis",
   password:"smispass",
   reconnect:true,
   data_source_provider:"rds",
-  type:"mysql"   
-  // host     : 'localhost',
-  // user     : 'root',
-  // password : 'admin',
-  // database : 'samsidhreportcard'
+  type:"mysql"   */
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'scorecardtemp'
  });
 
 
 var app = express();
 var logfile;
-<<<<<<< HEAD
-// AWS.config.loadFromPath('app/configfile/credential.json');
-=======
 
->>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 aws.config.update({
     secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
     accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
     region: 'ap-south-1'
 });
 s3 = new aws.S3();
-<<<<<<< HEAD
-=======
+
 //AWS.config.loadFromPath('app/configfile/credential.json');
-
-
-
-
-
->>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 
 app.use(express.static('app'));
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
   app.get('/', function (req, res){
   res.sendFile("app/index.html" );
-<<<<<<< HEAD
+
 });
 
 // var upload = multer({
@@ -83,11 +71,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 //     res.send('Successfully uploaded ' + req.files.length + ' files!');
 //     // res.status(200).json({'returnval': 'Uploaded!'});
 // });
-=======
-})
 
->>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
-
+//})
 
 var upload = multer({
   storage: multerS3({
@@ -101,17 +86,40 @@ var upload = multer({
             var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
             console.log(d);
             console.log(global.fileprefix+d+file.originalname);
-<<<<<<< HEAD
-=======
+
             global.finalfilename=global.fileprefix+"/"+d+file.originalname
-            console.log('----abbas-----')
-            console.log(global.finalfile);
+            console.log('----teaher-----')
+            console.log(global.finalfilename);
             console.log('--------------')
->>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
+
       cb(null, global.fileprefix+"/"+d+file.originalname);
     }
   })
 }).array('upl', 1);
+
+var home = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'samsidhreportcard',
+    // acl: 'public-read',
+    key: function (req, file, cb) {
+            console.log('--------------------------');
+            console.log(file);
+            console.log('--------------------------');
+            var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
+            console.log(d);
+            console.log(global.homefileprefix+d+file.originalname);
+
+            global.finalhomefileprefix=global.homefileprefix+"/"+d+file.originalname
+            console.log('----home-----')
+            console.log(global.finalhomefileprefix);
+            console.log('--------------')
+
+      cb(null, global.homefileprefix+"/"+d+file.originalname);
+    }
+  })
+}).array('upl1', 1);
+
 
 app.post('/upload',urlencodedParser, function (req, res, next) {
   upload(req, res, function (error) {
@@ -128,20 +136,35 @@ app.post('/upload',urlencodedParser, function (req, res, next) {
   });
 });
 
+
+app.post('/home',urlencodedParser, function (req, res, next) {
+  home(req, res, function (error) {
+    if (error) {
+      console.log(error);
+      // return response.redirect("/error");
+      res.status(200).json({'returnval': 'Unable to upload the file'});
+    }
+    else{
+    console.log('File uploaded successfully.');
+    // response.redirect("/success");
+    res.status(200).json({'returnval': 'Uploaded!'});
+    }
+  });
+});
 app.post('/lessonplanseturl',urlencodedParser, function (req, res, next) {
     global.fileprefix=req.query.fileprefix;
+
     res.status(200).json({'returnval': 'Done!'});
 });
 
-
-<<<<<<< HEAD
-=======
-
-
+app.post('/homeworkurl',urlencodedParser, function (req, res, next) {
+    global.homefileprefix=req.query.homefileprefix;
+  console.log(global.homefileprefix);
 
 
+    res.status(200).json({'returnval': 'Done!'});
+});
 
->>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
 app.post('/smis-fetchvisitortype',  urlencodedParser,function (req, res)
 {
   var arr=[];
@@ -16028,8 +16051,7 @@ app.post('/fnmasterplaninsert-service' , urlencodedParser,function (req, res)
       skillid:req.query.skillid,
       valueid:req.query.valueid,
       assesment_date:req.query.assesmentdate,
-      home_type_id:req.query.hometypeid,
-      homework_type:req.query.hometype,
+       homework_type:req.query.homework,
       current_url:req.query.currurl,
     };
     console.log('Coming for master insertion....');
@@ -16080,8 +16102,8 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
       valueid:req.query.valueid,
      
       assesment_date:req.query.assesmentdate,
-      homework_type:req.query.hometype,
-      home_type_id:req.query.hometypeid,
+      homework_type:req.query.homework,
+     
         
 
     };
@@ -22633,7 +22655,7 @@ app.post('/homework-service' ,urlencodedParser, function (req, res)
     });
  });
 
-<<<<<<< HEAD
+
 app.post('/performance-fetchexceptionexcelassesmentinfo-service',  urlencodedParser,function (req, res)
 { 
     var qur1="SELECT assesment_type,count(distinct(subject_id)) as subcount,count(distinct(category_id)) as catcount, "+
@@ -22762,7 +22784,7 @@ app.post('/performance-fetchexceptionexcelassesmentinfo-service',  urlencodedPar
 });
 
 
-=======
+
 app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
 {
   var response={ 
@@ -22774,8 +22796,9 @@ app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
       chapter_id: req.query.chapterid,
       concept_id: req.query.conceptid,
       row_id: req.query.rowid,
-      url: global.finalfilename,
+      url: req.query.url,
       link:req.query.currurl,
+      filename:req.query.filename,
     };
     console.log(response);
     connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){
@@ -22791,7 +22814,38 @@ app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
     });
 });
 
->>>>>>> 6ddeff3527569d82e8e50aa8a0c1f8a88dbb0b10
+
+
+app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      row_id: req.query.rowid,
+      url: req.query.url,
+      link:req.query.currurl,
+       filename:req.query.filename,
+    };
+    console.log(response);
+    connection.query("INSERT INTO md_concept_homework SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'inserted'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not inserted'}); 
+    }
+    });
+});
+
+
 function setvalue(){
   console.log("calling setvalue.....");
 }

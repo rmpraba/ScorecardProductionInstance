@@ -4,13 +4,11 @@ var email   = require("emailjs/email");
 var htmlToPdf = require('html-to-pdf');
 var fs = require('fs');
 var aws = require('aws-sdk');
-
 var bodyParser = require('body-parser'); 
-
-
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
+
 var connection = mysql.createConnection({  
 /*  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   database:"scorecarddb",
@@ -24,54 +22,25 @@ var connection = mysql.createConnection({
   user     : 'root',
   password : '',
   database : 'scorecardtemp'
-
-
-var bodyParser = require('body-parser'); 
-
-var FCM = require('fcm-node');
-var multer = require('multer'); // "multer": "^1.1.0"
-var multerS3 = require('multer-s3');
- var connection = mysql.createConnection({  
-  // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
-  // database:"scorecarddb",
-  // port:'3306',
-  // user:"smis",
-  // password:"smispass",
-  // reconnect:true,
-  // data_source_provider:"rds",
-  // type:"mysql"  
-  host     : 'localhost',
-  user     : 'root',
-  password : 'admin',
-  database : 'samsidhreportcard'
->>>>>>> origin/master
- });
+});
 
 var app = express();
 var logfile;
-
+// AWS.config.loadFromPath('app/configfile/credential.json');
 aws.config.update({
     secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
     accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
     region: 'ap-south-1'
 });
 s3 = new aws.S3();
-<<<<<<< HEAD
 
-//AWS.config.loadFromPath('app/configfile/credential.json');
-
-=======
->>>>>>> origin/master
 app.use(express.static('app'));
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
   app.get('/', function (req, res){
   res.sendFile("app/index.html" );
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 });
+
 
 // var upload = multer({
 //     storage: multerS3({
@@ -113,18 +82,12 @@ var upload = multer({
             var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
             console.log(d);
             console.log(global.fileprefix+d+file.originalname);
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
             global.finalfilename=global.fileprefix+"/"+d+file.originalname
             console.log('----teaher-----')
             console.log(global.finalfilename);
             console.log('--------------')
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
       cb(null, global.fileprefix+"/"+d+file.originalname);
     }
   })
@@ -190,7 +153,7 @@ app.post('/lessonplanseturl',urlencodedParser, function (req, res, next) {
     res.status(200).json({'returnval': 'Done!'});
 });
 
-<<<<<<< HEAD
+
 app.post('/homeworkurl',urlencodedParser, function (req, res, next) {
     global.homefileprefix=req.query.homefileprefix;
   console.log(global.homefileprefix);
@@ -198,8 +161,7 @@ app.post('/homeworkurl',urlencodedParser, function (req, res, next) {
 
     res.status(200).json({'returnval': 'Done!'});
 });
-=======
->>>>>>> origin/master
+
 
 app.post('/smis-fetchvisitortype',  urlencodedParser,function (req, res)
 {
@@ -22852,7 +22814,7 @@ app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
 
 
 
-<<<<<<< HEAD
+
 app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
 {
   var response={ 
@@ -22883,8 +22845,7 @@ app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
 });
 
 
-=======
->>>>>>> origin/master
+
 function setvalue(){
   console.log("calling setvalue.....");
 }

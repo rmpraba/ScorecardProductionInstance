@@ -122,7 +122,28 @@ var home = multer({
     }
   })
 }).array('upl1', 1);
+var assesments = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'samsidhreportcard',
+    // acl: 'public-read',
+    key: function (req, file, cb) {
+            console.log('--------------------------');
+            console.log(file);
+            console.log('--------------------------');
+            var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
+            console.log(d);
+            console.log(global.assprefix+d+file.originalname);
 
+            global.finalassprefix=global.homefileprefix+"/"+d+file.originalname
+            console.log('----home-----')
+            console.log(global.assprefix);
+            console.log('--------------')
+
+      cb(null, global.assprefix+"/"+d+file.originalname);
+    }
+  })
+}).array('upl11', 1);
 
 app.post('/upload',urlencodedParser, function (req, res, next) {
   upload(req, res, function (error) {
@@ -154,6 +175,34 @@ app.post('/home',urlencodedParser, function (req, res, next) {
     }
   });
 });
+
+app.post('/assesments',urlencodedParser, function (req, res, next) {
+  assesments(req, res, function (error) {
+    if (error) {
+      console.log(error);
+      // return response.redirect("/error");
+      res.status(200).json({'returnval': 'Unable to upload the file'});
+    }
+    else{
+    console.log('File uploaded successfully.');
+    // response.redirect("/success");
+    res.status(200).json({'returnval': 'Uploaded!'});
+    }
+  });
+});
+
+
+
+
+
+
+app.post('/assesmenturl',urlencodedParser, function (req, res, next) {
+    global.assprefix=req.query.assprefix;
+console.log(global.assprefix);
+    res.status(200).json({'returnval': 'Done!'});
+});
+
+
 app.post('/lessonplanseturl',urlencodedParser, function (req, res, next) {
     global.fileprefix=req.query.fileprefix;
 
@@ -16909,7 +16958,7 @@ app.post('/conceptassement-service' ,urlencodedParser, function (req, res)
     {  
        var qur1="SELECT * FROM md_concept_assesment  where concept_id='"+req.query.conceptid+"'";
    
-       var qur2="SELECT * FROM md_curriculum_planning_approval where  chapter_id='"+req.query.capter_id+"' and row_id='"+req.query.rowid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and  term_id='"+req.query.termid+"' and grade_id='"+req.query.gradeid+"'  and subject_id='"+req.query.subjectid+"' and concept_id='"+req.query.conceptid+"' and  section_id='"+req.query.  sectionid+"'";
+       var qur2="SELECT * FROM md_curriculum_planning_approval where  chapter_id='"+req.query.capter_id+"' and row_id='"+req.query.rowid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"' and  term_id='"+req.query.termid+"' and grade_id='"+req.query.gradeid+"'  and subject_id='"+req.query.subjectid+"' and concept_id='"+req.query.conceptid+"' and  section_id='"+req.query. sectionid+"'";
         var  dbarr=[];       
        console.log('--------------Assesment---------');
        console.log(qur1);

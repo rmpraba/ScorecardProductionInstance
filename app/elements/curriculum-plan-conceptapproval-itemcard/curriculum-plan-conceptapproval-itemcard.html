@@ -37,10 +37,10 @@
         overflow-x: hidden;
         overflow-y: scroll;
       }
-      #Conceptassesmentdialog
+      #Conceptassesmentdialog1
       {
           border-radius: 10px;
-        width: 650px;
+        width: 698px;
         height: 300px;
         margin-left: -6%;
       }
@@ -138,9 +138,8 @@
                </P>
                </td>
 
-              </td>
+             
            
-              <td hidden$="{{hidetitleflag}}" style="width: 5.5%;">{{completiondate}}</td>
 
               <td hidden$="{{hideflag}}" style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;">
@@ -169,8 +168,9 @@
 
               <td style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;"> 
-               {{hometype}}
+               
               <paper-icon-button  icon="add" on-click="fnhome" style="color:#6699ff;float: right;"></paper-icon-button>
+              {{hometype}}
               </P>
               </td>
               <td  hidden$="{{hidetitleflag}}" style="width: 5.5%;"></td>
@@ -197,8 +197,56 @@
          <paper-button on-click="failureclose2" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
        </center>
      </paper-dialog>
-    <paper-dialog id="Conceptassesmentdialog" modal>
-     <h3>Assesment Type</h3>
+   
+
+
+
+ <paper-dialog id="Conceptassesmentdialog{{sno}}"  class="Conceptassesmentdialog1" modal>
+   
+    <center><h3>Assesment Type</h3></center>
+       
+   <table style="width:15%">
+       <tr>
+         <th>Upload your file here</th>
+         <th> Enter Url/Content</th>
+       </tr>
+       <tr>
+          <td>
+            
+        <body onload="myFunction()">  
+       <form id="lpteachingaidupload" method="post" enctype="multipart/form-data" action="/assesments" target="_blank">
+     <p>
+      <input type="file" name="upl" id="assmentfile{{sno}}" onchange="fnassments()"/>
+    </p>
+    <p>
+        <input type="submit"  value="Submit"  onclick="fnasssmit()"/>
+    </p>
+    </form>  
+  </body>
+   </td>
+     <td>
+        <iron-autogrow-textarea id="strengthvalue" placeholder=" Enter your Assesment here..." value="{{assmentcurrurl}}" ></iron-autogrow-textarea>
+    </td>
+       </tr>
+   </table>  
+   <!-- <paper-textarea label="Textarea label"></paper-textarea>
+ -->      
+
+   <center style="margin-top: 5%;">
+        <!-- <a href="https://s3.ap-south-1.amazonaws.com/samsidhreportcard/13-4-2018lassonpantables.zip">Click</a> -->
+            <!-- <paper-button  on-click="fnupload" style="color:white;background-color:black" hidden>Upload</paper-button> -->
+            <paper-button id="taid1" style="color:white;background-color:black" on-click="FndialogSave" >Close</paper-button>
+        </center>
+   </paper-dialog>
+
+
+
+
+
+
+<!-- 
+
+   <h3>Assesment Type</h3>
          <div class="home">
             <table border="0">
               <tr>
@@ -219,9 +267,9 @@
           <center style="margin-top: 5%;">
             <paper-button id="fnconsaveinfoid" on-click="FndialogSave" style="color:white;background-color:black">Save</paper-button>
             <paper-button id="taid1" style="color:white;background-color:black" on-click="fnclose" >Close</paper-button>
-          </center>
-          <p hidden>{{checkids}}</p>
-    </paper-dialog>
+          </center>     </paper-dialog> -->
+          <div hidden>{{checkids}}</div>
+
        <paper-dialog id="Conceptassesmentdia1log" modal>
      <h3>Home Work </h3>
          <div class="home1">
@@ -268,6 +316,86 @@
      </iron-ajax>
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
+<script type="text/javascript">
+
+var sno;
+
+
+var homeglfilename;
+var hometeachertempaids=[];
+var mainurl="";
+var homefilearrurl=[];
+
+  var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
+function fnasssmit(){
+  
+  document.getElementById("Conceptassesmentdialog"+sno).opened=false;
+   //document.getElementById("homefomeid"+rowid).value=homeglfilename;
+   hometeachertempaids.push({"filenames":homeglfilename});
+     homefilearrurl.push({"homeurl":mainurl+"/"+d+homeglfilename,"filename":homeglfilename})
+     var homefilenames="";
+  
+    var filenames="";
+         for(var j=0;j<hometeachertempaids.length;j++){
+             if(filenames=="")
+                filenames=hometeachertempaids[j].filenames;
+                else
+                filenames=filenames+","+hometeachertempaids[j].filenames;
+                this.filenames=filenames;
+           }
+      document.getElementById("homefomeid"+rowid).value=this.filenames;
+     //   alert(JSON.stringify(teaceraidsarrurl));
+     //   alert(JSON.stringify(teachertempaids));
+       // alert(this.filenames);
+    }
+
+
+    
+
+
+function fnassments(){
+
+//alert(rowid);
+
+    var x = document.getElementById("assmentfile"+rowid);
+   
+    var txt = "";
+    if ('files' in x) {
+        if (x.files.length == 0) {
+            txt = "Select one or more files.";
+        } else {
+            for (var i = 0; i < x.files.length; i++) {
+                txt += "<br><strong>" + (i+1) + ". file</strong><br>";
+                var file = x.files[i];
+                if ('name' in file) {
+                    txt += "name: " + file.name + "<br>";
+                homeglfilename=file.name;
+                }
+                if ('size' in file) {
+                    txt += "size: " + file.size + " bytes <br>";
+                }
+            }
+        }
+    } 
+
+    else {
+        if (x.value == "") {
+            txt += "Select one or more files.";
+        } else {
+            txt += "The files property is not supported by your browser!";
+            txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+        }
+    }
+    
+  
+    
+   
+}
+</script>
+
+
+
+
   <script>
   (function() {
     'use strict';
@@ -279,26 +407,69 @@
     Polymer({
       is: 'curriculum-plan-conceptapproval-itemcard',
 
+
+
+
+
+
 fnchange:function(e){
-  //alert(this.checkids);
-  //alert(this.checkids+" "+"true");
+  
+
+ mainurl="";  
+    this.homefileprefix="AssesmentType"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+localStorage.getItem("curr_sess_sectionname")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.sno;
+     //alert(this.homefileprefix);
+  mainurl=this.homefileprefix;
+    
+     var obj={};
+     
+  this.conassesmenttypeurl=sessionStorage.getItem("addrinfo")+"/assesmenturl"; 
+       obj.assprefix=this.assprefix;
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        obj.termid=sessionStorage.getItem("termid");
+        obj.rowid=this.sno;
+        obj.currurl=this.assmentcurrurl;
+       this.conassesmenttypeparam=obj;
+        this.$.conassesmenttypeajax.generateRequest();
+
+
+
+
+
+
+
+
+
+   sno=this.sno;
+  alert(document.querySelector('#'+this.id).checked);
+  alert(this.checkids);
+  alert(this.checkids+" "+"true");
   if(this.checkids=="true"){
     //alert(1);
-    this.$.Conceptassesmentdialog.toggle();
-     this.fnassementtype();
-    this.$.fnconsaveinfoid.hidden=true;
+  document.getElementById("Conceptassesmentdialog"+this.sno).opened=true;
+   // this.fnassementtype();
+  //  this.$.fnconsaveinfoid.hidden=true;
      c=this.id;
   }
   else{
-   this.$.fnconsaveinfoid.hidden=false;
- //alert(2);
+ //  this.$.fnconsaveinfoid.hidden=false;
+ alert(2);
  if(document.querySelector('#'+this.id).checked==true){
-    this.fnassementtype();
-    this.$.Conceptassesmentdialog.toggle();
+    //this.fnassementtype();
+  document.getElementById("Conceptassesmentdialog"+this.sno).opened=true;
+    
     assesmentcheckid1=true;
   }
 else if(document.querySelector('#'+this.id).checked==false){
-this.$.Conceptassesmentdialog.close();
+  document.getElementById("Conceptassesmentdialog"+sno).opened=false;
   assesmentcheckid1=false;
 
 }
@@ -309,17 +480,22 @@ this.$.Conceptassesmentdialog.close();
 
 },
 FndialogSave:function(e){
-   this.$.Conceptassesmentdialog.close();
+  document.getElementById("Conceptassesmentdialog"+this.sno).opened=false;
+  
 },
-FnhomeSave:function(e){
 
-},
 assesmentvalues:function(e){
  assmentsarr=e;
 
 },
 
 fnassementtype:function(e){
+
+
+
+
+
+/*
  this.$.Conceptassesmentdialog.toggle();
 
  this.conassesmenttypeurl=sessionStorage.getItem("addrinfo")+"/conceptassement-service";
@@ -337,10 +513,10 @@ fnassementtype:function(e){
      obj.rowid=this.rowid; 
      obj.planneddate=this.planneddate;
      this.conassesmenttypeparam=obj;
-     this.$.conassesmenttypeajax.generateRequest();
+     this.$.conassesmenttypeajax.generateRequest();*/
 
 },
-conassesmenttypeResponse:function(e){
+/*conassesmenttypeResponse:function(e){
 var arr1= e.detail.response.returnval;
 var arr= e.detail.response.dbarr;
 //alert(JSON.stringify(arr));
@@ -376,7 +552,7 @@ for(var j=0;j<arr.length;j++)
                  }}
 
   this.assementarr=arr;
-  },
+  },*/
   fnhome:function(e){
 this.$.Conceptassesmentdia1log.toggle();
 //alert(1);

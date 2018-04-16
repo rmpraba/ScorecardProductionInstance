@@ -65,7 +65,19 @@
       .downloaddiv{
         text-align: right;
       }
+      paper-dialog{
+        border-radius: 2%;
+      }
+      #exceptionreportdynamicspinner{
+      margin: 0;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      box-shadow: none;
+    }
     </style>
+    <div class="spinner"><paper-dialog modal id="exceptionreportdynamicspinner" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner>
+    <h4>{{spinnermsg}}</h4></paper-dialog></div>
     <div class='outcard'>
     <div class='drop'>
       <paper-dropdown-menu id="sspthcbranch" label="Select Branch" disabled="{{read}}" required>
@@ -100,6 +112,9 @@
     </div>
 
     <div class="downloaddiv" hidden$="{{hidetitle}}">
+
+    <paper-icon-button  id="download" icon="icons:file-download" on-click="FnDownload"></paper-icon-button>Subjectwise Exception Report
+
     <paper-icon-button  id="download" icon="icons:file-download" onclick="performanceexceptionreportexportToExcel()"></paper-icon-button>Exception Report
     <paper-icon-button  id="download" icon="icons:file-download" onclick="performancereportexportToExcel()"></paper-icon-button>
       <paper-tooltip for="download">{{downloadlabel}}</paper-tooltip>      
@@ -162,6 +177,24 @@
       </tr>
       </template>
     </table>
+
+    <paper-dialog id="dialogsubjectwiseexceptionreport" style="width: 35%;">
+    <h3>Click to download subjectwise sheet</h3>
+    <div style="padding-left: 5%;padding-top: 2%;">
+    <template is="dom-repeat" items="{{subarr}}">
+      <enrichment-subjectwise-performance-exceptionreport exschool="{{exschool}}" exacademicyear="{{exacademicyear}}" exgradeid="{{exgradeid}}" exgradename="{{exgradename}}" exsectionid="{{exsectionid}}" exsectionname="{{exsectionname}}" subject="{{item.subject_name}}" assesment="{{item.assesment_type}}"></enrichment-subjectwise-performance-exceptionreport>
+    </template>
+    </div>
+    <div class="buttons">
+    <paper-button dialog-dismiss>Cancel</paper-button>
+    </div>
+    </paper-dialog>
+    <paper-dialog id="dialogsubjectwiseexceptionreportdownload" style="width: 25%;">
+    <h3>Confirm to download!!</h3>
+    <paper-button on-click="FnClick" style="padding-left: 20%;">Ok</paper-button>
+    <paper-button dialog-dismiss>Close</paper-button>
+    </paper-dialog>
+
   </template>
   <script type="text/javascript">
     var filename,sheetname;
@@ -277,6 +310,32 @@
     'use strict';
     Polymer({
       is: 'student-performance-tracking-homecard',
+      FnConfirmDownload:function(){
+        // this.performanceexceptionreportexportToExcel();
+        this.$.dialogsubjectwiseexceptionreport.toggle();
+        this.$.exceptionreportdynamicspinner.toggle();
+        this.FnClick();
+      },
+      FnClick:function(){
+        this.$.dialogsubjectwiseexceptionreportdownload.toggle();
+        performanceexceptionreportexportToExcel();
+      },
+      FnDownload:function(){
+        this.exschool=this.schoolid;
+        this.exacademicyear=this.academicyear;
+        this.exgradeid=this.gradeid;
+        this.exgradename=this.gradename;
+        this.exsectionid=this.sectionid;
+        this.exsectionname=this.sectionname;
+        this.$.performancereportservice.Fnfetchexceptionsubjectinfo(this.schoolid,this.academicyear,this.gradeid,this.gradename,this.sectionid,this.sectionname);
+      },
+      FnToggleExceptionSpinner:function(){
+        this.message="Downloading....";
+        this.$.exceptionreportdynamicspinner.toggle();
+      },
+      FnToggleSubjectwiseDialog:function(){
+        this.$.dialogsubjectwiseexceptionreport.toggle();
+      },
       setExcelArray:function(arr){
         excelarr=arr;
       },

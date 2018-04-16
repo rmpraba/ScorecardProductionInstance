@@ -95,6 +95,15 @@
         content-type="application/json"
         on-response="fetchexceptionexcelassesmentinfoResponse"
         debounce-duration="300">        
+        <iron-ajax
+        method="post"
+        id="fetchexceptionsubjectinfoajax"
+        url="{{fetchexceptionsubjectinfourl}}"
+        params="{{fetchexceptionsubjectinfoparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchexceptionsubjectinfoResponse"
+        debounce-duration="300">  
     </div>
   </template>
   <script>
@@ -108,7 +117,26 @@
     var excel=[];
     Polymer({
       is: 'performance-report-service',
-       FnFetchExceptionExcelAssesmentInfo(schoolid,academicyear,gradeid,gradename,sectionid,sectionname){
+       Fnfetchexceptionsubjectinfo:function(schoolid,academicyear,gradeid,gradename,sectionid,sectionname){
+        this.fetchexceptionsubjectinfourl=sessionStorage.getItem("addrinfo")+"/fetchexceptionsubjectinfo-service";
+        var obj={"schoolid":""};
+        obj.schoolid=schoolid;
+        obj.academicyear=academicyear;        
+        obj.gradeid=gradeid;
+        obj.grade=gradename;
+        obj.sectionid=sectionid;
+        obj.sectionname=sectionname;
+        this.fetchexceptionsubjectinfoparam= obj;
+        this.$.fetchexceptionsubjectinfoajax.generateRequest();
+       },
+       fetchexceptionsubjectinfoResponse:function(e){
+        var arr=e.detail.response.returnval;
+        document.querySelector('student-performance-tracking-homecard').subarr=arr;
+        document.querySelector('student-performance-tracking-homecard').FnToggleSubjectwiseDialog();
+        // alert(JSON.stringify(arr));
+       },
+       FnFetchExceptionExcelAssesmentInfo:function(schoolid,academicyear,gradeid,gradename,sectionid,sectionname,subject,assesment){
+      //   // alert(schoolid+"  "+academicyear+"  "+gradeid+"  "+gradename+"  "+sectionid+"  "+sectionname);
         this.fetchexceptionexcelassesmentinfourl=sessionStorage.getItem("addrinfo")+"/performance-fetchexceptionexcelassesmentinfo-service";
         var obj={"schoolid":""};
         obj.schoolid=schoolid;
@@ -117,10 +145,12 @@
         obj.grade=gradename;
         obj.sectionid=sectionid;
         obj.sectionname=sectionname;
+        obj.subject=subject;
+        obj.assesment=assesment;
         this.fetchexceptionexcelassesmentinfoparam= obj;
         this.$.fetchexceptionexcelassesmentinfoajax.generateRequest();
       },
-      fetchexceptionexcelassesmentinfoResponse:function(e){
+       fetchexceptionexcelassesmentinfoResponse:function(e){
         var student=e.detail.response.student;
         var assesment=e.detail.response.assesment;
         var subject=e.detail.response.subject;
@@ -326,9 +356,233 @@
         document.querySelector('student-performance-tracking-homecard').hidedownloadicon=false;
         document.querySelector('student-performance-tracking-homecard').downloadlabel="Download";     
         document.querySelector('student-performance-tracking-homecard').hidetitle=false;
+
+        document.querySelector('student-performance-tracking-homecard').FnConfirmDownload();
         // document.querySelector('student-performance-tracking-homecard').FnToggleSpinner(false);
         // document.querySelector('student-performance-tracking-homecard').exportToExcel();
       },
+      //  FnFetchExceptionExcelAssesmentInfo:function(schoolid,academicyear,gradeid,gradename,sectionid,sectionname){
+      //   // alert(schoolid+"  "+academicyear+"  "+gradeid+"  "+gradename+"  "+sectionid+"  "+sectionname);
+      //   this.fetchexceptionexcelassesmentinfourl=sessionStorage.getItem("addrinfo")+"/performance-fetchexceptionexcelassesmentinfo-service";
+      //   var obj={"schoolid":""};
+      //   obj.schoolid=schoolid;
+      //   obj.academicyear=academicyear;        
+      //   obj.gradeid=gradeid;
+      //   obj.grade=gradename;
+      //   obj.sectionid=sectionid;
+      //   obj.sectionname=sectionname;
+      //   this.fetchexceptionexcelassesmentinfoparam= obj;
+      //   this.$.fetchexceptionexcelassesmentinfoajax.generateRequest();
+      // },
+      // fetchexceptionexcelassesmentinfoResponse:function(e){
+      //   var student=e.detail.response.student;
+      //   var assesment=e.detail.response.assesment;
+      //   var subject=e.detail.response.subject;
+      //   var category=e.detail.response.category;
+      //   var subcategory=e.detail.response.subcategory;
+      //   var enrich=e.detail.response.enrich;
+      //   var ascii=e.detail.response.ascii;
+      //   var indicator=e.detail.response.indicator;
+      //   // alert(JSON.stringify(span));
+      //   var tempcnt=0;
+      //   var divider=0;
+      //   var percent=0;
+      //   var tabwidth=0;
+      //   var overall=[];
+      //   var temp=[];
+      //   for(var i=0;i<assesment.length;i++){
+      //     assesment[i].spancount=(parseFloat(assesment[i].subcatcount)*4);
+      //     tempcnt=parseFloat(tempcnt)+parseFloat(assesment[i].spancount);
+      //   }
+      //   // alert(tempcnt);
+      //   percent=120;
+      //   tabwidth="150%";
+      //   divider=parseFloat(percent)/(parseFloat(tempcnt));
+      //   // alert(divider);
+      //   for(var i=0;i<assesment.length;i++){
+      //     assesment[i].spancount=(parseFloat(assesment[i].subcatcount)*4);
+      //     var obj={};
+      //     obj.assesment=assesment[i].assesment_type;
+      //     obj.spancount=assesment[i].spancount;
+      //     obj.width=parseFloat(assesment[i].spancount)*parseFloat(divider)+"%";
+      //     temp.push(obj);
+      //   }
+        
+      //   overall.push({"sno":"Sno","studentid":"Student Id","studentname":"Student Name","titlearr":temp,"legend":"Comments","level":"No of levels up/Down"});
+      //   var temp=[];
+      //   for(var i=0;i<subject.length;i++){
+      //     subject[i].spancount=(parseFloat(subject[i].subcatcount)*4);
+      //     var obj={};
+      //     obj.assesment=subject[i].subject_name;
+      //     obj.spancount=subject[i].spancount;
+      //     obj.width=parseFloat(subject[i].spancount)*parseFloat(divider)+"%";
+      //     temp.push(obj);
+      //   }
+      //   overall.push({"sno":"","studentid":"","studentname":"","titlearr":temp});
+      //   var temp=[];
+      //   for(var i=0;i<category.length;i++){
+      //     category[i].spancount=(parseFloat(category[i].subcatcount)*4);
+      //     var obj={};
+      //     obj.assesment=category[i].category_name;
+      //     obj.spancount=category[i].spancount;
+      //     obj.width=parseFloat(category[i].spancount)*parseFloat(divider)+"%";
+      //     temp.push(obj);
+      //   }
+      //   overall.push({"sno":"","studentid":"","studentname":"","titlearr":temp});
+      //   var temp=[];
+      //   for(var i=0;i<subcategory.length;i++){
+      //     subcategory[i].spancount=4;
+      //     var obj={};
+      //     obj.assesment=subcategory[i].sub_category_name;
+      //     obj.spancount=subcategory[i].spancount;
+      //     obj.width=parseFloat(subcategory[i].spancount)*parseFloat(divider)+"%";
+      //     temp.push(obj);
+      //   }
+      //   overall.push({"sno":"","studentid":"","studentname":"","titlearr":temp});
+      //   var temp=[];
+      //   var t=1;
+      //   for(var i=0;i<tempcnt;i++){
+      //     var obj={};
+      //     if(t==1)
+      //     obj.assesment="Score";
+      //     if(t==2)
+      //     obj.assesment="Grade";
+      //     if(t==3)
+      //     obj.assesment="Category";
+      //     if(t==4)
+      //     obj.assesment="Level";
+      //     obj.spancount=1;
+      //     obj.width=parseFloat(1)*parseFloat(divider)+"%";
+      //     temp.push(obj);
+      //     t++;
+      //     if(t==5)
+      //       t=1;
+      //   }
+      //   overall.push({"sno":"","studentid":"","studentname":"","titlearr":temp});
+      //   for(var x=0;x<student.length;x++){
+      //   var temp=[];
+      //   for(var i=0;i<subcategory.length;i++){          
+      //   for(var j=0;j<enrich.length;j++){
+      //     if(student[x].id==enrich[j].student_id&&subcategory[i].assesment_type==enrich[j].assesment_id&&subcategory[i].subject_id==enrich[j].subject_id&&subcategory[i].subject_name==enrich[j].subject_name&&subcategory[i].category_id==enrich[j].category_id&&subcategory[i].category_name==enrich[j].category_name&&subcategory[i].sub_category_id==enrich[j].sub_category_id&&subcategory[i].sub_category_name==enrich[j].sub_category_name){            
+      //       for(var n=0;n<4;n++){
+      //       var obj={};
+      //       if(n==0)
+      //       obj.assesment=enrich[j].score;
+      //       if(n==1)
+      //       obj.assesment=enrich[j].grade;
+      //       if(n==2)
+      //       obj.assesment=enrich[j].level;
+      //       if(n==3){
+      //       if(enrich[j].sub_category_name=="Written"||enrich[j].sub_category_name=="Writing")
+      //       obj.assesment=enrich[j].enrich_level;
+      //       if(enrich[j].sub_category_name=="Speed")
+      //       obj.assesment=enrich[j].speed_level;
+      //       if(enrich[j].sub_category_name=="Comprehension")
+      //       obj.assesment=enrich[j].comprehension_level;
+      //       }
+      //       temp.push(obj);
+      //       }
+      //     }
+      //   }
+      //   }
+      //   overall.push({"sno":x+1,"studentid":student[x].id,"studentname":student[x].student_name,"titlearr":temp});
+      //   }
+      //   // alert(JSON.stringify(ascii.length));
+      //   var studoverall=[];
+      //   for(var i=0;i<ascii.length;i++){
+      //     var t=1;
+      //     var x=[];
+      //     var obj={};
+      //     obj.studentid=ascii[i].student_id;
+      //     x.push(ascii[i]);
+      //     for(var j=i+1;j<ascii.length;j++){
+      //       if(ascii[i].student_id==ascii[j].student_id){
+      //         x.push(ascii[j]);
+      //         ascii.splice(j,1);
+      //         j--;
+      //       }
+      //     }
+      //     obj.studarr=x;
+      //     studoverall.push(obj);
+      //   }
+      //   var diffoverall=[];
+      //   var difffinal=[];
+      //   for(var i=0;i<studoverall.length;i++){
+      //     var x=[];
+      //     var y=[];
+      //     var obj={};
+      //     var diff="0";
+      //     var seq="";
+      //     var asciilevel="";
+      //     obj.studentid=studoverall[i].studentid;
+      //     // obj1.studentid=studoverall[i].studentid;
+      //     for(var j=0;j<studoverall[i].studarr.length;j++){
+      //       if(j==0){
+      //         asciilevel=studoverall[i].studarr[j].ascii;
+      //       }
+      //       if(j!=0){
+      //         diff=parseFloat(studoverall[i].studarr[j].ascii)-parseFloat(studoverall[i].studarr[j-1].ascii);
+      //         // x.push(diff);
+      //         if(diff>0)
+      //         {
+      //           seq+='n';
+      //           // y.push('p');
+      //         }
+      //         else if(diff<0)
+      //         {
+      //           seq+='p';
+      //           // y.push('n');
+      //         }
+      //         else
+      //         {
+      //           seq+='e';
+      //           // y.push('e');
+      //         }
+      //       }
+      //     }
+      //     // alert(seq);
+      //     for(var n=0;n<indicator.length;n++){
+      //       if(seq==indicator[n].combination&&asciilevel==indicator[n].ascii){
+      //         obj.colorcode=indicator[n].colorcode;
+      //         obj.legend=indicator[n].legend;
+      //         // if(diff!=0){
+      //         //   obj.level=Math.abs(diff);
+      //         // }
+      //       }
+      //     }
+      //     // for(var n=0;n<indicator.length;n++){
+      //     //   if(seq==indicator[n].combination){
+      //     //     obj.colorcode=indicator[n].colorcode;
+      //     //     obj.legend=indicator[n].legend;
+      //     //     if(diff!=0){
+      //     //       obj.level=Math.abs(diff);
+      //     //     }
+      //     //   }
+      //     // }
+      //     // obj.diffarr=x;
+      //     diffoverall.push(obj);
+      //     // obj1.diffarr=y;
+      //     // difffinal.push(obj1);
+      //   }
+
+      //   for(var i=0;i<overall.length;i++){
+      //     for(var j=0;j<diffoverall.length;j++){
+      //       if(overall[i].studentid==diffoverall[j].studentid){
+      //         overall[i].legend=diffoverall[j].legend;
+      //         overall[i].colorcode=diffoverall[j].colorcode;
+      //         overall[i].level=diffoverall[j].level;
+      //       }
+      //     }
+      //   }
+
+      //   document.querySelector('student-performance-tracking-homecard').setExcelArray(overall);
+      //   document.querySelector('student-performance-tracking-homecard').excelarrr=overall;
+      //   document.querySelector('student-performance-tracking-homecard').hidedownloadicon=false;
+      //   document.querySelector('student-performance-tracking-homecard').downloadlabel="Download";     
+      //   document.querySelector('student-performance-tracking-homecard').hidetitle=false;
+      //   // document.querySelector('student-performance-tracking-homecard').FnToggleSpinner(false);
+      //   // document.querySelector('student-performance-tracking-homecard').exportToExcel();
+      // },
        FnFetchExcelAssesmentInfo(schoolid,academicyear,gradeid,gradename,sectionid,sectionname){
         this.fetchexcelassesmentinfourl=sessionStorage.getItem("addrinfo")+"/performance-fetchexcelassesmentinfo-service";
         var obj={"schoolid":""};

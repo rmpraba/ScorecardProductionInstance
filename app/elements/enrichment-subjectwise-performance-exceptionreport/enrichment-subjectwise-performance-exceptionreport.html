@@ -1,0 +1,31 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="enrichment-subjectwise-performance-exceptionreport">
+  <template>
+    <style>
+    .incard{
+      padding: 2%;
+    }
+    h3{
+      color: blue;
+    }
+    </style>
+    <h1 hidden>{{exschool}}{{exacademicyear}}{{exgradeid}}{{exgradename}}{{exsectionid}}{{exsectionname}}{{assesment}}</h1>
+      <h3>{{subject}} - <paper-icon-button  id="download" icon="icons:file-download" on-click="FnDownload">Click here</paper-icon-button></h3>
+    <performance-report-service id="service"></performance-report-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'enrichment-subjectwise-performance-exceptionreport',
+      FnDownload:function(){
+        document.querySelector('student-performance-tracking-homecard').FnToggleExceptionSpinner();
+        this.$.service.FnFetchExceptionExcelAssesmentInfo(this.exschool,this.exacademicyear,this.exgradeid,this.exgradename,this.exsectionid,this.exsectionname,this.subject,this.assesment);
+      }
+    });
+  })();
+  </script>
+</dom-module>

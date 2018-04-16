@@ -2668,7 +2668,7 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
 
 fnteacheraid2:function(e){
     alert(1);
-    
+
  c3=gassementarr.length;
        if(gassementarr.length==0){
 
@@ -2698,7 +2698,7 @@ fnteacheraid2:function(e){
    else{
     
 
-for(var i=0;i<ghomefilearrurl.length;i++){
+for(var i=0;i<gassementarr.length;i++){
 
   
 
@@ -2737,9 +2737,9 @@ fnteacheraid2Response:function(e){
     if(c3==c4){
         c3=0;
         c4=0;
-   // alert(JSON.stringify(res));
+   alert(JSON.stringify(res));
         
-         if(e.detail.response.returnval=='Updated')
+         if(e.detail.response.returnval=='inserted')
             {
                 document.querySelector('curriculum-plan-conceptapproval-itemcard').saopen2dialog();
                  this.fetchalreadyapprovedchapterconcept();

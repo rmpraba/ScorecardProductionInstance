@@ -8,35 +8,20 @@ var bodyParser = require('body-parser');
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
-<<<<<<< HEAD
  var connection = mysql.createConnection({  
-  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
-=======
-
-var connection = mysql.createConnection({  
-/*  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
->>>>>>> 65f788bfc6b8857961f5dac34c3aabcb22151989
-  database:"scorecarddb",
-  port:'3306',
-  user:"smis",
-  password:"smispass",
-  reconnect:true,
-  data_source_provider:"rds",
-<<<<<<< HEAD
-  type:"mysql"  
-  // host     : 'localhost',
-  // user     : 'root',
-  // password : 'admin',
-  // database : 'samsidhreportcard'
- });
-=======
-  type:"mysql"   */
+  // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
+  // database:"scorecarddb",
+  // port:'3306',
+  // user:"smis",
+  // password:"smispass",
+  // reconnect:true,
+  // data_source_provider:"rds",
+  // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : '',
-  database : 'scorecardtemp'
-});
->>>>>>> 65f788bfc6b8857961f5dac34c3aabcb22151989
+  password : 'admin',
+  database : 'samsidhreportcard'
+ });
 
 var app = express();
 var logfile;
@@ -16111,13 +16096,9 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
       current_url:req.query.currurl,
       sno:req.query.sno,
       skillid:req.query.skillid,
-      valueid:req.query.valueid,
-     
+      valueid:req.query.valueid,     
       assesment_date:req.query.assesmentdate,
-      homework_type:req.query.homework,
-     
-        
-
+      homework_type:req.query.homework      
     };
     console.log('Coming for Display insertion....');
     connection.query("INSERT INTO md_curriculum_display SET ?",[response],

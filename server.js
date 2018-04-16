@@ -25,12 +25,7 @@ var multerS3 = require('multer-s3');
 
 var app = express();
 var logfile;
-// AWS.config.loadFromPath('app/configfile/credential.json');
-aws.config.update({
-    secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
-    accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
-    region: 'ap-south-1'
-});
+
 s3 = new aws.S3();
 
 app.use(express.static('app'));

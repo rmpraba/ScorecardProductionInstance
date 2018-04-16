@@ -51,63 +51,125 @@
         height: 300px;
         margin-left: -6%;
       }
+      th,td{
+        border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+     }
     </style>
    
-    <table class="bgtable" border="1" style="border-collapse: collapse;">
+    <table class="bgtable"  style="border-collapse: collapse;">
         <tr>
-              <td style="width: 2.35%;">{{sno}}</td>
-              <td style="width: 8.35%;">{{conceptname}}</td>
-              <td style="width: 7.55%;">{{subconceptname}}</td>
-              <td style="text-align: center;width: 3.25%;">{{period}}</td>
-              <td style="width: 5.5%;word-wrap: break-word;">
-              {{skill}}
-              </td>
-              <td style="width: 5.5%;word-wrap: break-word;">
-                {{assesmentdate}}
-              </td>
-              <td style="width: 5.5%;word-wrap: break-word;">
-                {{value}}
-              </td>
-              <td style="word-wrap: break-word;width: 5.5%;">
-                {{teachingaid}}
-              </td>
-              <td style="word-wrap: break-word;width: 5.5%;">{{innovation}}</td> 
-              <td style="width: 5.5%;">{{fromdate}}</td>
+              <td style="width: 2.35%;" hidden>{{sno}}</td>
+              <td style="width: 8.35%;" hidden>{{conceptname}}</td>
+              <td style="width: 7.55%;" hidden>{{subconceptname}}</td>
+
+            <!--   <td style="width: 5.5%; text-align: center;">
+                 <P style="height: 50px; overflow:hidden;">{{period}}</P>
+              </td> -->
               <td style="width: 5.5%;">
+                <P style="height: 50px; overflow:hidden;">
+                  {{skill}}
+              </P>
+              </td>
+               <td style="width: 5.5%;">
+                <P style="height: 50px; overflow:hidden;">
+                  {{skill}}
+              </P>
+              </td>
+              <td style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
+                {{assesmentdate}}
+                </P>
+              </td>
+              <td style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
+                {{value}}
+                </P>
+              </td>
+              <td style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
+                {{teachingaid}}
+                </P>
+              </td>
+              <td style="width: 5.5%;">
+              <P style="height: 50px; overflow:hidden;">
+              {{innovation}}
+             </P>.
+              </td> 
+              <td style="width: 5.5%;">
+              <P style="height: 50px; overflow:hidden;">
+              {{fromdate}}
+              </P>
+              </td>
+              <td style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
                {{todate}}
+               </P>
               </td>     
               <td style="width: 5.5%;">
-        <paper-checkbox id='{{id}}' checked="{{assesmentcheckid}}" on-change="fnchange">Assesment</paper-checkbox>
+               <P style="height: 50px; overflow:hidden;">
+                     <paper-checkbox id='{{id}}' checked="{{assesmentcheckid}}" on-change="fnchange">Assesment</paper-checkbox>
+              </P>
               </td>          
-              <td style="word-wrap: break-word;width: 5.5%;">{{remarks}}</td>
               <td style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
+               {{remarks}}
+               </P>
+               </td>
+              <td style="width: 5.5%;">
+
+               <P style="height: 50px; overflow:hidden;">
                 <div hidden$="{{hidetitleflag}}">{{coremarks}}</div>
                 <paper-input value={{coremark}} hidden$="{{hideflag}}"></paper-input>
+                </P>
               </td>
               <td style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
                <div hidden$="{{hidetitleflag}}">{{correctionstatus}}</div>
                 <paper-input value={{correctionstatus}} hidden$="{{hideflag}}"></paper-input>
+                </P>
              </td>
-              <td hidden$="{{hidetitleflag}}" style="width: 5.5%;">{{completiondate}}</td>
+              <td hidden$="{{hidetitleflag}}" style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">{{completiondate}}
+               </P>
+               </td>
               <td hidden$="{{hideflag}}" style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
               <complection-date-picker-card></complection-date-picker-card>
+              </P>
               </td>
-              <td hidden$="{{hidetitleflag}}" style="width: 5.5%;">{{completionstatus}}</td>
+              <td hidden$="{{hidetitleflag}}" style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">{{completionstatus}}
+               </P>
+              </td>
               <td hidden$="{{hideflag}}" style="width: 5.5%;">
-                <paper-checkbox id="cpayes{{subconceptid}}" checked on-change="FnYes">Yes</paper-checkbox><br>
+               <P style="height: 50px; overflow:hidden;">
+                 <paper-checkbox id="cpayes{{subconceptid}}" checked on-change="FnYes">Yes</paper-checkbox><br>
                 <paper-checkbox id="cpano{{subconceptid}}" on-change="FnNo">No</paper-checkbox>
+                </P>
+                </td>
               <td style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
                 <div hidden$="{{hidetitleflag}}">{{enrichmentsug}}</div>
                 <paper-input value={{enrichmentsuggest}} hidden$="{{hideflag}}"></paper-input>
+                </P>
               </td>
-              <td style="width: 5.5%;">{{hometype}}
+              <td style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;"> 
+               {{hometype}}
               <paper-icon-button  icon="add" on-click="fnhome" style="color:#6699ff;float: right;"></paper-icon-button>
+              </P>
               </td>
-              <td  hidden$="{{hidetitleflag}}"></td>
-              <td hidden$="{{hideflag}}"><paper-icon-button icon="save" on-click="FnSave"></paper-icon-button></td>
+              <td  hidden$="{{hidetitleflag}}" style="width: 5.5%;"></td>
+              <td hidden$="{{hideflag}}" style="width: 5.5%;">
+               <P style="height: 50px; overflow:hidden;">
+               <paper-icon-button icon="save" on-click="FnSave"></paper-icon-button>
+             </P>
+               </td>
         </tr>
       </table>
-  <P  hidden>hometypeid</P>
+  <div  hidden>hometypeid</div>
        <paper-dialog id="save2dialog" modal>
        <h3><center>UPDATED</center></h3>
        <center>

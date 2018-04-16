@@ -34,10 +34,37 @@
       {
           table-layout: fixed;
           border-collapse: collapse;
-          width: 1954px;
-          margin-left: 0%;
+          width: 1921px;
+         
           margin-top: 5%;
       }
+          .zui-scroller {
+    margin-left: 531.1px;
+    overflow-x: scroll;
+    overflow-y: visible;
+    padding-bottom: 5px;
+    width: 847px;
+}
+  .zui-sticky-col1 {
+      left: 0;
+      position: absolute;
+      top: auto;
+   height: 5.4%;
+  }
+.zui-sticky-col {
+  
+    left: 0;
+    position: absolute;
+    top: auto;
+ height: 24.1%;
+   
+}
+th,td{
+        border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+      border-top: 1px solid #ddd;
+     }
       paper-dropdown-menu
       {
         --paper-input-container-label: { color: red };
@@ -102,13 +129,14 @@
       </div>
       <h4 style="margin-top: 1.3%;position: absolute;
       margin-left: 14%;">{{name}}</h4>
-   <table  border="1" class="report1" id="clsplnevalttttt">
+      <div class="zui-scroller">
+   <table  class="report1" id="clsplnevalttttt">
         <!-- <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff"> -->
-        <tr>
-          <th style="width: 4.7%;">SNO</th>
-          <th style="width: 16.7%;">Concept</th>
-          <th style="width: 15%;">Sub Concept</th>
-          <th style="width: 6.4%;"># Periods</th>
+     <tr>
+      <th style="width: 4.7%;margin-left:4%;" class="zui-sticky-col1">SNO</th>
+      <th style="width: 16.7%;margin-left:9%;" class="zui-sticky-col1">Concept</th>
+      <th style="width: 15%;margin-left:26%;" class="zui-sticky-col1">Sub Concept</th>
+          <th style="width: 11%;"># Periods</th>
           <th style="width: 11%;">Skill</th>
           <th style="width: 11%;">Assesmentdate</th>
           <th style="width: 11%;">Value</th>
@@ -124,16 +152,21 @@
           <th style="width: 11%;">Completion Status</th>
           <th style="width: 11%;">Enrichment Suggestion</th>
           <th style="width: 11%;">Home Work</th>          
-          <th style="width: 4%;"></th>  
+          <th style="width: 11%;"></th>  
          </tr>       
        <template is="dom-repeat" items="{{approvearr}}">
-        <tr>
-
+      <tr>
+       <td  class="zui-sticky-col" style="width: 4.7%; margin-left: 4%;" >{{item.sno}}</td>
+       <td  class="zui-sticky-col" style="width: 16.7%;margin-left: 9%;" >{{item.concept_name}}</td>
+       <td  class="zui-sticky-col"  style="width: 15%;margin-left: 26%;" >{{item.sub_concept_name}}</td>
+      <td>  
         <curriculum-plan-conceptapproval-itemcard assesmentcheckid='{{item.assesment_check_id}}' checkids='{{item.assesment_check_id}}' hometypeid='{{item.home_type_id}}' sno='{{item.sno}}' hometype='{{item.homework_type}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}" lr="{{item.lr_rectification}}" remarks="{{item.remarks}}" correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" hideflag="{{item.hideflag}}" hidetitleflag="{{item.hidetitleflag}}" completiondate="{{item.completion_date}}" enrichmentsug="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.co_ordinator_remarks}}">          
             </curriculum-plan-conceptapproval-itemcard>        
+          </td>  
             </tr>  
            </template>  
      </table> 
+     </div>
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>  
   </template>
   <script>

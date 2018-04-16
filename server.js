@@ -8,10 +8,6 @@ var bodyParser = require('body-parser');
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
-<<<<<<< HEAD
- var connection = mysql.createConnection({  
-  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
-=======
 
 var connection = mysql.createConnection({  
 /*  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
@@ -36,7 +32,7 @@ var connection = mysql.createConnection({
   password : '',
   database : 'scorecardtemp'
 });
->>>>>>> 65f788bfc6b8857961f5dac34c3aabcb22151989
+
 
 var app = express();
 var logfile;

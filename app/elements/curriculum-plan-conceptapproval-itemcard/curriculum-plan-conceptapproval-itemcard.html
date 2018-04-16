@@ -214,9 +214,9 @@
           <td>
             
         <body onload="myFunction()">  
-       <form id="lpteachingaidupload" method="post" enctype="multipart/form-data" action="/assesments" target="_blank">
+       <form id="lpteachingaidupload11" method="post" enctype="multipart/form-data" action="/assesments" target="_blank">
      <p>
-      <input type="file" name="upl" id="assmentfile{{sno}}" onchange="fnassments()"/>
+      <input type="file" name="upl11" id="assmentfile{{sno}}" onchange="fnassments()"/>
     </p>
     <p>
         <input type="submit"  value="Submit"  onclick="fnasssmit()"/>
@@ -416,9 +416,9 @@ fnchange:function(e){
   
 
  mainurl="";  
-    this.homefileprefix="AssesmentType"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+localStorage.getItem("curr_sess_sectionname")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.sno;
-     //alert(this.homefileprefix);
-  mainurl=this.homefileprefix;
+    this.assprefix="AssesmentType"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+localStorage.getItem("curr_sess_sectionname")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.sno;
+   alert(this.assprefix);
+   mainurl=this.assprefix;
     
      var obj={};
      

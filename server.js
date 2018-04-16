@@ -34,11 +34,14 @@ var connection = mysql.createConnection({
   database : 'scorecardtemp'
 });
 
-
-
 var app = express();
 var logfile;
-
+// AWS.config.loadFromPath('app/configfile/credential.json');
+aws.config.update({
+    secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
+    accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
+    region: 'ap-south-1'
+});
 s3 = new aws.S3();
 
 app.use(express.static('app'));
@@ -122,6 +125,7 @@ var home = multer({
     }
   })
 }).array('upl1', 1);
+
 var assesments = multer({
   storage: multerS3({
     s3: s3,
@@ -135,9 +139,9 @@ var assesments = multer({
             console.log(d);
             console.log(global.assprefix+d+file.originalname);
 
-            global.finalassprefix=global.homefileprefix+"/"+d+file.originalname
-            console.log('----home-----')
-            console.log(global.assprefix);
+            global.finalassprefix=global.assprefix+"/"+d+file.originalname
+            console.log('----assesments-----')
+            console.log(global.finalassprefix);
             console.log('--------------')
 
       cb(null, global.assprefix+"/"+d+file.originalname);

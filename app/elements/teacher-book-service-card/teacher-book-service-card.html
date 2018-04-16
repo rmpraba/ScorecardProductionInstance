@@ -707,7 +707,15 @@
         content-type="application/json"
         on-response="fnteacheraidResponse"
         debounce-duration="300"/>
-      
+        <iron-ajax
+        method="post"
+        id="fnteacheraid1ajax"
+        url="{{fnteacheraid1url}}"
+        params="{{fnteacheraid1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fnteacheraid1Response"
+        debounce-duration="300"/>
   </template>
   <script>
   (function() {
@@ -722,6 +730,9 @@
       var gloskarr=[];
       var glosubarr=[];
       var glohomeworkarr=[];
+      var ghomefilearrurl=[];
+     var gteaceraidsarrurl=[];
+     var c4=0,c3=0;
     Polymer({   
       is: 'teacher-book-service-card',
       fnfetchcprgrade:function(){
@@ -754,7 +765,7 @@
       fnfetchcprsubjectResponse:function(e){
         document.querySelector('curriculam-report').subjectarr=e.detail.response.returnval;
       },
- fnmasterplaninsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr,currurl){
+ fnmasterplaninsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,currurl,homework,homecurrurl){
   if(subarr.length!=0){
       
        var overall=[];
@@ -796,25 +807,7 @@
         subarr[i].skillid=skillid;
         subarr[i].skillname=skillname;
         }
-   for(var i=0;i<subarr.length;i++){
-        var hometypeid="";
-        var hometype="";
-        for(var j=0;j<homeworkarr.length;j++){
-            if(subarr[i].rowid==homeworkarr[j].rowid)
-            {
-                if(hometypeid=="")
-                hometypeid=homeworkarr[j].hometypeid;
-                else
-                hometypeid=hometypeid+","+homeworkarr[j].bldvalueid;
-                if(hometype=="")
-                hometype=homeworkarr[j].hometype;
-                else
-              hometype=hometype+","+homeworkarr[j].hometype;
-            }
-        }
-        subarr[i].hometypeid=hometypeid;
-        subarr[i].hometype=hometype;
-        }
+ 
         c1=subarr.length;
         for(var i=0;i<subarr.length;i++){
         this.fnmasterplaninserturl=sessionStorage.getItem("addrinfo")+"/fnmasterplaninsert-service";
@@ -836,6 +829,8 @@
         obj.subconceptname=subarr[i].subconceptname;
         obj.period=period;
         obj.currurl=currurl;
+        obj.homecurrurl=homecurrurl;
+        obj.homework=homework;
         obj.sno=sno;
        
         obj.assesmentdate=localStorage.getItem("assement_curr_sess_date");;
@@ -897,25 +892,7 @@
         conarr[i].skillid=skillid;
         conarr[i].skillname=skillname;
         }
-          for(var i=0;i<conarr.length;i++){
-        var hometypeid="";
-        var hometype="";
-        for(var j=0;j<homeworkarr.length;j++){
-            if(conarr[i].rowid==homeworkarr[j].rowid)
-            {
-                if(hometypeid=="")
-                hometypeid=homeworkarr[j].hometypeid;
-                else
-                hometypeid=hometypeid+","+homeworkarr[j].hometypeid;
-                if(hometype=="")
-                hometype=homeworkarr[j].hometype;
-                else
-                hometype=hometype+","+homeworkarr[j].hometype;
-            }
-        }
-        conarr[i].hometypeid=hometypeid;
-        conarr[i].hometype=hometype;
-        }
+        
         c1=conarr.length;
         for(var i=0;i<conarr.length;i++){
         this.fnmasterplaninserturl=sessionStorage.getItem("addrinfo")+"/fnmasterplaninsert-service";
@@ -935,7 +912,10 @@
         obj.subconceptname="";
          obj.period=period;
          obj.sno=sno;
-        obj.currurl=currurl;
+       
+         obj.currurl=currurl;
+        obj.homecurrurl=homecurrurl;
+        obj.homework=homework;
     obj.plannedfromdate=localStorage.getItem("localsess_from_service");
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.skill=conarr[i].skillname;
@@ -1275,9 +1255,14 @@ if(subarr1.length!=0){
       
      }
       },
-      fnmasterplandisplyinsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,homeworkarr,currurl){
+      fnmasterplandisplyinsert:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,currurl,homework,teaceraidsarrurl,homefilearrurl,homecurrurl){
         this.gloabalrowid=rowid;
         this.currurl=currurl;
+        this.homecurrurl=homecurrurl;
+        ghomefilearrurl=homefilearrurl;
+        gteaceraidsarrurl=teaceraidsarrurl;
+       // alert(JSON.stringify(ghomefilearrurl));
+        //alert(JSON.stringify(gteaceraidsarrurl));
         var valueid="";
         var valuename="";
          for(var j=0;j<valuearr.length;j++){
@@ -1336,20 +1321,7 @@ if(subarr1.length!=0){
          this.skillfid=skillid;
          this.skillfname=skillname;
         }
-        var hometype="";
-        var hometypeid="";
-        for(var j=0;j<homeworkarr.length;j++){
-           if(hometypeid=="")
-                hometypeid=homeworkarr[j].hometypeid;
-                else
-                hometypeid=hometypeid+","+homeworkarr[j].hometypeid;
-                if(hometype=="")
-                hometype=homeworkarr[j].hometype;
-                else
-              hometype=hometype+","+homeworkarr[j].hometype;
-           this.hometype=hometype;
-           this.hometypeid=hometypeid;
-          }
+      
     //alert(this.bldfvaluename+"--"+this.skillfname+"--"+this.subconcepfname+"--"+this.vaufname+"--"+this.conceptfname);
  this.fnmasterplandisplyinserturl=sessionStorage.getItem("addrinfo")+"/fnmasterplandisplyinsert-service";
       var obj={};
@@ -1381,12 +1353,10 @@ if(subarr1.length!=0){
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.skill=this.skillfname;
         obj.value=this.vaufname;
-       // obj.bldvalue=this.bldfvaluename;
+        obj.homework=this.homework;
         obj.skillid=this.skillfid;
         obj.valueid=this.vaufid;
-        obj.hometype=this.hometype;
-        obj.hometypeid=this.hometypeid;
-        
+        obj.homework=homework
         obj.innovation=innovation;
         obj.teachingaid=teachingaid;
         obj.remarks=remark;
@@ -1397,12 +1367,17 @@ if(subarr1.length!=0){
        },
 
    fnmasterplandisplyinsertResponse:function(e){
- 
+
    var res=e.detail.response.returnval
    this.fnteacheraid();
        },
  fnteacheraid:function(e){
-  this.fnteacheraidurl=sessionStorage.getItem("addrinfo")+"/fnteacheraid-service";
+  c3=gteaceraidsarrurl.length;
+//alert(JSON.stringify(gteaceraidsarrurl));
+       if(gteaceraidsarrurl.length==0){
+
+
+   this.fnteacheraidurl=sessionStorage.getItem("addrinfo")+"/fnteacheraid-service";
     var obj={};
         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
         obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
@@ -1414,19 +1389,138 @@ if(subarr1.length!=0){
         obj.chaptername=localStorage.getItem("curr_sess_chaptername");
         obj.termid=sessionStorage.getItem("termid"); 
         obj.rowid=this.gloabalrowid;
-         obj.currurl=this.currurl;
+        obj.currurl=this.currurl;
+        obj.url="";
+        obj.filename="";
         obj.conceptid=localStorage.getItem("curr_sess_conceptid");
         this.fnteacheraidparam=obj;
+       // alert(JSON.stringify(obj));
 
         this.$.fnteacheraidajax.generateRequest(); 
+
+ } 
+       else{
+   
+for(var i=0;i<gteaceraidsarrurl.length;i++){
+ this.fnteacheraidurl=sessionStorage.getItem("addrinfo")+"/fnteacheraid-service";
+    var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.rowid=this.gloabalrowid;
+        obj.currurl=this.currurl;
+        obj.url=gteaceraidsarrurl[i].teachurl;
+        obj.filename=gteaceraidsarrurl[i].filename;
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        this.fnteacheraidparam=obj;
+       // alert(JSON.stringify(obj));
+        this.$.fnteacheraidajax.generateRequest();
+  
+   }
+
+       }
+   
 },
 fnteacheraidResponse:function(e){
 var res=e.detail.response.returnval;
+ c4++;
+ if(c3==c4){
+     c3=0;
+     c4=0;
+   this.fnteacheraid1(); 
+  
+ }
+  
+},   
+
+
+fnteacheraid1:function(e){
+ c3=ghomefilearrurl.length;
+       if(ghomefilearrurl.length==0){
+
+   this.fnteacheraid1url=sessionStorage.getItem("addrinfo")+"/fnteacheraid1-service";
+    var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.rowid=this.gloabalrowid;
+        obj.currurl=this.homecurrurl;
+        obj.url="";
+        obj.filename="";
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        this.fnteacheraid1param=obj;
+       //alert(JSON.stringify(obj));
+
+        this.$.fnteacheraid1ajax.generateRequest(); 
+   
+    } 
+   else{
+    
+
+for(var i=0;i<ghomefilearrurl.length;i++){
+
+  
+
+
+this.fnteacheraid1url=sessionStorage.getItem("addrinfo")+"/fnteacheraid1-service";
+     var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.rowid=this.gloabalrowid;
+        obj.currurl=this.homecurrurl;
+        obj.url=ghomefilearrurl[i].homeurl;
+        obj.filename=ghomefilearrurl[i].filename;
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        this.fnteacheraid1param=obj;
+     //   alert(JSON.stringify(obj));
+
+        this.$.fnteacheraid1ajax.generateRequest();
+
+
+
+   }
+       }
+   
+},
+fnteacheraid1Response:function(e){
+   var res=e.detail.response.returnval;
+   c4++;
+    if(c3==c4){
+        c3=0;
+        c4=0;
+   alert(JSON.stringify(res));
+        
+        document.querySelector('aproval-book-innovatiosn-item-card').allrefesh();
    this.conceptseq(); 
   this.FnFetchConceptService();
-    
-  document.querySelector('aproval-book-innovatiosn-item-card').saveopendialog();
-},      
+   document.querySelector('aproval-book-innovatiosn-item-card').saveopendialog();
+   
+   
+    }
+     
+},
+   
+
+
  fnmasterplandisplyedit:function(conarr,valuearr,skarr,subarr,period,innovation,remark,rowid,teachingaid,sno,assesmentdate,homework){
         var valueid="";
         var valuename="";

@@ -4,42 +4,57 @@ var email   = require("emailjs/email");
 var htmlToPdf = require('html-to-pdf');
 var fs = require('fs');
 var aws = require('aws-sdk');
-
 var bodyParser = require('body-parser'); 
-
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
+<<<<<<< HEAD
  var connection = mysql.createConnection({  
   host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
+=======
+
+var connection = mysql.createConnection({  
+/*  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
+>>>>>>> 65f788bfc6b8857961f5dac34c3aabcb22151989
   database:"scorecarddb",
   port:'3306',
   user:"smis",
   password:"smispass",
   reconnect:true,
   data_source_provider:"rds",
+<<<<<<< HEAD
   type:"mysql"  
   // host     : 'localhost',
   // user     : 'root',
   // password : 'admin',
   // database : 'samsidhreportcard'
  });
+=======
+  type:"mysql"   */
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'scorecardtemp'
+});
+>>>>>>> 65f788bfc6b8857961f5dac34c3aabcb22151989
 
 var app = express();
 var logfile;
-
+// AWS.config.loadFromPath('app/configfile/credential.json');
 aws.config.update({
     secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
     accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
     region: 'ap-south-1'
 });
 s3 = new aws.S3();
+
 app.use(express.static('app'));
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
   app.get('/', function (req, res){
   res.sendFile("app/index.html" );
 });
+
 
 // var upload = multer({
 //     storage: multerS3({
@@ -67,6 +82,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 //     // res.status(200).json({'returnval': 'Uploaded!'});
 // });
 
+//})
 
 var upload = multer({
   storage: multerS3({
@@ -80,14 +96,40 @@ var upload = multer({
             var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
             console.log(d);
             console.log(global.fileprefix+d+file.originalname);
+
             global.finalfilename=global.fileprefix+"/"+d+file.originalname
-            console.log('----abbas-----')
-            console.log(global.finalfile);
+            console.log('----teaher-----')
+            console.log(global.finalfilename);
             console.log('--------------')
+
       cb(null, global.fileprefix+"/"+d+file.originalname);
     }
   })
 }).array('upl', 1);
+
+var home = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'samsidhreportcard',
+    // acl: 'public-read',
+    key: function (req, file, cb) {
+            console.log('--------------------------');
+            console.log(file);
+            console.log('--------------------------');
+            var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
+            console.log(d);
+            console.log(global.homefileprefix+d+file.originalname);
+
+            global.finalhomefileprefix=global.homefileprefix+"/"+d+file.originalname
+            console.log('----home-----')
+            console.log(global.finalhomefileprefix);
+            console.log('--------------')
+
+      cb(null, global.homefileprefix+"/"+d+file.originalname);
+    }
+  })
+}).array('upl1', 1);
+
 
 app.post('/upload',urlencodedParser, function (req, res, next) {
   upload(req, res, function (error) {
@@ -104,8 +146,33 @@ app.post('/upload',urlencodedParser, function (req, res, next) {
   });
 });
 
+
+app.post('/home',urlencodedParser, function (req, res, next) {
+  home(req, res, function (error) {
+    if (error) {
+      console.log(error);
+      // return response.redirect("/error");
+      res.status(200).json({'returnval': 'Unable to upload the file'});
+    }
+    else{
+    console.log('File uploaded successfully.');
+    // response.redirect("/success");
+    res.status(200).json({'returnval': 'Uploaded!'});
+    }
+  });
+});
 app.post('/lessonplanseturl',urlencodedParser, function (req, res, next) {
     global.fileprefix=req.query.fileprefix;
+
+    res.status(200).json({'returnval': 'Done!'});
+});
+
+
+app.post('/homeworkurl',urlencodedParser, function (req, res, next) {
+    global.homefileprefix=req.query.homefileprefix;
+  console.log(global.homefileprefix);
+
+
     res.status(200).json({'returnval': 'Done!'});
 });
 
@@ -15996,8 +16063,7 @@ app.post('/fnmasterplaninsert-service' , urlencodedParser,function (req, res)
       skillid:req.query.skillid,
       valueid:req.query.valueid,
       assesment_date:req.query.assesmentdate,
-      home_type_id:req.query.hometypeid,
-      homework_type:req.query.hometype,
+       homework_type:req.query.homework,
       current_url:req.query.currurl,
     };
     console.log('Coming for master insertion....');
@@ -16048,8 +16114,8 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
       valueid:req.query.valueid,
      
       assesment_date:req.query.assesmentdate,
-      homework_type:req.query.hometype,
-      home_type_id:req.query.hometypeid,
+      homework_type:req.query.homework,
+     
         
 
     };
@@ -22780,8 +22846,9 @@ app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
       chapter_id: req.query.chapterid,
       concept_id: req.query.conceptid,
       row_id: req.query.rowid,
-      url: global.finalfilename,
+      url: req.query.url,
       link:req.query.currurl,
+      filename:req.query.filename,
     };
     console.log(response);
     connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){
@@ -22821,6 +22888,38 @@ app.post('/fetchexceptionsubjectinfo-service',  urlencodedParser,function (req, 
     }
     });
 });
+
+
+
+app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      row_id: req.query.rowid,
+      url: req.query.url,
+      link:req.query.currurl,
+       filename:req.query.filename,
+    };
+    console.log(response);
+    connection.query("INSERT INTO md_concept_homework SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'inserted'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not inserted'}); 
+    }
+    });
+});
+
 
 
 function setvalue(){

@@ -715,6 +715,15 @@
         handle-as="json"
         content-type="application/json"
         on-response="fnteacheraid1Response"
+        debounce-duration="300"/> 
+        <iron-ajax
+        method="post"
+        id="fnteacheraid2ajax"
+        url="{{fnteacheraid2url}}"
+        params="{{fnteacheraid2param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fnteacheraid2Response"
         debounce-duration="300"/>
   </template>
   <script>
@@ -732,6 +741,7 @@
       var glohomeworkarr=[];
       var ghomefilearrurl=[];
      var gteaceraidsarrurl=[];
+     var gassementarr=[];
      var c4=0,c3=0;
     Polymer({   
       is: 'teacher-book-service-card',
@@ -2590,22 +2600,9 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
             document.querySelector('curriculum-plan-conceptapproval-card').approvearr=temp;
           },
           updateapprovalstatusofchapterconcept:function(o,assementarr){
-
-        var assesment_type_id="";
-         var assesment_type="";
- for(var j=0;j<assementarr.length;j++){
-           if(assesment_type_id=="")
-                assesment_type_id=assementarr[j].assesment_type_id;
-                else
-                assesment_type_id=assesment_type_id+","+assementarr[j].assesment_type_id;
-                if(assesment_type=="")
-                assesment_type=assementarr[j].assesment_type;
-                else
-            assesment_type=assesment_type+","+assementarr[j].assesment_type;
-           this.assesment_type=assesment_type;
-           this.assesment_type_id=assesment_type_id;
-          }
-
+          gassementarr=assementarr;
+ 
+         this.assmentcurrurl=o.assmentcurrurl;
            this.updateapprovalstatusofchapterconcepturl=sessionStorage.getItem("addrinfo")+"/updateapprovalstatusofchapterconcept-service";
              var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -2649,18 +2646,100 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
            obj.hometype=o.hometype;
            obj.assesmentdate=o.assesmentdate;
            obj.assesmentcheckid=o.assesmentcheckid;
-           obj.assesment_type_id=this.assesment_type_id;
-           obj.assesment_type=this.assesment_type;
-           
-      
+           obj.assesment_type=this.assmentcurrurl;
            this.updateapprovalstatusofchapterconceptparam=obj;
            //alert(JSON.stringify(obj));
            this.$.updateapprovalstatusofchapterconceptajax.generateRequest();
           },
           updateapprovalstatusofchapterconceptResponse:function(e)
           {
-            //alert(e.detail.response.returnval);
+            alert(e.detail.response.returnval);
             if(e.detail.response.returnval=='Updated')
+            {
+               this.fnteacheraid2();
+            }
+            else
+            {
+                document.querySelector('curriculum-plan-conceptapproval-itemcard').failureopen2();
+            }
+           
+          },
+
+
+fnteacheraid2:function(e){
+    alert(1);
+    
+ c3=gassementarr.length;
+       if(gassementarr.length==0){
+
+   this.fnteacheraid2url=sessionStorage.getItem("addrinfo")+"/fnteacheraid2-service";
+    var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.termid=sessionStorage.getItem("termid"); 
+          obj.sectionname=localStorage.getItem("curr_sess_sectionname");
+        obj.rowid=this.sno;
+        obj.currurl=this.assmentcurrurl;
+        obj.url="";
+        obj.filename="";
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        this.fnteacheraid2param=obj;
+       alert(JSON.stringify(obj));
+
+        this.$.fnteacheraid2ajax.generateRequest(); 
+   
+    } 
+   else{
+    
+
+for(var i=0;i<ghomefilearrurl.length;i++){
+
+  
+
+
+this.fnteacheraid2url=sessionStorage.getItem("addrinfo")+"/fnteacheraid2-service";
+     var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.rowid=this.sno;
+        obj.currurl=this.assmentcurrurl;
+        obj.url=gassementarr[i].assurlurl;
+        obj.filename=gassementarr[i].filename;
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+           obj.sectionname=localStorage.getItem("curr_sess_sectionname");
+        this.fnteacheraid2param=obj;
+        alert(JSON.stringify(obj));
+
+        this.$.fnteacheraid2ajax.generateRequest();
+
+
+
+   }
+       }
+   
+},
+fnteacheraid2Response:function(e){
+   var res=e.detail.response.returnval;
+   c4++;
+    if(c3==c4){
+        c3=0;
+        c4=0;
+   // alert(JSON.stringify(res));
+        
+         if(e.detail.response.returnval=='Updated')
             {
                 document.querySelector('curriculum-plan-conceptapproval-itemcard').saopen2dialog();
                  this.fetchalreadyapprovedchapterconcept();
@@ -2670,7 +2749,24 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
                 document.querySelector('curriculum-plan-conceptapproval-itemcard').failureopen2();
             }
            
-          },
+   
+    }
+     gassementarr=[];
+},
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
           fetchalreadyapprovedchapterconcept:function(){
             this.fetchalreadyapprovedchapterconcepturl=sessionStorage.getItem("addrinfo")+"/fetchalreadyapprovedchapterconcept-service";
             var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};

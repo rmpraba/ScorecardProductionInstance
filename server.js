@@ -17056,7 +17056,7 @@ app.post('/updateapprovalstatusofchapterconcept-service',  urlencodedParser,func
        homework_type:req.query.hometype,
        assesment_date:req.query.assesmentdate,
        assesment_type:req.query.assesment_type,
-       assesment_type_id:req.query.assesment_type_id,
+       assesment_type_id:"",
        assesment_check_id:req.query.assesmentcheckid,
     };
   
@@ -22906,7 +22906,35 @@ app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
     });
 });
 
-
+app.post('/fnteacheraid2-service',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      row_id: req.query.rowid,
+      url: req.query.url,
+      link:req.query.currurl,
+      filename:req.query.filename,
+      sectionname:req.query.sectionname,
+    };
+    console.log(response);
+    connection.query("INSERT INTO md_concept_assesment SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'inserted'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not inserted'}); 
+    }
+    });
+});
 app.post('/fetchexceptionsubjectinfo-service',  urlencodedParser,function (req, res)
 {
   // var response={ 

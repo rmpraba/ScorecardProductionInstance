@@ -332,7 +332,7 @@ function fnasssmit(){
   document.getElementById("Conceptassesmentdialog"+sno).opened=false;
    //document.getElementById("homefomeid"+rowid).value=homeglfilename;
    hometeachertempaids.push({"filenames":homeglfilename});
-     homefilearrurl.push({"homeurl":mainurl+"/"+d+homeglfilename,"filename":homeglfilename})
+     homefilearrurl.push({"assurlurl":mainurl+"/"+d+homeglfilename,"filename":homeglfilename})
      var homefilenames="";
   
     var filenames="";
@@ -343,8 +343,8 @@ function fnasssmit(){
                 filenames=filenames+","+hometeachertempaids[j].filenames;
                 this.filenames=filenames;
            }
-      document.getElementById("homefomeid"+rowid).value=this.filenames;
-     //   alert(JSON.stringify(teaceraidsarrurl));
+     // document.getElementById("homefomeid"+rowid).value=this.filenames;
+      alert(JSON.stringify(homefilearrurl));
      //   alert(JSON.stringify(teachertempaids));
        // alert(this.filenames);
     }
@@ -357,7 +357,7 @@ function fnassments(){
 
 //alert(rowid);
 
-    var x = document.getElementById("assmentfile"+rowid);
+    var x = document.getElementById("assmentfile"+sno);
    
     var txt = "";
     if ('files' in x) {
@@ -413,11 +413,9 @@ function fnassments(){
 
 
 fnchange:function(e){
-  
-
  mainurl="";  
     this.assprefix="AssesmentType"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+localStorage.getItem("curr_sess_sectionname")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.sno;
-   alert(this.assprefix);
+  // alert(this.assprefix);
    mainurl=this.assprefix;
     
      var obj={};
@@ -449,9 +447,9 @@ fnchange:function(e){
 
 
    sno=this.sno;
-  alert(document.querySelector('#'+this.id).checked);
+  /*alert(document.querySelector('#'+this.id).checked);
   alert(this.checkids);
-  alert(this.checkids+" "+"true");
+  alert(this.checkids+" "+"true");*/
   if(this.checkids=="true"){
     //alert(1);
   document.getElementById("Conceptassesmentdialog"+this.sno).opened=true;
@@ -461,7 +459,7 @@ fnchange:function(e){
   }
   else{
  //  this.$.fnconsaveinfoid.hidden=false;
- alert(2);
+ //alert(2);
  if(document.querySelector('#'+this.id).checked==true){
     //this.fnassementtype();
   document.getElementById("Conceptassesmentdialog"+this.sno).opened=true;
@@ -648,7 +646,7 @@ this.$.Conceptassesmentdialog.close();
 
       FnSave:function(){
   //alert(assesmentcheckid1);
-
+alert(JSON.stringify(homefilearrurl));
         if(completionstatus==""||completionstatus==null)
         {
        completionstatus='Yes';
@@ -675,8 +673,9 @@ this.$.Conceptassesmentdialog.close();
         obj.coremark=this.coremark;
         obj.hometypeid=this.hometypeid;
         obj.hometype=this.hometype;
+        obj.assmentcurrurl=this.assmentcurrurl;
              //alert(JSON.stringify(obj));
-        this.$.bookservice.updateapprovalstatusofchapterconcept(obj,assmentsarr);
+        this.$.bookservice.updateapprovalstatusofchapterconcept(obj,homefilearrurl);
       completionstatus=""; 
         }
         else
@@ -704,8 +703,9 @@ this.$.Conceptassesmentdialog.close();
         obj.coremark=this.coremark;
         obj.hometypeid=this.hometypeid;
         obj.hometype=this.hometype;
+        obj.assmentcurrurl=this.assmentcurrurl;
               //alert(JSON.stringify(obj));
-        this.$.bookservice.updateapprovalstatusofchapterconcept(obj,assmentsarr);
+        this.$.bookservice.updateapprovalstatusofchapterconcept(obj,homefilearrurl);
         completionstatus=""; 
          }          
       },

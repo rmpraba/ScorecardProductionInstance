@@ -64,14 +64,10 @@
               <td style="width: 8.35%;" hidden>{{conceptname}}</td>
               <td style="width: 7.55%;" hidden>{{subconceptname}}</td>
 
-            <!--   <td style="width: 5.5%; text-align: center;">
+              <td style="width: 5.5%; text-align: center;">
                  <P style="height: 50px; overflow:hidden;">{{period}}</P>
-              </td> -->
-              <td style="width: 5.5%;">
-                <P style="height: 50px; overflow:hidden;">
-                  {{skill}}
-              </P>
               </td>
+            
                <td style="width: 5.5%;">
                 <P style="height: 50px; overflow:hidden;">
                   {{skill}}
@@ -87,9 +83,10 @@
                 {{value}}
                 </P>
               </td>
+
               <td style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;">
-                {{teachingaid}}
+               <a href="">{{teachingaid}}</a>
                 </P>
               </td>
               <td style="width: 5.5%;">
@@ -101,10 +98,12 @@
               <P style="height: 50px; overflow:hidden;">
               {{fromdate}}
               </P>
-              </td>
+
+             </td>     
               <td style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;">
                {{todate}}
+
                </P>
               </td>     
               <td style="width: 5.5%;">
@@ -112,6 +111,9 @@
                      <paper-checkbox id='{{id}}' checked="{{assesmentcheckid}}" on-change="fnchange">Assesment</paper-checkbox>
               </P>
               </td>          
+
+                     
+            
               <td style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;">
                {{remarks}}
@@ -128,12 +130,18 @@
                <P style="height: 50px; overflow:hidden;">
                <div hidden$="{{hidetitleflag}}">{{correctionstatus}}</div>
                 <paper-input value={{correctionstatus}} hidden$="{{hideflag}}"></paper-input>
+
                 </P>
              </td>
               <td hidden$="{{hidetitleflag}}" style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;">{{completiondate}}
                </P>
                </td>
+
+              </td>
+           
+              <td hidden$="{{hidetitleflag}}" style="width: 5.5%;">{{completiondate}}</td>
+
               <td hidden$="{{hideflag}}" style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;">
               <complection-date-picker-card></complection-date-picker-card>
@@ -144,17 +152,21 @@
                </P>
               </td>
               <td hidden$="{{hideflag}}" style="width: 5.5%;">
+
                <P style="height: 50px; overflow:hidden;">
                  <paper-checkbox id="cpayes{{subconceptid}}" checked on-change="FnYes">Yes</paper-checkbox><br>
                 <paper-checkbox id="cpano{{subconceptid}}" on-change="FnNo">No</paper-checkbox>
                 </P>
                 </td>
+
+
               <td style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;">
                 <div hidden$="{{hidetitleflag}}">{{enrichmentsug}}</div>
                 <paper-input value={{enrichmentsuggest}} hidden$="{{hideflag}}"></paper-input>
                 </P>
               </td>
+
               <td style="width: 5.5%;">
                <P style="height: 50px; overflow:hidden;"> 
                {{hometype}}
@@ -169,7 +181,9 @@
                </td>
         </tr>
       </table>
-  <div  hidden>hometypeid</div>
+  <div  hidden>{{hometypeid}}</div>
+
+             
        <paper-dialog id="save2dialog" modal>
        <h3><center>UPDATED</center></h3>
        <center>

@@ -9,6 +9,7 @@ var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
 
+
 var connection = mysql.createConnection({  
 /*  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
 >>>>>>> 65f788bfc6b8857961f5dac34c3aabcb22151989
@@ -34,14 +35,10 @@ var connection = mysql.createConnection({
 });
 
 
+
 var app = express();
 var logfile;
-// AWS.config.loadFromPath('app/configfile/credential.json');
-aws.config.update({
-    secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
-    accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
-    region: 'ap-south-1'
-});
+
 s3 = new aws.S3();
 
 app.use(express.static('app'));
@@ -16107,13 +16104,9 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
       current_url:req.query.currurl,
       sno:req.query.sno,
       skillid:req.query.skillid,
-      valueid:req.query.valueid,
-     
+      valueid:req.query.valueid,     
       assesment_date:req.query.assesmentdate,
-      homework_type:req.query.homework,
-     
-        
-
+      homework_type:req.query.homework      
     };
     console.log('Coming for Display insertion....');
     connection.query("INSERT INTO md_curriculum_display SET ?",[response],

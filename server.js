@@ -51,7 +51,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
   res.sendFile("app/index.html" );
 });
 
-
 // var upload = multer({
 //     storage: multerS3({
 //         s3: s3,
@@ -1583,7 +1582,7 @@ app.post('/grade-service',  urlencodedParser,function (req, res)
     "in(select grade_id from mp_teacher_grade where "+
     "school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')";
   }
-   else if(req.query.roleid=='principal'||req.query.roleid=='viceprincipal'||req.query.roleid=='headofedn'||req.query.roleid=='management' || req.query.roleid=='studentadmin')
+   else if(req.query.roleid=='principal'||req.query.roleid=='viceprincipal'||req.query.roleid=='headofedn'||req.query.roleid=='management' || req.query.roleid=='admin')
   {
     var qur="select grade_name,grade_id from md_grade where grade_id "+
     "in(select grade_id from mp_teacher_grade where "+
@@ -1647,7 +1646,7 @@ app.post('/grade1-service',  urlencodedParser,function (req, res)
     "in(select grade_id from mp_teacher_grade where "+
     "school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')";
   }
-   else if(req.query.roleid=='principal'||req.query.roleid=='viceprincipal'||req.query.roleid=='headofedn'||req.query.roleid=='management' || req.query.roleid=='studentadmin')
+   else if(req.query.roleid=='principal'||req.query.roleid=='viceprincipal'||req.query.roleid=='headofedn'||req.query.roleid=='management' || req.query.roleid=='admin')
   {
     var qur="select grade_name,grade_id from md_grade where grade_id "+
     "in(select grade_id from mp_teacher_grade where "+
@@ -1765,7 +1764,7 @@ app.post('/section-service',  urlencodedParser,function (req, res)
     " tg.school_id='"+req.query.schoolid+"' and tg.academic_year='"+req.query.academicyear+"' and g.grade_name='"+req.query.gradename+"') and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'";
     }
 
-   else if(req.query.roleid=='principal'||req.query.roleid=='viceprincipal'||req.query.roleid=='headofedn'||req.query.roleid=='management' || req.query.roleid=='studentadmin')
+   else if(req.query.roleid=='principal'||req.query.roleid=='viceprincipal'||req.query.roleid=='headofedn'||req.query.roleid=='management' || req.query.roleid=='admin')
      {
  var qur="select distinct(section_id),UPPER(section_id) as section_name,class_id from mp_grade_section  where class_id in (select distinct(tg.class_id) from mp_teacher_grade tg join md_grade g on(tg.grade_id=g.grade_id) where "+
     " tg.school_id='"+req.query.schoolid+"' and tg.academic_year='"+req.query.academicyear+"' and g.grade_name='"+req.query.gradename+"') and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'";

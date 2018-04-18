@@ -1239,9 +1239,6 @@ document.querySelector('home-page').setPage('student-scorcard-mail-card','');
       },
       
       FnHideView:function(){ 
-
-
-
         if(sessionStorage.getItem("curr_sess_loggedroleid")=='management'){
           // alert(sessionStorage.getItem("curr_sess_loggedroleid")+"  "+this.containerview);
           this.hidemanagementreport=false;
@@ -1271,7 +1268,7 @@ document.querySelector('home-page').setPage('student-scorcard-mail-card','');
           }
         }
 
-   if(sessionStorage.getItem("curr_sess_loggedroleid")=='studentadmin'){
+   if(sessionStorage.getItem("curr_sess_loggedroleid")=='admin'){
       this.hidestudentadmin=false;
 
  if(this.containerview=="Reportcard"){

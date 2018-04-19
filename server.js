@@ -22,7 +22,7 @@ var connection = mysql.createConnection({
 <<<<<<< HEAD
   type:"mysql"  
   // host     : 'localhost',
-  // user     : 'root',
+  // user    : 'root',
   // password : 'admin',
   // database : 'samsidhreportcard'
  });
@@ -16110,6 +16110,7 @@ app.post('/fnmasterplaninsert-service' , urlencodedParser,function (req, res)
       assesment_date:req.query.assesmentdate,
        homework_type:req.query.homework,
       current_url:req.query.currurl,
+      home_aids:req.query.homeaids,
     };
     console.log('Coming for master insertion....');
     connection.query("INSERT INTO md_curriculum_planning SET ?",[response],
@@ -16158,7 +16159,9 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
       skillid:req.query.skillid,
       valueid:req.query.valueid,     
       assesment_date:req.query.assesmentdate,
-      homework_type:req.query.homework      
+      homework_type:req.query.homework,
+      home_aids:req.query.homeaids, 
+      homecurrurl:req.query.homecurrurl,   
     };
     console.log('Coming for Display insertion....');
     connection.query("INSERT INTO md_curriculum_display SET ?",[response],
@@ -16223,14 +16226,13 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
       teaching_aid:req.query.teachingaid,
       remarks: req.query.remarks,
       term_id:req.query.termid,
-    
+      home_aids:req.query.homeaids,
       sno:req.query.sno,
       skillid:req.query.skillid,
       valueid:req.query.valueid,
-     
       assesment_date:req.query.assesmentdate,
-      home_type_id:req.query.hometypeid,
-      homework_type:req.query.hometype,
+      home_type_id:"",
+      homework_type:req.query.homework,
     };
     console.log('Coming for master editing....');
        console.log(response);
@@ -16254,7 +16256,7 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
 app.post('/fnmasterplandisplyedit-service',  urlencodedParser,function (req, res)
 {  
 
-var qur="update md_curriculum_display set home_type_id='"+req.query.hometypeid+"',homework_type='"+req.query.hometype+"',assesment_date='"+req.query.assesmentdate+"', concept_id='"+req.query.conceptid+"',concept_name='"+req.query.conceptname+"',sub_concept_id='"+req.query.subconceptid+"',sub_concept_name='"+req.query.subconceptname+"',teaching_aid='"+req.query.teachingaid+"',planned_to_date='"+req.query.plannedtodate+"',planned_date_from='"+req.query.plannedfromdate+"',skillid='"+req.query.skillid+"',skill='"+req.query.skill+"',valueid='"+req.query.valueid+"',period='"+req.query.period+"',period='"+req.query.period+"',value='"+req.query.value+"',innovation='"+req.query.innovation+"',remarks='"+req.query.remarks+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and row_id='"+req.query.rowid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'  and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'";
+var qur="update md_curriculum_display set home_aids='"+req.query.homeaids+"',homework_type='"+req.query.homework+"',assesment_date='"+req.query.assesmentdate+"', concept_id='"+req.query.conceptid+"',concept_name='"+req.query.conceptname+"',sub_concept_id='"+req.query.subconceptid+"',sub_concept_name='"+req.query.subconceptname+"',teaching_aid='"+req.query.teachingaid+"',planned_to_date='"+req.query.plannedtodate+"',planned_date_from='"+req.query.plannedfromdate+"',skillid='"+req.query.skillid+"',skill='"+req.query.skill+"',valueid='"+req.query.valueid+"',period='"+req.query.period+"',period='"+req.query.period+"',value='"+req.query.value+"',innovation='"+req.query.innovation+"',remarks='"+req.query.remarks+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and row_id='"+req.query.rowid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'  and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'";
 console.log('----------update---------------');
 console.log(qur);
 
@@ -22975,6 +22977,7 @@ app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
       link:req.query.currurl,
        filename:req.query.filename,
     };
+    console.log("md_concept_homework");
     console.log(response);
     connection.query("INSERT INTO md_concept_homework SET ?",[response],function(err, rows){
     if(!err)

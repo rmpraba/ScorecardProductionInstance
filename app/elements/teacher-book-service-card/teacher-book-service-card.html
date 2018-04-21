@@ -724,7 +724,8 @@
         handle-as="json"
         content-type="application/json"
         on-response="fnteacheraid2Response"
-        debounce-duration="300"/>
+        debounce-duration="300"/>  
+      
   </template>
   <script>
   (function() {
@@ -2626,6 +2627,8 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
             document.querySelector('curriculum-plan-conceptapproval-card').hideapprovalcard=false;
             document.querySelector('curriculum-plan-conceptapproval-card').approvearr=temp;
           },
+
+
           updateapprovalstatusofchapterconcept:function(o,assementarr){
           gassementarr=assementarr;
  

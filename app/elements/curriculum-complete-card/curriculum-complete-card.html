@@ -1,0 +1,67 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="curriculum-complete-card">
+  <template>
+    <style>
+     table{
+        border-collapse: collapse;
+        width: 100%;
+
+      }
+      table { table-layout:fixed; }
+     table td { overflow: hidden; }
+
+      th,td{
+     border-bottom: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+     }
+    </style>
+    <div>
+      <table  class="teach1" >
+        <tr>
+        <td style="{{fonts}}" width="10%" >{{sno}}</td>
+        <td style="{{fonts}}" width="10%">{{conceptname}}</td>
+        <td style="{{fonts}}" width="10%">{{subconceptname}}</td>
+        <td style="{{fonts}}" width="10%">
+          <p hidden$="{{hideopenplan}}">{{completiondate}}</p>
+          <complection-date-picker-card hidden$="{{hidecloseplan}}"></complection-date-picker-card>
+        </td>
+        <td style="{{fonts}}" width="10%">
+          <p hidden$="{{hideopenplan}}">{{completionstatus}}</p>
+           <P hidden$="{{hidecloseplan}}"> 
+             <paper-checkbox id="cpayes{{subconceptid}}"  on-change="FnYes">Completed</paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <paper-checkbox id="cpano{{subconceptid}}" checked on-change="FnNo">  Not Completed</paper-checkbox>
+          </P>
+        </td>
+        <td style="{{fonts}}" width="10%">
+           <p hidden$="{{hideopenplan}}">{{correctionstatus}}</p>
+            <paper-input value={{correctionstatus}} hidden$="{{hidecloseplan}}"></paper-input>
+        </td>
+        <td style="{{fonts}}" width="10%">
+          <p hidden$="{{hideopenplan}}">Save</p>
+          <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button></center>  
+       </td>
+       </tr>
+      </table>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'curriculum-complete-card',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'curriculum-complete-card',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

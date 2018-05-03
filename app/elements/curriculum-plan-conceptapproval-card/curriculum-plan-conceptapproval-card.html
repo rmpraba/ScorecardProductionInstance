@@ -29,6 +29,11 @@
         width: 80%;
         margin-left: 11%;  
       }
+      .plan{
+      margin-top:5.3%;position: absolute;
+     
+        },
+
       .report1
       {
           table-layout: fixed;
@@ -58,11 +63,14 @@
  height: 24.1%;
    
 }
+paper-tab{
+  margin-left: -2%;
+}
 th,td{
-        border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-      border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+     border-right: 1px solid #ddd;
+     border-bottom: 1px solid #ddd;
+     border-top: 1px solid #ddd;
      }
       paper-dropdown-menu
       {
@@ -107,7 +115,11 @@ th,td{
                 <paper-item value="term3">Term3</paper-item>
             </paper-menu>
           </paper-dropdown-menu>
-       </span>        
+       </span>
+
+      
+    
+
       <span class="position"> 
         <paper-dropdown-menu  label="Select the chapter">
           <paper-menu id="cpapprovalchapter" class="dropdown-content"   on-iron-select="FnSelectChapter">
@@ -119,23 +131,66 @@ th,td{
      </span> 
     
     </div>
-
-
+  
      <paper-input value="{{name}}" hidden></paper-input>
       <div id="empidzz" style="position: 
       absolute;margin-left: 5%;margin-top: 1.4%;">
         <label><b>Employee Name:</b></label>
+
+
+
+
+
       </div>
       <h4 style="margin-top: 1.3%;position: absolute;
-      margin-left: 14%;">{{name}}</h4>
-      <div class="zui-scroller">
+      margin-left: 14%;text-transform:uppercase;">{{name}}</h4>
+
+
+     <center>
+       <paper-tabs selected="0"  style="margin-top: 5.3%; position: absolute;margin-left: 8%;width: 80%;color: #f1f703;background-color: #3558bb">
+              <paper-tab on-click="Fnlessonplan">Lesson Plan</paper-tab>
+              <paper-tab on-click="Fnteacingaid">Teaching Aids</paper-tab>
+             <paper-tab on-click="Fnhomework">Home Work</paper-tab>
+             <paper-tab on-click="Fnassesmenttype">Assesment Type</paper-tab>
+             <paper-tab on-click="Fncomplete">Complete Status</paper-tab>
+      </paper-tabs>
+      </center>
+      <br><br><br>
+
+<div class="plan">
+  <template is="dom-repeat" items="{{lessonarr}}">
+    <curriculum-lessonplan-card  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}"  coremarks="{{item.remarks}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  enrichmentsuggest="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.remarks}}" fonts="{{item.fonts}}" remark="{{item.remark}}" ></curriculum-lessonplan-card>
+  </template>
+  
+</div>
+<div class="plan"> 
+  <template is="dom-repeat" items="{{teacharr}}">
+       <curriculum-teach-card conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}"  url="{{item.url}}" fonts="{{item.fonts}}"  ></curriculum-teach-card>
+    </template>
+</div>
+<div class="plan">
+<template is="dom-repeat" items="{{homearr}}">
+    <curriculum-home-card conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}" url="{{item.url}}" fonts="{{item.fonts}}" homeaids="{{item.homeaids}}"></curriculum-home-card>
+    </template>
+</div>
+<div class="plan">
+<template is="dom-repeat" items="{{assesmentarr}}">
+    <curriculum-assesment-card chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" sno='{{item.sno}}'  id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}"    assesmentdate="{{item.assesment_date}}" chaptername="{{item.chapter_name}}"    hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  fonts="{{item.fonts}}" assesmenttype="{{item.assesment_type}}"></curriculum-assesment-card>
+  </template>
+</div>  
+
+<div class="plan">
+<template is="dom-repeat" items="{{completearr}}">
+     <curriculum-complete-card chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" sno='{{item.sno}}'  id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" completiondate="{{item.completion_date}}" hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}" fonts="{{item.fonts}}"  ></curriculum-complete-card>
+  </template>
+</div>
+ <!--<div class="zui-scroller">
    <table  class="report1" id="clsplnevalttttt">
-        <!-- <tr style="border-bottom: 1px solid #ccc; line-height: 1.8em;border-color:#6699ff"> -->
-     <tr>
-      <th style="width: 4.7%;margin-left:4%;" class="zui-sticky-col1">SNO</th>
-      <th style="width: 16.7%;margin-left:9%;" class="zui-sticky-col1">Concept</th>
+  <tr>
+  <th style="width: 4.7%;margin-left:4%;" class="zui-sticky-col1">SNO</th>
+   <th style="width: 16.7%;margin-left:9%;" class="zui-sticky-col1">Concept</th>
       <th style="width: 15%;margin-left:26%;" class="zui-sticky-col1">Sub Concept</th>
-          <th style="width: 11%;"># Periods</th>
+          <th style="width: 11%;">#Periods</th>
           <th style="width: 11%;">Skill</th>
           <th style="width: 11%;">Assesmentdate</th>
           <th style="width: 11%;">Value</th>
@@ -152,8 +207,7 @@ th,td{
           <th style="width: 11%;">Enrichment Suggestion</th>
           <th style="width: 11%;">Home Work</th>          
           <th style="width: 11%;"></th>  
-
-         </tr>       
+   </tr>       
        <template is="dom-repeat" items="{{approvearr}}">
       <tr>
        <td  class="zui-sticky-col" style="width: 4.7%; margin-left: 4%;" >{{item.sno}}</td>
@@ -166,15 +220,16 @@ th,td{
             </tr>  
            </template>  
      </table> 
-     </div>
+     </div> -->
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>  
+    <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
   </template>
   <script>
   (function() {
     'use strict';
     Polymer({
       is: 'curriculum-plan-conceptapproval-card',     
-      /*ready:function(){
+       /*ready:function(){
         this.hideapprovalcard=true;
       } ,*/
       FnSelectGrade:function(e){
@@ -188,10 +243,51 @@ th,td{
         document.querySelector('#cpapprovalchapter').selected=-1;
         document.querySelector('#chaptertermidggggg').selected=-1;
         
-        this.$.clsplnevalttttt.hidden=true;
+      //  this.$.clsplnevalttttt.hidden=true;
         this.name="";
         this.$.empidzz.hidden=true;
       },
+   Fnlessonplan:function(e){
+    this.lessonarr="";
+    this.homearr="";
+    this.completearr="";
+    this.teacharr="";
+    this.assesmentarr="";
+    this.$.crriculambookservice.fngetlessonplanvalue();
+      },
+   Fnteacingaid:function(e){
+    this.lessonarr="";
+    this.homearr="";
+    this.completearr="";
+    this.teacharr="";
+    this.assesmentarr="";
+    this.$.crriculambookservice.fngetteacingaids();
+      },
+      Fnhomework:function(e){
+    this.lessonarr="";
+    this.homearr="";
+    this.completearr="";
+    this.teacharr="";
+    this.assesmentarr="";
+    this.$.crriculambookservice.fnhomework();
+   },
+    
+  Fnassesmenttype:function(e){
+    this.lessonarr="";
+    this.homearr="";
+    this.completearr="";
+    this.teacharr="";
+    this.assesmentarr="";
+    this.$.crriculambookservice.fnassesmenttypes();
+    },
+    Fncomplete:function(e){
+    this.lessonarr="";
+    this.homearr="";
+    this.completearr="";
+    this.teacharr="";
+    this.assesmentarr="";
+    this.$.crriculambookservice.fncompletestatus();
+  },
       FnSelectSection:function(e){
         this.sectionidz=e.target.selectedItem.value;
         this.sectionidname=e.target.selectedItem.textContent.trim();
@@ -201,7 +297,7 @@ th,td{
         document.querySelector('#cpapprovalsubject').selected=-1;
         document.querySelector('#cpapprovalchapter').selected=-1;
          document.querySelector('#chaptertermidggggg').selected=-1;
-        this.$.clsplnevalttttt.hidden=true;
+        //this.$.clsplnevalttttt.hidden=true;
         this.name="";
         this.$.empidzz.hidden=true;
       },
@@ -212,7 +308,7 @@ th,td{
        localStorage.setItem("curr_sess_subjectname",this.subjectname);
      document.querySelector('#cpapprovalchapter').selected=-1;
       document.querySelector('#chaptertermidggggg').selected=-1;
-       this.$.clsplnevalttttt.hidden=true;
+     //  this.$.clsplnevalttttt.hidden=true;
         this.name="";
         this.$.empidzz.hidden=true;
       },
@@ -221,7 +317,7 @@ th,td{
         sessionStorage.setItem("termid",this.termid);
      this.$.bookservice.fngetclassbookchaptervalue(this.gradeid,this.sectionidname,this.subjectid,this.termid); 
      document.querySelector('#cpapprovalchapter').selected=-1; 
-     this.$.clsplnevalttttt.hidden=true;
+   //  this.$.clsplnevalttttt.hidden=true;
         this.name="";
         this.$.empidzz.hidden=true;
       },
@@ -230,23 +326,19 @@ th,td{
        this.chaptername=e.target.selectedItem.textContent.trim();
        localStorage.setItem("curr_sess_chapterid",this.chapterid); 
        localStorage.setItem("curr_sess_chaptername",this.chaptername); 
-       this.$.bookservice.fngetclassbookchapterconceptvalue(this.gradeid,this.sectionidz,this.sectionidname,this.subjectid,this.chapterid);
-       this.$.bookservice.fetchalreadyapprovedchapterconcept(); 
-       
-       this.$.clsplnevalttttt.hidden=false;
+      // this.$.bookservice.fngetclassbookchapterconceptvalue(this.gradeid,this.sectionidz,this.sectionidname,this.subjectid,this.chapterid);
+     this.$.bookservice.fetchalreadyapprovedchapterconcept(); 
+       // this.$.clsplnevalttttt.hidden=false;
        this.$.empidzz.hidden=false;
-      
-      },
-     
-        
-      FnRefreshzzz:function()
+        },
+     FnRefreshzzz:function()
       {
         document.querySelector('#cpapprovalgrade').selected=-1;
         document.querySelector('#cpapprovalsection').selected=-1;
         document.querySelector('#cpapprovalsubject').selected=-1;
         document.querySelector('#cpapprovalchapter').selected=-1;
          document.querySelector('#chaptertermidggggg').selected=-1;
-        this.$.clsplnevalttttt.hidden=true;
+     //   this.$.clsplnevalttttt.hidden=true;
         this.name="";
         this.$.empidzz.hidden=true;
         this.approvearr="";

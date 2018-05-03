@@ -230,7 +230,7 @@ th{
       <table class="report1" id="reporttabzzzzz">
        
        <tr>
-           <th style="width: 10%; margin-left: 7%;" class="zui-sticky-col1">S.NO</th>
+           <th style="width: 3%; margin-left: 14%;" class="zui-sticky-col1">S.NO</th>
           <th style="width: 16%; margin-left: 17.2%;" class="zui-sticky-col1">Concept</th>
           <th style="width: 17%;">Work schdule</th>
           <th style="width: 6%;">#Periods</th>
@@ -239,6 +239,7 @@ th{
           <th style="width: 10.9%;">Assesment Date</th>
           <th style="width: 10.9%;">Home Work</th>
           <th style="width: 10.9%;">Skill</th>
+          <th style="width: 10.9%;">Home Aids</th>
           <th style="width: 10.9%;">Value</th>
           <th style="width: 10.9%;">Teaching Aids</th>
           <th style="width: 10.9%;">Innovation</th>
@@ -248,22 +249,13 @@ th{
    <!-- <tr>         -->
   <template  is="dom-repeat" items="{{overallarr1}}" as="view">
    <tr> 
-      <td class="zui-sticky-col" style="width: 10%; margin-left:7%;">{{view.sno}}</td>    
+      <td class="zui-sticky-col" style="width:3%; margin-left:14%;">{{view.sno}}</td>    
       <td class="zui-sticky-col" style="width: 16%;margin-left:17.2%;">
 
-   <aproval-book-concept-card  hidecheck="{{view.hidecheck}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" iddate="{{view.id_date}}" rowid="{{view.rowid}}"  sno="{{view.sno}}" plannedtoate="{{view.planned_to_date}}" id="{{view.id_date}}{{view.rowid}}{{view.sno}}"></aproval-book-concept-card >
-
-
-
-
-
-
-
-
-</td>    
-        <td><aproval-book-innovatiosn-item-card assesmentdate="{{view.assesmentdate}}" homework="{{view.homework}}" rowid="{{view.rowid}}" remark="{{view.remarks}}" period="{{view.period}}" planneddate="{{view.planned_date_from}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck11="{{view.hidecheck11}}"  hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" value="{{view.value}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" subconceptid="{{view.sub_concept_id}}" subconceptname="{{view.sub_concept_name}}" teachingaid="{{view.teaching_aid}}" sno="{{view.sno}}" bldvaluename="{{view.bld_value_name}}" plannedtoate="{{view.planned_to_date}}" id="{{view.id_date}}{{view.rowid}}{{view.sno}}"> 
-    </aproval-book-innovatiosn-item-card>
-    </td>
+   <aproval-book-concept-card  hidecheck="{{view.hidecheck}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" iddate="{{view.id_date}}" rowid="{{view.rowid}}"  sno="{{view.sno}}" plannedtoate="{{view.planned_to_date}}" id="{{view.id_date}}{{view.rowid}}{{view.sno}}">
+    </aproval-book-concept-card ></td>
+     <td><aproval-book-innovatiosn-item-card homecurrurl="{{view.homecurrurl}}" currurl="{{view.currurl}}" assesmentdate="{{view.assesmentdate}}" homework="{{view.homework}}" rowid="{{view.rowid}}" remark="{{view.remarks}}" period="{{view.period}}" planneddate="{{view.planned_date_from}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck11="{{view.hidecheck11}}"  hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" value="{{view.value}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" subconceptid="{{view.sub_concept_id}}" subconceptname="{{view.sub_concept_name}}" teachingaid="{{view.teaching_aid}}" sno="{{view.sno}}" bldvaluename="{{view.bld_value_name}}" plannedtoate="{{view.planned_to_date}}" id="{{view.id_date}}{{view.rowid}}{{view.sno}}" homeaids="{{view.homeaids}}"> 
+    </aproval-book-innovatiosn-item-card></td>
                 </tr> 
               </template>    
             <!-- </tr>   -->
@@ -373,9 +365,7 @@ th{
           this.chaptbuffidz=true;
           this.Conceptbuffidz=true;
         },
-
-    
-        fnsetval:function(e)
+    fnsetval:function(e)
         {
    
         },

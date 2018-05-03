@@ -488,74 +488,12 @@ assesmentvalues:function(e){
 },
 
 fnassementtype:function(e){
-
-
-
-
-
-/*
- this.$.Conceptassesmentdialog.toggle();
-
- this.conassesmenttypeurl=sessionStorage.getItem("addrinfo")+"/conceptassement-service";
-     var obj={};
-     obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-    obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-     obj.capter_id=localStorage.getItem("curr_sess_capters");
-     obj.subjectid=localStorage.getItem("curr_sess_subjectid");
-     obj.gradeid=localStorage.getItem("curr_sess_gradeid");
-     obj.sectionid=localStorage.getItem("curr_sess_sectionid");
-
-     obj.termid=sessionStorage.getItem("termid"); 
-     obj.period=this.period;
-     obj.conceptid=this.conceptid;
-     obj.rowid=this.rowid; 
-     obj.planneddate=this.planneddate;
-     this.conassesmenttypeparam=obj;
-     this.$.conassesmenttypeajax.generateRequest();*/
-
 },
-/*conassesmenttypeResponse:function(e){
-var arr1= e.detail.response.returnval;
-var arr= e.detail.response.dbarr;
-//alert(JSON.stringify(arr));
-//alert(JSON.stringify(arr1));
-var hworkarr=[];
-   var temp=[];
-      var k;
-      if(arr1!=""){
-         k=arr1[0].assesment_type_id;
-          temp=k.split(",");
-       }
-for(var j=0;j<arr.length;j++)
-          {
-            var flag=0;
-              for(var i=0;i<temp.length;i++)
-              {  
-                if(arr[j].assesment_type_id==temp[i])
-                  { 
-                   flag=1;
-                   arr[j].check=true;   
-                   var obj={};
-                   obj.assesment_type_id=arr[j].assesment_type_id;
-                   obj.assesment_type=arr[j].assesment_type;
-                   obj.assement_name=arr[j].assement_name;
-                   obj.assesment_url=arr[j].assesment_url;
-                   obj.rowid=this.rowid;
-                   obj.id="VVYJ"+this.rowid+arr[j].assesment_type_id;
-                  
-                    }}
-              if(flag==0)
-                 {
-                  arr[j].check=false;
-                 }}
 
-  this.assementarr=arr;
-  },*/
   fnhome:function(e){
-this.$.Conceptassesmentdia1log.toggle();
-//alert(1);
-
-this.homeurl=sessionStorage.getItem("addrinfo")+"/home-service";
+ this.$.Conceptassesmentdia1log.toggle();
+ //alert(1);
+ this.homeurl=sessionStorage.getItem("addrinfo")+"/home-service";
      var obj={};
      obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
      obj.academic_year=localStorage.getItem("curr_sess_academicyear");
@@ -563,7 +501,6 @@ this.homeurl=sessionStorage.getItem("addrinfo")+"/home-service";
      obj.subjectid=localStorage.getItem("curr_sess_subjectid");
      obj.gradeid=localStorage.getItem("curr_sess_gradeid");
      obj.sectionid=localStorage.getItem("curr_sess_sectionid");
-
      obj.termid=sessionStorage.getItem("termid"); 
      obj.period=this.period;
      obj.conceptid=this.conceptid;
@@ -571,11 +508,10 @@ this.homeurl=sessionStorage.getItem("addrinfo")+"/home-service";
      obj.planneddate=this.planneddate;
      this.homeparam=obj;
      this.$.homeajax.generateRequest();
-
-},
+ },
 homeResponse:function(e){
   var arr1= e.detail.response.returnval;
-var arr= e.detail.response.dbarr;
+  var arr= e.detail.response.dbarr;
 //alert(JSON.stringify(arr));
 //alert(JSON.stringify(arr1));
 var hworkarr=[];
@@ -691,7 +627,7 @@ alert(JSON.stringify(homefilearrurl));
         obj.fromdate=this.fromdate;
         obj.todate=this.todate;
         obj.skill=this.skill;
-        obj.value=this.value;
+        obj.value=this.value;           
         obj.innovation=this.innovation;
         obj.assesmentcheckid=this.assesmentcheckid;
         obj.remarks=this.remarks;
@@ -704,7 +640,7 @@ alert(JSON.stringify(homefilearrurl));
         obj.hometypeid=this.hometypeid;
         obj.hometype=this.hometype;
         obj.assmentcurrurl=this.assmentcurrurl;
-              //alert(JSON.stringify(obj));
+        //alert(JSON.stringify(obj));
         this.$.bookservice.updateapprovalstatusofchapterconcept(obj,homefilearrurl);
         completionstatus=""; 
         homefilearrurl=[];
@@ -731,6 +667,7 @@ alert(JSON.stringify(homefilearrurl));
      {
        alert('You are allowed to select future date only..!');
      },
+
     });
   })();
   </script>

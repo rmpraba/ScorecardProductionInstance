@@ -1,0 +1,76 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="curriculum-lessonplan-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+  /* table{
+    width: 80%;
+   }*/
+     table{
+        border-collapse: collapse;
+        width: 100%;
+
+      }
+      table { table-layout:fixed; }
+     table td { overflow: hidden; }
+
+      th,td{
+     border-bottom: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+     }
+    </style>
+
+    <div>
+       <table  class="teach1" >
+        <tr>
+              <td style="{{fonts}}" width="10%" >{{sno}}
+                   </td>
+              <td style="{{fonts}}"  width="10%">{{conceptname}}</td>
+              <td style="{{fonts}}"  width="10%">{{subconceptname}}</td>
+              <td style="{{fonts}}; text-align: center;"  width="10%">{{period}}</td>
+              <td style="{{fonts}}"  width="10%">{{skill}} </td>
+              <td style="{{fonts}}"  width="10%"> {{value}} </td>
+              <td style="{{fonts}}"  width="10%">{{innovation}}</td>
+              <td style="{{fonts}}"  width="10%">{{coremarks}}</td>
+              <td style="{{fonts}}"  width="10%">
+                <p hidden$="{{hideopenplan}}" >{{remark}}</p>
+                  <paper-input value={{subremak}} hidden$="{{hidecloseplan}}" ></paper-input>
+              </td>
+            
+             <td  style="{{fonts}}"  width="10%">
+                <p   hidden$="{{hideopenplan}}" >{{enrichmentsuggest}}</p>
+                <paper-input hidden$="{{hidecloseplan}}" value={{enrichmentsuggest}}  hidden$="{{hidecloseplan}}"></paper-input>
+                
+              </td>
+              <td style="{{fonts}}"  width="10%">
+                <p hidden$="{{hideopenplan}}">Save</p>
+                <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button></center>  
+             </td>
+
+        </tr>
+      </table>
+
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'curriculum-lessonplan-card',
+
+      properties: {
+        foo: {
+          type: String,
+          value: 'curriculum-lessonplan-card',
+          notify: true
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,21 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="imageicon-card">
+  <template><h1 hidden>{{menuid}{{menuname}}{{submenu}}</h1>
+    <paper-button value="{{functionname}}" on-click="functionName" no ink><img src="../../images/{{imagename}}" height="180px" width="180px"><h4>{{imagelabel}}</h4></paper-button>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'imageicon-card',
+      functionName:function(e){
+        // alert(this.submenu+"  "+this.functionname);
+        document.querySelector('teacherhome-card').functionName(this.submenu,this.functionname);
+      }
+    });
+  })();
+  </script>
+</dom-module>

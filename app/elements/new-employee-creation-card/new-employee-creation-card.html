@@ -376,6 +376,9 @@
             <paper-button class="subbutton" on-click="FnpersonalSave">Save</paper-button>
           </div>               
     </div>    
+    <paper-dialog id="emplyspin">
+      <paper-spinner id="empspinner"></paper-spinner>
+    </paper-dialog>
     <demosumbit-card id="mydialog"></demosumbit-card>
     <master-ui-service id="uiservice"></master-ui-service>
   </template>
@@ -550,6 +553,16 @@
         this.$.empspinner1.opened=flag;
         
       },
+      clsspiner:function()
+      {
+          this.$.empspinner.active=false;
+          document.querySelector('#emplyspin').close();
+      },
+      openspinr:function()
+      {
+          document.querySelector('#emplyspin').open();
+          this.$.empspinner.active=true;
+      }
 });
   })();
   </script>

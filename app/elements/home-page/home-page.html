@@ -1,6 +1,5 @@
 <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../../bower_components/app-router/app-router.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../teacherhome-card/teacherhome-card.html">
@@ -23,12 +22,12 @@
 <link rel="import" href="../fivetotencomparisonreport-card/fivetotencomparisonreport-card.html">
 <link rel="import" href="../approvalstatus-card/approvalstatus-card.html">
 <link rel="import" href="../enrichmenthome-card/enrichmenthome-card.html">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
   <dom-module id="home-page">
   <template>  
-  <style>
+  <style is="custom-style" >
   .in
   {  
-   
   float:right;
   font-size:12px;
   }
@@ -37,25 +36,32 @@
     float:left;
     width: 4%;
   }
-  .head{
-     height: 10%;
-     margin-top: -3.5%;
-     margin-left: -3%;
-
-     width: 105%;
-     /*background-color:slategrey;*/
+  .headd{
+     height: 7%;
+     width: 100%;
      background-color: #12A5F4;
      color: white;
+     margin: 0px;
+     padding: 0px;
+     position: fixed;
+     top: 0;
+     overflow: hidden;
   }
-  .card{
+/*  .headcontent{
+    padding:16px;
+  }*/
+  .cardd{
     @apply(--layout-vertical);
-    /*width: 105%;*/}
-
-    label{
+    width: 100%;
+    height: 93%;
+    padding: 16px;
+    margin-top: 48px;
+    position: fixed;
+    overflow: scroll;
+    /*padding-top: 7%;*/
+    }
+  label{
     margin-left: 21%;
-    /*font-size: 20px;*/
-    /*font-weight: bold;*/
-    
   }
   b{
     font-size: 17.9px;
@@ -64,13 +70,23 @@
     margin-left: 5%;
     text-transform: capitalize;
   }
+  .content{
+    width: 100%;
+  }
+  .outercontainer{
+    margin: 0px;
+    padding: 0px;
+  }
   </style>
-  <div class="card">
-    <div class="head" id="templateheader">
-      <paper-icon-button icon="home" on-click="FnHome"></paper-icon-button>      
-        <label><b>{{title}}</b><i>Hello! {{username}}</i></label>
-      <paper-button class="in" on-click="signout">Sign Out</paper-button>
+  <!-- <div class="outercontainer"> -->
+  <div class="headd">
+  <div class="headcontent">
+    <paper-icon-button icon="home" on-click="FnHome"></paper-icon-button>      
+      <label><b>{{title}}</b><i>Hello! {{username}}</i></label>
+    <paper-button class="in" on-click="signout">Sign Out</paper-button>
     </div>
+  </div>
+  <div class="cardd">
   <!-- <app-location route="{{route}}"></app-location>
   <app-route route="{{route}}" pattern="/:page" data="{{data}}"></app-route>
    <app-route
@@ -175,7 +191,6 @@
           <section data-category="employe-category-creation-card">
           <employe-category-creation-card></employe-category-creation-card>
         </section>
-        </section>
           <section data-category="school-grade-to-subject-card">
           <school-grade-to-subject-card></school-grade-to-subject-card>
         </section>
@@ -192,7 +207,7 @@
           <section-period-itme-card></section-period-itme-card>
         </section>
         <section data-category="Student-to-section-mapping-card">
-      <Student-to-section-mapping-card></Student-to-section-mapping-card>
+        <Student-to-section-mapping-card></Student-to-section-mapping-card>
         </section>
         <section data-category="studentlistcard">
           <generate-studentlist-outcard></generate-studentlist-outcard>
@@ -339,18 +354,14 @@
           <section data-category="assesment-creation-card">
           <assesment-creation-card></assesment-creation-card>
       </section> 
-
       <section data-category="term-assesment-to-grade-mapping">
           <term-assesment-to-grade-mapping></term-assesment-to-grade-mapping>
       </section> 
     <section data-category="assesment-to-subject-mapping-card">
     <assesment-to-subject-mapping-card></assesment-to-subject-mapping-card>
-    </section>  
-
-
+    </section> 
     <section data-category="newformat-reportcard-ninth">
       <newformat-reportcard-ninth></newformat-reportcard-ninth>
-
     </section> 
      <section data-category="dashboard-homecard">
           <dashboard-homecard></dashboard-homecard>
@@ -359,15 +370,11 @@
           <school-transfer-card></school-transfer-card>
       </section>       
     </iron-pages>
-
-
-
-     
-
-
     </div>   
+    <!-- </div> -->
     <div class="footer"></div>
   </div>
+  <!-- </div> -->
   </template> 
   <script>
   Polymer({
@@ -378,14 +385,10 @@
     this.username=name+" ("+sessionStorage.getItem("curr_sess_loggedrole")+")";
     this.title=sessionStorage.getItem("curr_sess_loggedschoolname");
   },
-  setPage:function(page,title){    
- 
-
+  setPage:function(page,title){  
    this.page=page;
    // this.title=title;
    localStorage.setItem("curr_sess_page",page);
-
-
   },   
   signout:function()
   {
@@ -403,9 +406,8 @@
       this.page="teacherhomecard";
        document.querySelector('teacherhome-card').FnRefresh();
       document.querySelector('school-transfer-card').fnref(); 
-   }
-   
- if(localStorage.getItem("curr_sess_page")=="term-creation-card")
+   }   
+   if(localStorage.getItem("curr_sess_page")=="term-creation-card")
     {
        this.page="teacherhomecard";
        document.querySelector('teacherhome-card').FnRefresh();

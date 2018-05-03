@@ -9,8 +9,8 @@
 
 <dom-module id="app-card">
   <template>
-  <style>
-  .in
+  <style is="custom-style">
+ /* .in
   {
    float:right;
    font-size:12px;
@@ -19,11 +19,30 @@
   {
     float:left;
     width: 4%;
+  }*/
+  .content: {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+  }
+  /*.headd{*/
+     /*height: 10%;*/
+     /*margin-top: -3.5%;*/
+     /*margin-left: -1%;*/
+     /*width: 100%;*/
+     /*background-color:slategrey;*/
+ /*    background-color: red;
+     color: white;*/
+  /*}*/
+  section{
+    padding: 0px;
   }
   </style>
-
-    <div class="content">
-   
+  <div class="content">
+<!--   
+   <div class="headd">
+   </div> -->
+   <!-- <div> -->
       <iron-pages selected="{{page}}" attr-for-selected="data-category">
         <section data-category="logincard">
           <login-card></login-card>
@@ -35,12 +54,11 @@
           <home-page></home-page>
         </section>                
       </iron-pages>
-    </div>
-
+  </div>
   </template>  
-  <script>
-  // document.querySelector('app-router').go('/login');
-  </script>
+  <!-- <script> -->
+  <!-- // document.querySelector('app-router').go('/login'); -->
+  <!-- </script> -->
   <script>
   Polymer({
   is: "app-card",

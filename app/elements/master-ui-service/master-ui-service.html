@@ -2158,26 +2158,24 @@ fnschoolemployeerole:function( employeeid,employeename){
             temp=[];
          }
          if(i==(res.length)-1)
-           {
+         {
              // temp.push(res[i]);
              overall.push(temp); 
-           } 
+         } 
          // alert(JSON.stringify(overall));
         }
-       // alert(JSON.stringify(overall));
-        
+       // alert(JSON.stringify(overall));        
         document.querySelector('new-employee-creation-card').selectrolearr=overall; 
-     },
-   empsubjectTeacher:function(){
+    },
+    empsubjectTeacher:function(){
       //alert('1');
          this.empsubjectTeacherurl=sessionStorage.getItem("addrinfo")+"/empsubjectTeacher-service";
          var obj={"school_id":""};
          obj.school_id=sessionStorage.getItem("curr_sess_loggedschoolid");
          this.empsubjectTeacherparam=obj;
          this.$.empsubjectTeacherajax.generateRequest();
-     },
-  
-    empcategorye:function(){
+     },  
+     empcategorye:function(){
          this.empcategoryeurl=sessionStorage.getItem("addrinfo")+"/empcategory-service";
          this.$.empcategoryeajax.generateRequest();
       },

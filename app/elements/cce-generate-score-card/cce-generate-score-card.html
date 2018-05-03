@@ -8,9 +8,6 @@
 <dom-module id="cce-generate-score-card">
   <template>  
     <style>
-      :host {
-        display: block;
-      }
       .card{
       width: 100%;        
       @apply(--layout-vertical);
@@ -177,6 +174,9 @@
         this.hidecard=true;
          this.$.Filterstudentview.hidden=false;
            this.$.searchstudentid.hidden=true;         
+       },
+       call:function(){
+        alert('call');
        },
         TermMarkdialog:function(argvalue)
       {        

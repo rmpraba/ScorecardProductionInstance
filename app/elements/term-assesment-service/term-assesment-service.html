@@ -728,8 +728,7 @@
       callAcademicService:function(){
         this.$.academicajax.generateRequest();
       },
-      academicResponse:function(e){
-       // alert(JSON.stringify(e.detail.response));        
+      academicResponse:function(e){    
      if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Scorecard"){
         document.querySelector('cce-generate-score-card').academicarr=e.detail.response; 
         document.querySelector('cce-generate-score-card').academicarr1=e.detail.response;

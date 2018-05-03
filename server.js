@@ -8,49 +8,29 @@ var bodyParser = require('body-parser');
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
-
-
 var connection = mysql.createConnection({  
-/*  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
->>>>>>> 65f788bfc6b8857961f5dac34c3aabcb22151989
-  database:"scorecarddb",
-  port:'3306',
-  user:"smis",
-  password:"smispass",
-  reconnect:true,
-  data_source_provider:"rds",
-<<<<<<< HEAD
-  type:"mysql"  
-  // host     : 'localhost',
-  // user     : 'root',
-  // password : 'admin',
-  // database : 'samsidhreportcard'
- });
-=======
-  type:"mysql"   */
+  // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
+  // database:"scorecarddb",
+  // port:'3306',
+  // user:"smis",
+  // password:"smispass",
+  // reconnect:true,
+  // data_source_provider:"rds",
+  // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : '',
-  database : 'scorecardtemp'
+  password : 'admin',
+  database : 'samsidhreportcard'
 });
-
 var app = express();
 var logfile;
 // AWS.config.loadFromPath('app/configfile/credential.json');
-aws.config.update({
-    secretAccessKey: 'oGLYW8y4OCbbmf0npNbfrRRLgtNZW7LOq46WnteX',
-    accessKeyId: 'AKIAJ2MS7MGXRUWW5ARA',
-    region: 'ap-south-1'
-});
 s3 = new aws.S3();
-
 app.use(express.static('app'));
-
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
   app.get('/', function (req, res){
   res.sendFile("app/index.html" );
 });
-
 // var upload = multer({
 //     storage: multerS3({
 //         s3: s3,
@@ -76,9 +56,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 //     res.send('Successfully uploaded ' + req.files.length + ' files!');
 //     // res.status(200).json({'returnval': 'Uploaded!'});
 // });
-
 //})
-
 var upload = multer({
   storage: multerS3({
     s3: s3,
@@ -1347,6 +1325,53 @@ console.log(logfile);
   });
 });
 
+app.post('/fetchmainmenu-service',  urlencodedParser,function (req, res)
+{
+ var qur="SELECT * FROM md_menu_mapping WHERE role_id='"+req.query.roleid+"' AND visibility='TRUE'";
+  console.log(qur);
+  connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    { 
+      console.log(err);     
+      res.status(200).json({'returnval': 'invalid'});
+    }
+    }
+    else   
+      console.log(err);
+  });
+});
+
+app.post('/fetchmenu-service',  urlencodedParser,function (req, res)
+{
+ var qur="SELECT * FROM md_access_control WHERE menu_id='"+req.query.menuid+"' AND role_id='"+req.query.roleid+"' AND visibility='TRUE'";
+  console.log(qur);
+  connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    { 
+      console.log(err);     
+      res.status(200).json({'returnval': 'invalid'});
+    }
+    }
+    else   
+      console.log(err);
+  });
+});
 
 app.post('/login-card',  urlencodedParser,function (req, res)
 {
@@ -1354,6 +1379,7 @@ app.post('/login-card',  urlencodedParser,function (req, res)
   var username={"id":req.query.username};
   var password={"password":req.query.password};
   var schoolid={school_id:req.query.schoolid};
+  var arr=[];
   connection.query('SELECT name as uname,  school_id as school,(select name from md_school where id=school) as name ,(select Board from md_school where id=school) as board,(select address from md_school where id=school) as addr,(select affiliation_no from md_school where id=school) as affno,(select email_id from md_school where id=school) as email,(select website from md_school where id=school) as website,(select telno from md_school where id=school) as telno  from md_employee where ? and ? and ? and ?',[id,username,password,schoolid],
     function(err, rows)
     {
@@ -1361,7 +1387,17 @@ app.post('/login-card',  urlencodedParser,function (req, res)
     {
     if(rows.length>0)
     {
-      res.status(200).json({'returnval': rows});
+    arr=rows;
+    connection.query("SELECT * FROM md_menu_mapping WHERE role_id='"+req.query.roleid+"' AND visibility='TRUE'",
+    function(err, rows)
+    {
+    if(!err)  
+    {
+      res.status(200).json({'returnval': arr,'menu':rows});
+    }
+    else
+      console.log(err);
+    });
     }
     else
     { 
@@ -10860,6 +10896,7 @@ var qur="UPDATE  md_grade SET grade_name='"+req.query.gradename+"' where  grade_
 app.post('/fnempgenerateid-service',  urlencodedParser,function (req,res)
 {  
    var qur="SELECT * FROM school_sequence where school_id='"+req.query.schllid+"'";
+   console.log(qur);
   connection.query(qur,  
     function(err, rows)
     {
@@ -22994,11 +23031,7 @@ app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
 function setvalue(){
   console.log("calling setvalue.....");
 }
-// var server = app.listen(5000, '192.168.1.123',function () {
-// var host = server.address().address;
-// var port = server.address().port;
-// console.log("Example app listening at http://%s:%s", host, port);
-// });
+
 var server = app.listen(5000,function () {
 var host = server.address().address;
 var port = server.address().port;

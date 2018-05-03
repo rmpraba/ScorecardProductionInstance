@@ -12,8 +12,7 @@
         on-response="addressResponse"
         debounce-duration="300"
         >
-  </iron-ajax>
-
+   </iron-ajax>
    <iron-ajax
         method="post"
         id="checkschoolajax"
@@ -87,6 +86,30 @@
         >
   </iron-ajax>
 
+  <iron-ajax
+        method="post"
+        id="fetchmenuajax"
+        url="{{fetchmenuurl}}"
+        params="{{fetchmenuparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchmenuResponse"
+        debounce-duration="300"
+        >
+  </iron-ajax>
+
+  <iron-ajax
+        method="post"
+        id="fetchmainmenuajax"
+        url="{{fetchmainmenuurl}}"
+        params="{{fetchmainmenuparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fetchmainmenuResponse"
+        debounce-duration="300"
+        >
+  </iron-ajax>
+
   <beginner-assesment-service id="bassesmentservice"></beginner-assesment-service>
   </template>
 
@@ -95,6 +118,32 @@
    
     Polymer({
       is: "login-service",
+     fetchmainmenuService:function(){
+      this.fetchmainmenuurl=sessionStorage.getItem("addrinfo")+"/fetchmainmenu-service";
+      var obj={}
+      obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+      // alert(obj.roleid);
+      this.fetchmainmenuparam=obj;
+      this.$.fetchmainmenuajax.generateRequest();
+     },
+     fetchmainmenuResponse:function(e){
+      var arr=e.detail.response.returnval;
+      // alert(JSON.stringify(arr));
+      document.querySelector('teacherhome-card').menuarr=arr;
+     },
+     fetchmenuService:function(menuid,functionname){
+      this.fetchmenuurl=sessionStorage.getItem("addrinfo")+"/fetchmenu-service";
+      var obj={}
+      obj.menuid=menuid;
+      obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+      this.fetchmenuparam=obj;
+      this.$.fetchmenuajax.generateRequest();
+     },
+     fetchmenuResponse:function(e){
+      var arr=e.detail.response.returnval;
+      if(arr!='invalid')
+      document.querySelector('teacherhome-card').menuarr=arr;
+     },
      changepassword:function(username,oldpassword,newpassword,schoolid){
       this.changepasswordurl=sessionStorage.getItem("addrinfo")+"/changepassword-service";
       var obj={"username":"","oldpassword":"","newpassword":"","schoolid":"","academicyear":""}
@@ -149,7 +198,7 @@
         // document.querySelector('home-page').FnsetTitle(schname); 
       },
      //fetch the username and password from logincard and pass to the loginajax
-      logincheck:function(uname,pass)
+      logincheck:function(uname,pass,rolename,roleid)
       {
         username=uname;
         this.loginurl=sessionStorage.getItem("addrinfo")+"/login-card";
@@ -157,6 +206,10 @@
         obj.username=uname;
         obj.password=pass;
         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.roleid=roleid;
+        obj.rolename=rolename;
+        this.rolename=rolename;
+        this.roleid=roleid;
         this.loginparam=obj;
         this.$.loginajax.generateRequest();
       },
@@ -181,7 +234,6 @@
       document.querySelector('login-card').rolearr=rolearr;
       document.querySelector('login-card').schname=rolearr[0].name;
       sessionStorage.setItem("curr_sess_loggedschoolid",rolearr[0].school_id);
-      
       }
       },
       roletype:function(rolename,roleid)
@@ -201,7 +253,6 @@
         var address=e.detail.response.returnval[0].addr;
         var uname=e.detail.response.returnval[0].uname;
         var board=e.detail.response.returnval[0].board;
-
         
         sessionStorage.setItem("curr_sess_loggedid",username);
         
@@ -209,7 +260,7 @@
         sessionStorage.setItem("curr_sess_loggedschoolname",name);
         sessionStorage.setItem("curr_sess_loggeduname",uname);
         sessionStorage.setItem("curr_sess_loggedschooladdress",address);   
-       localStorage.setItem("curr_sess_board",board);
+        localStorage.setItem("curr_sess_board",board);
         sessionStorage.setItem("curr_sess_loggedaffliationid",e.detail.response.returnval[0].affno);
         sessionStorage.setItem("curr_sess_emailid",e.detail.response.returnval[0].email);
         sessionStorage.setItem("curr_sess_website",e.detail.response.returnval[0].website);
@@ -221,29 +272,27 @@
         document.querySelector('home-page').setPage('teacherhomecard',''); 
         document.querySelector('home-page').FnsetTitle(name);
         document.querySelector('home-page').setUsername(uname);
+        document.querySelector('teacherhome-card').menuarr=e.detail.response.menu;
         // document.querySelector('teacherhome-card').FnHideView();
-        document.querySelector('teacherhome-card').FnInitializeContainers();
+        // document.querySelector('teacherhome-card').FnInitializeContainers();
         }           
         else 
         {
         alert('Invalid UserName or Password');
         }
         },
-         getschoolname:function()
-         {
-           this.getschoolnameurl=sessionStorage.getItem("addrinfo")+"/Getschoolname-service";      
+        getschoolname:function()
+        {
+          this.getschoolnameurl=sessionStorage.getItem("addrinfo")+"/Getschoolname-service";      
           this.$.getschoolnameajax.generateRequest();
-         }, 
-
-         getschoolnameResponse:function(e)
-         {
+        }, 
+        getschoolnameResponse:function(e)
+        {
           var res=e.detail.response.returnval;
           document.querySelector('forgotpassword-card').schoolnamearr=res;
-         }
-
+        }
       });  
       })();
   </script>
-
 </dom-module>
 

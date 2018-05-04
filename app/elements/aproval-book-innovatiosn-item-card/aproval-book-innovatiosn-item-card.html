@@ -17,7 +17,7 @@
           margin-top: -1%;
      }
      th,td{
-        border-left: 1px solid #ddd;
+    border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
      }
@@ -165,9 +165,7 @@
     margin-left: -6%;
       }
 
-     /* table { table-layout:fixed; }
-      table td { overflow: hidden; }
-*/
+    
  .homeworkdialog1
       {
           border-radius: 10px;
@@ -220,7 +218,7 @@
                 <div class="card"  hidden$="{{hidecheck1}}">
                    {{showdate}}<iron-icon icon="icons:date-range"  style="color:#20BFEE;" on-click="FnShowDialog" ></iron-icon>
 
-                    <paper-dialog id="dialog" class="paper-date-picker-dialog" modal   on-iron-overlay-closed="FnDismissDialog">
+                    <paper-dialog id="dialog" class="paper-date-picker-dialog"    on-iron-overlay-closed="FnDismissDialog">
                  <paper-date-picker id="picker" date="{{date}}"></paper-date-picker>
                         <div class="buttons">
                          <paper-button dialog-dismiss>Cancel
@@ -325,7 +323,7 @@
 
     
 
-     <paper-dialog id="dzfsd1xsasa" modal>
+     <paper-dialog id="dzfsd1xsasa" >
        <h3>Value Name</h3>
         <div class="valuecard">
           <template is="dom-repeat" items="{{valuearrz}}" as="ss">
@@ -338,7 +336,7 @@
       </center>
     </paper-dialog>
 
-     <paper-dialog id="fngetdialogid" modal>
+     <paper-dialog id="fngetdialogid" >
           <h3>Subconcept Name</h3>
       <div class="subconceptcard">
         <template is="dom-repeat" items="{{subconceptarr}}" as="su">
@@ -352,7 +350,7 @@
       </paper-dialog>
 
        
-       <paper-dialog id="fngetskilldialogid" modal>
+       <paper-dialog id="fngetskilldialogid" >
         <h3>Skill Name</h3>
           <div class="skillcardd">
             <template is="dom-repeat" items="{{skillarrz}}" as="sa">
@@ -365,7 +363,7 @@
               <paper-button on-click="skillclose" style="background-color:black;color:white">Close</paper-button>
           </center>
       </paper-dialog>
-<paper-dialog id="homeworkdialog{{rowid}}" modal class="homeworkdialog1">
+<paper-dialog id="homeworkdialog{{rowid}}"  class="homeworkdialog1">
     <center> </center> 
          <div class="home">
           
@@ -401,7 +399,7 @@
           </center>
     </paper-dialog>
 
-      <paper-dialog id="innovationdialog" modal>
+      <paper-dialog id="innovationdialog" >
           <iron-autogrow-textarea id="innovatetextsssss" label="Innovation"  value="{{innovation}}">Your innovation goes here...</iron-autogrow-textarea>
           <center style="margin-top: 10%;">
             <paper-button  on-click="innovatsave" style="color:white;background-color:black">Save</paper-button>
@@ -411,7 +409,7 @@
           </center>
       </paper-dialog>
 
-      <paper-dialog id="remarkdialog" modal>
+      <paper-dialog id="remarkdialog" >
           <iron-autogrow-textarea id="remarkareaaaaa" label="Remarks"  value="{{remark}}">Your remarks goes here...</iron-autogrow-textarea>
           <center style="margin-top: 10%;">
             <paper-button  on-click="remarksave" style="color:white;background-color:black">Save</paper-button>
@@ -421,7 +419,7 @@
           </center>
       </paper-dialog>
 
-      <paper-dialog id="fnhomeaidsdialog" modal>
+      <paper-dialog id="fnhomeaidsdialog" >
           <iron-autogrow-textarea id="remarkareaaaaa" label="Home Aids"  value="{{homeaids}}">Your Home goes here...</iron-autogrow-textarea>
           <center style="margin-top: 10%;">
             <paper-button  on-click="homeaidssave" style="color:white;background-color:black">Save</paper-button>
@@ -433,7 +431,7 @@
 
 
 
-  <paper-dialog id="teachingopendialog{{rowid}}"  class="teachingopendialog1" modal>
+  <paper-dialog id="teachingopendialog{{rowid}}"  class="teachingopendialog1" >
    
     <center><h3>Teaching Aids</h3></center>
        
@@ -465,21 +463,21 @@
  -->      
 
    <center style="margin-top: 5%;">
-        <!-- <a href="https://s3.ap-south-1.amazonaws.com/samsidhreportcard/13-4-2018lassonpantables.zip">Click</a> -->
+          <!-- <a href="https://s3.ap-south-1.amazonaws.com/samsidhreportcard/13-4-2018lassonpantables.zip">Click</a> -->
             <!-- <paper-button  on-click="fnupload" style="color:white;background-color:black" hidden>Upload</paper-button> -->
             <paper-button id="taid1" style="color:white;background-color:black" on-click="closeteachingaaid" >Close</paper-button>
         </center>
    </paper-dialog>
      
     
-     <paper-dialog id="savedialog" modal>
+     <paper-dialog id="savedialog" >
        <h3><center>SUCCESS</center></h3>
        <center>
        <paper-button on-click="closedialog" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
        </center>
      </paper-dialog>
 
-      <paper-dialog id="failuredialog" modal>
+      <paper-dialog id="failuredialog" >
        <h3><center>FAILURE</center></h3>
        <center>
            <paper-button on-click="failureclose" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>

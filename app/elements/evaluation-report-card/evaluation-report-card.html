@@ -88,17 +88,17 @@
           <th>Concept</th>
           <th>Sub Concept</th>
           <th>Skill</th>
-          <th>BLD Values</th>
+          <!-- <th>BLD Values</th> -->
           <th>Value</th>
-          <th>Teaching Aids</th>
+         <!--  <th>Teaching Aids</th> -->
           <th>Innovation</th>
           <th>Plan from Date</th>
           <th>Plan to Date</th>
-          <th>Completed Date</th>
-          <th>Remarks</th>
+         <!--  <th>Completed Date</th> -->
+          <th>Subject Teacher Remarks</th>
           <th>Co-ordinator Remarks</th>
-          <th>Correction Status</th>
-          <th>Completion status</th>
+        <!--   <th>Correction Status</th> -->
+         <!--  <th>Completion status</th> -->
           <th>Enrichment Suggestion</th>
         </tr>
         <template  is="dom-repeat" items="{{getreportarr}}" as="view">
@@ -110,17 +110,17 @@
               <td>{{view.concept}}</td>
               <td>{{view.sub_concept_name}}</td>
               <td>{{view.skill}}</td>
-              <td>{{view.bld_value_name}}</td>
+            <!--   <td>{{view.bld_value_name}}</td> -->
               <td>{{view.value}}</td>
-              <td style="word-wrap: break-word;">{{view.teaching_aid}}</td>
+             <!--  <td style="word-wrap: break-word;">{{view.teaching_aid}}</td> -->
               <td style="word-wrap: break-word;">{{view.innovation}}</td>
               <td>{{view.planned_date_from}}</td>
               <td>{{view.planned_to_date}}</td>
-              <td>{{view.completion_date}}</td>
-              <td style="word-wrap: break-word;">{{view.remark}}</td>
+            <!--   <td>{{view.completion_date}}</td> -->
+              <td style="word-wrap: break-word;">{{view.sub_teacher_temark}}</td>
               <td style="word-wrap: break-word;">{{view.co_ordinator_remarks}}</td>
-              <td>{{view.correction_status}}</td>
-              <td>{{view.completion_status}}</td>
+             <!--  <td>{{view.correction_status}}</td> -->
+            <!--   <td>{{view.completion_status}}</td> -->
               <td>{{view.enrichment_sug}}</td>
           </tr>
         </template>

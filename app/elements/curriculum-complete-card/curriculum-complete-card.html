@@ -19,48 +19,160 @@
      }
     </style>
     <div>
+     <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}</div>
       <table  class="teach1" >
         <tr>
         <td style="{{fonts}}" width="10%" >{{sno}}</td>
         <td style="{{fonts}}" width="10%">{{conceptname}}</td>
         <td style="{{fonts}}" width="10%">{{subconceptname}}</td>
         <td style="{{fonts}}" width="10%">
-          <p hidden$="{{hideopenplan}}">{{completiondate}}</p>
+         
+           <div hidden$="{{hideinfovalue}}">
+           <p hidden$="{{hideopenplan}}">{{completiondate}}</p>
           <complection-date-picker-card hidden$="{{hidecloseplan}}"></complection-date-picker-card>
+          </div>
+          <div hidden$="{{hideinfovalue1}}">
+           <p>{{completiondate}}</p>
+          </div>
         </td>
         <td style="{{fonts}}" width="10%">
-          <p hidden$="{{hideopenplan}}">{{completionstatus}}</p>
+        <div hidden$="{{hideinfovalue}}">
+           <p hidden$="{{hideopenplan}}">{{completionstatus}}</p>
            <P hidden$="{{hidecloseplan}}"> 
-             <paper-checkbox id="cpayes{{subconceptid}}"  on-change="FnYes">Completed</paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-             <paper-checkbox id="cpano{{subconceptid}}" checked on-change="FnNo">  Not Completed</paper-checkbox>
+             <paper-checkbox id="cpayes{{id}}" checked="{{check}}"  on-change="fncompletestaus">Completed</paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <paper-checkbox hidden id="cpano{{subconceptid}}" checked on-change="FnNo">  Not Completed</paper-checkbox>
           </P>
+        </div>
+         <div hidden$="{{hideinfovalue1}}">
+           <p style="color:green">Completed</p>
+         </div>
         </td>
         <td style="{{fonts}}" width="10%">
-           <p hidden$="{{hideopenplan}}">{{correctionstatus}}</p>
+         <div hidden$="{{hideinfovalue}}">
+         <p hidden$="{{hideopenplan}}">{{correctionstatus}}</p>
             <paper-input value={{correctionstatus}} hidden$="{{hidecloseplan}}"></paper-input>
+         </div>
+         <div hidden$="{{hideinfovalue1}}">
+            <p>{{correctionstatus}}</p>
+        </div>
         </td>
-        <td style="{{fonts}}" width="10%">
-          <p hidden$="{{hideopenplan}}">Save</p>
-          <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button></center>  
-       </td>
+         <td style="{{fonts}}"  width="10%">
+               <div hidden$="{{hideinfovalue}}"> 
+               <p hidden$="{{hideopenplan}}">Save</p>
+                <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
+                </center>
+                </div>
+                <div hidden$="{{hideinfovalue1}}">
+                  <p style="color:green">verified</p>
+                </div>  
+          </td>
        </tr>
       </table>
     </div>
+       <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
+         <iron-ajax
+        method="post"
+        id="checkcompleteplanajax"
+        url="{{checkcompleteplanurl}}"
+        params="{{checkcompleteplanparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="checkcompleteplanResponse"
+        debounce-duration="300"/>
+       </iron-ajax>
   </template>
   <script>
   (function() {
     'use strict';
-
+var status="no";
+var  finalvalue;
+var checinfo;
     Polymer({
       is: 'curriculum-complete-card',
+      fncompletestaus:function(e){
+       
+        
+     if(document.querySelector("#cpayes"+this.id).checked==true){
+      this.checkcompleteplan();
+      checinfo=this.id;
+      status="yes";
+    }
+   else if(document.querySelector("#cpayes"+this.id).checked==false){
+     status="no"; 
+     checinfo="";
+    }
+      },
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'curriculum-complete-card',
-          notify: true
-        }
-      }
+       FnSave:function(e){
+            // alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+2+status+2+this.rowid+2+this.sno+2+this.subconceptid+2+this.subconceptname+2+localStorage.getItem("localsess_comp_service"));
+ if(finalvalue=="sucess"){
+     this.$.crriculambookservice.Fnpasscurriculumcomplete(this.chapterid,this.chaptername,this.conceptname,this.conceptid,this.subconceptid,this.subconceptname,this.rowid,this.sno,this.fromdate,this.todate,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
+           status="no"; 
+           finalvalue="";
+}else{
+  status="no";
+  alert("please Check the value");
+}
+          
+     },
+ checkcompleteplan:function(e){
+           this.checkcompleteplanurl=sessionStorage.getItem("addrinfo")+"/checkcompleteplan-service";
+           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+           obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+           obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+           obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+           obj.chapterid=this.chapterid;
+           obj.conceptid=this.conceptid;
+           obj.subconceptid=this.subconceptid;
+           obj.rowid=this.rowid;
+           obj.termid=sessionStorage.getItem("termid"); 
+           this.checkcompleteplanparam=obj;
+          //  alert(JSON.stringify(obj));
+           this.$.checkcompleteplanajax.generateRequest();
+
+},
+checkcompleteplanResponse:function(e){
+            var teacharr=e.detail.response.teacharr;  
+            var assesmentarr=e.detail.response.assesmentarr; 
+            var lessonarr=e.detail.response.lessonarr;  
+            var homearr=e.detail.response.homearr;
+           // alert(JSON.stringify(teacharr));
+           // alert(JSON.stringify(assesmentarr));
+           // alert(JSON.stringify(lessonarr));
+          //  alert(JSON.stringify(homearr));
+          if(teacharr=="empty"){
+           alert("please Check the teaching Aids");
+           document.querySelector("#cpayes"+checinfo).checked=false;
+          }
+          else if(assesmentarr=="empty"){
+           alert("please Check the Assesment Values");
+           document.querySelector("#cpayes"+checinfo).checked=false;
+           
+          }
+           else if(lessonarr=="empty"){
+           alert("please Check the Lesson");
+           document.querySelector("#cpayes"+checinfo).checked=false;
+
+          }
+           else if(homearr=="empty"){
+           alert("please Check the Home value");
+           document.querySelector("#cpayes"+checinfo).checked=false;
+
+          }
+          else {
+            alert("All Process are sucess");
+            finalvalue="sucess";
+           document.querySelector("#cpayes"+checinfo).checked=true;
+
+          }
+
+},
+
+  
     });
   })();
   </script>

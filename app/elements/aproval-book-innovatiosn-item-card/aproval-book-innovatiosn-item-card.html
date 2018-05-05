@@ -84,7 +84,7 @@
       }
       #remarkdialog
       {
-          border-radius: 10px;
+          border-radius: 10px; 
           width: 380px;
           height: 270px;
       }
@@ -200,19 +200,18 @@
              
               <td width="12.56%">
            
-              <div style="height: 50px; overflow:hidden;">
-             
-              <paper-icon-button hidden$="{{hidecheck1}}" icon="add" on-click="fngetsubconcept" style="color:#6699ff;float: right;"></paper-icon-button>
+              <div style="height: 50px; overflow:hidden;">  
+                <paper-icon-button hidden$="{{hidecheck1}}" icon="add" on-click="fngetsubconcept" style="color:#6699ff;float: right;"></paper-icon-button>
                   <template is="dom-repeat" items="{{subconceptarr1}}" as="rse">
                     <h4 >{{rse.subconceptname}}</h4>
                   </template>
                 <h4 hidden$="{{hidedbconcept}}" >{{subconceptname}}</h4>
-           </div>
+             </div>
                
            </td>
             <td style="width: 4.45%;text-align: center;">
                 <paper-input style="width: 80%;" value="{{period}}" allowed-pattern="[0-9]"></paper-input>
-             </td>
+            </td>
              <td style="width: 8.1%;">
                  <p  hidden$="{{hidecheck}}">{{planneddate}}</p>
                 <div class="card"  hidden$="{{hidecheck1}}">
@@ -282,19 +281,15 @@
     </div>
   </td>
             <td style="width: 8.01%;">
-
-               <div style="height: 50px; overflow:hidden;">
+              <div style="height: 50px; overflow:hidden;">
+                <paper-icon-button on-click="fnteachingaid" icon="add" hidden$="{{hidecheck1}}" style="color:#6699ff;float: right;"></paper-icon-button>
                 <a href="{{currurl}}" target="_blank">{{currurl}}</a>
-               
-              <paper-button on-click="fnteachingaid">
-              
-                <h4  hidden$="{{hidedbvalue}}">{{teachingaid}}</h4>
-                
-                <paper-input id="fomeid{{rowid}}"  readonly value="{{teachingaid}}"></paper-input>
-    </paper-button>
-              </div>
-            </td>
-            <td style="width: 8.01%;">
+                 <paper-input id="fomeid{{rowid}}"  readonly value="{{teachingaid}}"></paper-input>
+               <h4>{{teachingaid}}</h4>
+             </div>
+           </td>
+
+           <td style="width: 8.01%;">
              <div style="height: 50px; overflow:hidden;">
               <paper-button on-click="lsninnovation">
                 <h4 style="width: 10em;word-wrap: break-word;">{{innovation}}</h4>
@@ -849,7 +844,8 @@ fnpasssubarr:function(subsarr){
     },
     fnsavebook:function(e)
     {
-   // alert(JSON.stringify(subsarrr));  
+    alert(conarr.length+" "+valuearr.length+" "+skarr.length); 
+
       if(conarr.length!=0 && valuearr.length!=0 && skarr.length!=0)
       {
         //   alert('1');
@@ -867,20 +863,21 @@ fnpasssubarr:function(subsarr){
 
      this.$.bookservice.fnmasterplaninsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,this.currurl,this.homework,this.homecurrurl,this.homeaids);
      this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,this.currurl,this.homework,teaceraidsarrurl,homefilearrurl,this.homecurrurl,this.homeaids);
-            this.showdate=moment(new Date()).format('L');
-            localStorage.setItem("localsess_from_service",this.showdate);
+         this.showdate=moment(new Date()).format('L');
+         localStorage.setItem("localsess_from_service",this.showdate);
             setsubarr=[];
             sethomearr=[];
             trmp=[];
            
-          document.querySelector('concept-check-card').fnclean();
-          document.querySelector('aproval-book').fnclean1();
-          document.querySelector('skill-dialog-card').fnclean1();
-          //document.querySelector('homework-card').fnclean1();
-          document.querySelector('subconcept-dialog-card').fnclean1();
-      
+           document.querySelector('concept-check-card').fnclean();
+           document.querySelector('aproval-book').fnclean1();
+           document.querySelector('skill-dialog-card').fnclean1();
+           document.querySelector('subconcept-dialog-card').fnclean1();
+           subsarrr=[];
+           conarr=[];
+           valuearr=[];
+           skarr=[];
           }
-     
         else  
           {
         

@@ -20,6 +20,9 @@
      }
     </style>
     <div>
+       <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}
+        {{subconceptid}}{{fromdate}}{{todate}}
+      </div>
        <table  class="teach1" >
         <tr>
           <td style="{{fonts}}" width="10%" >{{sno}}</td>
@@ -30,15 +33,21 @@
           </td>
           <td style="{{fonts}}"  width="10%">
              <a href="{{link}}" target="_blank">{{link}}</a></td>
-          <td style="{{fonts}}"  width="10%">{{homeaids}}</td>
+          <td style="{{fonts}}"  width="10%">{{homeaids}}  </td>
           <td style="{{fonts}}"  width="10%">{{filename}}</td>
           <td style="{{fonts}}"  width="10%">
-              <p hidden$="{{hideopenplan}}">Save</p>
-                <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button></center>  
-          </td>
-
+               <div hidden$="{{hideinfovalue}}"> 
+               <p hidden$="{{hideopenplan}}">Save</p>
+                <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
+                </center>
+                </div>
+                <div hidden$="{{hideinfovalue1}}">
+                  <p style="color:green">verified</p>
+                </div>  
+             </td>
         </tr>
       </table>
+      <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
     </div>
   </template>
   <script>
@@ -48,13 +57,10 @@
     Polymer({
       is: 'curriculum-home-card',
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'curriculum-home-card',
-          notify: true
-        }
-      }
+      FnSave:function(e){
+         alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+this.link+2+this.url+2+this.filename+2+this.rowid+2+this.sno+2+this.fromdate+2+this.todate+2+this.homeaids);
+          this.$.crriculambookservice.Fnpasscurriculumhomework(this.conceptname,this.conceptid,this.chapterid,this.chaptername,this.link,this.url,this.filename,this.rowid,this.sno,this.fromdate,this.todate,this.homeaids);
+     },
     });
   })();
   </script>

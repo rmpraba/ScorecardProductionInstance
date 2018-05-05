@@ -1,6 +1,8 @@
 
 <link rel="import" href="..\..\bower_components/polymer/polymer.html">
-
+<link rel="import" href="../neon-animation/web-animations.html">
+<link rel="import" href="../neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../neon-animation/animations/fade-out-animation.html">
 <dom-module id="curriculum-assesment-card">
   <template>
     <style>
@@ -18,7 +20,28 @@
      border-bottom: 1px solid #ddd;
       border-left: 1px solid #ddd;
      }
+      #fnsetdialogs
+      {
+        border-radius: 10px;
+        width: 650px;
+        height: 300px;
+        margin-left: -6%;
+      }
+      .exceldiv{
+        margin-top: 8%;
+        margin-left: 22%;
+      } 
+      .exceldiv1{
+        margin-top: -5%;
+        margin-left: 33%;
+      }
+       .exceldiv2{
+      margin-top: -7%;
+      margin-left: 71%;
+      }  
     </style>
+    <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}
+    </div>
     <div>
        <table  class="teach1" >
          <tr>
@@ -27,37 +50,213 @@
           <td style="{{fonts}}" width="10%">{{subconceptname}}</td>
           <td style="{{fonts}}" width="10%">{{assesmentdate}} </td>
           <td style="{{fonts}}" width="10%">
-         
-           <p hidden$="{{hideopenplan}}">{{assesmenttype}}</p>
-           <div hidden$="{{hidecloseplan}}"> 
-             <paper-checkbox id="cpayes{{conceptid}}"  on-change="FnYes">Completed </paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            
-          </div>
+            <div hidden$="{{hideinfovalue}}">
+             <p hidden$="{{hideopenplan}}">{{assesmenttype}}</p>
+              <div hidden$="{{hidecloseplan}}"> 
+              <paper-checkbox id="cpayes{{id}}"  on-change="fnchange">Completed </paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
+            </div>
+            <div hidden$="{{hideinfovalue1}}">
+                  <p style="color:green"> Assesment Completed</p>
+  
+           </div>
          </td>
-          <td style="{{fonts}}" width="10%">
-              <p hidden$="{{hideopenplan}}">Save</p>
-               <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button></center>  
+        
+    <td style="{{fonts}}"  width="10%">
+               <div hidden$="{{hideinfovalue}}"> 
+               <p hidden$="{{hideopenplan}}">Save</p>
+                <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
+                </center>
+                </div>
+                <div hidden$="{{hideinfovalue1}}">
+                  <p style="color:green">verified</p>
+                </div>  
           </td>
-
         </tr>
       </table>
+  
+       <table border="1" id="Assesmentxlcard" hidden>    
+       <tr>   
+       <th id="tb1">SNo</th>
+       <th id="tb1">Assesmenttype</th>
+       <th id="tb2">Content1</th>
+       <th id="tb1">Content2</th>
+       <th id="tb2">Content3</th>
+       <th id="tb2">Content4</th>
+     </tr>  
+      <tr>
+       <td>1</td>
+       <td>Fisttype</td>
+       <td></td>
+       <td></td>
+       <td></td>
+       <td></td>
+      </tr>  
+     </table> 
 
-    </div>
+  <paper-dialog entry-animation="scale-up-animation" exit-animation="fade-out-animation" id="fnsetdialogs" >
+    <center><h2>Assesment value</h2></center>
+      <div class="exceldiv">
+             <paper-icon-button id="download" icon="icons:file-download" onclick="exportToExcel21()"></paper-icon-button>
+            <paper-tooltip for="download">Download</paper-tooltip>
+     </div>
+      <div class="exceldiv1" >
+            <input id="assesmentreadfile1{{id}}" type="file" onchange="loadFiles(event)"/>
+            <xmp id="output"></xmp>
+     </div>
+      <div class="exceldiv2" >
+            <paper-icon-button  id="upload" icon="icons:file-upload" on-click="FnClick"></paper-icon-button>
+            <paper-tooltip for="upload">Upload</paper-tooltip>
+     </div>
+       <center><paper-button on-click="fnclick" style="color:white;background-color:black">Close</paper-button><center>
+</paper-dialog>
+</div>
+<curriculum-assesment-service-card 
+ id="crriculambookservice"></curriculum-assesment-service-card>
+
   </template>
+   <script type="text/javascript">
+
+ 
+  var array=[]
+  function loadFiles(event){
+  alasql('SELECT * FROM FILE(?,{headers:true})',[event],function(data){
+    array=data; 
+   
+  });
+  }
+  </script>
+<script type="text/javascript">
+  function exportToExcel21(){
+var htmls = "";
+
+var tab_text = '<table border="1px" style="font-size:17px" ">';
+    var textRange; 
+    var j = 0;
+    var tab = document.getElementById('Assesmentxlcard'); // id of table
+    var lines = tab.rows.length;
+
+ 
+    if (lines > 0) {
+        tab_text = tab_text + '<tr bgcolor="#DFDFDF">' + tab.rows[0].innerHTML + '</tr>';
+    }
+
+   
+    for (j = 1 ; j < lines; j++) {     
+        tab_text = tab_text + "<tr>" + tab.rows[j].innerHTML + "</tr>";
+    }
+
+    tab_text = tab_text + "</table>";
+   
+    var uri = 'data:application/vnd.ms-excel;base64,';
+            var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
+            var base64 = function(s) {
+                return window.btoa(unescape(encodeURIComponent(s)))
+            };
+
+            var format = function(s, c) {
+                return s.replace(/{(\w+)}/g, function(m, p) {
+                    return c[p];
+                })
+            };
+
+         htmls = tab_text
+
+            var ctx = {
+                worksheet : 'assesment' || 'Worksheet',
+                table : htmls
+            }
+        var link = document.createElement("a");
+            link.download = 'assesment';
+            link.href = uri + base64(format(template, ctx));
+            link.click();
+    }
+
+    
+  </script>
   <script>
   (function() {
     'use strict';
-
+   var setassesment='no';
+   var temp=[];
     Polymer({
       is: 'curriculum-assesment-card',
+fnchange:function(e){
 
-      properties: {
-        foo: {
-          type: String,
-          value: 'curriculum-assesment-card',
-          notify: true
-        }
+
+ if(document.querySelector("#cpayes"+this.id).checked==true){
+setassesment='yes';
+this.$.fnsetdialogs.open();
+ }
+ else if(document.querySelector("#cpayes"+this.id).checked==false){
+  setassesment='no';
+ }
+},
+fnclick:function(e){
+this.$.fnsetdialogs.close();
+},
+  FnSave:function(e){
+         if(array.length==0){
+           setassesment='no';
+         }
+         else{
+           setassesment='yes';
+         }
+          /*alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+this.link+2+this.url+2+this.filename+2+this.rowid+2+this.sno+2+this.fromdate+2+this.todate+2+this.homeaids+2+this.subconceptid+2+setassesment);*/
+      if(temp.length==0){
+          alert("Please upload the Assesment Value");
+       }
+       else
+      {
+       for(var i=0;i<temp.length;i++){
+          this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].Content1,temp[i].Content2,temp[i].Content3,temp[i].Content4,temp[i].Assesmenttype,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname);
+       }
       }
+         document.getElementById("assesmentreadfile1"+this.id).value ="";
+         temp=[];
+         array=[];
+       
+        
+     },
+        FnClick:function(){
+      temp=[];
+      if(array.length==0){
+        alert("Pls save the file in EXCEL WORKBOOK extension!");
+        document.getElementById("assesmentreadfile").value = "";
+       }
+       else{ 
+        for(var i=0;i<array.length;i++){
+             if(JSON.stringify({})==JSON.stringify(array[i])){
+
+             }
+         else{
+         var setarr=[];
+           setarr=Object.keys(array[i]);
+             setarr.splice(0,3);
+             
+         if(setarr.length==3){
+          var obj={};
+           obj.sno=array[i].SNo;
+           obj.Assesmenttype=array[i].Assesmenttype;
+           obj.Content1=array[i].Content1;
+           obj.Content2=array[i].Content2;
+           obj.Content3=array[i].Content3; 
+           obj.Content4=array[i].Content4; 
+            temp.push(obj);
+       
+             }
+           }}
+           if(temp.length==0){
+alert("pls Upload the Correct value");
+           }
+           else{
+alert("Upload Sucess...!");
+
+           }
+    // alert(JSON.stringify(temp));
+    
+          
+        }
+      },  
     });
   })();
   </script>

@@ -8,7 +8,7 @@
       width: 20%;
     }
     </style>
-    <center>
+    <center> 
     <div class="card">
         <paper-dropdown-menu id="grade" label="Select Grade" disabled="{{read}}" required>
             <paper-menu id="addstudgrade" class="dropdown-content"  on-iron-select="FnSelectGrade"  attr-for-selected="value" required>     
@@ -55,10 +55,9 @@
         this.$.studentservice.callFecthStudentService(gradename,sectionname);
       },
       FnView:function(){
-        // alert('hi');
-        this.hideaddnewstudent=false;
+       this.hideaddnewstudent=false;
       }
     });
   })();
   </script>
-</dom-module>
+</dom-module>  

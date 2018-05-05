@@ -1486,7 +1486,7 @@ fnteacheraid1:function(e){
         obj.termid=sessionStorage.getItem("termid"); 
         obj.rowid=this.gloabalrowid;
         obj.currurl=this.homecurrurl;
-        obj.homeaids=this.homeaids
+        obj.homeaids=this.homeaids;
          obj.plannedfromdate=localStorage.getItem("localsess_from_service");
         obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.url="";
@@ -2136,7 +2136,7 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
                       obj.concept_id=temp1[i].concept_id;
                       obj.concept_name=temp1[i].concept_name;
                       obj.sub_concept_id=temp1[i].sub_concept_id;
-                     obj.sub_concept_name=temp1[i].sub_concept_name;
+                      obj.sub_concept_name=temp1[i].sub_concept_name;
                       obj.period=temp1[i].period;  
                       obj.innovation=temp1[i].innovation;  
                       obj.remarks=temp1[i].remarks;  
@@ -2182,6 +2182,7 @@ if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafte
                    obj.planned_to_date="" ;
                    obj.rowidz="";
                    obj.teaching_aid="";
+                   obj.teachingaid="";
                    obj.hidecheck=true; 
                    obj.hidecheck1=false; 
                    obj.hidecheck11=false;

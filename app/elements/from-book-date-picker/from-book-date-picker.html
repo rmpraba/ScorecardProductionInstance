@@ -35,13 +35,13 @@
 
   <!--JS file import-->
   <script>
-    Polymer({
+    Polymer({ 
   is: "from-book-date-picker",
   ready:function()
   {
     this.showdate=moment(new Date()).format('L');
     localStorage.setItem("localsess_last_service",this.showdate);
-    //this.$.service.feereport(this.showdate);
+     //this.$.service.feereport(this.showdate);
   },
   FnShowDialog:function(){
     this.date=new Date();

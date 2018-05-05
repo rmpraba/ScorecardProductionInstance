@@ -23104,7 +23104,6 @@ app.post('/performance-fetchexceptionexcelassesmentinfo-service',  urlencodedPar
 });
 
 
-
 app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
 {
   var response={ 
@@ -23119,6 +23118,9 @@ app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
       url: req.query.url,
       link:req.query.currurl,
       filename:req.query.filename,
+       from_date:req.query.plannedfromdate,
+      to_date:req.query.plannedtodate,
+      chapter_name:req.query.chaptername,
     };
     console.log(response);
     connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){
@@ -23202,7 +23204,11 @@ app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
       row_id: req.query.rowid,
       url: req.query.url,
       link:req.query.currurl,
-       filename:req.query.filename,
+      filename:req.query.filename,
+      from_date:req.query.plannedfromdate,
+      to_date:req.query.plannedtodate,
+      home_aids:req.query.homeaids,
+      chapter_name:req.query.chaptername,
     };
     console.log("md_concept_homework");
     console.log(response);

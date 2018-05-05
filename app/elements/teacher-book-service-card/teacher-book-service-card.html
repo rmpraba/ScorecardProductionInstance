@@ -1271,9 +1271,10 @@ if(subarr1.length!=0){
         this.currurl=currurl;
         this.homecurrurl=homecurrurl;
         ghomefilearrurl=homefilearrurl;
+        this.homeaids=homeaids;
         gteaceraidsarrurl=teaceraidsarrurl;
-       // alert(JSON.stringify(ghomefilearrurl));
-        //alert(JSON.stringify(gteaceraidsarrurl));
+      // alert(JSON.stringify(ghomefilearrurl));
+     //   alert(JSON.stringify(gteaceraidsarrurl));
         var valueid="";
         var valuename="";
          for(var j=0;j<valuearr.length;j++){
@@ -1401,6 +1402,8 @@ if(subarr1.length!=0){
         obj.chapterid=localStorage.getItem("curr_sess_chapterid");
         obj.chaptername=localStorage.getItem("curr_sess_chaptername");
         obj.termid=sessionStorage.getItem("termid"); 
+         obj.plannedfromdate=localStorage.getItem("localsess_from_service");
+        obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.rowid=this.gloabalrowid;
         obj.currurl=this.currurl;
         obj.url="";
@@ -1426,6 +1429,8 @@ for(var i=0;i<gteaceraidsarrurl.length;i++){
         obj.chapterid=localStorage.getItem("curr_sess_chapterid");
         obj.chaptername=localStorage.getItem("curr_sess_chaptername");
         obj.termid=sessionStorage.getItem("termid"); 
+         obj.plannedfromdate=localStorage.getItem("localsess_from_service");
+        obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.rowid=this.gloabalrowid;
         obj.currurl=this.currurl;
         obj.url=gteaceraidsarrurl[i].teachurl;
@@ -1481,6 +1486,9 @@ fnteacheraid1:function(e){
         obj.termid=sessionStorage.getItem("termid"); 
         obj.rowid=this.gloabalrowid;
         obj.currurl=this.homecurrurl;
+        obj.homeaids=this.homeaids
+         obj.plannedfromdate=localStorage.getItem("localsess_from_service");
+        obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.url="";
         obj.filename="";
         obj.conceptid=localStorage.getItem("curr_sess_conceptid");
@@ -1494,11 +1502,7 @@ fnteacheraid1:function(e){
     
 
 for(var i=0;i<ghomefilearrurl.length;i++){
-
-  
-
-
-this.fnteacheraid1url=sessionStorage.getItem("addrinfo")+"/fnteacheraid1-service";
+  this.fnteacheraid1url=sessionStorage.getItem("addrinfo")+"/fnteacheraid1-service";
      var obj={};
         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
         obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
@@ -1509,8 +1513,11 @@ this.fnteacheraid1url=sessionStorage.getItem("addrinfo")+"/fnteacheraid1-service
         obj.chapterid=localStorage.getItem("curr_sess_chapterid");
         obj.chaptername=localStorage.getItem("curr_sess_chaptername");
         obj.termid=sessionStorage.getItem("termid"); 
+        obj.plannedfromdate=localStorage.getItem("localsess_from_service");
+        obj.plannedtodate=localStorage.getItem("localsess_last_service");
         obj.rowid=this.gloabalrowid;
         obj.currurl=this.homecurrurl;
+        obj.homeaids=this.homeaids;
         obj.url=ghomefilearrurl[i].homeurl;
         obj.filename=ghomefilearrurl[i].filename;
         obj.conceptid=localStorage.getItem("curr_sess_conceptid");
@@ -1526,7 +1533,7 @@ this.fnteacheraid1url=sessionStorage.getItem("addrinfo")+"/fnteacheraid1-service
    
 },
 fnteacheraid1Response:function(e){
-    //alert(JSON.stringify(e.detail.response.returnval))
+   // alert(JSON.stringify(e.detail.response.returnval))
    var res=e.detail.response.returnval;
    c4++;
     if(c3==c4){
@@ -2606,20 +2613,18 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
  for(var i=0;i<temp.length;i++){
         for(var j=0;j<this.approvedarr.length;j++){
                     if(temp[i].concept_id==this.approvedarr[j].concept_id&&temp[i].sub_concept_id==this.approvedarr[j].sub_concept_id&&temp[i].row_id==this.approvedarr[j].row_id){
-                        temp[i].completion_status=this.approvedarr[j].completion_status;
+                         temp[i].completion_status=this.approvedarr[j].completion_status;
                          temp[i].completion_date=this.approvedarr[j].completion_date;
                          temp[i].enrichment_sug=this.approvedarr[j].enrichment_sug;
                          temp[i].correction_status=this.approvedarr[j].correction_status;
                          temp[i].teaching_aid=this.approvedarr[j].teaching_aid;
-                        temp[i].home_type_id=this.approvedarr[j].home_type_id;
-                        temp[i].homework_type=this.approvedarr[j].homework_type;
-                        temp[i].assesment_date=this.approvedarr[j].assesment_date;
-                     temp[i].assesment_check_id=this.approvedarr[j].assesment_check_id;
-
-
-                        temp[i].co_ordinator_remarks=this.approvedarr[j].co_ordinator_remarks;
-                        temp[i].hidetitleflag=false;
-                        temp[i].hideflag=true;
+                         temp[i].home_type_id=this.approvedarr[j].home_type_id;
+                         temp[i].homework_type=this.approvedarr[j].homework_type;
+                         temp[i].assesment_date=this.approvedarr[j].assesment_date;
+                         temp[i].assesment_check_id=this.approvedarr[j].assesment_check_id;
+                         temp[i].co_ordinator_remarks=this.approvedarr[j].co_ordinator_remarks;
+                         temp[i].hidetitleflag=false;
+                         temp[i].hideflag=true;
                     }
                 }
             }
@@ -3677,7 +3682,6 @@ document.querySelector('incomplete-chapter-report').getreportarr=temparr;
                 obj.teaching_aid=res[i].teaching_aid;
                 obj.co_ordinator_remarks=res[i].co_ordinator_remarks;
                 obj.completion_status=res[i].completion_status;
-                obj.sub_teacher_temark=res[i].sub_teacher_temark;
                 var a=i+1;
                 obj.sno=a;
                 temparr.push(obj);

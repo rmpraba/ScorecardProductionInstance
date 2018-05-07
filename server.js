@@ -17,11 +17,10 @@ var connection = mysql.createConnection({
   // reconnect:true,
   // data_source_provider:"rds",
   // type:"mysql"  
-
   host     : 'localhost',
   user     : 'root',
-  password : '',
-  database : 'scorecardtemp'
+  password : 'admin',
+  database : 'samsidhreportcard'
 });
 var app = express();
 var logfile;

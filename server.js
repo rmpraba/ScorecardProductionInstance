@@ -489,9 +489,9 @@ app.post('/smis-getpendingactivities',  urlencodedParser,function (req, res)
 " AND role_id =  'subject-teacher' AND id =  '"+req.body.empid+"') ";
 console.log(que);
 // console.log(approval);
-var mapping=[];
-var approved=[];
-var response=[];
+ var mapping=[];
+ var approved=[];
+ var response=[];
     connection.query(que, function(err, rows)
     {
           if(!err){

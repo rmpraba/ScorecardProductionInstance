@@ -17,6 +17,23 @@
      border-bottom: 1px solid #ddd;
       border-left: 1px solid #ddd;
      }
+      #curriculamcorrectiondialog
+      {
+        border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+      } 
+      #curriculamdialog
+      {
+        border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+    
+      }
     </style>
     <div>
      <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}</div>
@@ -26,8 +43,7 @@
         <td style="{{fonts}}" width="10%">{{conceptname}}</td>
         <td style="{{fonts}}" width="10%">{{subconceptname}}</td>
         <td style="{{fonts}}" width="10%">
-         
-           <div hidden$="{{hideinfovalue}}">
+          <div hidden$="{{hideinfovalue}}">
            <p hidden$="{{hideopenplan}}">{{completiondate}}</p>
           <complection-date-picker-card hidden$="{{hidecloseplan}}"></complection-date-picker-card>
           </div>
@@ -48,13 +64,14 @@
          </div>
         </td>
         <td style="{{fonts}}" width="10%">
-         <div hidden$="{{hideinfovalue}}">
+        <paper-button on-click="fncorrection">{{correctionstatus}}</paper-button>
+       <!--   <div hidden$="{{hideinfovalue}}">
          <p hidden$="{{hideopenplan}}">{{correctionstatus}}</p>
             <paper-input value={{correctionstatus}} hidden$="{{hidecloseplan}}"></paper-input>
          </div>
          <div hidden$="{{hideinfovalue1}}">
             <p>{{correctionstatus}}</p>
-        </div>
+        </div> -->
         </td>
          <td style="{{fonts}}"  width="10%">
                <div hidden$="{{hideinfovalue}}"> 
@@ -63,7 +80,7 @@
                 </center>
                 </div>
                 <div hidden$="{{hideinfovalue1}}">
-                  <p style="color:green">verified</p>
+                  <paper-icon-button hidden$="{{hidecloseplan}}" icon="create" on-click="Fnedit"></paper-icon-button>
                 </div>  
           </td>
        </tr>
@@ -80,6 +97,19 @@
         on-response="checkcompleteplanResponse"
         debounce-duration="300"/>
        </iron-ajax>
+         <paper-dialog id="curriculamcorrectiondialog" >
+      <center>   <iron-autogrow-textarea label="Home Aids"  value="{{correctionstatus}}" placeholder="Your Correction Status  Here..."></iron-autogrow-textarea></center> 
+          <center style="margin-top: 10%;">
+            <paper-button  on-click="fncorrectionsave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="fncorrectionclose">Close</paper-button>
+       </center>
+      </paper-dialog>
+        <paper-dialog id="curriculamdialog" >
+       <h1>  <center>{{dialogvalue}}</center> </h1>
+          <center style="margin-top: 10%;">
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="Dialclose">Close</paper-button>
+          </center>
+      </paper-dialog>
   </template>
   <script>
   (function() {
@@ -89,10 +119,20 @@ var  finalvalue;
 var checinfo;
     Polymer({
       is: 'curriculum-complete-card',
-      fncompletestaus:function(e){
-       
-        
-     if(document.querySelector("#cpayes"+this.id).checked==true){
+   fncorrection:function(){
+    this.$.curriculamcorrectiondialog.open();
+   },
+   fncorrectionsave:function(){
+    this.$.curriculamcorrectiondialog.close();
+   },
+ fncorrectionclose:function(){
+    this.$.curriculamcorrectiondialog.close();
+   },
+   Dialclose:function(){
+    this.$.curriculamdialog.close();
+   },
+ fncompletestaus:function(e){
+  if(document.querySelector("#cpayes"+this.id).checked==true){
       this.checkcompleteplan();
       checinfo=this.id;
       status="yes";
@@ -104,17 +144,30 @@ var checinfo;
       },
 
        FnSave:function(e){
-            // alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+2+status+2+this.rowid+2+this.sno+2+this.subconceptid+2+this.subconceptname+2+localStorage.getItem("localsess_comp_service"));
+       
+           // alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+2+status+2+this.rowid+2+this.sno+2+this.subconceptid+2+this.subconceptname+2+localStorage.getItem("localsess_comp_service"));
  if(finalvalue=="sucess"){
      this.$.crriculambookservice.Fnpasscurriculumcomplete(this.chapterid,this.chaptername,this.conceptname,this.conceptid,this.subconceptid,this.subconceptname,this.rowid,this.sno,this.fromdate,this.todate,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
-           status="no"; 
-           finalvalue="";
-}else{
-  status="no";
-  alert("please Check the value");
-}
-          
+          //  this.hideinfovalue=true;
+          //  this.hideinfovalue1=false;
+            document.querySelector("#cpayes"+checinfo).checked=false;
+            status="no"; 
+            finalvalue="";
+   }
+   else{
+      this.dialogvalue="Please Check the value";
+           this.$.curriculamdialog.open();
+    status="no";
+   // alert("please Check the value");
+    }
      },
+
+Fnedit:function(e){
+     localStorage.setItem("localsess_comp_service",this.completiondate);
+     this.hideinfovalue=false;
+     this.hideinfovalue1=true;
+},
+
  checkcompleteplan:function(e){
            this.checkcompleteplanurl=sessionStorage.getItem("addrinfo")+"/checkcompleteplan-service";
            var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
@@ -134,37 +187,44 @@ var checinfo;
           //  alert(JSON.stringify(obj));
            this.$.checkcompleteplanajax.generateRequest();
 
+
 },
 checkcompleteplanResponse:function(e){
-            var teacharr=e.detail.response.teacharr;  
+            //var teacharr=e.detail.response.teacharr;  
             var assesmentarr=e.detail.response.assesmentarr; 
             var lessonarr=e.detail.response.lessonarr;  
-            var homearr=e.detail.response.homearr;
-           // alert(JSON.stringify(teacharr));
-           // alert(JSON.stringify(assesmentarr));
-           // alert(JSON.stringify(lessonarr));
-          //  alert(JSON.stringify(homearr));
-          if(teacharr=="empty"){
+          //  var homearr=e.detail.response.homearr;
+            // alert(JSON.stringify(teacharr));
+            // alert(JSON.stringify(assesmentarr));
+            // alert(JSON.stringify(lessonarr));
+            //  alert(JSON.stringify(homearr));
+          /*if(teacharr=="empty"){
            alert("please Check the teaching Aids");
            document.querySelector("#cpayes"+checinfo).checked=false;
-          }
-          else if(assesmentarr=="empty"){
-           alert("please Check the Assesment Values");
+           }*/
+           if(assesmentarr=="empty"){
+           //alert("please Check the Assesment Values");
+           this.dialogvalue="please Check the Assesment Values";
+           this.$.curriculamdialog.open();
            document.querySelector("#cpayes"+checinfo).checked=false;
-           
-          }
+           }
            else if(lessonarr=="empty"){
-           alert("please Check the Lesson");
-           document.querySelector("#cpayes"+checinfo).checked=false;
+          
+            this.dialogvalue="please Check the Lesson";
+            this.$.curriculamdialog.open();
+            document.querySelector("#cpayes"+checinfo).checked=false;
 
           }
-           else if(homearr=="empty"){
+           /*  else if(homearr=="empty"){
            alert("please Check the Home value");
            document.querySelector("#cpayes"+checinfo).checked=false;
 
-          }
+          }*/
           else {
-            alert("All Process are sucess");
+            //alert("All Process are sucess");
+            this.dialogvalue="All Process are sucess";
+            this.$.curriculamdialog.open();
+
             finalvalue="sucess";
            document.querySelector("#cpayes"+checinfo).checked=true;
 

@@ -13,7 +13,7 @@
      table{
         border-collapse: collapse;
         width: 100%;
-
+     
       }
       table { table-layout:fixed; }
      table td { overflow: hidden; }
@@ -22,6 +22,26 @@
      border-bottom: 1px solid #ddd;
       border-left: 1px solid #ddd;
      }
+      #curriculamsubjectdialog
+      {
+        border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+      }
+      
+      #curriculamenrichmentdialog
+      {
+            border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+      }
+      
     </style>
      <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}</div>
     <div>
@@ -36,23 +56,27 @@
               <td style="{{fonts}}"  width="10%">{{innovation}}</td>
               <td style="{{fonts}}"  width="10%">{{coremarks}}</td>
               <td style="{{fonts}}"  width="10%" >
+               <paper-button on-click="fnsubclick">{{subremak}}</paper-button>
 
-                <div hidden$="{{hideinfovalue}}">
+               <!--  <div hidden$="{{hideinfovalue}}">
                    <p hidden$="{{hideopenplan}}" >{{subremak}}</p>
                   <paper-input value="{{subremak}}" hidden$="{{hidecloseplan}}" ></paper-input>  
                 </div>
                 <div  hidden$="{{hideinfovalue1}}">
                  <p>{{subremak}}</p> 
-                </div>
+                </div> -->
               </td>
                <td  style="{{fonts}}"  width="10%">
-                 <div hidden$="{{hideinfovalue}}"> 
+
+       <paper-button on-click="fnenrichclick">{{enrichmentsuggest}}</paper-button>
+
+                 <!-- <div hidden$="{{hideinfovalue}}"> 
                        <p   hidden$="{{hideopenplan}}" >{{enrichmentsuggest}}</p>
                        <paper-input hidden$="{{hidecloseplan}}" value="{{enrichmentsuggest}}"  hidden$="{{hidecloseplan}}"></paper-input>
                  </div>
                  <div hidden$="{{hideinfovalue1}}">
                     <p>{{enrichmentsuggest}}</p> 
-                 </div>
+                 </div> -->
               </td>
               <td style="{{fonts}}"  width="10%">
                <div hidden$="{{hideinfovalue}}"> 
@@ -61,7 +85,8 @@
                 </center>
                 </div>
                 <div hidden$="{{hideinfovalue1}}">
-                  <p style="color:green">verified</p>
+                  <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="create" on-click="FnEdit"></paper-icon-button>
+                </center>
                   
                 </div>  
              </td>
@@ -69,6 +94,24 @@
         </tr>
       </table>
      <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
+        <paper-dialog id="curriculamsubjectdialog" >
+      <center>   <iron-autogrow-textarea label="Home Aids"  value="{{subremak}}" placeholder="Your Subject Teacher Remark Here..."></iron-autogrow-textarea></center> 
+          <center style="margin-top: 10%;">
+            <paper-button  on-click="subsave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="subclose">Close</paper-button>
+
+         
+          </center>
+      </paper-dialog>
+   <paper-dialog id="curriculamenrichmentdialog" >
+      <center> <iron-autogrow-textarea   value="{{enrichmentsuggest}}" placeholder="Your Enricment here..."></iron-autogrow-textarea></center> 
+          <center style="margin-top: 10%;">
+            <paper-button  on-click="enrichsave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose">Close</paper-button>
+
+         
+          </center>
+      </paper-dialog>
     </div>
   </template>
   <script>
@@ -83,7 +126,9 @@
    },
    FnSave:function(e){
      //alert(this.conceptname+1+this.subconceptname+1+this.skill+1+this.value+1+this.innovation+1+this.coremarks+1+this.subremak+1+this.enrichmentsuggest+1+this.chapterid+1+this.chaptername+1+this.conceptid+1+this.subconceptid);
-  //  alert(this.subremak+" "+this.enrichmentsuggest);
+   // alert(this.subremak+" "+this.enrichmentsuggest);
+   //   this.hideinfovalue=true;
+  //    this.hideinfovalue1=false;
   if(this.subremak=="" || this.enrichmentsuggest==""){
     alert("pls check the value");
 
@@ -92,9 +137,36 @@
     this.$.crriculambookservice.Fnpasscurriculumlessonplan(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
     }
     
-    
+
     },
-    
+     fnsubclick:function(){
+    //  alert(1);
+      this.$.curriculamsubjectdialog.open();
+    },
+   fnenrichclick:function(){
+      this.$.curriculamenrichmentdialog.open();
+    },
+    enrichsave:function(){
+      this.$.curriculamenrichmentdialog.close();
+     
+      },
+    enrichclose:function(){
+      this.$.curriculamenrichmentdialog.close();
+      this.enrichmentsuggest="";
+    },
+    subsave:function(){
+      this.$.curriculamsubjectdialog.close();
+     
+    },
+    subclose:function(){
+      this.$.curriculamsubjectdialog.close();
+       this.subremak="";
+    },
+    FnEdit:function(e){
+      this.hideinfovalue=false;
+      this.hideinfovalue1=true;
+    // this.$.crriculambookservice.Fnpasscurriculumlessonplanedit(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
+    },
     });
   })();
   </script>

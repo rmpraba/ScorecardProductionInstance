@@ -29,15 +29,15 @@
       }
       .exceldiv{
         margin-top: 8%;
-        margin-left: 22%;
+        margin-left: 5%;
       } 
       .exceldiv1{
         margin-top: -5%;
-        margin-left: 33%;
+        margin-left: 39%;
       }
        .exceldiv2{
-      margin-top: -7%;
-      margin-left: 71%;
+      margin-top: -12%;
+      margin-left: 68%;
       }  
     </style>
     <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}
@@ -56,8 +56,8 @@
               <paper-checkbox id="cpayes{{id}}"  on-change="fnchange">Completed </paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
             </div>
             <div hidden$="{{hideinfovalue1}}">
-                  <p style="color:green"> Assesment Completed</p>
-  
+                 <paper-icon-button id="downloads" icon="icons:file-download" on-click="fnassmentmark"></paper-icon-button>
+            <paper-tooltip for="download">Download</paper-tooltip>
            </div>
          </td>
         
@@ -68,35 +68,19 @@
                 </center>
                 </div>
                 <div hidden$="{{hideinfovalue1}}">
-                  <p style="color:green">verified</p>
+                    <paper-icon-button id="downloads" icon="create" on-click="fnedit"></paper-icon-button>
+            <paper-tooltip for="download">Edit</paper-tooltip>
                 </div>  
           </td>
         </tr>
       </table>
   
-       <table border="1" id="Assesmentxlcard" hidden>    
-       <tr>   
-       <th id="tb1">SNo</th>
-       <th id="tb1">Assesmenttype</th>
-       <th id="tb2">Content1</th>
-       <th id="tb1">Content2</th>
-       <th id="tb2">Content3</th>
-       <th id="tb2">Content4</th>
-     </tr>  
-      <tr>
-       <td>1</td>
-       <td>Fisttype</td>
-       <td></td>
-       <td></td>
-       <td></td>
-       <td></td>
-      </tr>  
-     </table> 
+     
 
   <paper-dialog entry-animation="scale-up-animation" exit-animation="fade-out-animation" id="fnsetdialogs" >
     <center><h2>Assesment value</h2></center>
       <div class="exceldiv">
-             <paper-icon-button id="download" icon="icons:file-download" onclick="exportToExcel21()"></paper-icon-button>
+            <h4>Markentry sheet download-</h4><paper-icon-button id="download" icon="icons:file-download" onclick="exportToExcel21()"></paper-icon-button>
             <paper-tooltip for="download">Download</paper-tooltip>
      </div>
       <div class="exceldiv1" >
@@ -104,15 +88,84 @@
             <xmp id="output"></xmp>
      </div>
       <div class="exceldiv2" >
-            <paper-icon-button  id="upload" icon="icons:file-upload" on-click="FnClick"></paper-icon-button>
+           <h4> Markentry sheet upload-</h4><paper-icon-button  id="upload" icon="icons:file-upload" on-click="FnClick"></paper-icon-button>
             <paper-tooltip for="upload">Upload</paper-tooltip>
      </div>
        <center><paper-button on-click="fnclick" style="color:white;background-color:black">Close</paper-button><center>
 </paper-dialog>
 </div>
-<curriculum-assesment-service-card 
- id="crriculambookservice"></curriculum-assesment-service-card>
 
+  <table border="1" id="Assesmentxlcard{{id}}" hidden>    
+      <tr>   
+       <th id="tb1">SNo</th>
+       <th id="tb1">StudentId</th>
+       <th id="tb2">StudentName</th>
+       <th id="tb1">Mark</th>
+      </tr>  
+     
+      <template is="dom-repeat" items="{{assemensarr}}" >
+      <tr>
+       <td>{{item.serialno}}</td>
+       <td>{{item.id}}</td>
+       <td>{{item.student_name}}</td>
+       <td>{{item.mark}}</td>
+    
+      </tr>  
+      </template> 
+    <table border="1"   id="Assesmentxlcardfinal{{id}}" hidden  >    
+      <tr>   
+       <th id="tb1">SNo</th>
+       <th id="tb1">Student Id</th>
+       <th id="tb2">StudentName</th>
+       <th id="tb1">chapter name</th>
+       <th id="tb1">concept name</th>
+       <th id="tb1">Sub concept name</th>
+       <th id="tb1">Mark</th>
+      </tr>  
+     
+      <template is="dom-repeat" items="{{studentassmentmarkarr}}" >
+      <tr>
+       <td>{{item.serialno}}</td>
+       <td>{{item.student_id}}</td>
+       <td>{{item.student_name}}</td>
+       <td>{{item.chapter_name}}</td>
+       <td>{{item.concept_name}}</td>
+       <td>{{item.sub_concept_name}}</td>
+       <td>{{item.mark}}</td>
+      </tr>  
+       </template> 
+     </table> 
+     <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
+   <iron-ajax
+        method="post"
+        id="curriculamassesmentmarkajax"
+        url="{{curriculamassesmentmarkurl}}"
+        params="{{curriculamassesmentmarkparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="curriculamassesmentmarkResponse"
+        debounce-duration="300"/>
+    </iron-ajax>
+     <iron-ajax
+        method="post"
+        id="curriculamassesmentmark1ajax"
+        url="{{curriculamassesmentmark1url}}"
+        params="{{curriculamassesmentmark1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="curriculamassesmentmark1Response"
+        debounce-duration="300"/>
+     </iron-ajax>
+      <iron-ajax
+        method="post"
+        id="curriculamassesmentmark2ajax"
+        url="{{curriculamassesmentmark2url}}"
+        params="{{curriculamassesmentmark2param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="curriculamassesmentmark2Response"
+        debounce-duration="300"/>
+     </iron-ajax>
   </template>
    <script type="text/javascript">
 
@@ -126,13 +179,13 @@
   }
   </script>
 <script type="text/javascript">
+var ids;
   function exportToExcel21(){
-var htmls = "";
-
-var tab_text = '<table border="1px" style="font-size:17px" ">';
+ var htmls = "";
+ var tab_text = '<table border="1px" style="font-size:17px" ">';
     var textRange; 
     var j = 0;
-    var tab = document.getElementById('Assesmentxlcard'); // id of table
+    var tab = document.getElementById('Assesmentxlcard'+ids); // id of table
     var lines = tab.rows.length;
 
  
@@ -172,29 +225,41 @@ var tab_text = '<table border="1px" style="font-size:17px" ">';
     }
 
     
+
   </script>
   <script>
   (function() {
     'use strict';
    var setassesment='no';
    var temp=[];
+   var passarr=[];
     Polymer({
       is: 'curriculum-assesment-card',
 fnchange:function(e){
 
-
+ids=this.id;
  if(document.querySelector("#cpayes"+this.id).checked==true){
 setassesment='yes';
-this.$.fnsetdialogs.open();
+ this.$.fnsetdialogs.open();
+ this.curriculamassesmentmark();
  }
  else if(document.querySelector("#cpayes"+this.id).checked==false){
   setassesment='no';
  }
 },
+fnpass:function(e){
+passarr=e;
+},
 fnclick:function(e){
 this.$.fnsetdialogs.close();
 },
+fnedit:function(e){
+  //alert(1);
+  this.hideinfovalue=false;
+  this.hideinfovalue1=true;
+},
   FnSave:function(e){
+ 
          if(array.length==0){
            setassesment='no';
          }
@@ -208,17 +273,21 @@ this.$.fnsetdialogs.close();
        else
       {
        for(var i=0;i<temp.length;i++){
-          this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].Content1,temp[i].Content2,temp[i].Content3,temp[i].Content4,temp[i].Assesmenttype,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname);
-       }
+        //alert(this.sno);
+          this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].StudentId,temp[i].StudentName,temp[i].Mark,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,temp.length);
+        }
+      // this.hideinfovalue=true;
+      // this.hideinfovalue1=false;
       }
-         document.getElementById("assesmentreadfile1"+this.id).value ="";
-         temp=[];
-         array=[];
+      document.getElementById("assesmentreadfile1"+this.id).value ="";
+      temp=[];
+      array=[];
        
         
      },
         FnClick:function(){
-      temp=[];
+         // alert(JSON.stringify(array));
+
       if(array.length==0){
         alert("Pls save the file in EXCEL WORKBOOK extension!");
         document.getElementById("assesmentreadfile").value = "";
@@ -233,30 +302,173 @@ this.$.fnsetdialogs.close();
            setarr=Object.keys(array[i]);
              setarr.splice(0,3);
              
-         if(setarr.length==3){
+        
           var obj={};
-           obj.sno=array[i].SNo;
-           obj.Assesmenttype=array[i].Assesmenttype;
-           obj.Content1=array[i].Content1;
-           obj.Content2=array[i].Content2;
-           obj.Content3=array[i].Content3; 
-           obj.Content4=array[i].Content4; 
-            temp.push(obj);
-       
-             }
+           obj.SNo=array[i].SNo;
+           obj.StudentId=array[i].StudentId;
+           obj.StudentName=array[i].StudentName;
+           obj.Mark=array[i].Mark;
+           temp.push(obj);
+       //   alert(JSON.stringify(temp));
+             
            }}
            if(temp.length==0){
-alert("pls Upload the Correct value");
+      alert("pls Upload the Correct value");
            }
            else{
-alert("Upload Sucess...!");
+      alert("Upload Sucess...!");
 
            }
-    // alert(JSON.stringify(temp));
-    
-          
+ 
         }
-      },  
+
+      },
+curriculamassesmentmark:function(){
+this.curriculamassesmentmarkurl=sessionStorage.getItem("addrinfo")+"/curriculamassesmentmark-service";
+    var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+        obj.empname=sessionStorage.getItem("curr_sess_loggeduname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.sectionname=localStorage.getItem("curr_sess_sectionname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.termid=sessionStorage.getItem("termid"); 
+        this.curriculamassesmentmarkparam=obj;
+        this.$.curriculamassesmentmarkajax.generateRequest();
+
+},
+fnassmentmark:function(e){
+this.curriculamassesmentmark1();
+},
+curriculamassesmentmark1:function(){
+  ids=this.id;
+        this.curriculamassesmentmark1url=sessionStorage.getItem("addrinfo")+"/curriculamassesmentmark1-service";
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+        obj.empname=sessionStorage.getItem("curr_sess_loggeduname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.sectionname=localStorage.getItem("curr_sess_sectionname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.chapterid=this.chapterid;
+        obj.conceptid=this.conceptid;
+        obj.subconceptid=this.subconceptid;
+        obj.rowid=this.rowid;
+       // alert(JSON.stringify(obj));
+        this.curriculamassesmentmark1param=obj;
+        this.$.curriculamassesmentmark1ajax.generateRequest();
+
+},
+curriculamassesmentmark1Response:function(e){
+        var res=e.detail.response.returnval;
+     //   alert(JSON.stringify(res));
+        for(var i=0;i<res.length;i++){
+            res[i].serialno=i+1;
+        }
+     this.studentassmentmarkarr=res;
+  this.curriculamassesmentmark2();
+
+        },
+
+curriculamassesmentmark2:function(){
+  ids=this.id;
+        this.curriculamassesmentmark2url=sessionStorage.getItem("addrinfo")+"/curriculamassesmentmark1-service";
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+        obj.empname=sessionStorage.getItem("curr_sess_loggeduname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.sectionname=localStorage.getItem("curr_sess_sectionname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.chapterid=this.chapterid;
+        obj.conceptid=this.conceptid;
+        obj.subconceptid=this.subconceptid;
+        obj.rowid=this.rowid;
+       // alert(JSON.stringify(obj));
+        this.curriculamassesmentmark2param=obj;
+        this.$.curriculamassesmentmark2ajax.generateRequest();
+
+},
+curriculamassesmentmark2Response:function(e){
+       this.exportToExcel211();
+        },
+
+
+  
+exportToExcel211:function(e){
+//alert(1);
+    var htmls = "";
+    var tab_text = '<table border="1px" style="font-size:17px" ">';
+    var textRange; 
+    var j = 0;
+    var tab = document.getElementById('Assesmentxlcardfinal'+this.id); // id of table
+    var lines = tab.rows.length;
+
+ 
+    if (lines > 0) {
+        tab_text = tab_text + '<tr bgcolor="#DFDFDF">' + tab.rows[0].innerHTML + '</tr>';
+    }
+
+   
+    for (j = 1 ; j < lines; j++) {     
+        tab_text = tab_text + "<tr>" + tab.rows[j].innerHTML + "</tr>";
+    }
+
+    tab_text = tab_text + "</table>";
+   
+    var uri = 'data:application/vnd.ms-excel;base64,';
+            var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'; 
+            var base64 = function(s) {
+                return window.btoa(unescape(encodeURIComponent(s)))
+            };
+
+            var format = function(s, c) {
+                return s.replace(/{(\w+)}/g, function(m, p) {
+                    return c[p];
+                })
+            };
+
+         htmls = tab_text
+
+            var ctx = {
+                worksheet : 'assesment' || 'Worksheet',
+                table : htmls
+            }
+        var link = document.createElement("a");
+            link.download = 'assesment';
+            link.href = uri + base64(format(template, ctx));
+            link.click();
+    
+},
+curriculamassesmentmarkResponse:function(e){
+        var res=e.detail.response.returnval;
+      for(var i=0;i<res.length;i++){
+            res[i].serialno=i+1;
+        }
+     
+        this.assemensarr=res;
+        },
+
     });
   })();
   </script>

@@ -104,12 +104,22 @@
         on-response="curriculampassassesmentvalueResponse"
         debounce-duration="300"/>
        </iron-ajax>
-
+        <iron-ajax
+        method="post"
+        id="curriculampassassesmentvaluefinalajax"
+        url="{{curriculampassassesmentvaluefinalurl}}"
+        params="{{curriculampassassesmentvaluefinalparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="curriculampassassesmentvaluefinalResponse"
+        debounce-duration="300"/>
+       </iron-ajax>
+     
   </template>
   <script>
   (function() {
     'use strict';
-
+var c1=0,c2=0;
     Polymer({
       is: 'curriculum-assesment-service-card',
 
@@ -175,6 +185,7 @@ passcurriculumlessonplanResponse:function(e){
         this.fngetlessonplanvalue();
        }
         },
+
 
 Fnpasscurriculumteach:function(conceptname,conceptid,chapterid,chaptername,link,url,filename,rowid,sno,fromdate,todate){
 this.passcurriculumteachurl=sessionStorage.getItem("addrinfo")+"/passcurriculumteach-service";
@@ -253,9 +264,24 @@ this.passcurriculumhomeworkurl=sessionStorage.getItem("addrinfo")+"/passcurricul
         this.fnhomework();
        }
       },
-  fncurriculampassassesmentvalue:function(content1,content2,content3,content4,Assesmenttype,conceptid,conceptname,chapterid,chaptername,rowid,sno,assesmentdate,fromdate,todate,assmentstatus,subconceptid,subconceptname){
+  fncurriculampassassesmentvalue:function(StudentId,StudentName,Mark,conceptid,conceptname,chapterid,chaptername,rowid,sno,assesmentdate,fromdate,todate,assmentstatus,subconceptid,subconceptname,templength){
+    c1=templength;
+    this.conceptid=conceptid;
+    this.conceptname=conceptname;
+    this.chapterid=chapterid;
+    this.chaptername=chaptername;
+    this.rowid=rowid;
+    this.sno=sno;
+    this.assesmentdate=assesmentdate;
+    this.fromdate=fromdate;
+    this.todate=todate;
+    this.assmentstatus=assmentstatus;
+    this.subconceptid=subconceptid;
+    this.subconceptname=subconceptname;
+
 this.curriculampassassesmentvalueurl=sessionStorage.getItem("addrinfo")+"/curriculampassassesmentvalue-service";
-    var obj={};
+     var obj={};
+        obj.sno=sno;
         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
@@ -269,34 +295,91 @@ this.curriculampassassesmentvalueurl=sessionStorage.getItem("addrinfo")+"/curric
         obj.sectionid=localStorage.getItem("curr_sess_sectionid");
         obj.termid=sessionStorage.getItem("termid"); 
         obj.gradename=localStorage.getItem("curr_sess_gradename");
-        obj.content1=content1;
-        obj.content2=content2;
-        obj.content3=content3;
-        obj.content4=content4;
+        obj.StudentId=StudentId;
+        obj.StudentName=StudentName;
+        obj.Mark=Mark;
         obj.chapterid=chapterid;
         obj.chaptername=chaptername;
         obj.conceptid=conceptid;
         obj.conceptname=conceptname;
         obj.rowid=rowid;
-        obj.sno=sno;
         obj.fromdate=fromdate;
         obj.todate=todate;
         obj.assmentstatus=assmentstatus;
         obj.assesmentdate=assesmentdate;
-        obj.Assesmenttype=Assesmenttype;
         obj.subconceptid=subconceptid;
         obj.subconceptname=subconceptname;
-
         this.curriculampassassesmentvalueparam=obj;
-      //  alert(JSON.stringify(obj));
+        //alert(JSON.stringify(obj));
         this.$.curriculampassassesmentvalueajax.generateRequest();
      },
  curriculampassassesmentvalueResponse:function(e){
         var res=e.detail.response.returnval;
+       c2++;
+      if(c1==c2){
+          c1=0;
+          c2=0;   
+    //    alert('1');
+this.fncurriculampassassesmentvaluefninal(this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,this.assmentstatus,this.subconceptid,this.subconceptname);
+                 
+         }
+   },
+
+  fncurriculampassassesmentvaluefninal:function(conceptid,conceptname,chapterid,chaptername,rowid,sno,assesmentdate,fromdate,todate,assmentstatus,subconceptid,subconceptname){
+   
+    this.curriculampassassesmentvaluefinalurl=sessionStorage.getItem("addrinfo")+"/curriculampassassesmentvaluefinal-service";
+    var obj={};
+        obj.sno=sno;
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+        obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+        obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+        obj.empname=sessionStorage.getItem("curr_sess_loggeduname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.sectionname=localStorage.getItem("curr_sess_sectionname");
+        obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.chapterid=chapterid;
+        obj.chaptername=chaptername;
+        obj.conceptid=conceptid;
+        obj.conceptname=conceptname;
+        obj.rowid=rowid;
+        obj.fromdate=fromdate;
+        obj.todate=todate;
+        obj.assmentstatus=assmentstatus;
+        obj.assesmentdate=assesmentdate;
+        obj.subconceptid=subconceptid;
+        obj.subconceptname=subconceptname;
+        this.curriculampassassesmentvaluefinalparam=obj;
+       // alert(JSON.stringify(obj));
+        this.$.curriculampassassesmentvaluefinalajax.generateRequest();
+     },
+   curriculampassassesmentvaluefinalResponse:function(e){
+        var res=e.detail.response.returnval;
         // alert(JSON.stringify(res));
-  if(res=="succ"){
-  this.fnassesmenttypes();
-}  },
+       
+            if(res=="succ"){
+          this.fnassesmenttypes();
+          this.conceptid="";
+          this.conceptname="";
+          this.chapterid="";
+          this.chaptername="";
+          this.rowid="";
+          this.sno="";
+          this.assesmentdate="";
+          this.fromdate="";
+          this.todate="";
+          this.assmentstatus="";
+          this.subconceptid="";
+          this.subconceptname="";
+          }           
+         
+   },
+
   Fnpasscurriculumcomplete:function(chapterid,chaptername,conceptname,conceptid,subconceptid,subconceptname,rowid,sno,fromdate,todate,status,completedate,correctionstatus){
 this.passcurriculumassesmenturl=sessionStorage.getItem("addrinfo")+"/passcurriculumcomplete-service";
     var obj={};
@@ -337,6 +420,7 @@ this.passcurriculumassesmenturl=sessionStorage.getItem("addrinfo")+"/passcurricu
         var res=e.detail.response.returnval;
         // alert(JSON.stringify(res));
         if(res=="succ"){
+          
           this.fncompletestatus();
         }
       },
@@ -417,22 +501,15 @@ getteacingaidsResponse:function(e){
   var res=e.detail.response.returnval;
   var aproval=e.detail.response.aproval;
   for(var i=0;i<res.length;i++){
-                 res[i].hideinfovalue=false;        
-                 res[i].hideinfovalue1=true;        
-
-           }
-        for(var i=0;i<res.length;i++){
-          for(var j=0;j<aproval.length;j++){
-             if(res[i].concept_id==aproval[j].concept_id && res[i].concept_id==aproval[j].concept_id && res[i].row_id==aproval[j].row_id){
-               
-                 res[i].hideinfovalue=true;        
-                 res[i].hideinfovalue1=false;        
-             
-             }
-          }
-        }
-
-var temp=[];
+       if(res[i].filename==""){
+      res[i].hidefilename=true;
+       }
+       else{
+      res[i].hidefilename=false;
+      }
+  }
+   // alert(JSON.stringify(res));  
+ var temp=[];
  temp.push({"concept_name":"Concept Name","url":"url","sno":"sno","chapter_id":"Chapterid","chapter_name":"ChapterName","filename":"filename","link":"link","hidecloseplan":true,"hideopenplan":false,"fonts":"font-weight:bold;text-transform:uppercase;text-align:center;width: 10%;","row_id":0,"hideinfovalue":false,"hideinfovalue1":true});
 
      for(var i=0;i<res.length;i++){
@@ -467,22 +544,14 @@ fnhomeworkResponse:function(e){
   var aproval=e.detail.response.aproval;
  // alert(JSON.stringify(aproval));
 
-for(var i=0;i<res.length;i++){
-                 res[i].hideinfovalue=false;        
-                 res[i].hideinfovalue1=true;        
-
-           }
-        for(var i=0;i<res.length;i++){
-          for(var j=0;j<aproval.length;j++){
-             if(res[i].concept_id==aproval[j].concept_id && res[i].concept_id==aproval[j].concept_id && res[i].row_id==aproval[j].row_id){
-                 res[i].hideinfovalue=true;        
-                 res[i].hideinfovalue1=false;        
-              //  alert(JSON.stringify(res[i]));
-
-             
-             }
-          }
-        }
+ for(var i=0;i<res.length;i++){
+       if(res[i].filename==""){
+      res[i].hidefilename=true;
+       }
+       else{
+      res[i].hidefilename=false;
+      }
+  }
 
 var temp=[];
  temp.push({ "concept_name":"Concept Name","home_aids":"Home Aids","url":"url","sno":"sno","chapter_id":"Chapterid","chapter_name":"ChapterName","filename":"filename","link":"link","hidecloseplan":true,"hideopenplan":false,"fonts":"font-weight:bold;text-transform:uppercase;text-align:center;width: 10%;","row_id":0,"hideinfovalue":false,"hideinfovalue1":true});
@@ -523,7 +592,7 @@ fnassesmenttypesResponse:function(e){
         for(var i=0;i<res.length;i++){
                  res[i].hideinfovalue=false;        
                  res[i].hideinfovalue1=true;        
-
+              
            }
         for(var i=0;i<res.length;i++){
           for(var j=0;j<aproval.length;j++){

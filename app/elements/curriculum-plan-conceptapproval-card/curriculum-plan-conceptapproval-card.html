@@ -142,7 +142,10 @@ th,td{
  
 
      <center>
-        <paper-tabs selected="0"  style="margin-top: 5.3%; position: absolute;margin-left: 8%;width: 80%;color: #f1f703;background-color: #3558bb">
+      <paper-tabs selected="0"  style="margin-top: 5.3%;
+    position: absolute;
+    margin-left: -7%;
+    width: 112%;color: #1A5276;"  >
              <paper-tab on-click="Fnlessonplan">Lesson Plan</paper-tab>
              <paper-tab on-click="Fnteacingaid">Teaching Aids</paper-tab>
              <paper-tab on-click="Fnhomework">Home Work</paper-tab>
@@ -161,12 +164,12 @@ th,td{
 <div class="plan"> 
   <template is="dom-repeat" items="{{teacharr}}">
 
-       <curriculum-teach-card fromdate="{{item.from_date}}" todate="{{item.to_date}}" conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}"  url="{{item.url}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}"></curriculum-teach-card>
+       <curriculum-teach-card fromdate="{{item.from_date}}" todate="{{item.to_date}}" conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}"  url="{{item.url}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}" hidefilename="{{item.hidefilename}}"></curriculum-teach-card>
     </template>
 </div>
 <div class="plan">
 <template is="dom-repeat" items="{{homearr}}">
-    <curriculum-home-card  homeaids="{{item.home_aids}}" fromdate="{{item.from_date}}" todate="{{item.to_date}}"  conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}" url="{{item.url}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}"></curriculum-home-card>
+    <curriculum-home-card  homeaids="{{item.home_aids}}" fromdate="{{item.from_date}}" todate="{{item.to_date}}"  conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}" url="{{item.url}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}" hidefilename="{{item.hidefilename}}"></curriculum-home-card>
     </template>
 </div>
 <div class="plan">
@@ -321,6 +324,8 @@ th,td{
        localStorage.setItem("curr_sess_chaptername",this.chaptername); 
       // this.$.bookservice.fngetclassbookchapterconceptvalue(this.gradeid,this.sectionidz,this.sectionidname,this.subjectid,this.chapterid);
      this.$.bookservice.fetchalreadyapprovedchapterconcept(); 
+     this.$.crriculambookservice.fngetlessonplanvalue();
+
        // this.$.clsplnevalttttt.hidden=false;
        this.$.empidzz.hidden=false;
        this.hideinfoheader=false;

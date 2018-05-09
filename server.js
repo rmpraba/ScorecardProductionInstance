@@ -839,11 +839,11 @@ app.post('/smis-login',  urlencodedParser,function (req, res){
       }
       }
       else
-        res.status(200).json({'returnval': 'invalid'});
+        res.status(200).json({'returnval': 'invalid1'+err});
       });
       } 
       else {
-        res.status(200).json({'returnval': 'invalid'});
+        res.status(200).json({'returnval': 'invalid2'+qur+req.body.emp_id});
       }
     }
     else{
@@ -853,6 +853,67 @@ app.post('/smis-login',  urlencodedParser,function (req, res){
     }
   });
 });
+
+
+// app.post('/smis-login',  urlencodedParser,function (req, res){
+
+//   var qur="SELECT * FROM md_employee_creation WHERE emp_id='"+req.query.emp_id+"' AND emp_mobile='"+req.query.mob_no+"' and flage='active' and academic_year='2017-2018'";
+//   var insertqur="INSERT INTO md_register SET ?";
+//   var school_id="";
+//   var role="";
+//   var emp_name="";
+//   var param={
+//     school_id:'',
+//     id:req.query.emp_id,
+//     password:req.query.mob_no,
+//     device_id:req.query.reg_id,
+//     role:''
+//   };
+
+//   connection.query(qur,function(err, rows){
+//     if(!err){
+//       if(rows.length>0){
+//         school_id=rows[0].school_id;
+//         role=rows[0].role;
+//         emp_name=rows[0].emp_name;
+//         param.school_id=rows[0].school_id;
+//         param.role=rows[0].role;
+//       connection.query("SELECT * FROM md_register WHERE id='"+req.query.emp_id+"' AND password='"+req.query.mob_no+"' AND school_id='"+school_id+"' ",function(err, rows){        
+//       if(!err){
+//        if(rows.length==0){
+//         connection.query(insertqur,[param],function(err, rows){
+//         if(!err)
+//         res.status(200).json({'returnval': 'Success','schoolid':school_id,'empname':emp_name,'emprole':role});
+//         else
+//         res.status(200).json({'returnval': 'insert'+param+err});
+//         });
+//       }
+//       else{
+//         connection.query("UPDATE md_register SET device_id='"+req.query.reg_id+"' WHERE id='"+req.query.emp_id+"' AND password='"+req.query.mob_no+"' AND school_id='"+school_id+"'",function(err, rows){        
+//         if(!err)
+//         res.status(200).json({'returnval': 'Exist','schoolid':school_id,'empname':emp_name,'emprole':role});
+//         else
+//         res.status(200).json({'returnval': 'update'+err});
+//         });
+//       }
+//       }
+//       else
+//         res.status(200).json({'returnval': 'invalid1'+err});
+//       });
+//       } 
+//       else {
+//         res.status(200).json({'returnval': 'invalid2'+qur});
+//       }
+//     }
+//     else{
+//       console.log('hi');
+//       console.log(err);
+//       console.log('hi2');
+//     }
+//   });
+// });
+
+
 
 
 app.post('/smisrolecheck-service',  urlencodedParser,function (req, res)
@@ -16147,7 +16208,7 @@ app.post('/fnmasterplaninsert-service' , urlencodedParser,function (req, res)
       assesment_date:req.query.assesmentdate,
        homework_type:req.query.homework,
       current_url:req.query.currurl,
-      home_aids:req.query.homeaids,
+      home_aids:req.query.homeaids
     };
     console.log('Coming for master insertion....');
     connection.query("INSERT INTO md_curriculum_planning SET ?",[response],

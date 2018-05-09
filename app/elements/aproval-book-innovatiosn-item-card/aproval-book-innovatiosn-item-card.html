@@ -21,7 +21,19 @@
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
      }
-     #remarkareaaaaa
+    
+     .homeaide{
+     
+        overflow-x: visible;
+        overflow-y: hidden;   
+        height: 90px;
+        width: 80%;
+        margin-top: 14%;
+        margin-left: 5%;
+      }
+
+        .remarka
+     
       {
         overflow-x: visible;
         overflow-y: hidden;   
@@ -38,16 +50,15 @@
         width: 45%;
         margin-top: 14%;
       }
-      #innovatetextsssss
-      {
-        overflow-x: visible;
+     
+     .invo{
+      overflow-x: visible;
         overflow-y: hidden;
         height: 90px;
         width: 80%;
         margin-top: 14%;
         margin-left: 5%;
-      }
-     
+     }
       #fngetdialogid
       {
           border-radius: 10px;
@@ -159,10 +170,9 @@
        .teachingopendialog1
       {
    border-radius: 10px;
-    width: 54%;
-    height: 45%;
-    margin-top: -2%;
-    margin-left: -6%;
+    width: 721px;
+    height: 280px;
+    margin-left: -4%;
       }
 
     
@@ -234,7 +244,7 @@
              </td>
             <td style="width: 8.1%;">
               <p hidden$="{{hidecheck}}" >{{assesmentdate}}</p>
-              <assesment-date-picker hidden$="{{hidecheck1}}"></assesment-date-picker>
+            <assesment-date-picker hidden$="{{hidecheck1}}"></assesment-date-picker>
             </td>
           
         <td style="width: 8.01%;" >
@@ -277,7 +287,7 @@
         <template is="dom-repeat" items="{{mainarr}}" as="ry">
            <h4 style="margin-left: 4%;word-wrap: break-word;"> {{ry.valuename}}</h4>
         </template>
-       <h4 hidden$="{{hidedbvalue}}">{{value}}</h4>
+       <h4 hidden$="{{hidedbvalue}}">{{values}}</h4>
     </div>
   </td>
             <td style="width: 8.01%;">
@@ -358,6 +368,36 @@
               <paper-button on-click="skillclose" style="background-color:black;color:white">Close</paper-button>
           </center>
       </paper-dialog>
+
+
+      <paper-dialog id="innovationdialog" >
+          <iron-autogrow-textarea id="innovatetextsssss{{rowid}}" placeholder="Your innovation goes here..." class="invo"  value="{{value}}"></iron-autogrow-textarea>
+          <center style="margin-top: 10%;">
+            <paper-button  on-click="innovatsave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="innvtt" style="color:white;background-color:black" on-click="innovatclose" >Close</paper-button>
+
+            
+          </center>
+      </paper-dialog>
+
+       <paper-dialog id="remarkdialog" >
+          <iron-autogrow-textarea label="Remarks" placeholder="Your remarks goes here..." value="{{value}}" id="remarkareaaaaa11{{rowid}}" class="remarka" ></iron-autogrow-textarea>
+          <center style="margin-top: 10%;">
+            <paper-button  on-click="remarksave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="remarkclose" >Close</paper-button></center>
+      </paper-dialog>
+
+      <paper-dialog id="fnhomeaidsdialog" >
+          <iron-autogrow-textarea id="homeaidsinfoid{{rowid}}"  class="homeaide" label="Home Aids" placeholder="Your Home goes here..."  value="{{value}}"></iron-autogrow-textarea>
+          <center style="margin-top: 10%;">
+            <paper-button  on-click="homeaidssave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="homeclose" >Close</paper-button>
+
+         
+          </center>
+      </paper-dialog>
+
+
 <paper-dialog id="homeworkdialog{{rowid}}"  class="homeworkdialog1">
     <center> </center> 
          <div class="home">
@@ -381,7 +421,7 @@
   </body>
    </td>
      <td>
-        <iron-autogrow-textarea id="strengthvalue" placeholder=" Enter your homeurl here..." value="{{homecurrurl}}" ></iron-autogrow-textarea>
+        <iron-autogrow-textarea id="homeworkvalu{{rowid}}" placeholder=" Enter your homeurl here..." value="{{value}}" ></iron-autogrow-textarea>
     </td>
        </tr>
    </table>
@@ -393,39 +433,6 @@
             <paper-button id="taid1" style="color:white;background-color:black" on-click="closehomeid" >Close</paper-button>
           </center>
     </paper-dialog>
-
-      <paper-dialog id="innovationdialog" >
-          <iron-autogrow-textarea id="innovatetextsssss" label="Innovation"  value="{{innovation}}">Your innovation goes here...</iron-autogrow-textarea>
-          <center style="margin-top: 10%;">
-            <paper-button  on-click="innovatsave" style="color:white;background-color:black">Save</paper-button>
-            <paper-button id="innvtt" style="color:white;background-color:black" on-click="innovatclosezzz" >Close</paper-button>
-
-            <paper-button id="innttvvnn"  style="color:white;background-color:black" on-click="invtclse" >Close</paper-button>
-          </center>
-      </paper-dialog>
-
-      <paper-dialog id="remarkdialog" >
-          <iron-autogrow-textarea id="remarkareaaaaa" label="Remarks"  value="{{remark}}">Your remarks goes here...</iron-autogrow-textarea>
-          <center style="margin-top: 10%;">
-            <paper-button  on-click="remarksave" style="color:white;background-color:black">Save</paper-button>
-            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="remarkclosedddd" >Close</paper-button>
-
-            <paper-button id="rmclssz"  style="color:white;background-color:black" on-click="rmkclose" >Close</paper-button>
-          </center>
-      </paper-dialog>
-
-      <paper-dialog id="fnhomeaidsdialog" >
-          <iron-autogrow-textarea id="remarkareaaaaa" label="Home Aids"  value="{{homeaids}}">Your Home goes here...</iron-autogrow-textarea>
-          <center style="margin-top: 10%;">
-            <paper-button  on-click="homeaidssave" style="color:white;background-color:black">Save</paper-button>
-            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="homeclose" >Close</paper-button>
-
-         
-          </center>
-      </paper-dialog>
-
-
-
   <paper-dialog id="teachingopendialog{{rowid}}"  class="teachingopendialog1" >
    
     <center><h3>Teaching Aids</h3></center>
@@ -450,7 +457,7 @@
   </body>
    </td>
      <td>
-        <iron-autogrow-textarea id="strengthvalue" placeholder=" Enter your url here..." value="{{currurl}}" ></iron-autogrow-textarea>
+        <iron-autogrow-textarea id="curriculam{{rowid}}" placeholder=" Enter your url here..." value="{{value}}" ></iron-autogrow-textarea>
     </td>
        </tr>
    </table>  
@@ -555,6 +562,7 @@
   var mainurl="";
   var homefilearrurl=[];
   var teaceraidsarrurl=[];
+  var currurls;
   var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
 function fnhomes(){
   
@@ -563,8 +571,7 @@ function fnhomes(){
    hometeachertempaids.push({"filenames":homeglfilename});
      homefilearrurl.push({"homeurl":mainurl+"/"+d+homeglfilename,"filename":homeglfilename})
      var homefilenames="";
-  
-  var filenames="";
+    var filenames="";
          for(var j=0;j<hometeachertempaids.length;j++){
              if(filenames=="")
                 filenames=hometeachertempaids[j].filenames;
@@ -622,7 +629,7 @@ function fnhomeuplode(){
 }
 
 function fnfood1(){
-  
+
    document.getElementById("teachingopendialog"+rowid).opened=false;
    //document.getElementById("fomeid"+rowid).value=glfilename;
    teachertempaids.push({"filenames":glfilename});
@@ -675,11 +682,7 @@ function eatFood(){
             txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
         }
     }
-    
-  
-    
-   
-}
+    }
 </script>
   <script>
   (function() {
@@ -706,22 +709,18 @@ function eatFood(){
    
  document.getElementById("teachingopendialog"+this.rowid).opened=false;
   },
-
-
-
-    ready:function()
+ready:function()
     {
             this.remark="";
             this.innovation="";
             this.teachingaid="";
-            this.showdate=moment(new Date()).format('L');
-            localStorage.setItem("localsess_from_service",this.showdate);
-            this.$.rmclssz.hidden=true;
-            this.$.innttvvnn.hidden=true;
             this.currurl="";
             this.homeworkurl="";
             this.homework="";
-    },
+            this.showdate=moment(new Date()).format('L');
+            localStorage.setItem("localsess_from_service",this.showdate);
+        
+     },
    FnShowDialog:function(){
     this.date=new Date();
     this.$.dialog.toggle();
@@ -798,10 +797,7 @@ fndates:function(e){
    },
 
  homesave:function(e){
- 
- 
- document.getElementById("homeworkdialog"+this.rowid).opened=false;
-
+  document.getElementById("homeworkdialog"+this.rowid).opened=false;
    /*   var temp1=[];
      this.hidedbhomewok=true;
      for(var i=0;i<hworkarr.length;i++){
@@ -813,38 +809,32 @@ fndates:function(e){
      this.homeworks=temp1;
    */
  },
-
-   
 fnpasssubarr:function(subsarr){
     subsarrr=subsarr;
     },
- fnpassskillarr:function(skillarrr){
+fnpassskillarr:function(skillarrr){
       skarr=skillarrr;
-  
-     }, 
-     workvalue:function(workarr){
+    }, 
+workvalue:function(workarr){
  
       hworkarr=workarr;
       }, 
-   
-    fnpasparr1:function(e){
-      
+fnpasparr1:function(e){
     valuearr=e;
     },
-    fnpassbld:function(e){
+fnpassbld:function(e){
       bldvaluearr=e;
     },
-  fnconceptvalue:function(arr){
+fnconceptvalue:function(arr){
   conarr=arr;
-
   },
     fnclose1:function(e){
-    this.$.dzfsd1xsasa.close();
-    document.querySelector('aproval-book').newRefreshdddd();
+     this.$.dzfsd1xsasa.close();
+     document.querySelector('aproval-book').newRefreshdddd();
     },
     fnsavebook:function(e)
     {
-    alert(conarr.length+" "+valuearr.length+" "+skarr.length); 
+   // alert(conarr.length+" "+valuearr.length+" "+skarr.length); 
 
       if(conarr.length!=0 && valuearr.length!=0 && skarr.length!=0)
       {
@@ -859,24 +849,11 @@ fnpasssubarr:function(subsarr){
            
        else if(this.planneddate=="empty")
       {
-    //    alert(this.currurl)alert(JSON.stringify(teaceraidsarrurl));
-
-     this.$.bookservice.fnmasterplaninsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,this.currurl,this.homework,this.homecurrurl,this.homeaids);
-     this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,this.currurl,this.homework,teaceraidsarrurl,homefilearrurl,this.homecurrurl,this.homeaids);
-         this.showdate=moment(new Date()).format('L');
-         localStorage.setItem("localsess_from_service",this.showdate);
-            setsubarr=[];
-            sethomearr=[];
-            trmp=[];
+          this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,this.currurl,this.homework,teaceraidsarrurl,homefilearrurl,this.homecurrurl,this.homeaids);
+          this.showdate=moment(new Date()).format('L');
+          localStorage.setItem("localsess_from_service",this.showdate);
+    
            
-           document.querySelector('concept-check-card').fnclean();
-           document.querySelector('aproval-book').fnclean1();
-           document.querySelector('skill-dialog-card').fnclean1();
-           document.querySelector('subconcept-dialog-card').fnclean1();
-           subsarrr=[];
-           conarr=[];
-           valuearr=[];
-           skarr=[];
           }
         else  
           {
@@ -917,7 +894,7 @@ allrefesh:function(){
             this.hidecheck1=true;
             this.hidecheck=false;  
             this.planneddate="";
-            this.currurl=="";
+            this.currurl="";
             this.hidedbvalue=false;
             this.hidedbskill=false;
             this.hidedbsubconcept=false;
@@ -931,8 +908,30 @@ allrefesh:function(){
             homeglfilename="";;
             hometeachertempaids=[];
             mainurl="";
-           homefilearrurl=[];
-           teaceraidsarrurl=[];
+            homefilearrurl=[];
+            teaceraidsarrurl=[];
+            setsubarr=[];
+            sethomearr=[];
+            trmp=[];
+            tempvaluarr=[];
+            conarr=[];
+            valuearr=[];
+            skarr=[];
+            setsubarr=[];
+            sethomearr=[];
+            subsarrr=[];
+            hworkarr=[];
+            trmp=[];
+            len1=0;
+            len2=0;
+            len11=0;
+            len12=0;
+            bldvaluearr=[]; 
+           document.querySelector('concept-check-card').fnclean();
+           document.querySelector('aproval-book').fnclean1();
+           document.querySelector('skill-dialog-card').fnclean1();
+           document.querySelector('subconcept-dialog-card').fnclean1();
+           document.querySelector('aproval-book-concept-card').FnClear();
 },
     fngetconceptz1:function(e){
        this.$.dzfsd1xsasa.toggle(); 
@@ -1058,16 +1057,17 @@ fngetskill:function(e){
     
     },
      Fnhomeworks:function(e){
+     
       rowid=this.rowid;
+       document.getElementById('homeworkvalu'+this.rowid).textarea.value=this.homecurrurl;
        document.getElementById("homeworkdialog"+this.rowid).opened=true;
     mainurl="";  
     this.homefileprefix="Homework"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.rowid;
      //alert(this.homefileprefix);
   mainurl=this.homefileprefix;
     this.homeworkurl=sessionStorage.getItem("addrinfo")+"/homeworkurl";
-     var obj={};
-     obj.homefileprefix=this.homefileprefix;
-
+    var obj={};
+        obj.homefileprefix=this.homefileprefix;
         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
         obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
         obj.gradeid=localStorage.getItem("curr_sess_gradeid");
@@ -1282,10 +1282,10 @@ this.fngetbookvaluezparam=obj;
       this.hidecheck=true;
       this.innovattionvaluezs=false;
       this.$.rmcls1.hidden=true;
-      this.$.rmclssz.hidden=false;
+      //this.$.rmclssz.hidden=false;
       this.$.innvtt.hidden=true;
-      this.$.innttvvnn.hidden=false;
-      this.$.taid1.hidden=true;
+    //  this.$.innttvvnn.hidden=false;
+    //  this.$.taid1.hidden=true;
     //  this.$.taidss.hidden=false;
   document.querySelector('aproval-book-concept-card').fnref(this.id);
     },
@@ -1310,53 +1310,55 @@ this.fngetbookvaluezparam=obj;
     },
  
 
-  innovatsave:function(e)
+  
+    remarkclose:function()
     {
-      this.$.innovationdialog.toggle();
-   },
-    innovatclosezzz:function()
+      this.$.remarkdialog.close();
+      this.remark="";
+    },
+   
+  
+
+    fnhomeaids:function(e)
+    {
+    document.getElementById('homeaidsinfoid'+this.rowid).textarea.value=this.homeaids;
+    this.$.fnhomeaidsdialog.open();
+    },
+     homeaidssave:function(e)
+    {
+      this.homeaids=document.getElementById('homeaidsinfoid'+this.rowid).textarea.value;
+      this.$.fnhomeaidsdialog.toggle();
+     },
+      homeclose:function()
+    {
+      this.$.fnhomeaidsdialog.close();
+      this.homeaids="";
+    },
+
+    innovatclose:function()
     {
       this.$.innovationdialog.close();
       this.innovation="";
     },
-    invtclse:function()
-    {
-      this.$.innovationdialog.close();
-    },
-    remarksave:function(e)
-    {
-      this.$.remarkdialog.toggle();
-    },
-    remarkclosedddd:function()
-    {
-      this.$.remarkdialog.close();
-      this.remark="";
-    },
-    rmkclose:function()
-    {
-      this.$.remarkdialog.close();
-    },
-    lsninnovation:function(e)
+   innovatsave:function(e)
     {
       this.$.innovationdialog.toggle();
-    },
-
-    fnhomeaids:function(e)
+      this.innovation=document.getElementById('innovatetextsssss'+this.rowid).textarea.value;
+     },
+      lsninnovation:function(e)
     {
-      this.$.fnhomeaidsdialog.toggle();
-    },
-     homeaidssave:function(e)
-    {
-      this.$.fnhomeaidsdialog.toggle();
-     
-    },
-      homeclose:function()
-    {
-      this.$.fnhomeaidsdialog.close();
-      this.remark="";
+      this.$.innovationdialog.open();
+      document.getElementById('innovatetextsssss'+this.rowid).textarea.value=this.innovation;
     },
      lsnremark:function(e)
     {
+      this.$.remarkdialog.open();
+      document.getElementById('remarkareaaaaa11'+this.rowid).textarea.value=this.remark;
+     
+    },
+     remarksave:function(e)
+    {
+      this.remark=document.getElementById('remarkareaaaaa11'+this.rowid).textarea.value;
       this.$.remarkdialog.toggle();
     },
     setdate:function()
@@ -1368,8 +1370,9 @@ this.fngetbookvaluezparam=obj;
 
     fnteachingaid:function(e)
     {
+   
       rowid=this.rowid;
-      //alert(this.rowid);
+    document.getElementById('curriculam'+this.rowid).textarea.value=this.currurl;
      mainurl="";
     this.fileprefix="Teachingaid"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.rowid;
         
@@ -1399,12 +1402,15 @@ this.fngetbookvaluezparam=obj;
     closeteachingaaid:function()
     {
      document.getElementById("teachingopendialog"+this.rowid).opened=false;
+    this.currurl=document.getElementById('homeworkvalu'+this.rowid).textarea.value;
      
     },
     closehomeid:function(e){
     
    // document.querySelector('homework-card').FnRefreshhhh();
        document.getElementById("homeworkdialog"+this.rowid).opened=false;
+       this.homecurrurl=document.getElementById('homeworkvalu'+this.rowid).textarea.value;
+
     },
    
     closedialog:function()

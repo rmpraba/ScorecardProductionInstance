@@ -19,8 +19,8 @@ var connection = mysql.createConnection({
   // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : 'admin',
-  database : 'samsidhreportcard'
+  password : '',
+  database : 'scorecardtemp'
 });
 var app = express();
 var logfile;
@@ -489,9 +489,9 @@ app.post('/smis-getpendingactivities',  urlencodedParser,function (req, res)
 " AND role_id =  'subject-teacher' AND id =  '"+req.body.empid+"') ";
 console.log(que);
 // console.log(approval);
-var mapping=[];
-var approved=[];
-var response=[];
+ var mapping=[];
+ var approved=[];
+ var response=[];
     connection.query(que, function(err, rows)
     {
           if(!err){
@@ -17122,7 +17122,7 @@ app.post('/fnassesmenttypes-service',  urlencodedParser,function (req,res)
   {     
     var qur="SELECT * FROM md_curriculum_planning WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
-    var qur1="select * from md_concept_assesment where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
+    var qur1="select * from md_concept_assesment_final where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
     console.log('----------chapter concept------------------');
     console.log(qur);
@@ -17221,57 +17221,37 @@ app.post('/conceptassement-service' ,urlencodedParser, function (req, res)
  });
 app.post('/checkcompleteplan-service' ,urlencodedParser, function (req, res)
     {  
-     var qur1="select * from md_concept_assesment where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"'";
+     var qur1="select * from md_concept_assesment_final where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"'";
 
-     var qur2="SELECT * FROM md_concept_finalhomework WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"'";
+       /*    var qur3="SELECT * FROM md_concept_finalhomework WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"'";
+      */
+      var qur2="select * from md_curriculum_planning_approval where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"'";
 
-     var qur3="select * from md_curriculum_planning_approval where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"'";
-
-     var qur4="SELECT * FROM md_concept_teaching WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"'";
-
+    /*  var qur4="SELECT * FROM md_concept_teaching WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"'";*/
        console.log('--------------Complete-Concept---------');
        console.log(qur1);
        console.log(qur2);
-       console.log(qur3);
-       console.log(qur4);
        console.log('----------------------------------------');
-          var teacharr=[];
           var assesmentarr=[];
           var lessonarr=[];
-          var homearr=[];
-          connection.query(qur1,function(err, rows){
-         if(!err){
+         connection.query(qur1,function(err, rows){
+          if(!err){
             if(rows.length>0)
              assesmentarr=rows;
               else
             assesmentarr="empty";
-          connection.query(qur2,function(err, rows){
-         if(!err){
-          if(rows.length>0)
-             homearr=rows;
-              else
-            homearr="empty";
-          connection.query(qur3,function(err, rows){
-        if(!err){
+         connection.query(qur2,function(err, rows){
+          if(!err){
            if(rows.length>0)
-             lessonarr=rows;
-              else
-            lessonarr="empty";
-          connection.query(qur4,function(err, rows){
-        if(!err){
-           if(rows.length>0)
-            teacharr=rows;
+            lessonarr=rows;
           else
-          teacharr="empty";
-          res.status(200).json({'assesmentarr': assesmentarr,'homearr':homearr,'lessonarr':lessonarr,'teacharr':teacharr});
+          lessonarr="empty";
+          res.status(200).json({'assesmentarr': assesmentarr,'lessonarr':lessonarr});
           }
          console.log(err);
        });}
       console.log(err); 
-     });}
-     console.log(err); 
-    });}
-     console.log(err); 
+    
    });
  });
 
@@ -21012,7 +20992,7 @@ app.post('/performance-fetchsublevelstudent-service',  urlencodedParser,function
 
 app.post('/performance-fetchlevelbasedstudents-service',  urlencodedParser,function (req, res)
 { 
-    var qur="select distinct(student_id),student_name,"+req.query.configcolumn+" as category,category_name,sub_category_name,level,grade,assesment_id,(select distinct(id) from enrichment_grade_master where category=t.level) as level_id,"+
+     var qur="select distinct(student_id),student_name,"+req.query.configcolumn+" as category,category_name,sub_category_name,level,grade,assesment_id,(select distinct(id) from enrichment_grade_master where category=t.level) as level_id,"+
     " (select distinct(id) from enrichment_detail_grade_master where level=t."+req.query.configcolumn+") as sublevel_id from tr_beginner_assesment_marks t "+
     " where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradename+"' and section_id='"+req.query.sectionname+"' "+
     " and subject_name='"+req.query.subject+"' and category_name='"+req.query.categoryname+"' and sub_category_name='"+req.query.subcategory+"' group by student_id,student_name, "+
@@ -21416,7 +21396,40 @@ app.post('/getassesmentvalue-service', urlencodedParser,function (req,res)
     {
     if(!err)
     { 
-     // console.log(JSON.stringify(rows));   
+       // console.log(JSON.stringify(rows));   
+      res.status(200).json({'returnval': rows});
+    }
+    else
+      res.status(200).json({'returnval': ''});
+  });
+});
+app.post('/curriculamassesmentmark-service', urlencodedParser,function (req,res)
+{  
+  var qur="SELECT *  FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
+  console.log(qur);
+   connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    { 
+       // console.log(JSON.stringify(rows));   
+      res.status(200).json({'returnval': rows});
+    }
+    else
+      res.status(200).json({'returnval': ''});
+  });
+});
+app.post('/curriculamassesmentmark1-service', urlencodedParser,function (req,res)
+{  
+  var qur="SELECT *  FROM md_concept_assesment where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and  section_id='"+req.query.sectionid+"' and  emp_id='"+req.query.empid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"'";
+  console.log("----------selsect assesment mark----------");
+  console.log(qur);
+   connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    { 
+       // console.log(JSON.stringify(rows));   
       res.status(200).json({'returnval': rows});
     }
     else
@@ -23415,112 +23428,12 @@ console.log("--------------------------");
 
   });
 });
-app.post('/curriculampassassesmentvalue-service',  urlencodedParser,function (req, res)
-{  
-  var response={
-         row_id:req.query.rowid,
-         sno:req.query.sno,
-         school_id:req.query.schoolid,
-         academic_year:req.query.academicyear,
-         grade_id:req.query.gradeid,
-         grade_name:req.query.gradename,
-         section_name:req.query.sectionname,
-         section_id:req.query.sectionid,
-         emp_id:req.query.empid,   
-         chapter_id:req.query.chapterid,
-         chapter_name:req.query.chaptername,
-         concept_id:req.query.conceptid,
-         concept_name:req.query.conceptname,
-         from_date:req.query.fromdate,   
-         to_date:req.query.todate,   
-         emp_name:req.query.empname,
-         content1:req.query.content1,
-         content2:req.query.content2,
-         content3:req.query.content3,
-         content4:req.query.content4,
-         term_id:req.query.termid,
-         subject_id:req.query.subjectid,
-         subject_name:req.query.subjectname,
-         assesment_date:req.query.assesmentdate,
-         assesment_status:req.query.assmentstatus,
-         sub_concept_id:req.query.subconceptid,
-         sub_concept_name:req.query.subconceptname,
 
-        }
 
-console.log("-------Assesment Value---------");
-console.log(response);
-console.log("--------------------------");
-
-  connection.query("INSERT INTO md_concept_assesment set ?",[response],
-    function(err, rows)
-    {
-    if(!err)
-    {    
-      res.status(200).json({'returnval': 'succ'});
-    }
-    else
-    {
-      console.log(err);
-      res.status(200).json({'returnval': 'fail'});
-    }  
-
-  });
-});
-
-app.post('/passcurriculumcomplete-service',  urlencodedParser,function (req, res)
-{  
-  var response={
-         row_id:req.query.rowid,
-         sno:req.query.sno,
-         school_id:req.query.schoolid,
-         academic_year:req.query.academicyear,
-         grade_id:req.query.gradeid,
-         grade_name:req.query.gradename,
-         section_name:req.query.sectionname,
-         section_id:req.query.sectionid,
-         emp_id:req.query.empid,   
-         chapter_id:req.query.chapterid,
-         chapter_name:req.query.chaptername,
-         concept_id:req.query.conceptid,
-         concept_name:req.query.conceptname,
-         subject_name:req.query.subjectname,
-         subject_id:req.query.subjectid,
-         from_date:req.query.fromdate,   
-         to_date:req.query.todate,   
-         emp_name:req.query.empname,
-         status:req.query.status,
-         compete_date:req.query.completedate, 
-         sub_concept_id:req.query.subconceptid,
-         sub_concept_name:req.query.subconceptname, 
-         term_id:req.query.termid,
-         correction_status:req.query.correctionstatus,
-       }
-
-console.log("-------complete Work---------");
-console.log(response);
-console.log("------------------------------");
-
-  connection.query("INSERT INTO md_concept_curriculumcompete set ?",[response],
-    function(err, rows)
-    {
-    if(!err)
-    {    
-      res.status(200).json({'returnval': 'succ'});
-    }
-    else
-    {
-      console.log(err);
-      res.status(200).json({'returnval': 'fail'});
-    }  
-
-  });
-}); 
-
- app.post('/passcurriculumlessonplan-service',  urlencodedParser,function (req, res)
-{  
-  var response={
-         school_id:req.query.schoolid,
+app.post('/passcurriculumlessonplan-service' , urlencodedParser,function (req, res)
+   { 
+    var response={
+               school_id:req.query.schoolid,
          academic_year:req.query.academicyear,
          grade_id:req.query.gradeid,
          grade_name:req.query.gradename,
@@ -23552,25 +23465,263 @@ console.log("------------------------------");
          term_id:req.query.termid,
          sub_teacher_temark:req.query.subremak,
        }
+   
+    
+    var qur="select  * from   md_curriculum_planning_approval  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
 
-console.log("-------lesson---------");
-console.log(response);
-console.log("-----------------------------");
+  var qur1="update  md_curriculum_planning_approval set sub_teacher_temark='"+req.query.subremak+"',enrichment_sug='"+req.query.enrichmentsuggest+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
+  
+    console.log("-----------LessonPlan Edit/Save-----------");
+    console.log(response);
+    console.log("---------------------------------------");
 
-  connection.query("INSERT INTO md_curriculum_planning_approval set ?",[response],
+    console.log(qur1);
+    console.log(qur1);
+   connection.query(qur,
+    function(err, rows)
+    {
+    console.log(rows.length);
+
+     if(rows.length==0){
+     connection.query("INSERT INTO md_curriculum_planning_approval SET ?",[response],
     function(err, rows)
     {
     if(!err)
-    {    
+    {
       res.status(200).json({'returnval': 'succ'});
     }
     else
     {
       console.log(err);
-      res.status(200).json({'returnval': 'fail'});
-    }  
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+    }
+    else{
+       connection.query(qur1,function(err, rows){  
+          console.log('update');
+        if(!err)
+        res.status(200).json({'returnval': 'succ'});
+        else
+        res.status(200).json({'returnval': 'not updated'});
+        });
+        } 
+      });
+});
 
-  });
+app.post('/curriculampassassesmentvalue-service' , urlencodedParser,function (req, res)
+   { 
+   var response={
+         row_id:req.query.rowid,
+         sno:req.query.sno,
+         school_id:req.query.schoolid,
+         academic_year:req.query.academicyear,
+         grade_id:req.query.gradeid,
+         grade_name:req.query.gradename,
+         section_name:req.query.sectionname,
+         section_id:req.query.sectionid,
+         emp_id:req.query.empid,   
+         chapter_id:req.query.chapterid,
+         chapter_name:req.query.chaptername,
+         concept_id:req.query.conceptid,
+         concept_name:req.query.conceptname,
+         from_date:req.query.fromdate,   
+         to_date:req.query.todate,   
+         emp_name:req.query.empname,
+         student_id:req.query.StudentId,
+         student_name:req.query.StudentName,
+         mark:req.query.Mark,
+         term_id:req.query.termid,
+         subject_id:req.query.subjectid,
+         subject_name:req.query.subjectname,
+         assesment_date:req.query.assesmentdate,
+         assesment_status:req.query.assmentstatus,
+         sub_concept_id:req.query.subconceptid,
+         sub_concept_name:req.query.subconceptname,
+
+        }
+
+   
+    
+  var qur="select  * from   md_concept_assesment  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"' and  student_id='"+req.query.StudentId+"'";
+
+  var qur1="update  md_concept_assesment set mark='"+req.query.Mark+"'where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"' and student_id='"+req.query.StudentId+"'";
+  
+    console.log("-----------assesmentset Edit/Save-----------");
+    console.log(response);
+    console.log("---------------------------------------");
+
+    console.log(qur1);
+    console.log(qur1);
+   connection.query(qur,
+    function(err, rows)
+    {
+    console.log(rows.length);
+
+     if(rows.length==0){
+     connection.query("INSERT INTO md_concept_assesment SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)
+    {
+      res.status(200).json({'returnval': 'succ'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+    }
+    else{
+       connection.query(qur1,function(err, rows){  
+          console.log('update');
+        if(!err)
+        res.status(200).json({'returnval': 'succ'});
+        else
+        res.status(200).json({'returnval': 'not updated'});
+        });
+        } 
+      });
+});
+
+
+
+app.post('/curriculampassassesmentvaluefinal-service' , urlencodedParser,function (req, res)
+   { 
+  var response={
+         
+         row_id:req.query.rowid,
+         sno:req.query.sno,
+         school_id:req.query.schoolid,
+         academic_year:req.query.academicyear,
+         grade_id:req.query.gradeid,
+         grade_name:req.query.gradename,
+         section_name:req.query.sectionname,
+         section_id:req.query.sectionid,
+         emp_id:req.query.empid,   
+         chapter_id:req.query.chapterid,
+         chapter_name:req.query.chaptername,
+         concept_id:req.query.conceptid,
+         concept_name:req.query.conceptname,
+         from_date:req.query.fromdate,   
+         to_date:req.query.todate,   
+         emp_name:req.query.empname,
+         term_id:req.query.termid,
+         subject_id:req.query.subjectid,
+         subject_name:req.query.subjectname,
+         assesment_date:req.query.assesmentdate,
+         assesment_status:req.query.assmentstatus,
+         sub_concept_id:req.query.subconceptid,
+         sub_concept_name:req.query.subconceptname,
+
+        }
+ var qur="select  * from   md_concept_assesment_final  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
+
+ 
+  
+    console.log("-----------assesmentsetfinal Edit/Save-----------");
+    console.log(response);
+    console.log("---------------------------------------");
+
+    
+   connection.query(qur,
+    function(err, rows)
+    {
+    console.log(rows.length);
+
+     if(rows.length==0){
+     connection.query("INSERT INTO md_concept_assesment_final SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)
+    {
+      res.status(200).json({'returnval': 'succ'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+    }
+    else{
+    
+        res.status(200).json({'returnval': 'succ'});
+       
+        } 
+      });
+});
+
+app.post('/passcurriculumcomplete-service' , urlencodedParser,function (req, res)
+   { 
+    var response={
+         row_id:req.query.rowid,
+         sno:req.query.sno,
+         school_id:req.query.schoolid,
+         academic_year:req.query.academicyear,
+         grade_id:req.query.gradeid,
+         grade_name:req.query.gradename,
+         section_name:req.query.sectionname,
+         section_id:req.query.sectionid,
+         emp_id:req.query.empid,   
+         chapter_id:req.query.chapterid,
+         chapter_name:req.query.chaptername,
+         concept_id:req.query.conceptid,
+         concept_name:req.query.conceptname,
+         subject_name:req.query.subjectname,
+         subject_id:req.query.subjectid,
+         from_date:req.query.fromdate,   
+         to_date:req.query.todate,   
+         emp_name:req.query.empname,
+         status:req.query.status,
+         compete_date:req.query.completedate, 
+         sub_concept_id:req.query.subconceptid,
+         sub_concept_name:req.query.subconceptname, 
+         term_id:req.query.termid,
+         correction_status:req.query.correctionstatus,
+       }
+  
+  var qur="select  * from   md_concept_curriculumcompete  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
+
+  var qur1="update  md_concept_curriculumcompete set compete_date='"+req.query.completedate+"',correction_status='"+req.query.correctionstatus+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"' ";
+  
+    console.log("-----------assesmentset completedate Edit/Save-----------");
+    console.log(response);
+    console.log("---------------------------------------------------------");
+
+    console.log(qur);
+    console.log(qur1);
+   connection.query(qur,
+    function(err, rows)
+    {
+    console.log(rows.length);
+
+     if(rows.length==0){
+     connection.query("INSERT INTO md_concept_curriculumcompete SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)
+    {
+      res.status(200).json({'returnval': 'succ'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+    }
+    else{
+       connection.query(qur1,function(err, rows){  
+          console.log('update');
+        if(!err)
+        res.status(200).json({'returnval': 'succ'});
+        else
+        res.status(200).json({'returnval': 'not updated'});
+        });
+        } 
+      });
 });
 
 function setvalue(){

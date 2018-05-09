@@ -67,7 +67,7 @@
           /*border-style: none solid none solid;*/
    }
    th,td{
-        border-left: 1px solid #ddd;
+   border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
       border-top: 1px solid #ddd;
@@ -147,11 +147,11 @@
           margin-top: 50px;
         }
         .zui-scroller {
-    margin-left: 426.1px;
+    margin-left: 315.1px;
     overflow-x: scroll;
     overflow-y: visible;
     padding-bottom: 5px;
-    width: 847px;
+    width: 1016px;
 }
  
   .zui-sticky-col1 {
@@ -161,12 +161,10 @@
     
   }
 .zui-sticky-col {
-  
     left: 0;
     position: absolute;
     top: auto;
-   
-    height: 9.4%;
+    height:12.1%;
    
 }
 }
@@ -175,7 +173,8 @@ th{
 }
 
 
-     </style>    
+     </style>  
+    
     <center><h2 hidden style="color:#00ccff">{{empnamez}}</h2></center>
      <paper-input hidden value="{{empnamez}}"></paper-input>
        
@@ -220,7 +219,7 @@ th{
        </span>
          
 <paper-button style="color:white;background-color:black;margin-left: 3%;" on-click="fnaddbuffer">Add Buffer period</paper-button>  
-
+ <div style="position: relative; overflow-x: visible;overflow-y: scroll;height:500px;"> 
  <template is="dom-repeat" items="{{conceptjhkhzz}}" as="rere">
    <chapter-pass-card conceptname1="{{rere.conceptname}}"></chapter-pass-card>
 </template>
@@ -230,8 +229,8 @@ th{
       <table class="report1" id="reporttabzzzzz">
        
        <tr>
-           <th style="width: 3%; margin-left: 14%;" class="zui-sticky-col1">S.NO</th>
-          <th style="width: 14.6%; margin-left: 17.2%;" class="zui-sticky-col1">Concept</th>
+           <th style="width: 3%; margin-left: 6%;" class="zui-sticky-col1">S.NO</th>
+          <th style="width: 14.3%; margin-left: 9.2%;" class="zui-sticky-col1">Concept</th>
           <th style="width: 17%;">Work schdule</th>
           <th style="width: 6%;">#Periods</th>
           <th style="width: 10.9%;">Plan From</th>
@@ -249,12 +248,12 @@ th{
    <!-- <tr>         -->
   <template  is="dom-repeat" items="{{overallarr1}}" as="view">
    <tr> 
-      <td class="zui-sticky-col" style="width:3%; margin-left:14%;">{{view.sno}}</td>    
-      <td class="zui-sticky-col" style="width:14.6%;margin-left:17.2%;">
+      <td class="zui-sticky-col" style="width:3%;margin-left:6%;">{{view.sno}}</td>    
+      <td class="zui-sticky-col" style="width:14.3%;margin-left:9.2%;">
 
    <aproval-book-concept-card  hidecheck="{{view.hidecheck}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" iddate="{{view.id_date}}" rowid="{{view.rowid}}"  sno="{{view.sno}}" plannedtoate="{{view.planned_to_date}}" id="{{view.id_date}}{{view.rowid}}{{view.sno}}">
     </aproval-book-concept-card ></td>
-     <td><aproval-book-innovatiosn-item-card homecurrurl="{{view.homecurrurl}}" currurl="{{view.currurl}}" assesmentdate="{{view.assesmentdate}}" homework="{{view.homework}}" rowid="{{view.rowid}}" remark="{{view.remarks}}" period="{{view.period}}" planneddate="{{view.planned_date_from}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck11="{{view.hidecheck11}}"  hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" value="{{view.value}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" subconceptid="{{view.sub_concept_id}}" subconceptname="{{view.sub_concept_name}}" teachingaid="{{view.teaching_aid}}" sno="{{view.sno}}" bldvaluename="{{view.bld_value_name}}" plannedtoate="{{view.planned_to_date}}" id="{{view.id_date}}{{view.rowid}}{{view.sno}}" homeaids="{{view.homeaids}}"> 
+     <td><aproval-book-innovatiosn-item-card homecurrurl="{{view.homecurrurl}}" currurl="{{view.currurl}}" assesmentdate="{{view.assesmentdate}}" homework="{{view.homework}}" rowid="{{view.rowid}}" remark="{{view.remarks}}" period="{{view.period}}" planneddate="{{view.planned_date_from}}" skill="{{view.skill}}" innovation="{{view.innovation}}" iddate="{{view.id_date}}" hidecheck="{{view.hidecheck}}" hidecheck11="{{view.hidecheck11}}"  hidecheck1="{{view.hidecheck1}}"  rowidz="{{view.rowidz}}" values="{{view.value}}" conceptid="{{view.concept_id}}" conceptname="{{view.concept_name}}" subconceptid="{{view.sub_concept_id}}" subconceptname="{{view.sub_concept_name}}" teachingaid="{{view.teaching_aid}}" sno="{{view.sno}}" bldvaluename="{{view.bld_value_name}}" plannedtoate="{{view.planned_to_date}}" id="{{view.id_date}}{{view.rowid}}{{view.sno}}" homeaids="{{view.homeaids}}"> 
     </aproval-book-innovatiosn-item-card></td>
                 </tr> 
               </template>    
@@ -293,8 +292,10 @@ th{
        </center>
      </paper-dialog>
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+    </div>
+    </div>
   </template>
-</div>
+
 
   <script>
   (function() {

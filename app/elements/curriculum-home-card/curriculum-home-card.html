@@ -29,13 +29,13 @@
           <td style="{{fonts}}"  width="10%">{{conceptname}}</td>
           <td style="{{fonts}}" hidden width="10%">{{subconceptname}}</td>
           <td style="{{fonts}}"  width="10%">
-            <a href="{{url}}" target="_blank">Homework File</a>
+         <p hidden$="{{hidefilename}}"><a href="{{url}}" target="_blank">Homework File</a></p>
           </td>
           <td style="{{fonts}}"  width="10%">
-             <a href="{{link}}" target="_blank">{{link}}</a></td>
+           <a href="{{link}}" target="_blank">{{link}}</a></td>
           <td style="{{fonts}}"  width="10%">{{homeaids}}  </td>
           <td style="{{fonts}}"  width="10%">{{filename}}</td>
-          <td style="{{fonts}}"  width="10%">
+         <!--  <td style="{{fonts}}"  width="10%">
                <div hidden$="{{hideinfovalue}}"> 
                <p hidden$="{{hideopenplan}}">Save</p>
                 <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
@@ -44,7 +44,7 @@
                 <div hidden$="{{hideinfovalue1}}">
                   <p style="color:green">verified</p>
                 </div>  
-             </td>
+             </td>-->
         </tr>
       </table>
       <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
@@ -59,7 +59,7 @@
 
       FnSave:function(e){
         // alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+this.link+2+this.url+2+this.filename+2+this.rowid+2+this.sno+2+this.fromdate+2+this.todate+2+this.homeaids);
-          this.$.crriculambookservice.Fnpasscurriculumhomework(this.conceptname,this.conceptid,this.chapterid,this.chaptername,this.link,this.url,this.filename,this.rowid,this.sno,this.fromdate,this.todate,this.homeaids);
+         // this.$.crriculambookservice.Fnpasscurriculumhomework(this.conceptname,this.conceptid,this.chapterid,this.chaptername,this.link,this.url,this.filename,this.rowid,this.sno,this.fromdate,this.todate,this.homeaids);
      },
     });
   })();

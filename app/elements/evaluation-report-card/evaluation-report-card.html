@@ -21,6 +21,12 @@
         margin-top: 4%;
         margin-left: 48%;
       }
+      .chapterreport{
+        width: 93%;
+    margin-left: 5%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+      }
   paper-dropdown-menu
     {
       width: 15%;
@@ -77,57 +83,37 @@
          
       <div class="chapterreport" hidden$="{{incompletereport1}}">
        <table id="newreport2" border="1" style="border-collapse: collapse;
-    margin-left: 1%;
-    width: 100%;
-    margin-top: 4%;">
-        <tr style="text-align: left;">
-          <th>SNO</th>
-          <th>Employee Name</th>
-          <th>Section Name</th>
-          <th>Chapter Name</th>
-          <th>Concept</th>
-          <th>Sub Concept</th>
-          <th>Skill</th>
-          <!-- <th>BLD Values</th> -->
-          <th>Value</th>
-         <!--  <th>Teaching Aids</th> -->
-          <th>Innovation</th>
-          <th>Plan from Date</th>
-          <th>Plan to Date</th>
-         <!--  <th>Completed Date</th> -->
-          <th>Subject Teacher Remarks</th>
-          <th>Co-ordinator Remarks</th>
-        <!--   <th>Correction Status</th> -->
-         <!--  <th>Completion status</th> -->
-          <th>Enrichment Suggestion</th>
-        </tr>
+    margin-left: 1%;;margin-top: 4%;">
+       
         <template  is="dom-repeat" items="{{getreportarr}}" as="view">
           <tr>
-               <td>{{view.sno}}</td>
-              <td>{{view.emp_name}}</td>
-              <td>{{view.section}}</td>
-              <td>{{view.chapter}}</td>
-              <td>{{view.concept}}</td>
-              <td>{{view.sub_concept_name}}</td>
-              <td>{{view.skill}}</td>
-            <!--   <td>{{view.bld_value_name}}</td> -->
-              <td>{{view.value}}</td>
-             <!--  <td style="word-wrap: break-word;">{{view.teaching_aid}}</td> -->
-              <td style="word-wrap: break-word;">{{view.innovation}}</td>
-              <td>{{view.planned_date_from}}</td>
-              <td>{{view.planned_to_date}}</td>
-            <!--   <td>{{view.completion_date}}</td> -->
-              <td style="word-wrap: break-word;">{{view.sub_teacher_temark}}</td>
-              <td style="word-wrap: break-word;">{{view.co_ordinator_remarks}}</td>
-             <!--  <td>{{view.correction_status}}</td> -->
-            <!--   <td>{{view.completion_status}}</td> -->
-              <td>{{view.enrichment_sug}}</td>
+              <td style="{{view.fonts}}">{{view.sno}}</td>
+              <td style="{{view.fonts}}">{{view.emp_name}}</td>
+              <td style="{{view.fonts}}">{{view.section_name}}</td>
+              <td style="{{view.fonts}}">{{view.chapter_name}}</td>
+              <td style="{{view.fonts}}">{{view.concept_name}}</td>
+              <td style="{{view.fonts}}">{{view.sub_concept_name}}</td>
+              <td style="{{view.fonts}}">{{view.skill}}</td>
+              <td style="{{view.fonts}}">{{view.value}}</td>
+              <td style="{{view.fonts}} word-wrap: break-word;">{{view.innovation}}</td>
+              <td style="{{view.fonts}}">{{view.planned_date_from}}</td>
+              <td style="{{view.fonts}}">{{view.planned_to_date}}</td>
+              <td style="{{view.fonts}}">{{view.assesment_date}}</td>
+              <td style="{{view.fonts}}">{{view.correction_status}}</td>
+              <td style="{{view.fonts}}">{{view.homelink}}</td>
+              <td style="{{view.fonts}}">{{view.teachlink}}</td>
+              <td style="{{view.fonts}}">{{view.homefile}}</td>
+              <td style="{{view.fonts}}">{{view.teachfile}}</td>
+              <td style="{{view.fonts}}">{{view.complete_date}}</td>
+              <td style="{{view.fonts}} word-wrap: break-word;">{{view.sub_teacher_temark}}</td>
+              <td style="{{view.fonts}} word-wrap: break-word;">{{view.co_ordinator_remarks}}</td>
+              <td style="{{view.fonts}}">{{view.enrichment_sug}}</td>
           </tr>
         </template>
       </table>
-
+   </div>
           <input type="button" id="btn2" onclick="tableToExcel('newreport2', 'Complete Chapter Report')" value="Export to Excel">
-    </div>  
+     
         <teacher-book-service-card id="bookservice"></teacher-book-service-card>
   </template>
    <script type="text/javascript">

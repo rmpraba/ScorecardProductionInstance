@@ -15,8 +15,10 @@
      table td { overflow: hidden; }
 
       th,td{
-     border-bottom: 1px solid #ddd;
+     /* border-bottom: 1px solid #ddd; border-top: 1px solid #ddd;*/
       border-left: 1px solid #ddd;
+     
+      border-right: 1px solid #ddd;
      }
     </style>
     <div>
@@ -27,24 +29,20 @@
         <tr>
           <td style="{{fonts}}" width="10%" >{{sno}}</td>
           <td style="{{fonts}}"  width="10%">{{conceptname}}</td>
-          <td style="{{fonts}}" hidden width="10%">{{subconceptname}}</td>
+          <td style="{{fonts}}"  width="10%">{{subconceptname}}</td>
+
           <td style="{{fonts}}"  width="10%">
-         <p hidden$="{{hidefilename}}"><a href="{{url}}" target="_blank">Homework File</a></p>
+           <div  hidden$="{{hidefilename}}">
+            <p hidden$="{{hideopenplan}}">Homework File</p>
+            <p hidden$="{{hidecloseplan}}"><a href="{{url}}" target="_blank">{{filename}}</a></p>
+           </div>
           </td>
           <td style="{{fonts}}"  width="10%">
-           <a href="{{link}}" target="_blank">{{link}}</a></td>
-          <td style="{{fonts}}"  width="10%">{{homeaids}}  </td>
+           <p hidden$="{{hideopenplan}}"> LINK</p>
+           <p hidden$="{{hidecloseplan}}"><a href="{{link}}" target="_blank">{{link}}</a></p> </td>
+          <td style="{{fonts}}" hidden width="10%">{{homeaids}}  </td>
           <td style="{{fonts}}"  width="10%">{{filename}}</td>
-         <!--  <td style="{{fonts}}"  width="10%">
-               <div hidden$="{{hideinfovalue}}"> 
-               <p hidden$="{{hideopenplan}}">Save</p>
-                <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
-                </center>
-                </div>
-                <div hidden$="{{hideinfovalue1}}">
-                  <p style="color:green">verified</p>
-                </div>  
-             </td>-->
+         
         </tr>
       </table>
       <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>

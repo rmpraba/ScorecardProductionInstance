@@ -74,12 +74,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         on-response="fngetconceptcheckResponse"
         debounce-duration="300" />
        </iron-ajax>
+          <iron-ajax
+        method="post"
+        id="fngetconceptcheck1ajax"
+        url="{{fngetconceptcheck1url}}"
+        params="{{fngetconceptcheck1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fngetconceptcheck1Response"
+        debounce-duration="300" />
+       </iron-ajax>
   </template>
   <script>
   (function() {
     'use strict';
 var conarr1=[];
- 
+var  rowid1="";
+ var   iddate1="";
     Polymer({
       is: 'aproval-book-concept-card',
       ready:function(){
@@ -102,7 +113,7 @@ var conarr1=[];
 document.querySelector('concept-check-card').setchpterclean(conarr1);
 }, 
 fnsetglobal:function(){
-  alert(this.id);
+  //alert(this.id);
 
      this.fngetconceptcheck();
       this.$.dzfsd.toggle(); 
@@ -113,10 +124,12 @@ fnsetglobal:function(){
     // alert(JSON.stringify(conarr));
     },
     fngetconceptz:function(e){
+      conarr1=[];
+      this.conceparr="";
       this.fngetconceptcheck();
       this.$.dzfsd.toggle(); 
     },
-    fngetconceptcheck:function(e)
+    fngetconceptcheck:function(rowid)
     {
       this.fngetconceptcheckurl=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
     
@@ -131,11 +144,10 @@ fnsetglobal:function(){
         obj.planneddate=this.planneddate;
         obj.rowid=this.rowid;
        this.fngetconceptcheckparam=obj;
-      //  alert(JSON.stringify(obj));
-           this.$.fngetconceptcheckajax.generateRequest();
+       //  alert(JSON.stringify(obj));
+        this.$.fngetconceptcheckajax.generateRequest();
           },
-
-        fngetconceptcheckResponse:function(e){
+fngetconceptcheckResponse:function(e){
       
           var res1=e.detail.response.skillarr;
           var res=e.detail.response.conceptarr;
@@ -181,13 +193,84 @@ fnsetglobal:function(){
         }
       } 
   this.conceparr=res;
+  //alert(JSON.stringify(this.conceparr));
    document.querySelector('aproval-book-innovatiosn-item-card').fnconceptvalue(conarr1);
    document.querySelector('aproval-book-innovatiosn-item-card').fnsubcondialog();
+    //document.querySelector('aproval-book-innovatiosn-item-card').Fngethomework();
+},
+ fngetconceptcheck1:function(rowid,iddate)
+    {
+   this.fngetconceptcheck1url=sessionStorage.getItem("addrinfo")+"/fngetconceptvalue11-service";
+        rowid1=rowid;
+        iddate1=iddate;
+        var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+        obj.capter_id=localStorage.getItem("curr_sess_capters");
+        obj.subjectid=sessionStorage.getItem("subjectidz");
+        obj.gradeid=sessionStorage.getItem("grdeidz");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.period=this.period;
+        obj.planneddate=this.planneddate;
+        obj.rowid=rowid;
+        this.fngetconceptcheck1param=obj;
+      //  alert(JSON.stringify(obj));
+        this.$.fngetconceptcheck1ajax.generateRequest();
+},
+ fngetconceptcheck1Response:function(e){
+      
+          var res1=e.detail.response.skillarr;
+          var res=e.detail.response.conceptarr;
+            
+       var temp=[];
+       var temp1=[];
+       var k;
+     if(res1!=""){
+     k=res1[0].concept_id;
+     temp=k.split(",");
+       }
+       if(conarr1.length==0){
+          for(var j=0;j<res.length;j++){
+              var flag=0;
+              for(var i=0;i<temp.length;i++){
+                  if(res[j].concept_id==temp[i])
+                  
+                  {    
+                    flag=1;
+                    res[j].check=true;  
+                    var obj={}; 
+                  obj.conceptid=res[j].concept_id;
+                  obj.conceptname=res[j].concept;
+                  obj.rowid=rowid1;
+                  obj.id="FFYJ"+rowid1+iddate1+res[j].concept_id;
+                  conarr1.push(obj);   
+                  }
+                 }
+                 if(flag==0){
+                  res[j].check=false;
+                 }
+                }
+              }
+           
+    
+      if(conarr1.length>0){
+        for(var i=0;i<conarr1.length;i++){
+          for(var j=0;j<res.length;j++){
+        if(conarr1[i].conceptid==res[j].concept_id&&rowid1==conarr1[i].rowid){
+            res[j].check=true;
+          }
+          }
+        }
+      } 
+  this.conceparr=res;
+ // alert(JSON.stringify(this.conceparr));
+   document.querySelector('aproval-book-innovatiosn-item-card').fnconceptvalue(conarr1);
+   document.querySelector('aproval-book-innovatiosn-item-card').fnsubcondialog1(rowid1,iddate1);
     //document.querySelector('aproval-book-innovatiosn-item-card').Fngethomework();
 
 
        
-    },
+    },       
     fnclose:function(e){
     this.$.dzfsd.close();
     document.querySelector('concept-check-card').fnRefreshzz();

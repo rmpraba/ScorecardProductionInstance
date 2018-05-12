@@ -15,9 +15,12 @@
       table { table-layout:fixed; }
      table td { overflow: hidden; }
 
-      th,td{
-     border-bottom: 1px solid #ddd;
-      border-left: 1px solid #ddd;
+      th,td{ 
+     /*  border-top: 1px solid #ddd;
+       border-bottom: 1px solid #ddd;*/
+       border-right: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+    
      }
     </style>
      <div>
@@ -26,13 +29,19 @@
         <tr>
           <td style="{{fonts}}"  width="10%">{{sno}}</td>
           <td style="{{fonts}}"  width="10%">{{conceptname}}</td>
+          <td style="{{fonts}}"  width="10%">{{subconceptname}}</td>
           <td style="{{fonts}}"   width="10%">
-          <a href="{{link}}"      target="_blank">{{link}}</a>
+           <p hidden$="{{hideopenplan}}"> LINK</p>
+           <p hidden$="{{hidecloseplan}}"><a href="{{link}}" target="_blank">{{link}}</a></p>
           </td>
           <td style="{{fonts}}"  width="10%">
-          <p hidden$="{{hidefilename}}">
-             <a href="{{url}}" target="_blank">Teaching Files</a>
-          </p> 
+         
+         
+          <div hidden$="{{hidefilename}}">
+             <p hidden$="{{hideopenplan}}">TEACHING FILES</p>
+             <p hidden$="{{hidecloseplan}}"><a href="{{url}}" target="_blank">{{filename}}</a></p>
+
+          </div> 
          
 
            </td>

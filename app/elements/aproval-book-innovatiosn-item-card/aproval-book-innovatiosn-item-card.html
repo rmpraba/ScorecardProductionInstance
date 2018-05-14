@@ -891,7 +891,8 @@ fnconceptvalue:function(arr){
             this.hidedbskill=false;
             this.hidedbhomewok=false;
             this.hidedbsubconcept=false;
-           
+           subsarrr=[];
+           this.subconceptarr=""; 
      },
 allrefesh:function(){
    this.conceptzz="";
@@ -930,8 +931,7 @@ allrefesh:function(){
             setsubarr=[];
             sethomearr=[];
             subsarrr=[];
-          
-            
+           this.subconceptarr=""; 
           
            document.querySelector('concept-check-card').fnclean();
            document.querySelector('aproval-book').fnclean1();
@@ -951,8 +951,7 @@ allrefesh:function(){
 
   fnsubcondialog1:function(rowid1,iddate1){
    // alert(1);
-     subsarrr=[];
-    this.subconceptarr=""; 
+    
     this.rowid1=rowid1;
     this.iddate1=iddate1;
    var localconarr=[];
@@ -1065,8 +1064,7 @@ fngetsubconcepts1Response:function(e){
   fnsubcondialog:function(e){
    // alert(1);
   
-   subsarrr=[];
-   this.subconceptarr="";
+   
     var localconarr=[];
      for(var i=0;i<conarr.length;i++){
       if(this.rowid==conarr[i].rowid)      

@@ -19,8 +19,8 @@ var connection = mysql.createConnection({
   // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : '',
-  database : 'scorecardtemp'
+  password : 'admin',
+  database : 'samsidhreportcard'
 });
 var app = express();
 var logfile;
@@ -31,6 +31,11 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
   app.get('/', function (req, res){
   res.sendFile("app/index.html" );
 });
+
+var serverKey = 'AAAAH0WgSPE:APA91bGgBTHNnBEeYG0V0aUlua0IZnuvF6xz1dcSGGjTuFU0PlR3H-LNMbvpSpA7IwU-e3A6-4nqMeW3wkePBbu9fVeM14OIXOsrjsTHVZzUxbkFFvhJM6lQIx-R3DVGO4loIKD8hf4U'; //put your server key here
+var fcm = new FCM(serverKey);
+ 
+
 // var upload = multer({
 //     storage: multerS3({
 //         s3: s3,
@@ -474,14 +479,549 @@ app.post('/lessonplan-login',  urlencodedParser,function (req, res)
     });
 });
 
+app.post('/lessonplan-grade',  urlencodedParser,function (req, res)
+{
+    connection.query("SELECT distinct(grade_id),(SELECT grade_name FROM md_grade g WHERE g.grade_id=m.grade_id) as grade_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher')",
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/lessonplan-section',  urlencodedParser,function (req, res)
+{
+    connection.query("SELECT distinct(section_id),UPPER(section_id) as section_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher') and grade_id in(SELECT grade_id FROM md_grade WHERE grade_name='"+req.body.grade+"')",
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/Lessonplan-subject',  urlencodedParser,function (req, res)
+{
+    connection.query("SELECT distinct(subject_id),(SELECT subject_name FROM md_subject WHERE subject_id=g.subject_id) as subject_name FROM mp_teacher_grade g WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_id in(SELECT grade_id FROM md_grade where grade_name='"+req.body.grade+"') and section_id in('"+req.body.section+"') and id='"+req.body.empid+"'",
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/lessonplan-term',  urlencodedParser,function (req, res)
+{
+    console.log("SELECT distinct(term_id) FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"')");
+    connection.query("SELECT distinct(term_id) FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"')",
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/Lessonplan-chapter',  urlencodedParser,function (req, res)
+{
+    connection.query("SELECT  distinct(chapter_id),chapter_name FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and term_id in('"+req.body.term+"')",
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/Lessonplan-concepts',  urlencodedParser,function (req, res)
+{
+    var qur="SELECT  * FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and chapter_id in('"+req.body.chapterid+"')";
+    console.log(qur);
+    connection.query("SELECT  * FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and chapter_id in('"+req.body.chapterid+"')",
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/Lessonplan-currdate-concepts',  urlencodedParser,function (req, res)
+{
+    var qur="SELECT  * FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and chapter_id in('"+req.body.chapterid+"') "+
+    " AND ((STR_TO_DATE( planned_date_from,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' )) "+
+    " OR (STR_TO_DATE( planned_to_date,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' ))) "+
+    " and sub_concept_id not in (SELECT sub_concept_id FROM md_curriculum_planning_approval WHERE "+
+    " school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and chapter_id in('"+req.body.chapterid+"') and section_name in('"+req.body.section+"') and emp_id in('"+req.body.empid+"') and status in('Completed'))";
+    console.log(qur);
+    connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+
+app.post('/lessonplan-assesment-students',  urlencodedParser,function (req, res)
+{
+    var qur="SELECT  * FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' "+
+    " AND flag='active' AND class_id=(SELECT id FROM md_class_section WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class='"+req.body.grade+"' AND section='"+req.body.section+"')";
+    console.log(qur);
+    connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/lessonplan-saveassesmentmark',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.body.schoolid,
+      academic_year: '2017-2018',      
+      grade_id: req.body.gradeid,
+      subject_id: req.body.subjectid,
+      term_id: req.body.termid,
+      chapter_id: req.body.chapterid,
+      concept_id: req.body.conceptid,
+      row_id: req.body.rowid,
+      section_id: req.body.sectionid,      
+      grade_name: req.body.gradename,      
+      section_name: req.body.sectionname,
+      chapter_name: req.body.chaptername,      
+      concept_name: req.body.conceptname,
+      emp_id:req.body.empid,
+      emp_name:req.body.empname,
+      sno: req.body.rowsno,
+      assesment_status: "",
+      sub_concept_id: req.body.subconceptid,
+      sub_concept_name: req.body.subconceptname,
+      from_date: req.body.fromdate,
+      to_date: req.body.todate,
+      assesment_date: req.body.assesmentdate,
+      student_id: req.body.studentid,
+      student_name: req.body.studentname,
+      mark: req.body.mark,
+      subject_name: req.body.subjectname     
+    };
+
+    var checkqur="SELECT * FROM md_concept_assesment WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.termid+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and student_id='"+req.body.studentid+"'";
+    var updatequr="UPDATE md_concept_assesment SET mark='"+req.body.mark+"' WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.termid+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and student_id='"+req.body.studentid+"'";
+
+    connection.query(checkqur,function(err, rows){
+    if(!err)
+    {
+    if(rows.length==0){
+    connection.query("INSERT INTO md_concept_assesment SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'Updated'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not Updated'+err}); 
+    }
+    });
+    }
+    else{
+    connection.query(updatequr,function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'Updated'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not Updated'+err}); 
+    }
+    });
+    }
+    }
+    });
+});
+
+
+app.post('/lessonplan-updatecompletionstatus',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.body.schoolid,
+      academic_year: '2017-2018',      
+      grade_id: req.body.gradeid,
+      grade_name: req.body.gradename,   
+      subject_id: req.body.subjectid,
+      subject_name: req.body.subjectname,
+      chapter_id: req.body.chapterid,
+      chapter_name: req.body.chaptername,
+      row_id: req.body.rowid,
+      concept_id: req.body.conceptid,
+      concept_name: req.body.conceptname,
+      sub_concept_id: req.body.subconceptid,
+      sub_concept_name: req.body.subconceptname,
+      period: req.body.period,
+      planned_date_from: req.body.fromdate,
+      planned_to_date: req.body.todate,
+      skill: req.body.skill,
+      value: req.body.value,
+      innovation: req.body.innovation,
+      remarks: req.body.remark,
+      emp_id:req.body.empid,
+      emp_name:req.body.empname,
+      section_id: req.body.sectionid,    
+      section_name: req.body.sectionname,
+      term_id:req.body.termid,
+      enrichment_sug:"",
+      sno: req.body.rowsno,
+      sub_teacher_remark:"",  
+      assesment_status: "Completed",    
+      assesment_date: req.body.assesmentdate,     
+      complete_date: req.body.currdate,
+      status: "Completed"
+    };
+
+
+    var studcheck1="SELECT count(student_id) as count FROM md_concept_assesment WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.termid+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"'";
+
+    var studcheck2="SELECT count(id) as count FROM md_student WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and class_id in "+
+    " (SELECT id FROM md_class_section WHERE class='"+req.body.gradename+"' AND section='"+req.body.sectionname+"') and flag='active'";
+
+    var updatestatusqur="UPDATE md_curriculum_planning_approval SET complete_date='"+req.body.currdate+"',assesment_status='Pending',status='Pending' WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.termid+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and emp_id='"+req.body.empid+"'";
+
+
+    var checkqur="SELECT * FROM md_curriculum_planning_approval WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.termid+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and emp_id='"+req.body.empid+"'";
+    var updatequr="UPDATE md_curriculum_planning_approval SET complete_date='"+req.body.currdate+"',assesment_status='Completed',status='Completed' WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.termid+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and emp_id='"+req.body.empid+"'";
+    var insertqur="INSERT INTO md_curriculum_planning_approval SET ?";
+
+    var length1=0,length2=0;
+    connection.query(studcheck1,function(err, rows){
+    if(!err)
+    {
+      length1=rows[0].count;
+    connection.query(studcheck2,function(err, rows){
+    if(!err)
+    {
+      length2=rows[0].count;
+      console.log("Printing length-----"+length1+"  "+length2);
+      if(length1==length2){
+        console.log('---equal length----');
+          connection.query(checkqur,function(err, rows){
+          if(!err)
+          { 
+          console.log('----checking availability-----');
+          if(rows.length>0){
+              connection.query(updatequr,function(err, rows){
+              if(!err)
+              {
+                console.log('----check and update-----');
+                res.status(200).json({'returnval': 'Updated'});
+              }
+              else{
+                console.log('----check and not update-----');
+                res.status(200).json({'returnval': 'Not Updated'});
+              }
+              });
+          }
+          else{
+              connection.query(insertqur,[response],function(err, rows){
+              if(!err)
+              {
+                console.log('----check and insert-----');
+                res.status(200).json({'returnval': 'Updated'});
+              }
+              else{
+                console.log('----check and not insert-----');
+                res.status(200).json({'returnval': 'Not Updated'});
+              }
+              });
+          }
+          }
+          else{
+            console.log('----not checking availability-----');
+          }
+          });
+
+      }
+      else{
+        console.log('---not equal length----');
+        connection.query(checkqur,function(err, rows){
+          if(!err)
+          { 
+          console.log('----checking availability-----');
+          response.assesment_status="Pending";
+          response.status="Pending";
+          if(rows.length>0){
+              connection.query(updatestatusqur,function(err, rows){
+              if(!err)
+              {
+                console.log('----check and update-----');
+                res.status(200).json({'returnval': 'Updated'});
+              }
+              else{
+                console.log('----check and not update-----');
+                res.status(200).json({'returnval': 'Not Updated'});
+              }
+              });
+          }
+          else{
+              connection.query(insertqur,[response],function(err, rows){
+              if(!err)
+              {
+                console.log('----check and insert-----');
+                res.status(200).json({'returnval': 'Updated'});
+              }
+              else{
+                console.log('----check and not insert-----');
+                res.status(200).json({'returnval': 'Not Updated'});
+              }
+              });
+          }
+          }
+          else{
+            console.log('----not checking availability-----');
+          }
+          });
+        // connection.query(updatestatusqur,function(err, rows){
+        // if(!err)
+        // {
+        //   console.log('----updating only status-----');
+        //   res.status(200).json({'returnval': 'Updated'});
+        // }
+        // else{
+        //   console.log('----not updating only status-----');
+        //   res.status(200).json({'returnval': 'Not Updated'});
+        // }
+        // });
+      }
+    }
+    });
+    }
+    });
+
+    // connection.query(checkqur,function(err, rows){
+    // if(!err)
+    // {
+    // if(rows.length==0){
+    // connection.query("INSERT INTO md_curriculum_planning_approval SET ?",[response],function(err, rows){
+    // if(!err)
+    // {  
+    // res.status(200).json({'returnval': 'Updated'});
+    // }
+    // else
+    // {
+    //  console.log(err);
+    //  res.status(200).json({'returnval': 'Not Updated'+err}); 
+    // }
+    // });
+    // }
+    // else{
+    // connection.query(updatequr,function(err, rows){
+    // if(!err)
+    // {  
+    // res.status(200).json({'returnval': 'Updated'});
+    // }
+    // else
+    // {
+    //  console.log(err);
+    //  res.status(200).json({'returnval': 'Not Updated'+err}); 
+    // }
+    // });
+    // }
+    // }
+    // });
+});
+
+
+
+app.post('/lessonplan-saveremark',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.body.schoolid,
+      academic_year: '2017-2018',      
+      grade_id: req.body.gradeid,
+      grade_name: req.body.gradename,   
+      subject_id: req.body.subjectid,
+      subject_name: req.body.subjectname,
+      chapter_id: req.body.chapterid,
+      chapter_name: req.body.chaptername,
+      row_id: req.body.rowid,
+      concept_id: req.body.conceptid,
+      concept_name: req.body.conceptname,
+      sub_concept_id: req.body.subconceptid,
+      sub_concept_name: req.body.subconceptname,
+      period: req.body.period,
+      planned_date_from: req.body.fromdate,
+      planned_to_date: req.body.todate,
+      skill: req.body.skill,
+      value: req.body.value,
+      innovation: req.body.innovation,
+      remarks: req.body.remark,
+      emp_id:req.body.empid,
+      emp_name:req.body.empname,
+      section_id: req.body.sectionid,    
+      section_name: req.body.sectionname,
+      term_id:req.body.termid,
+      enrichment_sug:req.body.suggestion,
+      sno: req.body.rowsno,
+      sub_teacher_remark:req.body.teacherremark,  
+      assesment_status: "",    
+      assesment_date: req.body.assesmentdate,     
+      complete_date: req.body.currdate
+    };
+    var checkqur="SELECT * FROM md_curriculum_planning_approval WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.termid+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and emp_id='"+req.body.empid+"'";
+    var updatequr="UPDATE md_curriculum_planning_approval SET enrichment_sug='"+req.body.suggestion+"',sub_teacher_remark='"+req.body.teacherremark+"' WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.termid+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and emp_id='"+req.body.empid+"'";
+
+    connection.query(checkqur,function(err, rows){
+    if(!err)
+    {
+    if(rows.length==0){
+    connection.query("INSERT INTO md_curriculum_planning_approval SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'Updated'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not Updated'+err}); 
+    }
+    });
+    }
+    else{
+    connection.query(updatequr,function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'Updated'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not Updated'+err}); 
+    }
+    });
+    }
+    }
+    });
+});
+
+
 app.post('/smis-getpendingactivities',  urlencodedParser,function (req, res)
 {  
-  var que="SELECT * FROM mp_teacher_grade g JOIN md_curriculum_planning p ON "+
+  var que="SELECT distinct(p.grade_id),p.grade_name,p.subject_id,p.subject_name,g.section_id FROM mp_teacher_grade g JOIN md_curriculum_display p ON "+
 " ( g.grade_id = p.grade_id ) WHERE g.school_id =  '"+req.body.schoolid+"' AND g.id =  '"+req.body.empid+"' "+
 " AND g.academic_year =  '2017-2018' AND g.flage =  'active' AND g.role_id =  'subject-teacher' "+
 " AND p.school_id =  '"+req.body.schoolid+"' AND p.academic_year =  '2017-2018' AND "+
 " ((STR_TO_DATE( p.planned_date_from,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' )) "+
-" OR (STR_TO_DATE( p.planned_to_date,  '%m/%d/%Y' ) >= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' ))) "+
+" OR (STR_TO_DATE( p.planned_to_date,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' ))) "+
 " AND g.section_id IN (SELECT DISTINCT(section_id) FROM mp_teacher_grade "+
 " WHERE school_id =  '"+req.body.schoolid+"' AND academic_year =  '2017-2018' AND role_id =  'subject-teacher' "+
 " AND id =  '"+req.body.empid+"') AND p.subject_id IN (SELECT DISTINCT(subject_id) "+
@@ -510,7 +1050,7 @@ console.log(que);
                 for(var j=0;j<approved.length;j++){
                   if(mapping[i].grade_id==approved[j].grade_id&&mapping[i].section_id==approved[j].section_id&&
                     mapping[i].subject_id==approved[j].subject_id&&mapping[i].concept_id==approved[j].concept_id&&
-                    mapping[i].sub_concept_id==approved[j].sub_concept_id){
+                    mapping[i].sub_concept_id==approved[j].sub_concept_id&&approved[j].status=="Completed"){
                     flag=1;
                     mapping.splice(i,1);
                     i--;
@@ -535,8 +1075,11 @@ console.log(que);
               res.status(200).json(response);
             }
             else{
-                  if(response.length==0)
+                  if(response.length==0){
+                    for(var i=0;i<mapping.length;i++){
                     response.push({"grade_name":mapping[i].grade_name,"section_id":mapping[i].section_id,"subject_name":mapping[i].subject_name});
+                    }
+                  }
                   
                   for(var i=0;i<mapping.length;i++){
                     var f=0;
@@ -572,10 +1115,196 @@ console.log(que);
     });  
   }); 
 
+app.post('/send',  urlencodedParser,function (req, res){
+var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera) 
+        to: req.body.senttoid, 
+        // collapse_key: 'your_collapse_key',        
+        notification: {
+            title: req.body.title, 
+            body: req.body.empname+":"+req.body.issue 
+        },        
+        data: {  //you can send only notification or only data(or include both) 
+            name: req.body.empname
+        }
+    };    
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!"+err);
+            res.status(200).json({'returnval': 'sent'+response+" "+response.statusCode+"  "+response.statusMessage});
+        } else {
+            console.log("Successfully sent with response: ", response);
+            res.status(200).json({'returnval': err+"  "+response+" "+response.statusCode+"  "+response.statusMessage});
+        }
+    });
+});
+
+app.post('/sendhomework',  urlencodedParser,function (req, res){
+    var response={
+      school_id: req.body.schoolid,
+      academic_year: '2017-2018',      
+      grade_id: req.body.gradeid,
+      grade_name: req.body.grade,   
+      subject_id: req.body.subjectid,
+      subject_name: req.body.subject,
+      chapter_id: req.body.chapterid,
+      chapter_name: req.body.chapter,
+      row_id: req.body.rowid,
+      concept_id: req.body.conceptid,
+      concept_name: req.body.concept,
+      sub_concept_id: req.body.subconceptid,
+      sub_concept_name: req.body.subconcept,
+      term_id:req.body.term,
+      section_id: req.body.sectionid,    
+      section_name: req.body.section,      
+      emp_id:req.body.empid,
+      emp_name:req.body.empname,
+      sno: req.body.rowsno,   
+      homework_date: req.body.currdate,
+      homework_subject: req.body.homesubject,
+      homework_body: req.body.homecontent,
+      homework_url: req.body.homeaid
+    };
+    var response1={  
+      homework_date: req.body.currdate,
+      homework_subject: req.body.homesubject,
+      homework_body: req.body.homecontent,
+      homework_url: req.body.homeaid
+    };
+    var qur="SELECT * FROM md_register WHERE id in (SELECT id FROM md_student WHERE class_id in(SELECT id FROM md_class_section WHERE class='"+req.body.grade+"' AND section='"+req.body.section+"'))";
+    var checkqur="SELECT * FROM md_daily_homework WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.term+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and emp_id='"+req.body.empid+"'";
+    var updatequr="UPDATE md_daily_homework SET ? WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and "+
+    " grade_id='"+req.body.gradeid+"' and subject_id='"+req.body.subjectid+"' and term_id='"+req.body.term+"' and chapter_id='"+req.body.chapterid+"' and concept_id='"+req.body.conceptid+"' and row_id='"+req.body.rowid+"' "+
+    " and section_id='"+req.body.sectionid+"' and sno='"+req.body.rowsno+"' and sub_concept_id='"+req.body.subconceptid+"' and emp_id='"+req.body.empid+"'";
+    var insertqur="INSERT INTO md_daily_homework SET ?";
+    console.log(qur);    
+    var id=[];
+    connection.query(checkqur, function(err, rows)
+    {
+    if(!err){
+    if(rows.length==0){
+    connection.query(insertqur,[response], function(err, rows)
+    {
+    if(!err){
+    connection.query(qur, function(err, rows)
+    {
+      for(var i=0;i<rows.length;i++)
+        id.push(rows[i].device_id);
+        if(!err){ 
+        var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera) 
+        // to: req.body.senttoid, 
+        registration_ids: id,
+        // collapse_key: 'your_collapse_key',        
+        notification: {
+            title: req.body.title, 
+            body: req.body.empname+":"+req.body.issue 
+        },        
+        data: {  //you can send only notification or only data(or include both) 
+            name: req.body.empname
+        }
+    };    
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!"+err);
+            res.status(200).json({'returnval': 'sent'});
+        } else {
+            console.log("Successfully sent with response: ", response);
+            res.status(200).json({'returnval': err+"  "+response+" "+response.statusCode+"  "+response.statusMessage});
+        }
+    });
+  }
+  else{
+    console.log(err);
+  }
+  });
+  }
+  else{
+    console.log(err); 
+  }
+  });
+  }
+  else
+  {
+    connection.query(updatequr,[response1], function(err, rows)
+    {
+    if(!err){
+    connection.query(qur, function(err, rows)
+    {
+      for(var i=0;i<rows.length;i++)
+        id.push(rows[i].device_id);
+        if(!err){ 
+        var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera) 
+        // to: req.body.senttoid, 
+        registration_ids: id,
+        // collapse_key: 'your_collapse_key',        
+        notification: {
+            title: req.body.title, 
+            body: req.body.empname+":"+req.body.issue 
+        },        
+        data: {  //you can send only notification or only data(or include both) 
+            name: req.body.empname
+        }
+    };    
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!"+err);
+            res.status(200).json({'returnval': 'sent'});
+        } else {
+            console.log("Successfully sent with response: ", response);
+            res.status(200).json({'returnval': err+"  "+response+" "+response.statusCode+"  "+response.statusMessage});
+        }
+    });
+  }
+  else{
+    console.log(err);
+  }
+  });
+  }
+  else{
+    console.log(err); 
+  }
+  });
+  }
+
+  }
+  else
+    console.log(err); 
+});
+});
+
+app.post('/lessonplan-homework',  urlencodedParser,function (req, res)
+{
+
+    var qur = "SELECT * FROM md_class_section WHERE school_id='"+req.body.schoolid+"' and academic_year='2017-2018' and "+
+    " id in (SELECT class_id FROM md_student WHERE school_id='"+req.body.schoolid+"' and academic_year='2017-2018' and id='"+req.body.empid+"') ";
+    console.log(qur);
+    connection.query(qur, function(err, rows)
+    {
+    if(!err){
+    var que = "SELECT * FROM md_daily_homework WHERE school_id='"+req.body.schoolid+"' and academic_year='2017-2018' "+
+    "and  grade_name='"+rows[0].class+"' and  section_name='"+rows[0].section+"'"; 
+    console.log(que); 
+    connection.query(que, function(err, rows)
+    {
+          if(!err){
+          if(rows.length > 0){
+          res.status(200).json(rows);
+          }
+          else{
+          res.status(200).json('no rows!');
+          }
+          }
+          else
+          res.status(200).json('Error!');
+    });   
+  }
+  });
+});
 
 app.post('/getactivitiesfornotification',  urlencodedParser,function (req, res)
 {
-    var que = "SELECT * FROM mp_teacher_grade g join md_curriculum_planning p on(g.grade_id=p.grade_id) WHERE "+
+    var que = "SELECT * FROM mp_teacher_grade g join md_curriculum_display p on(g.grade_id=p.grade_id) WHERE "+
     " g.school_id='"+req.body.schoolid+"' and g.id='"+req.body.empid+"' and g.academic_year='2017-2018' and g.flage='active' and "+
     " g.role_id='co-ordinator' and p.school_id='"+req.body.schoolid+"' and p.academic_year='2017-2018'";
 
@@ -596,7 +1325,7 @@ app.post('/getactivitiesfornotification',  urlencodedParser,function (req, res)
 
 app.post('/fetchactivityfornotify',  urlencodedParser,function (req, res)
 {
-    var que = "select distinct(id),emp_mobile from md_curriculum_planning p join mp_teacher_grade g on(p.grade_id=g.grade_id) join md_employee_creation c on(g.id=c.emp_id) where  p.school_id='"+req.body.schoolid+"' and p.academic_year='2017-2018' and g.school_id='"+req.body.schoolid+"' and g.academic_year='2017-2018' and c.school_id='"+req.body.schoolid+"' and c.academic_year='2017-2018' and "+
+    var que = "select distinct(id),emp_mobile from md_curriculum_display p join mp_teacher_grade g on(p.grade_id=g.grade_id) join md_employee_creation c on(g.id=c.emp_id) where  p.school_id='"+req.body.schoolid+"' and p.academic_year='2017-2018' and g.school_id='"+req.body.schoolid+"' and g.academic_year='2017-2018' and c.school_id='"+req.body.schoolid+"' and c.academic_year='2017-2018' and "+
     " emp_mobile!='' and ((STR_TO_DATE(p.planned_date_from,'%m/%d/%Y')<=STR_TO_DATE('"+req.body.currdate+"','%d/%m/%Y'))  or (STR_TO_DATE(p.planned_to_date,'%m/%d/%Y')>=STR_TO_DATE('"+req.body.currdate+"','%d/%m/%Y')))";
     var query = connection.query(que, function(err, rows)
     {
@@ -615,13 +1344,15 @@ app.post('/fetchactivityfornotify',  urlencodedParser,function (req, res)
 
 app.post('/lessonplanchapters',  urlencodedParser,function (req, res)
 {
-  var que = "select distinct(chapter_id),chapter_name,row_id from md_curriculum_planning where school_id='"+req.body.schoolid+"' and "+
+  var que = "select distinct(chapter_id),chapter_name from md_curriculum_display where school_id='"+req.body.schoolid+"' and "+
   " academic_year='2017-2018' and grade_name='"+req.body.grade+"' and subject_name='"+req.body.subject+"' and term_id='"+req.body.term+"' and "+
   " ((STR_TO_DATE( planned_date_from,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' )) "+
   " OR (STR_TO_DATE( planned_to_date,  '%m/%d/%Y' ) >= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' ))) "+
   " and sub_concept_id not in(select sub_concept_id from md_curriculum_planning_approval "+
   " where school_id =  '"+req.body.schoolid+"' AND academic_year =  '2017-2018' and emp_id='"+req.body.empid+"' "+
-  " and section_id='"+req.body.section+"' and subject_name='"+req.body.subject+"')";
+  " and section_name='"+req.body.section+"' and subject_name='"+req.body.subject+"' and status not in('Completed'))";
+   console.log('------Fetching chapters------');
+   console.log(que);
    var query = connection.query(que, function(err, rows)
     {
           if(!err){
@@ -637,7 +1368,7 @@ app.post('/lessonplanchapters',  urlencodedParser,function (req, res)
 
 app.post('/lessonplanchapterconcepts',  urlencodedParser,function (req, res)
 {
-  var que = "select distinct(concept_id),concept_name from md_curriculum_planning where school_id='"+req.body.schoolid+"' and "+
+  var que = "select distinct(concept_id),concept_name from md_curriculum_display where school_id='"+req.body.schoolid+"' and "+
   " academic_year='2017-2018' and grade_name='"+req.body.grade+"' and subject_name='"+req.body.subject+"' and term_id='"+req.body.term+"' and "+
   " ((STR_TO_DATE( planned_date_from,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' )) "+
   " OR (STR_TO_DATE( planned_to_date,  '%m/%d/%Y' ) >= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' ))) "+
@@ -746,28 +1477,7 @@ app.post('/lessonplancompletenesssave',  urlencodedParser,function (req, res)
     });
 });
 
-app.post('/send',  urlencodedParser,function (req, res){
-var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera) 
-        to: req.body.senttoid, 
-        // collapse_key: 'your_collapse_key',        
-        notification: {
-            title: req.body.title, 
-            body: req.body.empname+":"+req.body.issue 
-        },        
-        data: {  //you can send only notification or only data(or include both) 
-            name: req.body.empname
-        }
-    };    
-    fcm.send(message, function(err, response){
-        if (err) {
-            console.log("Something has gone wrong!");
-            res.status(200).json({'returnval': 'sent'+response+" "+response.statusCode+"  "+response.statusMessage});
-        } else {
-            console.log("Successfully sent with response: ", response);
-            res.status(200).json({'returnval': err+"  "+response+" "+response.statusCode+"  "+response.statusMessage});
-        }
-    });
-});
+
 
 app.post('/smis-logincheck',  urlencodedParser,function (req, res){
   var checkqur="SELECT * FROM md_register WHERE id='"+req.body.emp_id+"' AND password='"+req.body.mob_no+"' AND school_id='"+req.body.school_id+"'";
@@ -798,6 +1508,9 @@ app.post('/smis-logincheck',  urlencodedParser,function (req, res){
 
 app.post('/smis-login',  urlencodedParser,function (req, res){
 
+  if(req.body.loggedrole=='3')
+  var qur="SELECT * FROM parent WHERE student_id='"+req.body.emp_id+"' AND mobile='"+req.body.mob_no+"' and academic_year='2017-2018'";
+  else
   var qur="SELECT * FROM md_employee_creation WHERE emp_id='"+req.body.emp_id+"' AND emp_mobile='"+req.body.mob_no+"' and flage='active' and academic_year='2017-2018'";
   var insertqur="INSERT INTO md_register SET ?";
   var school_id="";
@@ -814,11 +1527,20 @@ app.post('/smis-login',  urlencodedParser,function (req, res){
   connection.query(qur,function(err, rows){
     if(!err){
       if(rows.length>0){
+        if(req.body.loggedrole=='3'){
+        school_id=rows[0].school_id;
+        role=req.body.role;
+        emp_name=rows[0].parent_name;
+        param.school_id=rows[0].school_id;
+        param.role=req.body.role;
+        }
+        else{
         school_id=rows[0].school_id;
         role=rows[0].role;
         emp_name=rows[0].emp_name;
         param.school_id=rows[0].school_id;
         param.role=rows[0].role;
+        }
       connection.query("SELECT * FROM md_register WHERE id='"+req.body.emp_id+"' AND password='"+req.body.mob_no+"' AND school_id='"+school_id+"' ",function(err, rows){        
       if(!err){
        if(rows.length==0){

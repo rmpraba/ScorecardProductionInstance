@@ -18201,7 +18201,7 @@ app.post('/fnhomework-service',  urlencodedParser,function (req,res)
      connection.query(qur,function(err, rows){
     if(!err)
     {  
-    res.status(200).json({'returnval':rows,'aproval':aproval});
+    res.status(200).json({'returnval':rows});
     }
     else
      res.status(200).json({'':'no rows'}); 

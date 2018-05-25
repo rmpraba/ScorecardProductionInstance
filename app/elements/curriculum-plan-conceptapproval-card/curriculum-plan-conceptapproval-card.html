@@ -17,7 +17,7 @@
         width:35%
       }
       #tb3{
-        width:10%
+        width:10% 
       }
       #itemcard:nth-child(odd) {
         background-color: white; 
@@ -30,7 +30,9 @@
         margin-left: 11%;  
       }
       .plan{
-      margin-top:5.3%;position: absolute;
+      margin-top: 8.3%;
+      position: relative;
+      width: 95%;
      
         },
 
@@ -62,7 +64,12 @@
     top: auto;
  height: 24.1%;
    
-}
+}#itemcard1:nth-child(odd) {
+        background-color: white;
+      }
+ #itemcard1:nth-child(even) {
+        background-color: #f1f1f1;
+      }
 paper-tab{
   margin-left: -2%;
 }
@@ -142,84 +149,49 @@ th,td{
  
 
      <center>
-      <paper-tabs selected="0"  style="margin-top: 5.3%;
-    position: absolute;
-    margin-left: -7%;
-    width: 112%;color: #1A5276;"  >
-             <paper-tab on-click="Fnlessonplan">Lesson Plan</paper-tab>
-             <paper-tab on-click="Fnteacingaid">Teaching Aids</paper-tab>
-             <paper-tab on-click="Fnhomework">Home Work</paper-tab>
-             <paper-tab on-click="Fnassesmenttype">Assesment Type</paper-tab>
-             <paper-tab on-click="Fncomplete">Complete Status</paper-tab>
+      <paper-tabs selected="0"  style="margin-top: 5.3%;position: absolute;
+    margin-left: -6%;width: 104%;color:#ef2d0bfa;"  >
+             <paper-tab on-click="Fnlessonplan"><h4>LESSON PLAN</h4></paper-tab>
+             <paper-tab on-click="Fncomplete"><h4>SKILL/VALUE</h4></paper-tab>
+             <paper-tab on-click="Fnteacingaid"><h4>TEACHING AIDS</h4></paper-tab>
+             <paper-tab on-click="Fnhomework"><h4>HOME WORK</h4></paper-tab>
+             <paper-tab on-click="Fnassesmenttype"><h4>ASSESMENT TYPE</h4></paper-tab>
+             
        </paper-tabs>
       </center>
       <br><br><br>
  </div>
 <div class="plan">
   <template is="dom-repeat" items="{{lessonarr}}">
-    <curriculum-lessonplan-card name sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}"  coremarks="{{item.remarks}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  enrichmentsuggest="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.remarks}}" fonts="{{item.fonts}}" subremak="{{item.sub_teacher_temark}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}">
-   </curriculum-lessonplan-card>
+  <div id="itemcard1">  <curriculum-lessonplan-card name sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}"  coremarks="{{item.remarks}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  enrichmentsuggest="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.remarks}}" fonts="{{item.fonts}}" subremak="{{item.sub_teacher_temark}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}">
+   </curriculum-lessonplan-card> </div>
   </template>
+ 
 </div>
 <div class="plan"> 
   <template is="dom-repeat" items="{{teacharr}}">
 
-       <curriculum-teach-card fromdate="{{item.from_date}}" todate="{{item.to_date}}" conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}"  url="{{item.url}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}" hidefilename="{{item.hidefilename}}"></curriculum-teach-card>
+      <div id="itemcard1">   <curriculum-teach-card  hidecontent="{{item.hidecontent}}"  hidurl="{{item.hidurl}}" fromdate="{{item.from_date}}" todate="{{item.to_date}}" conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}"  url="{{item.url}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}" hidefilename="{{item.hidefilename}}" subconceptname="{{item.sub_concept_name}}" ></curriculum-teach-card></div>
     </template>
 </div>
 <div class="plan">
 <template is="dom-repeat" items="{{homearr}}">
-    <curriculum-home-card  homeaids="{{item.home_aids}}" fromdate="{{item.from_date}}" todate="{{item.to_date}}"  conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}" url="{{item.url}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}" hidefilename="{{item.hidefilename}}"></curriculum-home-card>
+    <div id="itemcard1">  <curriculum-home-card hidecontent="{{item.hidecontent}}"  hidurl="{{item.hidurl}}"  homeaids="{{item.home_aids}}" fromdate="{{item.from_date}}" todate="{{item.to_date}}"  conceptname="{{item.concept_name}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}"  link="{{item.link}}" filename="{{item.filename}}" url="{{item.url}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}" hidefilename="{{item.hidefilename}}" subconceptname="{{item.sub_concept_name}}" parentarr="{{parentarr}}"></curriculum-home-card></div>
     </template>
 </div>
 <div class="plan">
 <template is="dom-repeat" items="{{assesmentarr}}">
-    <curriculum-assesment-card fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" sno='{{item.sno}}'  id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}"    assesmentdate="{{item.assesment_date}}" chaptername="{{item.chapter_name}}"    hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  fonts="{{item.fonts}}" assesmenttype="{{item.assesment_type}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}"></curriculum-assesment-card  >
+
+    <div id="itemcard1">  <curriculum-assesment-card fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" sno='{{item.sno}}'  id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}"    assesmentdate="{{item.assesment_date}}" chaptername="{{item.chapter_name}}"    hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  fonts="{{item.fonts}}" assesmenttype="{{item.assesment_type}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}"  correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" completiondate="{{item.completion_date}}" editvalue="{{item.editvalue}}" ></curriculum-assesment-card   ></div>
   </template>
 </div>  
 
 <div class="plan">
 <template is="dom-repeat" items="{{completearr}}">
-     <curriculum-complete-card fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" sno='{{item.sno}}'  id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" completiondate="{{item.completion_date}}" hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}"  check="{{view.check}}" ></curriculum-complete-card>
+    <div id="itemcard1">  <curriculum-complete-card fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" sno='{{item.sno}}'  id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" completiondate="{{item.completion_date}}" hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}"  check="{{view.check}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}"  coremarks="{{item.remarks}}"  period="{{item.period}}"></curriculum-complete-card></div>
   </template>
 </div>
- <!--<div class="zui-scroller">
-   <table  class="report1" id="clsplnevalttttt">
-  <tr>
-  <th style="width: 4.7%;margin-left:4%;" class="zui-sticky-col1">SNO</th>
-   <th style="width: 16.7%;margin-left:9%;" class="zui-sticky-col1">Concept</th>
-      <th style="width: 15%;margin-left:26%;" class="zui-sticky-col1">Sub Concept</th>
-          <th style="width: 11%;">#Periods</th>
-          <th style="width: 11%;">Skill</th>
-          <th style="width: 11%;">Assesmentdate</th>
-          <th style="width: 11%;">Value</th>
-          <th style="width: 11%;">Teaching Aids</th>
-          <th style="width: 11%;">Innovation</th>
-          <th style="width: 11%;">Plan From</th>
-          <th style="width: 11%;">Plan To</th>
-           <th style="width: 11%;">Assesment Status</th>
-           <th style="width: 11%;">Remarks</th>
-          <th style="width: 11%;">Co-Ordinator Remarks</th>
-          <th style="width: 11%;">Correction Status</th>
-          <th style="width: 11%;">Completion Date</th>
-          <th style="width: 11%;">Completion Status</th>
-          <th style="width: 11%;">Enrichment Suggestion</th>
-          <th style="width: 11%;">Home Work</th>          
-          <th style="width: 11%;"></th>  
-   </tr>       
-       <template is="dom-repeat" items="{{approvearr}}">
-      <tr>
-       <td  class="zui-sticky-col" style="width: 4.7%; margin-left: 4%;" >{{item.sno}}</td>
-       <td  class="zui-sticky-col" style="width: 16.7%;margin-left: 9%;" >{{item.concept_name}}</td>
-       <td  class="zui-sticky-col"  style="width: 15%;margin-left: 26%;" >{{item.sub_concept_name}}</td>
-      <td>  
-        <curriculum-plan-conceptapproval-itemcard assesmentcheckid='{{item.assesment_check_id}}' checkids='{{item.assesment_check_id}}' hometypeid='{{item.home_type_id}}' sno='{{item.sno}}' hometype='{{item.homework_type}}' id="ENR{{item.sno}}{{item.concept_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}" lr="{{item.lr_rectification}}" remarks="{{item.remarks}}" correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" hideflag="{{item.hideflag}}" hidetitleflag="{{item.hidetitleflag}}" completiondate="{{item.completion_date}}" enrichmentsug="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.co_ordinator_remarks}}">          
-            </curriculum-plan-conceptapproval-itemcard>        
-          </td>  
-            </tr>  
-           </template>  
-     </table> 
-     </div>-->
+ 
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>  
     <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
   </template>

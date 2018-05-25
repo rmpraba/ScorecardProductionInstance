@@ -14,11 +14,12 @@
 
       }
       table { table-layout:fixed; }
-     table td { overflow: hidden; }
+      table td { overflow: hidden; }
 
       th,td{
-     border-bottom: 1px solid #ddd;
+     /* border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;*/
       border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
      }
       #fnsetdialogs
       {
@@ -38,14 +39,45 @@
        .exceldiv2{
       margin-top: -12%;
       margin-left: 68%;
-      }  
+      } 
+      #curriculamenrichmentdialog11
+      {
+   border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+   
+      }  #curriculamcorrectiondialog
+      {
+        border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+      } 
+      #curriculamdialog
+      {
+        border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+    
+      } #curriculamenrichmentdialog111
+      {
+   border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+   
+      } 
     </style>
-    <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}
+    <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}{{editvalue}}
     </div>
     <div>
        <table  class="teach1" >
          <tr>
-          <td style="{{fonts}}" width="10%" >{{sno}}</td>
+          <td style="{{fonts}}" width="2%" >{{sno}}</td>
           <td style="{{fonts}}" width="10%">{{conceptname}}</td>
           <td style="{{fonts}}" width="10%">{{subconceptname}}</td>
           <td style="{{fonts}}" width="10%">{{assesmentdate}} </td>
@@ -53,15 +85,41 @@
             <div hidden$="{{hideinfovalue}}">
              <p hidden$="{{hideopenplan}}">{{assesmenttype}}</p>
               <div hidden$="{{hidecloseplan}}"> 
-              <paper-checkbox id="cpayes{{id}}"  on-change="fnchange">Completed </paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
+              <paper-checkbox id="cpayes1{{id}}"  on-change="fnchange">Completed </paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </div>
             </div>
             <div hidden$="{{hideinfovalue1}}">
-                 <paper-icon-button id="downloads" icon="icons:file-download" on-click="fnassmentmark"></paper-icon-button>
+             <div style="text-transform:uppercase;">Download Mark Here</div> <paper-icon-button id="downloads" icon="icons:file-download" on-click="fnassmentmark"></paper-icon-button>
             <paper-tooltip for="download">Download</paper-tooltip>
            </div>
          </td>
-        
-    <td style="{{fonts}}"  width="10%">
+      
+         <td style="{{fonts}}"  width="10%">
+           <div hidden$="{{hideinfovalue}}">
+           <p hidden$="{{hideopenplan}}">{{completiondate}}</p>
+          <complection-date-picker-card hidden$="{{hidecloseplan}}"></complection-date-picker-card>
+          </div>
+          <div hidden$="{{hideinfovalue1}}">
+           <p>{{completiondate}}</p>
+          </div>
+        </td>
+          <td style="{{fonts}}"  width="10%">
+           <paper-button on-click="fncorrection">{{correctionstatus}}</paper-button>
+       </td>
+       
+         <td style="{{fonts}}"  width="10%">
+
+          <div hidden$="{{hideinfovalue}}">
+           <p hidden$="{{hideopenplan}}">{{completionstatus}}</p>
+           <P hidden$="{{hidecloseplan}}"> 
+             <paper-checkbox id="cpayes{{id}}" checked="{{check}}"  on-change="fncompletestaus">Completed</paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <paper-checkbox hidden id="cpano{{subconceptid}}" checked on-change="FnNo">  Not Completed</paper-checkbox>
+          </P>
+        </div>
+         <div hidden$="{{hideinfovalue1}}">
+           <p style="color:green">Completed</p>
+         </div>
+        </td>
+    <td style="{{fonts}}"  width="2.5%">
                <div hidden$="{{hideinfovalue}}"> 
                <p hidden$="{{hideopenplan}}">Save</p>
                 <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
@@ -165,7 +223,34 @@
         content-type="application/json"
         on-response="curriculamassesmentmark2Response"
         debounce-duration="300"/>
-     </iron-ajax>
+    </iron-ajax>  
+     <iron-ajax
+        method="post"
+        id="checkcompleteplanajax"
+        url="{{checkcompleteplanurl}}"
+        params="{{checkcompleteplanparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="checkcompleteplanResponse"
+        debounce-duration="300"/>
+       </iron-ajax>
+   <paper-dialog id="curriculamenrichmentdialog11" >
+         <center><h2>{{dialogvalue}}</h2></center> 
+           <center><paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose1">Close</paper-button> </center>
+      </paper-dialog>
+   <paper-dialog id="curriculamcorrectiondialog" >
+      <center>   <iron-autogrow-textarea label="Home Aids"  value="{{correctionstatus}}" placeholder="Your Correction Status  Here..."></iron-autogrow-textarea></center> 
+          <center style="margin-top: 10%;">
+            <paper-button  on-click="fncorrectionsave" style="color:white;background-color:black">Save</paper-button>
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="fncorrectionclose">Close</paper-button>
+       </center>
+      </paper-dialog>
+       <paper-dialog id="curriculamdialog" >
+       <h1>  <center>{{dialogvalue}}</center> </h1>
+          <center style="margin-top: 10%;">
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="Dialclose">Close</paper-button>
+          </center>
+      </paper-dialog>
   </template>
    <script type="text/javascript">
 
@@ -174,7 +259,7 @@
   function loadFiles(event){
   alasql('SELECT * FROM FILE(?,{headers:true})',[event],function(data){
     array=data; 
-   
+  // alert(JSON.stringify(array));
   });
   }
   </script>
@@ -233,17 +318,21 @@ var ids;
    var setassesment='no';
    var temp=[];
    var passarr=[];
+   var status="no";
+   var  finalvalue;
+   var checinfo="";
+   
     Polymer({
       is: 'curriculum-assesment-card',
 fnchange:function(e){
 
 ids=this.id;
- if(document.querySelector("#cpayes"+this.id).checked==true){
+ if(document.querySelector("#cpayes1"+this.id).checked==true){
 setassesment='yes';
  this.$.fnsetdialogs.open();
  this.curriculamassesmentmark();
  }
- else if(document.querySelector("#cpayes"+this.id).checked==false){
+ else if(document.querySelector("#cpayes1"+this.id).checked==false){
   setassesment='no';
  }
 },
@@ -254,12 +343,12 @@ fnclick:function(e){
 this.$.fnsetdialogs.close();
 },
 fnedit:function(e){
-  //alert(1);
+localStorage.setItem("localsess_comp_service",this.completiondate);
   this.hideinfovalue=false;
   this.hideinfovalue1=true;
 },
   FnSave:function(e){
- 
+ //alert(localStorage.getItem("localsess_comp_service"));
          if(array.length==0){
            setassesment='no';
          }
@@ -267,26 +356,67 @@ fnedit:function(e){
            setassesment='yes';
          }
           /*alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+this.link+2+this.url+2+this.filename+2+this.rowid+2+this.sno+2+this.fromdate+2+this.todate+2+this.homeaids+2+this.subconceptid+2+setassesment);*/
+
+         
+         
       if(temp.length==0){
-          alert("Please upload the Assesment Value");
+        
+            if(this.editvalue=="editvalue"){
+              if(finalvalue=="sucess"){
+                 setassesment='yes';
+             this.$.crriculambookservice.fncurriculampassassesmentvaluefninal(this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
+              }
+              else{
+                this.dialogvalue="Please Check the value";
+                this.$.curriculamdialog.open();
+                status="no";
+              }
+             }
+              else{
+                  alert("Please upload the Assesment Value");
+                    document.querySelector("#cpayes1"+checinfo).checked=false;  
+                    document.querySelector("#cpayes"+ids).checked=false;
+               }
        }
        else
       {
-       for(var i=0;i<temp.length;i++){
-        //alert(this.sno);
-          this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].StudentId,temp[i].StudentName,temp[i].Mark,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,temp.length);
-        }
-      // this.hideinfovalue=true;
-      // this.hideinfovalue1=false;
+        if(finalvalue=="sucess"){
+           if(this.assemensarr.length==temp.length){
+            for(var i=0;i<temp.length;i++){
+               this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].StudentId,temp[i].StudentName,temp[i].Mark,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,temp.length,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
+              }
+           }
+           else{
+
+            this.dialogvalue="Please  insert the all student mark";
+              this.$.curriculamdialog.open();
+              status="no";
+              document.querySelector("#cpayes1"+checinfo).checked=false;  
+             document.querySelector("#cpayes"+ids).checked=false;
+             temp=[];
+              document.getElementById("assesmentreadfile1"+this.id).value ="";
+           }
       }
-      document.getElementById("assesmentreadfile1"+this.id).value ="";
-      temp=[];
-      array=[];
-       
-        
+      else{
+        this.dialogvalue="Please Check the value";
+        this.$.curriculamdialog.open();
+        status="no";
+         document.querySelector("#cpayes1"+checinfo).checked=false; document.querySelector("#cpayes"+ids).checked=false;
+          temp=[];
+          array=[];
+          document.getElementById("assesmentreadfile1"+this.id).value ="";
+      }
+      }
+       document.querySelector("#cpayes1"+checinfo).checked=false;  
+       document.querySelector("#cpayes"+ids).checked=false;
+       status="no"; 
+       finalvalue="";
+       document.getElementById("assesmentreadfile1"+this.id).value ="";
+       temp=[];
+       array=[];
      },
         FnClick:function(){
-         // alert(JSON.stringify(array));
+         
 
       if(array.length==0){
         alert("Pls save the file in EXCEL WORKBOOK extension!");
@@ -302,23 +432,26 @@ fnedit:function(e){
            setarr=Object.keys(array[i]);
              setarr.splice(0,3);
              
-        
-          var obj={};
+          
+       
+
+        if(setarr.length==1){
+        var obj={};
            obj.SNo=array[i].SNo;
            obj.StudentId=array[i].StudentId;
            obj.StudentName=array[i].StudentName;
            obj.Mark=array[i].Mark;
            temp.push(obj);
-       //   alert(JSON.stringify(temp));
-             
+          
+
+               }
            }}
-           if(temp.length==0){
+            if(temp.length==0){
       alert("pls Upload the Correct value");
            }
            else{
       alert("Upload Sucess...!");
-
-           }
+        }
  
         }
 
@@ -467,7 +600,84 @@ curriculamassesmentmarkResponse:function(e){
         }
      
         this.assemensarr=res;
+     
         },
+   fnpass1:function(arr){
+     this.dialogvalue=arr;
+      this.$.curriculamenrichmentdialog11.open();
+
+    },
+    enrichclose1:function(e){
+      this.$.curriculamenrichmentdialog11.close();
+
+    },
+
+ fncorrection:function(){
+    this.$.curriculamcorrectiondialog.open();
+   },
+   fncorrectionsave:function(){
+    this.$.curriculamcorrectiondialog.close();
+   },
+ fncorrectionclose:function(){
+    this.$.curriculamcorrectiondialog.close();
+   },
+   Dialclose:function(){
+    this.$.curriculamdialog.close();
+   },
+
+ fncompletestaus:function(e){
+  if(document.querySelector("#cpayes"+this.id).checked==true){
+      this.checkcompleteplan();
+      checinfo=this.id;
+      status="yes";
+    }
+   else if(document.querySelector("#cpayes"+this.id).checked==false){
+     status="no"; 
+     checinfo="";
+    }
+      },
+    checkcompleteplan:function(e){
+           this.checkcompleteplanurl=sessionStorage.getItem("addrinfo")+"/checkcompleteplan-service";
+           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+           obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+           obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+           obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+           obj.chapterid=this.chapterid;
+           obj.conceptid=this.conceptid;
+           obj.subconceptid=this.subconceptid;
+           obj.rowid=this.rowid;
+           obj.termid=sessionStorage.getItem("termid"); 
+           this.checkcompleteplanparam=obj;
+          //  alert(JSON.stringify(obj));
+           this.$.checkcompleteplanajax.generateRequest();
+
+
+},checkcompleteplanResponse:function(e){
+            
+          
+            var lessonarr=e.detail.response.lessonarr;  
+           
+            if(lessonarr=="empty"){
+          
+            this.dialogvalue="please Check the Lesson";
+            this.$.curriculamdialog.open();
+            document.querySelector("#cpayes"+checinfo).checked=false;
+
+            }
+         
+        
+            else{
+                  this.dialogvalue="All Process are sucess";
+                  this.$.curriculamdialog.open();
+                  finalvalue="sucess";
+                  document.querySelector("#cpayes"+checinfo).checked=true;
+             }
+         
+      },
 
     });
   })();

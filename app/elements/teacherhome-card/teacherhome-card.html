@@ -47,19 +47,19 @@
     </div>
     </div>
 
-    <div class="cdialog">      
-      <paper-dialog id="cdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+    <div class="cdialog"  >      
+      <paper-dialog id="cdialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" modal>
          <paper-dropdown-menu id="academicyear" label="Select Academic Year" disabled="{{read}}" required>
-            <paper-menu id="academicyr" class="dropdown-content"  on-iron-select="FnSelectacademicyear"  attr-for-selected="value" required>  
-              <template is="dom-repeat" items="{{academicarr}}">
-                <paper-item value="{{item.year}}">{{item.year}}</paper-item>                              
-              </template>
-            </paper-menu>
+          <paper-menu id="academicyr" class="dropdown-content"  on-iron-select="FnSelectacademicyear"  attr-for-selected="value" required>  
+          <template is="dom-repeat" items="{{academicarr}}">
+           <paper-item value="{{item.year}}">{{item.year}}</paper-item>   
+          </template>
+         </paper-menu>
           </paper-dropdown-menu>
       </paper-dialog>
     </div>
-    <div class="dialog">      
-      <paper-dialog id="dialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+    <div class="dialog" >      
+      <paper-dialog id="dialog" entry-animation="scale-up-animation" exit-animation="fade-out-animation" modal>
           <paper-dropdown-menu id="term" label="Select Term" disabled="{{read}}" required>
             <paper-menu id="termtype" class="dropdown-content" on-iron-select="FnSelectTerm" attr-for-selected="value" selected="{{selectterm}}">
               <template is="dom-repeat" items="{{termarr}}">
@@ -628,6 +628,7 @@ document.querySelector('home-page').setPage('student-scorcard-mail-card','');
         document.querySelector('home-page').setPage('termscholasticcategory','');
         document.querySelector('term-scholastic-category').FnHideView();
         }
+        this.$.dialog.close();
       },
       FnYearToggle:function(){
         this.$.cdialog.toggle();

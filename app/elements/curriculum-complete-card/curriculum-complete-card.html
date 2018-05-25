@@ -14,8 +14,10 @@
      table td { overflow: hidden; }
 
       th,td{
-     border-bottom: 1px solid #ddd;
+   /*  border-bottom: 1px solid #ddd;
+     border-top: 1px solid #ddd;*/
       border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
      }
       #curriculamcorrectiondialog
       {
@@ -33,26 +35,33 @@
     height: 33%;
     margin-left: 33%;
     
-      }
+      } #curriculamenrichmentdialog111
+      {
+   border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+   
+      } 
     </style>
     <div>
      <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}</div>
       <table  class="teach1" >
-        <tr>
+        <tr>  
         <td style="{{fonts}}" width="10%" >{{sno}}</td>
         <td style="{{fonts}}" width="10%">{{conceptname}}</td>
         <td style="{{fonts}}" width="10%">{{subconceptname}}</td>
-        <td style="{{fonts}}" width="10%">
-          <div hidden$="{{hideinfovalue}}">
+        <td style="{{fonts}}" width="10%">{{period}} 
+         <!--  <div hidden$="{{hideinfovalue}}">
            <p hidden$="{{hideopenplan}}">{{completiondate}}</p>
           <complection-date-picker-card hidden$="{{hidecloseplan}}"></complection-date-picker-card>
           </div>
           <div hidden$="{{hideinfovalue1}}">
            <p>{{completiondate}}</p>
-          </div>
+          </div> -->
         </td>
-        <td style="{{fonts}}" width="10%">
-        <div hidden$="{{hideinfovalue}}">
+         <td style="{{fonts}}" width="10%"> {{skill}}
+     <!--    <div hidden$="{{hideinfovalue}}">
            <p hidden$="{{hideopenplan}}">{{completionstatus}}</p>
            <P hidden$="{{hidecloseplan}}"> 
              <paper-checkbox id="cpayes{{id}}" checked="{{check}}"  on-change="fncompletestaus">Completed</paper-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -61,10 +70,10 @@
         </div>
          <div hidden$="{{hideinfovalue1}}">
            <p style="color:green">Completed</p>
-         </div>
+         </div> -->
         </td>
-        <td style="{{fonts}}" width="10%">
-        <paper-button on-click="fncorrection">{{correctionstatus}}</paper-button>
+        <td style="{{fonts}}" width="10%">{{value}}
+       <!--  <paper-button on-click="fncorrection">{{correctionstatus}}</paper-button> -->
        <!--   <div hidden$="{{hideinfovalue}}">
          <p hidden$="{{hideopenplan}}">{{correctionstatus}}</p>
             <paper-input value={{correctionstatus}} hidden$="{{hidecloseplan}}"></paper-input>
@@ -73,15 +82,15 @@
             <p>{{correctionstatus}}</p>
         </div> -->
         </td>
-         <td style="{{fonts}}"  width="10%">
-               <div hidden$="{{hideinfovalue}}"> 
+         <td style="{{fonts}} text-align: center;"  width="10%" >{{innovation}}</td>
+               <!-- <div hidden$="{{hideinfovalue}}"> 
                <p hidden$="{{hideopenplan}}">Save</p>
                 <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
                 </center>
                 </div>
                 <div hidden$="{{hideinfovalue1}}">
                   <paper-icon-button hidden$="{{hidecloseplan}}" icon="create" on-click="Fnedit"></paper-icon-button>
-                </div>  
+                </div>   -->
           </td>
        </tr>
       </table>
@@ -109,6 +118,10 @@
           <center style="margin-top: 10%;">
             <paper-button id="rmcls1" style="color:white;background-color:black" on-click="Dialclose">Close</paper-button>
           </center>
+      </paper-dialog>
+       <paper-dialog id="curriculamenrichmentdialog111" >
+         <center><h2>{{dialogvalue}}</h2></center> 
+           <center><paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose1">Close</paper-button> </center>
       </paper-dialog>
   </template>
   <script>
@@ -231,8 +244,15 @@ checkcompleteplanResponse:function(e){
           }
 
 },
+enrichclose1:function(e){
+      this.$.curriculamenrichmentdialog111.close();
 
-  
+    },
+   fnpass1:function(arr){
+     this.dialogvalue=arr;
+      this.$.curriculamenrichmentdialog111.open();
+
+    },
     });
   })();
   </script>

@@ -7,24 +7,21 @@
       :host {
         display: block;
       }
-  /* table{
-    width: 80%;
-   }*/
+  
      table{
         border-collapse: collapse;
         width: 100%;
-     
-      }
+        }
       table { table-layout:fixed; }
      table td { overflow: hidden; }
 
       th,td{
-     border-bottom: 1px solid #ddd;
-      border-left: 1px solid #ddd;
+       border-left: 1px solid #ddd;
+       border-right: 1px solid #ddd;
      }
       #curriculamsubjectdialog
       {
-        border-radius: 30px;
+    border-radius: 30px;
     width: 34%;
     height: 33%;
     margin-left: 33%;
@@ -34,60 +31,61 @@
       
       #curriculamenrichmentdialog
       {
-            border-radius: 30px;
+   border-radius: 30px;
     width: 34%;
     height: 33%;
     margin-left: 33%;
     overflow-x: hidden;
     overflow-y: scroll;
       }
-      
+#curriculamenrichmentdialog1
+      {
+    border-radius: 30px;
+    width: 34%;
+    height: 33%;
+    margin-left: 33%;
+   
+      }
+     
+      h4{
+        text-transform:lowercase;
+      }
+     
     </style>
      <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}</div>
-    <div>
+    <div class="fn1">
        <table  class="teach1" >
         <tr>
-              <td style="{{fonts}}" width="10%" >{{sno}}</td>
+              <td style="{{fonts}}" width="3%" >{{sno}}</td>
               <td style="{{fonts}}"  width="10%">{{conceptname}}</td>
               <td style="{{fonts}}"  width="10%">{{subconceptname}}</td>
-              <td style="{{fonts}}; text-align: center;"  width="10%">{{period}}</td>
-              <td style="{{fonts}}"  width="10%">{{skill}} </td>
-              <td style="{{fonts}}"  width="10%"> {{value}} </td>
-              <td style="{{fonts}}"  width="10%">{{innovation}}</td>
+              <td style="{{fonts}}; text-align: center;"  width="10%" hidden>{{period}}</td>
+              <td style="{{fonts}}"  width="10%">{{fromdate}}</td>
+              <td style="{{fonts}}"  width="10%">{{todate}}</td>
+              <td  hidden style="{{fonts}}"  width="10%">{{skill}} </td>
+              <td  hidden style="{{fonts}}"  width="10%"> {{value}} </td>
+              <td  hidden style="{{fonts}}"  width="10%">{{innovation}}</td>
               <td style="{{fonts}}"  width="10%">{{coremarks}}</td>
+              
               <td style="{{fonts}}"  width="10%" >
-               <paper-button on-click="fnsubclick">{{subremak}}</paper-button>
-
-               <!--  <div hidden$="{{hideinfovalue}}">
-                   <p hidden$="{{hideopenplan}}" >{{subremak}}</p>
-                  <paper-input value="{{subremak}}" hidden$="{{hidecloseplan}}" ></paper-input>  
-                </div>
-                <div  hidden$="{{hideinfovalue1}}">
-                 <p>{{subremak}}</p> 
-                </div> -->
+                    <p hidden$="{{hideopenplan}}">{{subremak}}</p>
+                     <paper-button on-click="fnsubclick"  hidden$="{{hidecloseplan}}"><h4>{{subremak}}</h4></paper-button>
               </td>
-               <td  style="{{fonts}}"  width="10%">
+              <td  style="{{fonts}}"  width="10%">
+               <p hidden$="{{hideopenplan}}">{{enrichmentsuggest}}</p>
+                 <paper-button on-click="fnenrichclick"  hidden$="{{hidecloseplan}}"><h4>{{enrichmentsuggest}}</h4></paper-button>
 
-       <paper-button on-click="fnenrichclick">{{enrichmentsuggest}}</paper-button>
-
-                 <!-- <div hidden$="{{hideinfovalue}}"> 
-                       <p   hidden$="{{hideopenplan}}" >{{enrichmentsuggest}}</p>
-                       <paper-input hidden$="{{hidecloseplan}}" value="{{enrichmentsuggest}}"  hidden$="{{hidecloseplan}}"></paper-input>
-                 </div>
-                 <div hidden$="{{hideinfovalue1}}">
-                    <p>{{enrichmentsuggest}}</p> 
-                 </div> -->
               </td>
-              <td style="{{fonts}}"  width="10%">
+             
+              <td style="{{fonts}}"  width="3.2%">
                <div hidden$="{{hideinfovalue}}"> 
                <p hidden$="{{hideopenplan}}">Save</p>
                 <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
                 </center>
                 </div>
                 <div hidden$="{{hideinfovalue1}}">
-                  <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="create" on-click="FnEdit"></paper-icon-button>
-                </center>
-                  
+                    <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="create" on-click="FnEdit"></paper-icon-button>
+                    </center>
                 </div>  
              </td>
 
@@ -112,6 +110,11 @@
          
           </center>
       </paper-dialog>
+       <paper-dialog id="curriculamenrichmentdialog1" >
+         <center><h2>{{dialogvalue}}</h2></center> 
+           <center><paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose1">Close</paper-button> </center>
+      </paper-dialog>
+      
     </div>
   </template>
   <script>
@@ -122,35 +125,30 @@
       is: 'curriculum-lessonplan-card',
    ready:function(e){
     this.subremak=null;
-   this.enrichmentsuggest=null;
-   },
+    },
    FnSave:function(e){
-     //alert(this.conceptname+1+this.subconceptname+1+this.skill+1+this.value+1+this.innovation+1+this.coremarks+1+this.subremak+1+this.enrichmentsuggest+1+this.chapterid+1+this.chaptername+1+this.conceptid+1+this.subconceptid);
-   // alert(this.subremak+" "+this.enrichmentsuggest);
-   //   this.hideinfovalue=true;
-  //    this.hideinfovalue1=false;
-  if(this.subremak=="" || this.enrichmentsuggest==""){
-    alert("pls check the value");
-
-    }
-  else{
-    this.$.crriculambookservice.Fnpasscurriculumlessonplan(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
-    }
-    
-
-    },
+   
+   if(this.subremak=="" || this.enrichmentsuggest==""){
+       alert("pls check the value");
+      }
+    else{
+           this.$.crriculambookservice.Fnpasscurriculumlessonplan(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
+      } 
+  },
+   
      fnsubclick:function(){
-    //  alert(1);
-      this.$.curriculamsubjectdialog.open();
-    },
-   fnenrichclick:function(){
+       this.$.curriculamsubjectdialog.open();
+     },
+    fnenrichclick:function(){
       this.$.curriculamenrichmentdialog.open();
-    },
-    enrichsave:function(){
+     },
+     enrichsave:function(){
       this.$.curriculamenrichmentdialog.close();
-     
-      },
-    enrichclose:function(){
+    },
+    enrichclose1:function(){
+      this.$.curriculamenrichmentdialog1.close();
+     },
+     enrichclose:function(){
       this.$.curriculamenrichmentdialog.close();
       this.enrichmentsuggest="";
     },
@@ -165,7 +163,12 @@
     FnEdit:function(e){
       this.hideinfovalue=false;
       this.hideinfovalue1=true;
-    // this.$.crriculambookservice.Fnpasscurriculumlessonplanedit(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
+    
+    },
+    fnpass:function(arr){
+     this.dialogvalue=arr;
+     this.$.curriculamenrichmentdialog1.open();
+
     },
     });
   })();

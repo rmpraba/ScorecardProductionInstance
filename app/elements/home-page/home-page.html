@@ -31,34 +31,22 @@
   float:right;
   font-size:12px;
   }
-  .backbutton
-  {
-    float:left;
-    width: 4%;
-  }
+  
   .headd{
      height: 7%;
      width: 100%;
      background-color: #12A5F4;
      color: white;
-     margin: 0px;
-     padding: 0px;
-     position: fixed;
-     top: 0;
-     overflow: hidden;
+    
   }
-/*  .headcontent{
-    padding:16px;
-  }*/
+
   .cardd{
     @apply(--layout-vertical);
-    width: 100%;
-    height: 93%;
+    width: 95%;
+    height: 87%;
     padding: 16px;
     margin-top: 48px;
-    position: fixed;
-    overflow: scroll;
-    /*padding-top: 7%;*/
+
     }
   label{
     margin-left: 21%;
@@ -70,13 +58,10 @@
     margin-left: 5%;
     text-transform: capitalize;
   }
-  .content{
+  .content1{
     width: 100%;
   }
-  .outercontainer{
-    margin: 0px;
-    padding: 0px;
-  }
+ 
   </style>
   <!-- <div class="outercontainer"> -->
   <div class="headd">
@@ -96,7 +81,7 @@
     tail="{{subroute}}">
    </app-route> -->
    
-    <div class="content">
+    <div class="content1">
       <iron-pages selected="{{page}}" attr-for-selected="data-category">
         <section data-category="teacherhomecard">
           <teacherhome-card></teacherhome-card>
@@ -654,10 +639,9 @@ if(localStorage.getItem("curr_sess_page")=="subject-dynamic-coscholastic-markent
     }
     if(localStorage.getItem("curr_sess_page")=="termscholasticcategory")
     {
-      this.page="teacherhomecard";
-      document.querySelector('teacherhome-card').FnRefresh();
-      
-    }
+       this.page="teacherhomecard";
+       document.querySelector('teacherhome-card').FnRefresh();
+     }
     if(localStorage.getItem("curr_sess_page")=="termassesment")
     {
       this.page="teacherhomecard";

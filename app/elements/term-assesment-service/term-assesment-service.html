@@ -33,6 +33,16 @@
         on-response="termResponse"
         debounce-duration="300"
     >
+     <iron-ajax
+        method="post"
+        id="term1ajax"
+        url="{{term1url}}"
+        params="{{term1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="term1Response"
+        debounce-duration="300"
+    >
   <iron-ajax
         method="post"
         id="termcycleajax"
@@ -756,7 +766,27 @@
          document.querySelector('student-remove-card').termarr=e.detail.response.returnval;
          document.querySelector('teacherhome-card').termarr=e.detail.response.returnval;
      document.querySelector('student-scorcard-mail-card').termarr=e.detail.response.returnval;
-         document.querySelector('teacherhome-card').FnToggle();
+       document.querySelector('teacherhome-card').FnToggle();
+      },
+    callTermService1:function(termtype){
+         this.term1url=sessionStorage.getItem("addrinfo")+"/term-service";
+         var obj={"schoolid":"","termtype":""};
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+         obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+         obj.loggedid=sessionStorage.getItem("curr_sess_loggedid");
+         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+         // obj.termtype=termtype;
+         this.term1param=obj;
+         this.$.term1ajax.generateRequest();
+      },
+      term1Response:function(e){ 
+      // alert(e.detail.response.returnval); 
+         document.querySelector('cce-generate-score-card').termarr=e.detail.response.returnval;       
+         document.querySelector('cce-generate-score-card').termarr1=e.detail.response.returnval;       
+         document.querySelector('student-remove-card').termarr=e.detail.response.returnval;
+         document.querySelector('teacherhome-card').termarr=e.detail.response.returnval;
+     document.querySelector('student-scorcard-mail-card').termarr=e.detail.response.returnval;
+       //  document.querySelector('teacherhome-card').FnToggle();
       },
       callGradeService:function(){
          this.gradeurl=sessionStorage.getItem("addrinfo")+"/grade-service";

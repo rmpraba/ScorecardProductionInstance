@@ -17054,7 +17054,7 @@ app.post('/fetchenrichmentgrade-service',  urlencodedParser,function (req,res)
     {
     if(!err)
     { 
-      console.log('length----------------------'+rows[0].weight);
+      console.log('length-----------------'+rows[0].weight);
       res.status(200).json({'weight':rows[0].weight,'detail': detail,'master':grade});
     }
     else
@@ -17119,7 +17119,7 @@ app.post('/Selectempschooltype-service',  urlencodedParser,function (req,res)
 {  
    var qur="SELECT * FROM master_school_type where school_id='"+req.query.school_id+"'";
    console.log(qur);
-  connection.query(qur,
+   connection.query(qur,
     function(err, rows)
     {
     if(!err)
@@ -17162,7 +17162,7 @@ app.post('/emplschooltypezzz-service',  urlencodedParser,function (req, res)
   console.log("----------Employee with School type----------");
   console.log(qur);
 
-  connection.query(qur,
+   connection.query(qur,
     function(err, rows)
     {
     if(!err)
@@ -17209,10 +17209,9 @@ app.post('/selectclass-service',  urlencodedParser,function (req,res)
  
 /* var qur="SELECT UPPER(section_id),class_id FROM master.mp_grade_section where school_id='"+req.query.schlid+"' and grade_id='"+req.query.gradeid+"' and  academic_year='"+req.query.academic_year+"'";*/
 
- var qur="SELECT UPPER(p.section_id)as section_id, p.class_id FROM md_school_grade_mapping s join mp_grade_section p  on s.grade_id=p.grade_id  where p.school_id='"+req.query.schlid+"' and s.school_id='"+req.query.schlid+"' and p.grade_id='"+req.query.gradeid+"' and p.academic_year='"+req.query.academic_year+"' and s.academic_year='"+req.query.academic_year+"'";
+   var qur="SELECT UPPER(p.section_id)as section_id, p.class_id FROM md_school_grade_mapping s join mp_grade_section p  on s.grade_id=p.grade_id  where p.school_id='"+req.query.schlid+"' and s.school_id='"+req.query.schlid+"' and p.grade_id='"+req.query.gradeid+"' and p.academic_year='"+req.query.academic_year+"' and s.academic_year='"+req.query.academic_year+"'";
   console.log(qur);
-
-   connection.query(qur,
+     connection.query(qur,
     function(err, rows){
       if(!err)
       {
@@ -18930,9 +18929,9 @@ app.post('/fnhomework-service',  urlencodedParser,function (req,res)
    
      connection.query(qur,function(err, rows){
     if(!err)
-    {  
-    res.status(200).json({'returnval':rows});
-    }
+     {  
+      res.status(200).json({'returnval':rows});
+     }
     else
      res.status(200).json({'':'no rows'}); 
    });
@@ -18944,10 +18943,10 @@ app.post('/fncompletestatus-service',  urlencodedParser,function (req,res)
     var qur="SELECT * FROM md_curriculum_display WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
   
-    console.log('---------------------------------------------------');
+    console.log('-------------------------------------------------');
     console.log(qur);
  
-    console.log('---------------------------------------------------');
+    console.log('-------------------------------------------------');
    
      connection.query(qur,function(err, rows){
     if(!err)
@@ -19061,15 +19060,11 @@ app.post('/checkcompleteplan-service' ,urlencodedParser, function (req, res)
     {  
     
 
-       /*    var qur3="SELECT * FROM md_concept_finalhomework WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"'";
-      */
       var qur1="select * from md_curriculum_planning_approval where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"'";
 
-    /*  var qur4="SELECT * FROM md_concept_teaching WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"'";*/
-       console.log('--------------Complete-Concept---------');
-       console.log(qur1);
-      
-       console.log('----------------------------------------');
+      console.log('--------------Complete-Concept---------');
+         console.log(qur1);
+        console.log('----------------------------------------');
           var assesmentarr=[];
           var lessonarr=[];
          
@@ -20163,7 +20158,7 @@ var mapqur="SELECT distinct(category_name),category_id FROM subject_mapping WHER
   {
     if(!err)
     { 
-      res.status(200).json({'maparr':maparr,'returnval': rows});
+       res.status(200).json({'maparr':maparr,'returnval': rows});
     }
     else
     {
@@ -20282,7 +20277,8 @@ app.post('/fngetconceptreport-service',  urlencodedParser,function (req, res)
 app.post('/fngetconceptreport1-service',  urlencodedParser,function (req, res)
 {
 
- var qur="select c.link as teachlink,c.filename as teachfile,f.link as homelink,f.filename as homefile, p.*,s. assesment_status,s.assesment_date,s.status,s.correction_status,s.complete_date from md_curriculum_planning_approval p  join md_concept_assesment_final s join md_concept_homework f join md_concept_teaching_aids c on( s.concept_id=p.concept_id and s.row_id=p.row_id and p.section_id=s.section_id and f.concept_id=s.concept_id and f.row_id=s.row_id and c.concept_id=s.concept_id and c.row_id=s.row_id) where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and s.grade_id='"+req.query.gradeid+"'and s.term_id='"+req.query.termid+"' and p.school_id='"+req.query.schoolid+"' and p.academic_year='"+req.query.academic_year+"' and p.subject_id='"+req.query.subjectid+"' and p.grade_id='"+req.query.gradeid+"'and p.term_id='"+req.query.termid+"'  and  p.planned_date_from between '"+req.query.fromdate+"' and '"+req.query.todate+"' and f.school_id='"+req.query.schoolid+"' and f.academic_year='"+req.query.academic_year+"' and f.subject_id='"+req.query.subjectid+"' and f.grade_id='"+req.query.gradeid+"'and f.term_id='"+req.query.termid+"' and c.school_id='"+req.query.schoolid+"' and c.academic_year='"+req.query.academic_year+"' and c.subject_id='"+req.query.subjectid+"' and c.grade_id='"+req.query.gradeid+"'and c.term_id='"+req.query.termid+"'  "
+
+ var qur="select c.link as teachlink,c.filename as teachfile,f.link as homelink,f.filename as homefile,p.* from md_curriculum_planning_approval p join  md_concept_homework f join md_concept_teaching_aids c on(  p.row_id=p.row_id and p.section_id=p.section_id and f.concept_id=p.concept_id and f.row_id=p.row_id and c.concept_id=p.concept_id and c.row_id=p.row_id)  where  p.school_id='"+req.query.schoolid+"' and p.academic_year='"+req.query.academic_year+"' and p.subject_id='"+req.query.subjectid+"' and p.grade_id='"+req.query.gradeid+"'and p.term_id='"+req.query.termid+"'  and  p.planned_date_from between '"+req.query.fromdate+"' and '"+req.query.todate+"' and f.school_id='"+req.query.schoolid+"' and f.academic_year='"+req.query.academic_year+"' and f.subject_id='"+req.query.subjectid+"' and f.grade_id='"+req.query.gradeid+"'and f.term_id='"+req.query.termid+"' and c.school_id='"+req.query.schoolid+"' and c.academic_year='"+req.query.academic_year+"' and c.subject_id='"+req.query.subjectid+"' and c.grade_id='"+req.query.gradeid+"'and c.term_id='"+req.query.termid+"'"
 
 /*
 var qur="select * from md_curriculum_planning_approval where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"'and subject_id='"+req.query.subjectid+"' and grade_id='"+req.query.gradeid+"'and term_id='"+req.query.termid+"' and  planned_date_from between '"+req.query.fromdate+"' and '"+req.query.todate+"'";

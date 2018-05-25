@@ -840,8 +840,8 @@ function eatFood(){
  
 ready:function()
     {      
-             this.homeflag="";
-             this.techflag="";
+            this.homeflag="";
+            this.techflag="";
             this.remark="";
             this.innovation="";
             this.teachingaid="";
@@ -988,9 +988,8 @@ fndates:function(e){
      hometemp[i].hidcontent=true;
      hometemp[i].hidurl=false;
    }
-    
-     hometemp[i].fonts="font-weight:bold;text-transform:uppercase;text-align:center;width:10%;";
-   hometemp[i].hidecloseplan=true;
+    hometemp[i].fonts="font-weight:bold;text-transform:uppercase;text-align:center;width:10%;";
+     hometemp[i].hidecloseplan=true;
    hometemp[i].hideopenplan=false;
     temp.push(hometemp[i]);
     }
@@ -1004,23 +1003,18 @@ Editpassvalue:function(values,id){
   
 },
 Editpasscurrvalue:function(values,id){
-  
    var deletehome=[];
-   deletehome.push({"homefilename":"Home File Name","currenthomeurl":"currenthomeurl","homeflag":"homeflag","homecurrurl":"Home content/Url","fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","hidecloseplan":false,"hideopenplan":true});
+      deletehome.push({"homefilename":"Home File Name","currenthomeurl":"currenthomeurl","homeflag":"homeflag","homecurrurl":"Home content/Url","fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","hidecloseplan":false,"hideopenplan":true});
      for(var i=0;i<hometemp.length;i++){
-      if(hometemp[i].homecurrurl==values){
-          hometemp.splice(i,1);
-       }
-     }
-   
-    for (var i=0;i<hometemp.length;i++){
+       if(hometemp[i].homecurrurl==values){
+           hometemp.splice(i,1);
+        }
+      }
+     for (var i=0;i<hometemp.length;i++){
         deletehome.push(hometemp[i]);
         }
 document.querySelector('teacher-book-approve-card').currenthometemp=deletehome;
- 
-    
 },
-
 teachclosevalue:function(values,id){
 
    var deletehome=[];

@@ -558,7 +558,7 @@ this.getteacingaidsurl=sessionStorage.getItem("addrinfo")+"/getteacingaids-servi
 getteacingaidsResponse:function(e){
 
   var res=e.detail.response.returnval;
-  var aproval=e.detail.response.aproval;
+ 
   for(var i=0;i<res.length;i++){
        if(res[i].filename==""){
       res[i].hidefilename=true;
@@ -610,7 +610,7 @@ this.fnhomeworkurl=sessionStorage.getItem("addrinfo")+"/fnhomework-service";
 
 fnhomeworkResponse:function(e){
   var res=e.detail.response.returnval;
-  var aproval=e.detail.response.aproval;
+ 
  // alert(JSON.stringify(aproval));
 
  for(var i=0;i<res.length;i++){
@@ -730,20 +730,8 @@ fncompletestatusResponse:function(e){
                  res[i].correction_status="";
                  res[i].status="";
            }
-        for(var i=0;i<res.length;i++){
-          for(var j=0;j<aproval.length;j++){
-             if(res[i].concept_id==aproval[j].concept_id && res[i].concept_id==aproval[j].concept_id && res[i].sub_concept_id==aproval[j].sub_concept_id && res[i].row_id==aproval[j].row_id){
-                 res[i].completion_date=aproval[j].completion_date;
-                 res[i].correction_status=aproval[j].correction_status;
-                 res[i].status=aproval[j].status;
-                 res[i].check=true;        
-                 res[i].hideinfovalue=true;        
-                 res[i].hideinfovalue1=false;        
-             // alert(JSON.stringify(res[i]));
-             
-             }
-          }
-        }
+        
+        
 var temp=[];
  temp.push({"sno":"sno","chapter_id":"Chapterid","chapter_name":"ChapterName","concept_id":"Conceptid","concept_name":"Conceptname","sub_concept_id":"subconceptid","sub_concept_name":"sub conceptname","hidecloseplan":true,"hideopenplan":false,"fonts":"font-weight:bold;text-transform:uppercase;text-align:center;width: 10%;","row_id":0,"completion_date":"Completion Date","completion_status":"Completion Status","correction_status":"Correction Status","hideinfovalue":false,"hideinfovalue1":true,"skill":"skill","value":"value","innovation":"innovation","period":"period"});
 

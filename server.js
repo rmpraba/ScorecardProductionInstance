@@ -18191,19 +18191,13 @@ app.post('/lessonplanvalue-service',  urlencodedParser,function (req,res)
 
 app.post('/fnhomework-service',  urlencodedParser,function (req,res)
   {     
-    var qur1="SELECT * FROM md_concept_finalhomework WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
- 
+   
     var qur="select *, concept_id as  conceptid ,row_id as rowid, (select r.concept from md_concept r where r.concept_id=conceptid ) as concept_name,(select m.sub_concept_name  from md_curriculum_display m where m.school_id='"+req.query.schoolid+"' and m.academic_year='"+req.query.academicyear+"' and m.grade_id='"+req.query.gradeid+"' and m.subject_id='"+req.query.subjectid+"' and m.chapter_id='"+req.query.chapterid+"' and m.term_id='"+req.query.termid+"' and m.concept_id=conceptid and m.row_id=rowid) as sub_concept_name  from md_concept_homework where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
-    console.log('----------chapter concept------------------');
+    console.log('----------chapter concept--------------------------');
     console.log(qur);
-    console.log(qur1);
-    console.log('---------------------------------------------------');
-    var aproval=[];
-    connection.query(qur1,function(err, rows){
-    if(!err)
-    { 
-   aproval=rows;
+     console.log('---------------------------------------------------');
+   
      connection.query(qur,function(err, rows){
     if(!err)
     {  
@@ -18212,34 +18206,28 @@ app.post('/fnhomework-service',  urlencodedParser,function (req,res)
     else
      res.status(200).json({'':'no rows'}); 
    });
-   }
- });
+  
 });
 
 app.post('/fncompletestatus-service',  urlencodedParser,function (req,res)
   {     
     var qur="SELECT * FROM md_curriculum_display WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
-    var qur1="select *  from md_concept_curriculumcompete where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
-    console.log('----------------------------');
-    console.log(qur);
-    console.log(qur1);
+  
     console.log('---------------------------------------------------');
-    var aproval=[];
-    connection.query(qur1,function(err, rows){
-    if(!err)
-    { 
-   aproval=rows;
+    console.log(qur);
+ 
+    console.log('---------------------------------------------------');
+   
      connection.query(qur,function(err, rows){
     if(!err)
     {  
-    res.status(200).json({'returnval':rows,'aproval':aproval});
+    res.status(200).json({'returnval':rows});
     }
     else
      res.status(200).json({'':'no rows'}); 
    });
-   }
- });
+  
 });
 
 app.post('/fnassesmenttypes-service',  urlencodedParser,function (req,res)
@@ -18270,28 +18258,24 @@ app.post('/fnassesmenttypes-service',  urlencodedParser,function (req,res)
 });
 app.post('/getteacingaids-service',  urlencodedParser,function (req,res)
   {     
-     var qur1="SELECT * FROM md_concept_teaching WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
+    
 
      var qur="select *,concept_id as conceptid ,row_id as rowid,(select r.concept from md_concept r where r.concept_id=conceptid) as concept_name ,(select m.sub_concept_name  from md_curriculum_display m where m.school_id='"+req.query.schoolid+"' and m.academic_year='"+req.query.academicyear+"' and m.grade_id='"+req.query.gradeid+"' and m.subject_id='"+req.query.subjectid+"' and m.chapter_id='"+req.query.chapterid+"' and m.term_id='"+req.query.termid+"' and m.concept_id=conceptid and m.row_id=rowid) as sub_concept_name  from md_concept_homework where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
     console.log('----------chapter concept------------------');
     console.log(qur);
-    console.log(qur1);
+  
     console.log('---------------------------------------------------');
-    var aproval=[];
-    connection.query(qur1,function(err, rows){
-    if(!err)
-    { 
-   aproval=rows;
+    
+   
      connection.query(qur,function(err, rows){
     if(!err)
     {  
-    res.status(200).json({'returnval':rows,'aproval':aproval});
+    res.status(200).json({'returnval':rows});
     }
     else
      res.status(200).json({'':'no rows'}); 
-   });
-   }
+   
  });
 });
 

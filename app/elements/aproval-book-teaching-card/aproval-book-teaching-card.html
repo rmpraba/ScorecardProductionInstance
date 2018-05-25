@@ -1,0 +1,124 @@
+
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="aproval-book-teaching-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+        table { table-layout:fixed; }
+      table td { overflow: hidden; }
+      table{
+        border-collapse: collapse;
+        width: 89%;
+        margin-left: 17%;
+     
+      }
+       th,td{
+      border-bottom: 1px solid #ddd;
+      border-top: 1px solid #ddd; 
+      border-left: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+     }
+    </style>
+    <div>
+    <table>
+    <p hidden>{{rowid}}{{currenthometemp}}</p>
+      <tr>
+        <td style="{{fonts}} " width="10%">{{glfilename}}</td>
+        <td style="{{fonts}}" width="10%">
+         <div hidden$="{{hidecloseplan}}">
+           <p>{{currurl}}</p>
+        </div>
+       <div hidden$="{{hideopenplan}}">
+          <div hidden$="{{hidurl}}">
+             <a href="{{currurl}}" target="_blank">{{currurl}}</a>
+          </div>
+          <div hidden$="{{hidcontent}}">
+             <p>{{currurl}}</p>  
+         </div>
+       </div>
+      </td>
+        <td style="{{fonts}}" width="10%">
+          <p hidden$="{{hidecloseplan}}">Edit</p>
+            <paper-icon-button icon='create' hidden$="{{hideopenplan}}" on-click="fnedit" ></paper-icon-button>
+        </td>
+         <td style="{{fonts}}" width="10%">
+           <p hidden$="{{hidecloseplan}}">Delete</p>
+             <paper-icon-button icon='close'  hidden$="{{hideopenplan}}" on-click="fnclose"></paper-icon-button>
+         </td>
+      </tr>
+    </table>
+    <iron-ajax
+        method="post"
+        id="deleteteach1ajax"
+        url="{{deleteteach1url}}"
+        params="{{deleteteach1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="deleteteach1Response"
+        debounce-duration="300" />
+        </iron-ajax>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'aproval-book-teaching-card',
+fnedit:function(e){
+    document.querySelector('teacher-book-approve-card').Passteachvalue(this.currurl,this.rowid);
+ },
+ fnclose:function(e){
+    document.querySelector('teacher-book-approve-card').fnteachclosevalue(this.currurl,this.rowid);
+   
+  
+   this.bookrefsubject();    
+     },  
+
+
+
+ bookrefsubject:function()
+  {
+  //alert(this.glfilename);
+    this.deleteteach1url=sessionStorage.getItem("addrinfo")+"/deleteteachurl-service";
+      var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.termid=sessionStorage.getItem("termid");
+        obj.rowid=this.rowid;
+        obj.currurl=this.currurl;
+        obj.filename=this.glfilename;
+       this.deleteteach1param=obj;
+       this.$.deleteteach1ajax.generateRequest();
+  },
+
+  deleteteach1Response:function(e)
+  {
+    var res=e.detail.response.returnval;
+    //alert(JSON.stringify(res));
+  
+
+  },
+
+ });
+  })();
+  </script>
+</dom-module>

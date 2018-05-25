@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
+const nodemailer = require('nodemailer');
 var connection = mysql.createConnection({  
   // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   // database:"scorecarddb",
@@ -187,16 +188,56 @@ console.log(global.assprefix);
 app.post('/lessonplanseturl',urlencodedParser, function (req, res, next) {
     global.fileprefix=req.query.fileprefix;
 
-    res.status(200).json({'returnval': 'Done!'});
+     var qur="select * from md_concept_teaching_aids where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and subject_id='"+req.query.subjectid+"'  and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and grade_id='"+req.query.gradeid+"' and row_id='"+req.query.rowid+"'";
+  console.log(qur);
+
+ connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      console.log(err);
+       res.status(200).json({'returnval': 'invalid'});
+    }
+    }
+    else
+      console.log(err);
+});
+
 });
 
 
 app.post('/homeworkurl',urlencodedParser, function (req, res, next) {
     global.homefileprefix=req.query.homefileprefix;
-  console.log(global.homefileprefix);
+    console.log(global.homefileprefix);
+    var qur="select * from md_concept_homework where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and subject_id='"+req.query.subjectid+"'  and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and grade_id='"+req.query.gradeid+"' and row_id='"+req.query.rowid+"'";
+  console.log(qur);
 
-
-    res.status(200).json({'returnval': 'Done!'});
+ connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      console.log(err);
+       res.status(200).json({'returnval': 'invalid'});
+    }
+    }
+    else
+      console.log(err);
+});
+    /*res.status(200).json({'returnval': 'Done!'});*/
 });
 
 
@@ -578,7 +619,7 @@ app.post('/getactivitiesfornotification',  urlencodedParser,function (req, res)
     var que = "SELECT * FROM mp_teacher_grade g join md_curriculum_planning p on(g.grade_id=p.grade_id) WHERE "+
     " g.school_id='"+req.body.schoolid+"' and g.id='"+req.body.empid+"' and g.academic_year='2017-2018' and g.flage='active' and "+
     " g.role_id='co-ordinator' and p.school_id='"+req.body.schoolid+"' and p.academic_year='2017-2018'";
-
+  
     var query = connection.query(que, function(err, rows)
     {
           if(!err){
@@ -1195,6 +1236,7 @@ app.post('/smis-fetchlevelinfo',  urlencodedParser,function (req, res)
 });
 });
 
+
 app.post('/smis-fetchsublevelinfo',  urlencodedParser,function (req, res)
 {
   var qur="";
@@ -1809,7 +1851,29 @@ app.post('/searchstudentinfo-service',  urlencodedParser,function (req, res)
 });
 
 
-
+app.post('/checkconcept-service',  urlencodedParser,function (req, res)
+{
+     var qur="SELECT * from md_curriculum_display where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'  and term_id='"+req.query.termid+"'  and chapter_id='"+req.query.chapterid+"'";
+console.log(qur);
+    connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+    res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'invalid'});
+    }
+    }
+    else
+      console.log(err);
+});
+});
 
 
 //fetching section info
@@ -8206,7 +8270,655 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
 
     console.log('....................schoolname.........................');
     console.log(req.query.schoolname+"   "+req.query.academicyear); 
-    console.log('.......................................................');
+    console.log('........................................');
+/*
+
+var headers = {
+    fila_0:{
+        col_1:{ text: 'Faltas', style: 'tableHeader',rowSpan: 2, alignment: 'center',margin: [0, 8, 0, 0] },
+        col_2:{ text: 'Fecha', style: 'tableHeader',rowSpan: 2, alignment: 'center',margin: [0, 8, 0, 0] },
+        col_3:{ text: 'Descripción', style: 'tableHeader',rowSpan: 2, alignment: 'center',margin: [0, 8, 0, 0] },
+        col_4:{ text: 'Cita con acudientes', style: 'tableHeader',colSpan: 2, alignment: 'center' }
+    },
+    fila_1:{
+        col_1:{ text: 'Header 1', style: 'tableHeader', alignment: 'center' },
+        col_2:{ text: 'Header 2', style: 'tableHeader', alignment: 'center' }, 
+        col_3:{ text: 'Header 3', style: 'tableHeader', alignment: 'center' },
+        col_4:{ text: 'Citación', style: 'tableHeader', alignment: 'center' },
+        col_5:{ text: 'Cumplimiento', style: 'tableHeader', alignment: 'center'}
+    }
+}
+var rows = {
+    a: {
+        peaje: '1',
+        ruta: '2',
+        fechaCruce: '3',
+        hora: '4',
+        valor: '5'
+    },
+    b: {
+        peaje: '1',
+        ruta: '2',
+        fechaCruce: '3',
+        hora: '4',
+        valor: '5'
+    }
+}
+
+var bodys = [];
+for (var key in headers){
+    if (headers.hasOwnProperty(key)){
+        var header = headers[key];
+        var row = new Array();
+        row.push( header.col_1 );
+        row.push( header.col_2 );
+        row.push( header.col_3 );
+        row.push( header.col_4 );
+        row.push( header.col_5 );
+        bodys.push(row);
+    }
+}
+for (var key in rows) 
+{
+    if (rows.hasOwnProperty(key))
+    {
+        var data = rows[key];
+        var row = new Array();
+        row.push( data.peaje.toString() );
+        row.push( data.ruta.toString()  );
+        row.push( data.fechaCruce.toString() );
+        row.push( data.hora.toString()  );
+        row.push( data.valor.toString() );
+        bodys.push(row);
+    }
+}*/
+ console.log(engarr);
+
+ var externalDataRetrievedFromServer = [
+    { name: 'Bartek', age: 34 },
+    { name: 'John', age: 27 },
+    { name: 'Elizabeth', age: 30 },
+];
+
+function buildTableBody(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+
+function table(data, columns) {
+    return {
+        table: {
+            headerRows: 1,
+            body: buildTableBody(data, columns)
+        }
+    };
+}
+
+
+
+
+
+
+
+
+
+
+var fonts = {
+  Roboto: {
+    normal: 'fonts/Roboto-Regular.ttf',
+    bold: 'fonts/Roboto-Medium.ttf',
+    italics: 'fonts/Roboto-Italic.ttf',
+    bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+  }
+};
+
+var PdfPrinter = require('pdfmake/src/printer');
+var printer = new PdfPrinter(fonts);
+
+var docDefinition = {
+ 
+  content: [
+  { 
+      alignment: 'justify',
+        columns: [
+        {
+          image: './app/images/zeesouth.png',
+          width: 70,
+          absolutePosition: {x: 50, y: 100}
+        },
+      
+        {
+          
+           image: './app/images/mount.png',
+           width: 300,
+           absolutePosition: {x:150, y: 100},
+           
+        },
+       
+        {
+           image: './app/images/zee.gif',
+            width: 70,
+           absolutePosition: {x: 500, y: 100}
+        }
+      ]
+    
+      
+  },
+{
+      columns: [
+       {
+         style: 'header',
+         text: ""+req.query.schoolname+"",
+         absolutePosition: {x: 190, y: 250}
+      },
+      ]
+ },
+  {
+      columns: [
+        {
+       style: 'header',
+       text: "Achievement Record-("+req.query.academicyear+")",
+       absolutePosition: {x: 180, y: 280}
+      },
+      ]
+ },
+{
+      columns: [
+       {
+      
+        image: './app/images/saph.jpg',
+       width: 500,
+       height: 150,
+       absolutePosition: {x: 50, y:300},
+       //pageBreak: 'after'
+    },
+
+      ]
+    },
+    {
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Student,s Name:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:500}
+    },
+  {
+       style: 'defaultStyle',
+        text: 'Mohamed Abbas Siddique-I',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:500}
+    },
+     '',
+     '',
+  
+      ]
+    },
+    {
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Parent,s Name:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:520}
+    },
+  {
+       style: 'defaultStyle',
+        text: 'Ibrahim Sha',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:520}
+    },
+     '',
+     '',
+  
+      ]
+    },
+
+ 
+
+
+
+{
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Attendance',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:540}
+    },
+  {
+       style: 'defaultStyle',
+        text: 'Term1',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:540}
+    },
+     {
+       style: 'defaultStyle',
+        text: 'Term2',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 300, y:540}
+    },
+      {
+       style: 'defaultStyle',
+        text: 'Term3',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:540}
+    },
+  
+      ]
+ },
+ {
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Total Attended Days:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:560}
+    },
+  {
+       style: 'defaultStyle',
+        text: '50',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:560}
+    },
+     {
+       style: 'defaultStyle',
+        text: '',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 250, y:560}
+    },
+      {
+       style: 'defaultStyle',
+        text: '58',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 300, y:560}
+    },
+  {
+       style: 'defaultStyle',
+        text: '',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 350, y:560}
+    },
+     {
+       style: 'defaultStyle',
+        text: '59',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:560}
+    },
+      {
+       style: 'Term3',
+        text: '',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:560}
+    },
+      ]
+ },
+   
+{
+      columns: [
+       {
+       style: 'defaultStyle',
+       text: 'Specific Feedback:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:580}
+    },
+  {
+       style: 'defaultStyle',
+        text: '50',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:580}
+    },
+     {
+       style: 'defaultStyle',
+        text: '50%',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 250, y:580}
+    },
+      {
+       style: 'defaultStyle',
+        text: '58',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 300, y:580}
+    },
+  {
+       style: 'defaultStyle',
+        text: '50%',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 350, y:580}
+    },
+    {
+       style: 'defaultStyle',
+        text: '59',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:580}
+    },
+    {
+       style: 'defaultStyle',
+        text: '50%',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 500, y:580}
+    },
+      ]
+  },
+   
+  {
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Class:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:620}
+    },
+  {
+       style: 'defaultStyle',
+        text: 'Grade-5:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:620}
+    },
+     {
+       style: 'defaultStyle',
+        text: 'Admission No:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 300, y:620}
+    },
+      {
+       style: 'defaultStyle',
+        text: 'Enr101019',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:620}
+    },
+  
+      ]
+    },
+{
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'General Feedback:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:650}
+    },
+    {
+       style: 'defaultStyle',
+        text: 'A R Lakshana Sruthi independently uses self-monitoring strategies that ensures allassignments are completed with quality in mind. During the work done, she is very good,she will at times turn in assignments that are incomplete or contain careless mistakes.Keep up the wonderful things you are doing !',
+       width: 400,
+       height: 20,
+       absolutePosition: {x: 200, y:650},
+        pageBreak: 'after'
+   },
+    
+      ]
+    },  
+    {
+      columns: [
+       {
+        style: 'defaultStyle',
+        text: 'Specific Feedback:',
+        width: 100,
+        height: 20,
+        absolutePosition: {x: 50, y:100}
+     },
+     { 
+       style: 'defaultStyle',
+       text: 'A R Lakshana Sruthi is promoted to Grade 2',
+       width: 400,
+       height: 30,
+       absolutePosition: {x: 200, y:100}
+    },
+      ]
+  }, 
+   {
+      columns: [
+       {
+      
+        image:'./app/images/1433SCH001.jpg',
+        width: 100,
+        height: 50,
+        absolutePosition: {x: 50, y:150}
+     },
+     { 
+       style: 'defaultStyle',
+       image: './app/images/2913SCH002.jpg',
+       width: 100,
+       height:50,
+       absolutePosition: {x: 250, y:150}
+    },
+     { 
+       style: 'defaultStyle',
+         image: './app/images/4517SCH003.jpg',
+       width: 100,
+       height:50,
+       absolutePosition: {x: 400, y:150}
+    },
+     
+      ]
+    },  
+
+   {
+      columns: [
+       {
+        style: 'defaultStyle',
+       text: '----------------------',
+        width: 100,
+        height: 20,
+        absolutePosition: {x: 50, y:200}
+     },
+     { 
+       style: 'defaultStyle',
+       text: '-----------------------',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 250, y:200}
+    },
+     { 
+       style: 'defaultStyle',
+         text: '-------------------------',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 400, y:200}
+    },
+     
+      ]
+    },  
+    {
+      columns: [
+       {
+        style: 'defaultStyle',
+       text: 'Class-Teacher',
+        width: 100,
+        height: 20,
+        absolutePosition: {x: 50, y:220}
+     },
+     { 
+       style: 'defaultStyle',
+       text: 'Subject-Teacher',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 250, y:220}
+    },
+     { 
+       style: 'defaultStyle',
+         text: 'Principel',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 400, y:220}
+    },
+     
+      ]
+    }, 
+
+
+    {
+       fillColor: '#3399ff',
+        margin: [0,300, 0, 8],
+        table: {
+        widths: [200,30,30,30,200],
+
+        body: [
+             [{text:'English',alignment:'center'}, {text:'T1',alignment: 'center'}, {text:'T2',alignment: 'center'}, {text:'T3',alignment: 'center'},{text:'Comments',alignment: 'center'}],
+         
+        ]
+      }
+    },
+
+ {
+       fillColor: '#3399ff',
+        margin: [0,300, 0, 8],
+        table: {
+
+        widths: [200,30,30,30,200],
+
+        body: engarr
+      }
+    },
+
+table(externalDataRetrievedFromServer, ['name', 'age'])
+
+
+
+
+],
+  styles: {
+    header: {
+      fontSize: 15,
+      bold: true
+    },
+
+    bigger: {
+      fontSize: 15,
+      italics: true
+    }
+  },
+  defaultStyle: {
+     columnGap: 20
+   },
+   defaultStyleeng:{
+     columnGap: 20,
+   
+   },
+    tableExample: {
+     
+    },
+    tableHeader: {
+      bold: true,
+      fontSize: 13,
+      color: 'black'
+    }
+ };
+ 
+
+
+
+
+
+
+
+
+ var pdfDoc = printer.createPdfKitDocument(docDefinition);
+// pdfDoc.pipe(fs.createWriteStream(docDefinition));
+
+pdfDoc.end();
+var transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+  user: 'softabbas@gmail.com', // replace by your email
+  pass: 'abbas@786' // replace by your password
+  }
+});
+
+var mailOptions = {
+  from: 'softabbas@gmail.com',
+  to: 'mohamedsiddiq1992@gmail.com',
+  subject: 'Scorcard-Report Card',
+  
+  html: '<h1>Attachments</h1>',
+
+
+  attachments: [
+    {  
+         filename: 'basics.pdf',
+          content: pdfDoc,   
+    },
+ 
+  ]
+};
+ 
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    return console.log(error);
+  }
+  console.log('Email sent: ' + info.response);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
     var header = "<table class='logo' style='width:100%;height: 15%; margin-top: 2%;'><tr><th><img src='./app/images/zeesouth.png' height='100px' width='100px'></img></th><th>"
     header += "<img src='./app/images/mount.png' height='110px' width='200px' style='margin-left:100px'></img><center><p>"+req.query.schoolname+"</p>ACHIEVEMENT RECORD("+req.query.academicyear+")</center></th>"
     header += "<th><img src='./app/images/zee.gif' height='100px' width='100px'></img></th></tr></table><br>"
@@ -8234,9 +8946,9 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
     signature += "<th>------------------------------------</th><th></th></tr><tr><th><center>Class Teacher</center></th><th></th><th><center>Principal</center></th><th></th><th><center>Parent</center></th><th></th></tr></table><br><br><br><br>";
 
     console.log('signature done....');
-
+ });
     var clr;
-    var subjecteng = "<table style='width: 95%;margin-left:3%;page-break-after: always; ' class='subject'><tr style='background: #4d94ff;'><th style='width: 35%;'>ENGLISH</th><th style='width:5%;'>T1</th><th style='width: 5%;'>T2</th><th style='width: 5%;'>T3</th><th style='width:50%;'>Comments</th></tr>"
+   var subjecteng = "<table style='width: 95%;margin-left:3%;page-break-after: always; ' class='subject'><tr style='background: #4d94ff;'><th style='width: 35%;'>ENGLISH</th><th style='width:5%;'>T1</th><th style='width: 5%;'>T2</th><th style='width: 5%;'>T3</th><th style='width:50%;'>Comments</th></tr>"
     subjecteng += "<tr style='background: #4d94ff;'><th style='width: 35%;text-align: center;'></th><th style='width:5%;text-align:center;'>"+et1+"</th><th style='width: 5%;text-align: center;' >"+et2+"</th><th style='width: 5%;text-align: center;'>"+et3+"</th><th style='width:50%;'></th></tr>"
     for(var i=0; i<engarr.length; i++) {
     if(i%2!=0){
@@ -8381,18 +9093,7 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
 
       console.log('pd done....');
   var finalpdf=final;
-   /* var base64data = new Buffer(finalpdf, 'binary');
-    var s3 = new aws.S3();
-   s3.putObject({
-     Bucket: 'samsidhreportcard',
-     Key: 'reportcard.pdf',
-     Body: base64data
-   },function (resp) {
-     console.log(arguments);
-     console.log('Successfully uploaded package.');
-     res.status(200).json({'returnval': 'converted'});   
-   });
-*/
+  
     htmlToPdf.convertHTMLString(finalpdf, './app/reportcard/'+global.studentinfo[0].student_name+'.pdf',
     function (error, success) {
        if (error) {
@@ -8401,25 +9102,12 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             logfile.write('pdf write:'+error+"\n\n");
             res.status(200).json({'returnval': 'error in conversion'}); 
         } else {
-        //  logfile.write('pdf write:success\n\n');
+      
           console.log('Converted');
           res.status(200).json({'returnval': 'converted'});     
-   // fs.readFile('./app/reportcard/'+global.studentinfo[0].student_name+'.pdf', function (err, data) {
-   // if (err) { throw err; }
-   // var base64data = new Buffer(data, 'binary');
-   // var s3 = new aws.S3();
-   // s3.putObject({
-   //   Bucket: 'samsidh-helpdesk',
-   //   Key: 'reportcard.pdf',
-   //   Body: base64data
-   // },function (resp) {
-   //   console.log(arguments);
-   //   console.log('Successfully uploaded package.');
-   //   res.status(200).json({'returnval': 'converted'});   
-   // });
-  // });    
-        }
-    });
+  
+        }*/
+   
 });
 
 app.post('/fmailreportcard-service' ,  urlencodedParser,function (req, res)
@@ -8844,7 +9532,7 @@ sg.API(request, function(err, response) {
 });
 });
 */
- 
+   
 app.post('/sendmail-service', urlencodedParser,function (req, res){
    console.log(req.query.parentmail+"  "+req.query.secmail);
   var secmail=req.query.secmail;
@@ -8905,6 +9593,488 @@ app.post('/sendmail-service', urlencodedParser,function (req, res){
      });
   
 });
+
+
+ app.post('/fnmailprocess-service', urlencodedParser,function (req, res) {
+var fonts = {
+  Roboto: {
+    normal: 'fonts/Roboto-Regular.ttf',
+    bold: 'fonts/Roboto-Medium.ttf',
+    italics: 'fonts/Roboto-Italic.ttf',
+    bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+  }
+};
+
+var PdfPrinter = require('pdfmake/src/printer');
+var printer = new PdfPrinter(fonts);
+
+var docDefinition = {
+ 
+  content: [
+  { 
+      alignment: 'justify',
+        columns: [
+        {
+          image: './app/images/zeesouth.png',
+          width: 70,
+          absolutePosition: {x: 50, y: 100}
+        },
+      
+        {
+          
+           image: './app/images/mount.png',
+           width: 300,
+           absolutePosition: {x:150, y: 100},
+           
+        },
+       
+        {
+           image: './app/images/zee.gif',
+            width: 70,
+           absolutePosition: {x: 500, y: 100}
+        }
+      ]
+    
+      
+  },
+{
+      columns: [
+       {
+         style: 'header',
+         text: ""+req.query.schoolname+"",
+         absolutePosition: {x: 190, y: 250}
+      },
+      ]
+ },
+  {
+      columns: [
+        {
+       style: 'header',
+       text: "Achievement Record-("+req.query.academicyear+")",
+       absolutePosition: {x: 180, y: 280}
+      },
+      ]
+  },
+  {
+      columns: [
+       {
+      
+        image: './app/images/saph.jpg',
+       width: 500,
+       height: 150,
+       absolutePosition: {x: 50, y:300},
+       //pageBreak: 'after'
+    },
+
+      ]
+    },
+    {
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Student,s Name:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:500}
+    },
+  {
+       style: 'defaultStyle',
+        text: 'Mohamed Abbas Siddique-I',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:500}
+    },
+     '',
+     '',
+  
+      ]
+    },
+    {
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Parent,s Name:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:520}
+    },
+  {
+       style: 'defaultStyle',
+        text: 'Ibrahim Sha',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:520}
+    },
+     '',
+     '',
+  
+      ]
+    },
+
+ 
+
+
+
+{
+      columns: [
+       {
+        style: 'defaultStyle',
+        text: 'Attendance',
+        width: 100,
+        height: 20,
+       absolutePosition: {x: 50, y:540}
+    },
+  {
+       style: 'defaultStyle',
+        text: 'Term1',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:540}
+    },
+     {
+       style: 'defaultStyle',
+        text: 'Term2',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 300, y:540}
+    },
+      {
+       style: 'defaultStyle',
+        text: 'Term3',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:540}
+    },
+  
+      ]
+ },
+ {
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Total Attended Days:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:560}
+    },
+  {
+       style: 'defaultStyle',
+        text: '50',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:560}
+    },
+     {
+       style: 'defaultStyle',
+        text: '',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 250, y:560}
+    },
+      {
+       style: 'defaultStyle',
+        text: '58',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 300, y:560}
+    },
+  {
+       style: 'defaultStyle',
+        text: '',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 350, y:560}
+    },
+     {
+       style: 'defaultStyle',
+        text: '59',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:560}
+    },
+      {
+       style: 'Term3',
+        text: '',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:560}
+    },
+      ]
+ },
+   
+{
+      columns: [
+       {
+       style: 'defaultStyle',
+       text: 'Specific Feedback:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:580}
+    },
+  {
+       style: 'defaultStyle',
+        text: '50',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:580}
+    },
+     {
+       style: 'defaultStyle',
+        text: '50%',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 250, y:580}
+    },
+      {
+       style: 'defaultStyle',
+        text: '58',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 300, y:580}
+    },
+  {
+       style: 'defaultStyle',
+        text: '50%',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 350, y:580}
+    },
+    {
+       style: 'defaultStyle',
+        text: '59',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:580}
+    },
+    {
+       style: 'defaultStyle',
+        text: '50%',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 500, y:580}
+    },
+      ]
+  },
+   
+  {
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'Class:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:620}
+    },
+  {
+       style: 'defaultStyle',
+        text: 'Grade-5:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 200, y:620}
+    },
+     {
+       style: 'defaultStyle',
+        text: 'Admission No:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 300, y:620}
+    },
+      {
+       style: 'defaultStyle',
+        text: 'Enr101019',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 450, y:620}
+    },
+  
+      ]
+    },
+{
+      columns: [
+       {
+      style: 'defaultStyle',
+        text: 'General Feedback:',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 50, y:650}
+    },
+    {
+        style: 'defaultStyle',
+        text: 'A R Lakshana Sruthi independently uses self-monitoring strategies that ensures allassignments are completed with quality in mind. During the work done, she is very good,she will at times turn in assignments that are incomplete or contain careless mistakes.Keep up the wonderful things you are doing !',
+       width: 400,
+       height: 20,
+       absolutePosition: {x: 200, y:650},
+        pageBreak: 'after'
+   },
+    
+      ]
+    },  
+    {
+      columns: [
+       {
+        style: 'defaultStyle',
+        text: 'Specific Feedback:',
+        width: 100,
+        height: 20,
+        absolutePosition: {x: 50, y:100}
+     },
+     { 
+       style: 'defaultStyle',
+       text: 'A R Lakshana Sruthi is promoted to Grade 2',
+       width: 400,
+       height: 30,
+       absolutePosition: {x: 200, y:100}
+    },
+      ]
+  }, 
+   {
+      columns: [
+       {
+      
+        image:'./app/images/1433SCH001.jpg',
+        width: 100,
+        height: 50,
+        absolutePosition: {x: 50, y:150}
+     },
+     { 
+       style: 'defaultStyle',
+       image: './app/images/2913SCH002.jpg',
+       width: 100,
+       height:50,
+       absolutePosition: {x: 250, y:150}
+    },
+     { 
+       style: 'defaultStyle',
+         image: './app/images/4517SCH003.jpg',
+       width: 100,
+       height:50,
+       absolutePosition: {x: 400, y:150}
+    },
+     
+      ]
+    },  
+
+   {
+      columns: [
+       {
+        style: 'defaultStyle',
+       text: '-------------------------',
+        width: 100,
+        height: 20,
+        absolutePosition: {x: 50, y:200}
+     },
+     { 
+       style: 'defaultStyle',
+       text: '------------------------',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 250, y:200}
+    },
+     { 
+       style: 'defaultStyle',
+         text: '-------------------------',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 400, y:200}
+    },
+     
+      ]
+    },  
+    {
+      columns: [
+       {
+        style: 'defaultStyle',
+       text: 'Class-Teacher',
+        width: 100,
+        height: 20,
+        absolutePosition: {x: 50, y:220}
+     },
+     { 
+       style: 'defaultStyle',
+       text: 'Subject-Teacher',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 250, y:220}
+    },
+     { 
+       style: 'defaultStyle',
+         text: 'Principel',
+       width: 100,
+       height: 20,
+       absolutePosition: {x: 400, y:220}
+    },
+     
+      ]
+    }, 
+],
+  styles: {
+    header: {
+      fontSize: 15,
+      bold: true
+    },
+
+    bigger: {
+      fontSize: 15,
+      italics: true
+    }
+  },
+  defaultStyle: {
+    columnGap: 20
+  }
+  
+};
+ 
+ var pdfDoc = printer.createPdfKitDocument(docDefinition);
+// pdfDoc.pipe(fs.createWriteStream(docDefinition));
+pdfDoc.end();
+var transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false, // true for 465, false for other ports
+  auth: {
+  user: 'softabbas@gmail.com', // replace by your email
+  pass: 'abbas@786' // replace by your password
+  }
+});
+
+var mailOptions = {
+  from: 'softabbas@gmail.com',
+  to: 'mohamedsiddiq1992@gmail.com',
+  subject: 'Scorcard-Report Card',
+  
+  html: '<h1>Attachments</h1>',
+
+
+  attachments: [
+    {   // utf-8 string as an attachment
+        /*filename: 'fileName.pdf',
+        path: './app/reportcard/Manya Sugathan  Iyer.pdf',
+        contentType: 'application/pdf'*/
+         filename: 'basics.pdf',
+          content: pdfDoc,   
+    },
+ 
+  ]
+};
+ 
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    return console.log(error);
+  }
+  console.log('Email sent: ' + info.response);
+});
+
+
+
+
+
+});
+
+
+
+
+
+
 app.post('/fetchoveralltermwisegrade-service' ,  urlencodedParser,function (req, res)
 {  
     var qur="select student_id,subject_id,term_name,avg(rtotal),(SELECT grade FROM md_grade_rating WHERE "+
@@ -8971,12 +10141,35 @@ app.post('/fetchhealthinfo-service' ,  urlencodedParser,function (req, res)
 
 app.post('/fetchfahealthinfo-service' ,  urlencodedParser,function (req, res)
 {  
-    // var qur="select * from tr_term_health where school_id='"+req.query.schoolid+"' and "+
-    // "academic_year='"+req.query.academicyear+"' and term_id='"+req.query.termname+"' "+
-    // " and  student_id='"+req.query.studid+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"'";
+  
     var qur="SELECT student_id, height, weight, bmi, bmi_remark, vison, dental, hearing, overall_comment"+
 " FROM  tr_term_health_copy  where student_id='"+req.query.studid+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"'";
     console.log('......................healthinfo..............................');
+    console.log(qur);
+    connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'invalid'});
+    }
+    }
+    else
+      console.log(err);
+});
+});
+app.post('/getinparnetmail-service' ,  urlencodedParser,function (req, res)
+{  
+   var qur="SELECT  id  as studentid ,(select  email from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')  as firstmail ,(select  alternate_mail from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')as secondmail FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
+ 
+    console.log('..............parent info.............');
     console.log(qur);
     connection.query(qur,
     function(err, rows)
@@ -9056,7 +10249,7 @@ app.post('/fetchphysicalinfo-service' ,  urlencodedParser,function (req, res)
     "academic_year='"+req.query.academicyear+"' and term_id='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"'"+
     " and  student_id='"+req.query.studid+"'";
     
-    console.log('......................talent physical..............................');
+    console.log('.........talentphysical........................');
     console.log(qur);
     connection.query(qur,
     function(err, rows)
@@ -16176,55 +17369,6 @@ app.post('/bookapprvvalsubject-service',urlencodedParser,function (req,res)
       res.status(200).json({'returnval': ''});
   });
 });
-app.post('/fnmasterplaninsert-service' , urlencodedParser,function (req, res)
-{  
-    var response={ 
-      school_id: req.query.schoolid,
-      academic_year: req.query.academicyear,
-      grade_id: req.query.gradeid,
-      grade_name: req.query.gradename,
-      subject_id: req.query.subjectid,
-      subject_name: req.query.subjectname,
-      chapter_id: req.query.chapterid,
-      chapter_name: req.query.chaptername,
-      row_id: req.query.rowid,
-      concept_id: req.query.conceptid,
-      concept_name: req.query.conceptname,
-      sub_concept_id: req.query.subconceptid,
-      sub_concept_name: req.query.subconceptname,
-      period: req.query.period,
-      planned_date_from: req.query.plannedfromdate,
-      planned_to_date: req.query.plannedtodate,
-      skill: req.query.skill,
-      value: req.query.value,
-      innovation: req.query.innovation,
-      teaching_aid:req.query.teachingaid,
-      remarks: req.query.remarks,
-      term_id:req.query.termid,
-      sno:req.query.sno,
-      skillid:req.query.skillid,
-      valueid:req.query.valueid,
-      assesment_date:req.query.assesmentdate,
-       homework_type:req.query.homework,
-      current_url:req.query.currurl,
-      home_aids:req.query.homeaids
-    };
-    console.log('Coming for master insertion....');
-    connection.query("INSERT INTO md_curriculum_planning SET ?",[response],
-    function(err, rows)
-    {
-    if(!err)   
-    {
-      res.status(200).json({'returnval':'Inserted!'});
-    }
-    else
-    {
-      console.log(err);
-      res.status(200).json({'returnval': 'Not Inserted!'});
-    }
-    });
-});
-
 
 app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, res)
 {  
@@ -16248,19 +17392,20 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
       skill: req.query.skill,
       value: req.query.value,
       innovation: req.query.innovation,
-      teaching_aid:req.query.teachingaid,
+      teaching_aid:req.query.displyglfilename,
       remarks: req.query.remarks,
       term_id:req.query.termid,
-      current_url:req.query.currurl,
+      current_url:req.query.displycurrurl,
       sno:req.query.sno,
       skillid:req.query.skillid,
       valueid:req.query.valueid,     
       assesment_date:req.query.assesmentdate,
-      homework_type:req.query.homework,
-      home_aids:req.query.homeaids, 
-      homecurrurl:req.query.homecurrurl,   
+      homework_type:req.query.displyhomeglfilename,
+      homecurrurl:req.query.displyhomecurrurl,   
+                
     };
     console.log('Coming for Display insertion....');
+    console.log(response);
     connection.query("INSERT INTO md_curriculum_display SET ?",[response],
     function(err, rows)
     {
@@ -16277,10 +17422,32 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
 });
 
 
- app.post('/deletecuriculam-service' ,  urlencodedParser,function (req, res)
+
+ app.post('/deletehomeurl-service' ,  urlencodedParser,function (req, res)
  {  
 
-   var qur="delete from md_curriculum_planning where school_id='"+req.query.schoolid+"' and  academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and row_id='"+req.query.rowid+"'";
+  var qur="delete from md_concept_homework where school_id='"+req.query.schoolid+"' and  academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and row_id='"+req.query.rowid+"' and link='"+req.query.homecurrurl+"'";
+
+    console.log(qur);
+    connection.query(qur,function(err, rows)
+    {
+    if(!err)
+    {
+      res.status(200).json({'returnval': 'Deleted!'});
+    }
+    else
+    {
+      //console.log(err);
+      res.status(200).json({'returnval': 'Not Deleted!'});
+    }
+    });
+    });
+
+ app.post('/deleteteachurl-service' ,  urlencodedParser,function (req, res)
+ {  
+
+  var qur="delete from md_concept_teaching_aids where school_id='"+req.query.schoolid+"' and  academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and row_id='"+req.query.rowid+"' and  link='"+req.query.currurl+"'";
+
     console.log(qur);
     connection.query(qur,function(err, rows)
     {
@@ -16298,62 +17465,20 @@ app.post('/fnmasterplandisplyinsert-service' , urlencodedParser,function (req, r
 
 
 
-    app.post('/fnmasterplanedit-service' , urlencodedParser,function (req, res)
-{  
-    var response={ 
-      school_id: req.query.schoolid,
-      academic_year: req.query.academicyear,
-      grade_id: req.query.gradeid,
-      grade_name: req.query.gradename,
-      subject_id: req.query.subjectid,
-      subject_name: req.query.subjectname,
-      chapter_id: req.query.chapterid,
-      chapter_name: req.query.chaptername,
-      row_id: req.query.rowid,
-      concept_id: req.query.conceptid,
-      concept_name: req.query.conceptname,
-      sub_concept_id: req.query.subconceptid,
-      sub_concept_name: req.query.subconceptname,
-      period: req.query.period,
-      planned_date_from: req.query.plannedfromdate,
-      planned_to_date: req.query.plannedtodate,
-      skill: req.query.skill,
-      value: req.query.value,
-      innovation: req.query.innovation,
-      teaching_aid:req.query.teachingaid,
-      remarks: req.query.remarks,
-      term_id:req.query.termid,
-      home_aids:req.query.homeaids,
-      sno:req.query.sno,
-      skillid:req.query.skillid,
-      valueid:req.query.valueid,
-      assesment_date:req.query.assesmentdate,
-      home_type_id:"",
-      homework_type:req.query.homework,
-    };
-    console.log('Coming for master editing....');
-       console.log(response);
-
-    connection.query("INSERT INTO md_curriculum_planning SET ?",[response],
-    function(err, rows)
-    {
-    if(!err)   
-    {
-      console.log(rows);
-      res.status(200).json({'returnval':'Inserted!'});
-    }
-    else
-    {
-      console.log(err);
-      res.status(200).json({'returnval': 'Not Inserted!'});
-    }
-    });
-});
 
 app.post('/fnmasterplandisplyedit-service',  urlencodedParser,function (req, res)
 {  
 
-var qur="update md_curriculum_display set home_aids='"+req.query.homeaids+"',homework_type='"+req.query.homework+"',assesment_date='"+req.query.assesmentdate+"', concept_id='"+req.query.conceptid+"',concept_name='"+req.query.conceptname+"',sub_concept_id='"+req.query.subconceptid+"',sub_concept_name='"+req.query.subconceptname+"',teaching_aid='"+req.query.teachingaid+"',planned_to_date='"+req.query.plannedtodate+"',planned_date_from='"+req.query.plannedfromdate+"',skillid='"+req.query.skillid+"',skill='"+req.query.skill+"',valueid='"+req.query.valueid+"',period='"+req.query.period+"',period='"+req.query.period+"',value='"+req.query.value+"',innovation='"+req.query.innovation+"',remarks='"+req.query.remarks+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and row_id='"+req.query.rowid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'  and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'";
+      
+
+
+
+
+
+
+
+
+var qur="update md_curriculum_display set current_url='"+req.query.displycurrurl+"', homecurrurl='"+req.query.displyhomecurrurl+"',assesment_date='"+req.query.assesmentdate+"', concept_id='"+req.query.conceptid+"',concept_name='"+req.query.conceptname+"',sub_concept_id='"+req.query.subconceptid+"',sub_concept_name='"+req.query.subconceptname+"',planned_to_date='"+req.query.plannedtodate+"',planned_date_from='"+req.query.plannedfromdate+"',skillid='"+req.query.skillid+"',skill='"+req.query.skill+"',valueid='"+req.query.valueid+"',period='"+req.query.period+"',value='"+req.query.value+"',innovation='"+req.query.innovation+"',remarks='"+req.query.remarks+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and row_id='"+req.query.rowid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'  and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'";
 console.log('----------update---------------');
 console.log(qur);
 
@@ -16362,7 +17487,7 @@ console.log(qur);
     {
     if(!err)
     {    
-      res.status(200).json({'returnval': 'Updated'});
+      res.status(200).json({'returnval': 'Inserted!'});
     }
     else
     {
@@ -17001,7 +18126,7 @@ app.post('/fngetclassbookchaptervalue-service',  urlencodedParser,function (req,
   {     
 
     
-    var qur="SELECT distinct(chapter_id),chapter_name  FROM `md_curriculum_planning` WHERE school_id='"+req.query.schoolid+"' and term_id='"+req.query.termid+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and academic_year='"+req.query.academicyear+"'";
+    var qur="SELECT distinct(chapter_id),chapter_name  FROM `md_curriculum_display` WHERE school_id='"+req.query.schoolid+"' and term_id='"+req.query.termid+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and academic_year='"+req.query.academicyear+"'";
 
 
     /*var qur="SELECT distinct(capter_id),(select capter from md_chapter c where c.capter_id=s.capter_id and "+
@@ -17121,7 +18246,7 @@ app.post('/fnassesmenttypes-service',  urlencodedParser,function (req,res)
   {     
     var qur="SELECT * FROM md_curriculum_display WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
-    var qur1="select * from md_concept_assesment_final where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
+    var qur1="select * from md_curriculum_planning_approval where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
     console.log('----------chapter concept------------------');
     console.log(qur);
@@ -17313,8 +18438,7 @@ app.post('/updateapprovalstatusofchapterconcept-service',  urlencodedParser,func
        term_id:req.query.termid,
        teaching_aid:req.query.teachingaid,
        co_ordinator_remarks:req.query.coremark,
-       home_type_id:req.query.hometypeid,
-       homework_type:req.query.hometype,
+        homework_type:req.query.hometype,
        assesment_date:req.query.assesmentdate,
        assesment_type:req.query.assesment_type,
        assesment_type_id:"",
@@ -23206,37 +24330,7 @@ app.post('/performance-fetchexceptionexcelassesmentinfo-service',  urlencodedPar
 });
 
 
-app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
-{
-  var response={ 
-      school_id: req.query.schoolid,
-      academic_year: req.query.academicyear,
-      grade_id:req.query.gradeid,
-      subject_id:req.query.subjectid,
-      term_id: req.query.termid,
-      chapter_id: req.query.chapterid,
-      concept_id: req.query.conceptid,
-      row_id: req.query.rowid,
-      url: req.query.url,
-      link:req.query.currurl,
-      filename:req.query.filename,
-       from_date:req.query.plannedfromdate,
-      to_date:req.query.plannedtodate,
-      chapter_name:req.query.chaptername,
-    };
-    console.log(response);
-    connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){
-    if(!err)
-    {  
-    res.status(200).json({'returnval': 'inserted'});
-    }
-    else
-    {
-     console.log(err);
-     res.status(200).json({'returnval': 'Not inserted'}); 
-    }
-    });
-});
+
 
 app.post('/fnteacheraid2-service',  urlencodedParser,function (req, res)
 {
@@ -23293,40 +24387,7 @@ app.post('/fetchexceptionsubjectinfo-service',  urlencodedParser,function (req, 
 
 
 
-app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
-{
-  var response={ 
-      school_id: req.query.schoolid,
-      academic_year: req.query.academicyear,
-      grade_id:req.query.gradeid,
-      subject_id:req.query.subjectid,
-      term_id: req.query.termid,
-      chapter_id: req.query.chapterid,
-      concept_id: req.query.conceptid,
-      row_id: req.query.rowid,
-      url: req.query.url,
-      link:req.query.currurl,
-      filename:req.query.filename,
-      from_date:req.query.plannedfromdate,
-      to_date:req.query.plannedtodate,
-      home_aids:req.query.homeaids,
-      chapter_name:req.query.chaptername,
-    };
-    console.log("md_concept_homework");
-    console.log(response);
-    connection.query("INSERT INTO md_concept_homework SET ?",[response],function(err, rows){
-    if(!err)
-    {  
-    res.status(200).json({'returnval': 'inserted'});
-    }
-    else
-    {
-     console.log(err);
-     res.status(200).json({'returnval': 'Not inserted'}); 
-    }
-    });
-});
-
+/*
 
 app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
 {
@@ -23344,8 +24405,9 @@ app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
       filename:req.query.filename,
       from_date:req.query.plannedfromdate,
       to_date:req.query.plannedtodate,
-      home_aids:req.query.homeaids,
+   
       chapter_name:req.query.chaptername,
+      flag:req.query.homeflag,
     };
     console.log("md_concept_homework");
     console.log(response);
@@ -23360,7 +24422,7 @@ app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
      res.status(200).json({'returnval': 'Not inserted'}); 
     }
     });
-});
+});*/
 
 app.post('/passcurriculumteach-service',  urlencodedParser,function (req, res)
 {  
@@ -23538,6 +24600,82 @@ app.post('/passcurriculumlessonplan-service' , urlencodedParser,function (req, r
       });
 });
 
+app.post('/curriculampassassesmentvaluefinal-service' , urlencodedParser,function (req, res)
+   { 
+  var response={
+         
+         row_id:req.query.rowid,
+         sno:req.query.sno,
+         school_id:req.query.schoolid,
+         academic_year:req.query.academicyear,
+         grade_id:req.query.gradeid,
+         grade_name:req.query.gradename,
+         section_name:req.query.sectionname,
+         section_id:req.query.sectionid,
+         emp_id:req.query.empid,   
+         chapter_id:req.query.chapterid,
+         chapter_name:req.query.chaptername,
+         concept_id:req.query.conceptid,
+         concept_name:req.query.conceptname,
+         from_date:req.query.fromdate,   
+         to_date:req.query.todate,   
+         emp_name:req.query.empname,
+         term_id:req.query.termid,
+         subject_id:req.query.subjectid,
+         subject_name:req.query.subjectname,
+         assesment_date:req.query.assesmentdate,
+         assesment_status:req.query.assmentstatus,
+         sub_concept_id:req.query.subconceptid,
+         sub_concept_name:req.query.subconceptname,
+         status:req.query.status,
+         complete_date:req.query.completedate,
+         correction_status:req.query.correctionstatus,
+         }
+ var qur="select  * from   md_curriculum_planning_approval  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
+
+  var qur1="update  md_curriculum_planning_approval set assesment_status='"+req.query.assmentstatus+"',status='"+req.query.status+"',assesment_date='"+req.query.assesmentdate+"',complete_date='"+req.query.completedate+"',correction_status='"+req.query.correctionstatus+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"'  and row_id='"+req.query.rowid+"' ";
+  
+    console.log("-----------assesmentsetfinal Edit/Save-----------");
+    console.log(response);
+    console.log(qur1);
+    console.log("-------------------------------------------------");
+
+    
+   connection.query(qur,
+    function(err, rows)
+    {
+    console.log(rows.length);
+
+     if(rows.length==0){
+     connection.query("INSERT INTO md_curriculum_planning_approval SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)
+    {
+      res.status(200).json({'returnval': 'succ'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+    }
+    else{
+    
+         connection.query(qur1,function(err, rows){  
+          console.log('update');
+        if(!err)
+        res.status(200).json({'returnval': 'succ'});
+        else
+        res.status(200).json({'returnval': 'not updated'});
+        });
+        
+       
+        } 
+      });
+});
+
 app.post('/curriculampassassesmentvalue-service' , urlencodedParser,function (req, res)
    { 
    var response={
@@ -23615,82 +24753,7 @@ app.post('/curriculampassassesmentvalue-service' , urlencodedParser,function (re
 });
 
 
-
-app.post('/curriculampassassesmentvaluefinal-service' , urlencodedParser,function (req, res)
-   { 
-  var response={
-         
-         row_id:req.query.rowid,
-         sno:req.query.sno,
-         school_id:req.query.schoolid,
-         academic_year:req.query.academicyear,
-         grade_id:req.query.gradeid,
-         grade_name:req.query.gradename,
-         section_name:req.query.sectionname,
-         section_id:req.query.sectionid,
-         emp_id:req.query.empid,   
-         chapter_id:req.query.chapterid,
-         chapter_name:req.query.chaptername,
-         concept_id:req.query.conceptid,
-         concept_name:req.query.conceptname,
-         from_date:req.query.fromdate,   
-         to_date:req.query.todate,   
-         emp_name:req.query.empname,
-         term_id:req.query.termid,
-         subject_id:req.query.subjectid,
-         subject_name:req.query.subjectname,
-         assesment_date:req.query.assesmentdate,
-         assesment_status:req.query.assmentstatus,
-         sub_concept_id:req.query.subconceptid,
-         sub_concept_name:req.query.subconceptname,
-         status:req.query.status,
-         complete_date:req.query.completedate,
-         correction_status:req.query.correctionstatus,
-         }
- var qur="select  * from   md_concept_assesment_final  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
-
-  var qur1="update  md_concept_assesment_final set complete_date='"+req.query.completedate+"',correction_status='"+req.query.correctionstatus+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"'  and row_id='"+req.query.rowid+"' ";
-  
-    console.log("-----------assesmentsetfinal Edit/Save-----------");
-    console.log(response);
-    console.log(qur1);
-    console.log("-------------------------------------------------");
-
-    
-   connection.query(qur,
-    function(err, rows)
-    {
-    console.log(rows.length);
-
-     if(rows.length==0){
-     connection.query("INSERT INTO md_concept_assesment_final SET ?",[response],
-    function(err, rows)
-    {
-    if(!err)
-    {
-      res.status(200).json({'returnval': 'succ'});
-    }
-    else
-    {
-      console.log(err);
-      res.status(200).json({'returnval': 'Not Inserted!'});
-    }
-    });
-    }
-    else{
-    
-         connection.query(qur1,function(err, rows){  
-          console.log('update');
-        if(!err)
-        res.status(200).json({'returnval': 'succ'});
-        else
-        res.status(200).json({'returnval': 'not updated'});
-        });
-        
-       
-        } 
-      });
-});
+/*
 
 app.post('/passcurriculumcomplete-service' , urlencodedParser,function (req, res)
    { 
@@ -23762,6 +24825,193 @@ app.post('/passcurriculumcomplete-service' , urlencodedParser,function (req, res
         } 
       });
 });
+*/
+
+app.post('/fnteacheraid1-service' , urlencodedParser,function (req, res)
+   { 
+    var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      row_id: req.query.rowid,
+      url: req.query.url,
+      link:req.query.currurl,
+      filename:req.query.filename,
+      from_date:req.query.plannedfromdate,
+      to_date:req.query.plannedtodate,
+      chapter_name:req.query.chaptername,
+      flag:req.query.homeflag,
+    };
+  
+  var qur="select  * from   md_concept_homework  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'  and chapter_id='"+req.query.chapterid+"'and row_id='"+req.query.rowid+"' and term_id='"+req.query.termid+"'  and link='"+req.query.currurl+"'";
+
+  var qur1="update  md_concept_homework set flag='"+req.query.homeflag+"',link='"+req.query.currurl+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+" and row_id='"+req.query.rowid+"' and  link='"+req.query.currurl+"'";
+  
+    console.log("---------Homework Save/ Edit---------------------");
+    console.log(response);
+    console.log("----------------------------------------------------");
+
+    console.log(qur);
+    console.log(qur1);
+   connection.query(qur,
+    function(err, rows)
+    {
+    console.log(rows.length);
+
+     if(rows.length==0){
+     connection.query("INSERT INTO md_concept_homework SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)
+    {
+      res.status(200).json({'returnval': 'succ'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+    }
+    else{
+       connection.query(qur1,function(err, rows){  
+          console.log('update');
+        if(!err)
+        res.status(200).json({'returnval': 'succ'});
+        else
+        res.status(200).json({'returnval': 'not updated'});
+        });
+        } 
+      });
+});
+
+app.post('/fnteacheraid-service' , urlencodedParser,function (req, res)
+   { 
+    var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      row_id: req.query.rowid,
+      url: req.query.url,
+      link:req.query.currurl,
+      filename:req.query.filename,
+       from_date:req.query.plannedfromdate,
+      to_date:req.query.plannedtodate,
+      chapter_name:req.query.chaptername,
+      flag:req.query.techflag,
+    };
+ 
+  var qur="select  * from   md_concept_teaching_aids  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'  and chapter_id='"+req.query.chapterid+"'and row_id='"+req.query.rowid+"' and term_id='"+req.query.termid+"'  and link='"+req.query.currurl+"'";
+
+  var qur1="update  md_concept_teaching_aids set flag='"+req.query.techflag+"',link='"+req.query.currurl+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+" and row_id='"+req.query.rowid+"'  and term_id='"+req.query.termid+"' and  link='"+req.query.currurl+"'";
+  
+console.log("-----------teaching  Save/ Edit-------------------");
+    console.log(response);
+ console.log("------------------------------------------");
+
+    console.log(qur);
+    console.log(qur1);
+   connection.query(qur,
+    function(err, rows)
+    {
+    console.log(rows.length);
+
+     if(rows.length==0){
+     connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)
+    {
+      res.status(200).json({'returnval': 'succ'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+    }
+    else{
+       connection.query(qur1,function(err, rows){  
+          console.log('update');
+        if(!err)
+        res.status(200).json({'returnval': 'succ'});
+        else
+        res.status(200).json({'returnval': 'not updated'});
+        });
+        } 
+      });
+});
+
+/*app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      row_id: req.query.rowid,
+      url: req.query.url,
+      link:req.query.currurl,
+      filename:req.query.filename,
+       from_date:req.query.plannedfromdate,
+      to_date:req.query.plannedtodate,
+      chapter_name:req.query.chaptername,
+      flag:req.query.techflag,
+    };
+    console.log(response);
+    connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'inserted'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not inserted'}); 
+    }
+    });
+});
+*/
+app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
+   console.log(req.query.firstmail+"  "+req.query.secondmail);
+ 
+  var server  = email.server.connect({
+   user:    "softabbas@gmail.com",
+   password:"abbas@786",
+   host:    "smtp.gmail.com",
+   ssl:     true
+  });
+  server.send({
+
+   text:    "Report Card",
+   from:    "softabbas@gmail.com",
+   to:      "mohamedsiddiq1992@gmail.com",
+  
+   subject: req.query.subject,
+     text: "Home work:-"+"\n\n\n"+req.query.mailcontent+",Link:-"+"\n\n\n"+req.query.link+"\n\n\n"+"Thanks&Regards," +"\n"+"Class Teacher",
+  
+
+  },function(err, message) { 
+    console.log(err || message);
+ 
+    res.status(200).json({'returnval': 'mail sent'});
+     });
+  
+ });
+
+
 
 function setvalue(){
   console.log("calling setvalue.....");

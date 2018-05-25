@@ -7,7 +7,7 @@
     <style>
       :host {
         display: block;
-      }
+      } 
     </style>
       <iron-ajax
         method="post"
@@ -84,7 +84,7 @@
         on-response="passcurriculumhomeworkResponse"
         debounce-duration="300"/>
        </iron-ajax>
-      <iron-ajax
+     <!--  <iron-ajax
         method="post"
         id="passcurriculumassesmentajax"
         url="{{passcurriculumassesmenturl}}"
@@ -93,7 +93,7 @@
         content-type="application/json"
         on-response="passcurriculumassesmentResponse"
         debounce-duration="300"/>
-       </iron-ajax>
+       </iron-ajax> -->
         <iron-ajax
         method="post"
         id="curriculampassassesmentvalueajax"
@@ -114,6 +114,26 @@
         on-response="curriculampassassesmentvaluefinalResponse"
         debounce-duration="300"/>
        </iron-ajax>
+         <iron-ajax
+        method="post"
+        id="fnmailprocessajax"
+        url="{{fnmailprocessurl}}"
+        params="{{fnmailprocessparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="fnmailprocessResponse"
+        debounce-duration="300"/>
+       </iron-ajax>
+       <iron-ajax
+        method="post"
+        id="getinparnetmailajax"
+        url="{{getinparnetmailurl}}"
+        params="{{getinparnetmailparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="getinparnetmailResponse"
+        debounce-duration="300"/>
+       </iron-ajax>
      
   </template>
   <script>
@@ -122,11 +142,12 @@
 var c1=0,c2=0;
     Polymer({
       is: 'curriculum-assesment-service-card',
-
-   fngetlessonplan:function(e){
-this.fngetclassbookchapterconcepturl=sessionStorage.getItem("addrinfo")+"/fngetclassbookchapterconcept-service";
-             var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+fnmailprocess:function(e){
+    
+this.fnmailprocessurl=sessionStorage.getItem("addrinfo")+"/fnmailprocess-service";
+           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
            obj.academicyear=localStorage.getItem("curr_sess_academicyear");
            obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
            obj.empid=sessionStorage.getItem("curr_sess_loggedid");
@@ -135,10 +156,39 @@ this.fngetclassbookchapterconcepturl=sessionStorage.getItem("addrinfo")+"/fngetc
            obj.subjectid=localStorage.getItem("curr_sess_subjectid");
            obj.chapterid=localStorage.getItem("curr_sess_chapterid");
            obj.termid=sessionStorage.getItem("termid"); 
-           this.fngetclassbookchapterconceptparam=obj;
-           this.$.fngetclassbookchapterconceptajax.generateRequest();
+           this.fnmailprocessparam=obj;
+
+  this.$.fnmailprocessajax.generateRequest();
+     },
+
+  fnmailprocessResponse:function(e){
+        var res=e.detail.response.returnval;
+        alert(JSON.stringify(res));
+         
+      },
+      fngetinparnetmail:function(e){
+    
+this.getinparnetmailurl=sessionStorage.getItem("addrinfo")+"/getinparnetmail-service";
+           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+       obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+       obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+       obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+       obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+       obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+       obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+       obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+       obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+       obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+       obj.termid=sessionStorage.getItem("termid"); 
+       this.getinparnetmailparam=obj;
+      this.$.getinparnetmailajax.generateRequest();
 
 },
+getinparnetmailResponse:function(e){
+        var res=e.detail.response.returnval;
+        alert(JSON.stringify(res));
+   document.querySelector('curriculum-plan-conceptapproval-card').parentarr=res;
+      },
 Fnpasscurriculumlessonplan:function(sno,rowid,conceptname,subconceptname,skill,value,innovation,coremarks,subremak,enrichmentsuggest,chapterid,chaptername,conceptid,subconceptid,fromdate,todate,period){
 this.passcurriculumlessonplanurl=sessionStorage.getItem("addrinfo")+"/passcurriculumlessonplan-service";
     var obj={};
@@ -388,7 +438,7 @@ this.fncurriculampassassesmentvaluefninal(this.conceptid,this.conceptname,this.c
          
    },
 
-  Fnpasscurriculumcomplete:function(chapterid,chaptername,conceptname,conceptid,subconceptid,subconceptname,rowid,sno,fromdate,todate,status,completedate,correctionstatus){
+  /*Fnpasscurriculumcomplete:function(chapterid,chaptername,conceptname,conceptid,subconceptid,subconceptname,rowid,sno,fromdate,todate,status,completedate,correctionstatus){
 this.passcurriculumassesmenturl=sessionStorage.getItem("addrinfo")+"/passcurriculumcomplete-service";
     var obj={};
         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -432,7 +482,7 @@ this.passcurriculumassesmenturl=sessionStorage.getItem("addrinfo")+"/passcurricu
           this.fncompletestatus();
           document.querySelector('curriculum-complete-card').fnpass1("Inserted Successfully");
         }
-      },
+      },*/
 fngetlessonplanvalue:function(e){
 this.lessonplanvalueurl=sessionStorage.getItem("addrinfo")+"/lessonplanvalue-service";
              var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
@@ -522,6 +572,16 @@ getteacingaidsResponse:function(e){
  temp.push({"concept_name":"Concept Name","url":"url","sno":"sno","chapter_id":"Chapterid","chapter_name":"ChapterName","filename":"filename","link":"link","hidecloseplan":true,"hideopenplan":false,"fonts":"font-weight:bold;text-transform:uppercase;text-align:center;width: 10%;","row_id":0,"hideinfovalue":false,"hideinfovalue1":true,"sub_concept_name":"Sub Concept Name"});
 
      for(var i=0;i<res.length;i++){
+
+          if(res[i].flag=='0'){
+            res[i].hidurl=true;
+            res[i].hidecontent=false;
+           }
+         else if(res[i].flag=='1'){
+           res[i].hidurl=false;
+           res[i].hidecontent=true;
+         }
+
         res[i].hidecloseplan=false;
         res[i].hideopenplan=true;
         res[i].sno=i+1;
@@ -566,6 +626,14 @@ var temp=[];
  temp.push({ "concept_name":"Concept Name","home_aids":"Home Aids","url":"url","sno":"sno","chapter_id":"Chapterid","chapter_name":"ChapterName","filename":"filename","link":"link","hidecloseplan":true,"hideopenplan":false,"fonts":"font-weight:bold;text-transform:uppercase;text-align:center;width: 10%;","row_id":0,"hideinfovalue":false,"hideinfovalue1":true,"sub_concept_name":"Sub Concept Name"});
 
      for(var i=0;i<res.length;i++){
+        if( res[i].flag=='0'){
+            res[i].hidurl=true;
+            res[i].hidecontent=false;
+           }
+   else if(res[i].flag=='1'){
+           res[i].hidurl=false;
+           res[i].hidecontent=true;
+         }
         res[i].hidecloseplan=false;
         res[i].hideopenplan=true;
         res[i].sno=i+1;
@@ -607,12 +675,14 @@ fnassesmenttypesResponse:function(e){
         for(var i=0;i<res.length;i++){
           for(var j=0;j<aproval.length;j++){
              if(res[i].concept_id==aproval[j].concept_id && res[i].concept_id==aproval[j].concept_id  && res[i].row_id==aproval[j].row_id){
+                   if(aproval[j].status=="yes" && aproval[j].assesment_status=="yes"){
                  res[i].completion_date=aproval[j].complete_date;
                  res[i].correction_status=aproval[j].correction_status;
                  res[i].hideinfovalue=true;        
                  res[i].hideinfovalue1=false;        
                  res[i].editvalue="editvalue";
-             }
+                   }
+                    }
           }
         }
    var temp=[];

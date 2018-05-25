@@ -10,7 +10,7 @@
       }
        .position
        {
-          margin-left:10%;
+          margin-left:4%;
        }
        #btn2
        {
@@ -41,8 +41,8 @@
       </center>
     </div>
 
-    <div style="margin-left: 15%;">
-      <span> 
+    <div>
+      <span  class="position"> 
        <paper-dropdown-menu  label="Select the Grade">
           <paper-menu id="reportgradezzzz" class="dropdown-content"   on-iron-select="fnselectgrade">
             <template is="dom-repeat" items="{{chaptergradearr}}">
@@ -52,8 +52,8 @@
          </paper-dropdown-menu>
        </span>
       
-       <span> 
-         <paper-dropdown-menu  label="Select Subject" style="margin-left: 1%;">
+       <span class="position"> 
+         <paper-dropdown-menu  label="Select Subject" >
             <paper-menu id="reportsubjectzzzz" class="dropdown-content"   on-iron-select="fnselectsubject">
               <template is="dom-repeat" items="{{chapterevlsubjectarr}}">
                 <paper-item value="{{item.subjectid}}">{{item.subject_name}}</paper-item>
@@ -61,8 +61,8 @@
             </paper-menu>
           </paper-dropdown-menu>
        </span>
-      <span> 
-         <paper-dropdown-menu id="term" label="Select Term" style="margin-left: 1%;">
+      <span class="position"> 
+         <paper-dropdown-menu id="term" label="Select Term" >
            <paper-menu id="chaptertermidrrrrr" class="dropdown-content"   on-iron-select="Fnchaptertermid" attr-for-selected="value" required>
                 <paper-item value="term1">Term1</paper-item>
                 <paper-item value="Term2">Term2</paper-item>
@@ -70,15 +70,21 @@
             </paper-menu>
           </paper-dropdown-menu>
        </span>
-      <div style="margin-left: 50%;margin-top: -5.4%;width: 100%;"> 
+         <span class="position"> 
+      <div style="margin-left: 60%;margin-top: -4.4%;"> 
         <curriculum-from-date-picker-card></curriculum-from-date-picker-card>
       </div>
-      <div style="margin-left: 63%;margin-top: -5.4%;width: 100%;"> 
-        <curriculum-to-date-picker-card></curriculum-to-date-picker-card>
-      </div>
-      <div style="margin-left: 78%;margin-top: -3.7%;">
+      </span>
+       <span class="position"> 
+          <div style="margin-left: 72%;margin-top: -5.9%;"> 
+          <curriculum-to-date-picker-card></curriculum-to-date-picker-card>
+         </div>
+       </span>
+     <span class="position"> 
+      <div style="margin-left: 83%;margin-top: -3.7%;">
         <paper-button style="background-color: black;color: white;" on-click="fnsearch">Search</paper-button> 
       </div> 
+      </span>
     </div>   
          
       <div class="chapterreport" hidden$="{{incompletereport1}}">

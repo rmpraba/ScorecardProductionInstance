@@ -20,6 +20,8 @@
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+
      }
     
      .homeaide{
@@ -42,6 +44,7 @@
         margin-top: 14%;
         margin-left: 5%;
       }
+
       #teachingtextttt
       {
         overflow-x: visible;
@@ -147,10 +150,12 @@
       }
       .home
       {
-         width: 92%;
-        height: 50%;
-        overflow-x: hidden;
-        overflow-y: scroll;
+        
+     height: 50%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 81.7%;
+    margin-top: 19%;
       }
       .bldcard
       {
@@ -167,27 +172,41 @@
         overflow-y: scroll;
       }
 
-       .teachingopendialog1
+  .teachingopendialog1
       {
-   border-radius: 10px;
-    width: 721px;
-    height: 280px;
-    margin-left: -4%;
+    border-radius: 10px;
+    width: 1000px;
+    height: 502px;
+    margin-left: -2%;
       }
 
     
  .homeworkdialog1
       {
-        border-radius: 10px;
-    width: 721px;
-    height: 280px;
-    margin-left: -4%;
+   border-radius: 10px;
+    width: 1000px;
+    height: 502px;
+    margin-left: -2%;
+      }
+   .remarka1
+      {
+        overflow-x: visible;
+        overflow-y: hidden;   
+        height: 90px;
+        width: 400px;
+       
       }
       #savedialog
         {
           border-radius: 10px;
           width: 354px;
           height: 170px;
+        }
+    #conceptcheckid
+        {
+          border-radius: 10px;
+          width: 450px;
+          height: 200px;
         }
         #failuredialog
         {
@@ -197,6 +216,15 @@
         }
 h4{
   text-transform: lowercase;
+}
+
+.inputstyle{
+  font-size: 11pt;
+    color: white;
+    background-color: #030113;
+    border: 5px solid #0e0e0e;
+    padding: 4px;
+    border-radius: 11px;
 }
     </style>
     <div >
@@ -225,8 +253,8 @@ h4{
                 <div class="card"  hidden$="{{hidecheck1}}">
                    {{showdate}}<iron-icon icon="icons:date-range"  style="color:#20BFEE;" on-click="FnShowDialog" ></iron-icon>
 
-                    <paper-dialog id="dialog" class="paper-date-picker-dialog"    on-iron-overlay-closed="FnDismissDialog">
-                 <paper-date-picker id="picker" date="{{date}}"></paper-date-picker>
+                    <paper-dialog id="dialog" class="paper-date-picker-dialog"    on-iron-overlay-closed="FnDismissDialog" modal>
+                <paper-date-picker id="picker" date="{{date}}"></paper-date-picker>
                         <div class="buttons">
                          <paper-button dialog-dismiss>Cancel
                          </paper-button>
@@ -238,11 +266,12 @@ h4{
               </td>
               <td style="width: 8.1%;">
               <p hidden$="{{hidecheck}}" >{{plannedtoate}}</p>
-             <from-book-date-picker hidden$="{{hidecheck1}}"></from-book-date-picker>
+          <from-book-date-picker hidden$="{{hidecheck1}}"
+        plannedtoate="{{plannedtoate}}"></from-book-date-picker>
              </td>
             <td style="width: 8.1%;">
-              <p hidden$="{{hidecheck}}" >{{assesmentdate}}</p>
-            <assesment-date-picker hidden$="{{hidecheck1}}"></assesment-date-picker>
+            <p hidden$="{{hidecheck}}" >{{assesmentdate}}</p>
+             <assesment-date-picker hidden$="{{hidecheck1}}" assesmentdate="{{assesmentdate}}"></assesment-date-picker>
             </td>
           
        <td style="width: 8.01%;" >
@@ -257,15 +286,14 @@ h4{
 
         <td style="width: 8.1%;">
           <div style="height: 50px; overflow:hidden;">
-            <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetskill" style="color:#6699ff;float: right;"></paper-icon-button>
-           <template is="dom-repeat" items="{{skillarrzx}}" as="r">
-           <h4 >{{r.skillname}}</h4>
+              <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetskill" style="color:#6699ff;float: right;"></paper-icon-button>
+              <template is="dom-repeat" items="{{skillarrzx}}" as="r">
+               <h4 >{{r.skillname}}</h4>
              </template>
-           <h4 hidden$="{{hidedbskill}}">{{skill}}</h4>
-            </div>   
-     </td>
-  
-            <td style="width: 8.01%;" hidden>
+              <h4 hidden$="{{hidedbskill}}">{{skill}}</h4>
+          </div>   
+        </td>
+         <td style="width: 8.01%;" hidden>
                <div style="height: 50px; overflow:hidden;">
               <paper-button on-click="fnhomeaids">
                 <h4 style="width: 10em;" hidden>{{homeaids}}</h4>
@@ -322,7 +350,7 @@ h4{
 
     
 
-     <paper-dialog id="dzfsd1xsasa" >
+     <paper-dialog id="dzfsd1xsasa"  modal>
        <h3>Value Name</h3>
         <div class="valuecard">
           <template is="dom-repeat" items="{{valuearrz}}" as="ss">
@@ -335,7 +363,7 @@ h4{
       </center>
     </paper-dialog>
 
-     <paper-dialog id="fngetdialogid" >
+     <paper-dialog id="fngetdialogid" modal >
           <h3>Subconcept Name</h3>
       <div class="subconceptcard">
         <template is="dom-repeat" items="{{subconceptarr}}" as="su">
@@ -349,7 +377,7 @@ h4{
       </paper-dialog>
 
        
-       <paper-dialog id="fngetskilldialogid" >
+       <paper-dialog id="fngetskilldialogid" modal >
         <h3>Skill Name</h3>
           <div class="skillcardd">
             <template is="dom-repeat" items="{{skillarrz}}" as="sa">
@@ -364,7 +392,7 @@ h4{
       </paper-dialog>
 
 
-      <paper-dialog id="innovationdialog" >
+      <paper-dialog id="innovationdialog"  modal>
           <iron-autogrow-textarea id="innovatetextsssss{{rowid}}" placeholder="Your innovation goes here..." class="invo"  value="{{value}}"></iron-autogrow-textarea>
           <center style="margin-top: 10%;">
             <paper-button  on-click="innovatsave" style="color:white;background-color:black">Save</paper-button>
@@ -374,14 +402,14 @@ h4{
           </center>
       </paper-dialog>
 
-       <paper-dialog id="remarkdialog" >
+       <paper-dialog id="remarkdialog" modal>
           <iron-autogrow-textarea label="Remarks" placeholder="Your remarks goes here..." value="{{value}}" id="remarkareaaaaa11{{rowid}}" class="remarka" ></iron-autogrow-textarea>
           <center style="margin-top: 10%;">
             <paper-button  on-click="remarksave" style="color:white;background-color:black">Save</paper-button>
             <paper-button id="rmcls1" style="color:white;background-color:black" on-click="remarkclose" >Close</paper-button></center>
       </paper-dialog>
 
-      <paper-dialog id="fnhomeaidsdialog" >
+      <paper-dialog id="fnhomeaidsdialog" modal>
           <iron-autogrow-textarea id="homeaidsinfoid{{rowid}}"  class="homeaide" label="Home Aids" placeholder="Your Home goes here..."  value="{{value}}"></iron-autogrow-textarea>
           <center style="margin-top: 10%;">
             <paper-button  on-click="homeaidssave" style="color:white;background-color:black">Save</paper-button>
@@ -392,88 +420,141 @@ h4{
       </paper-dialog>
 
 
-<paper-dialog id="homeworkdialog{{rowid}}"  class="homeworkdialog1">
-    <center> </center> 
-         <div class="home">
+<paper-dialog id="homeworkdialog{{rowid}}"  class="homeworkdialog1" modal>
+    <center><h2>Home Work</h2> </center> 
+        
           
-        <table style="width:20%">
+      <table style="width:20%;border-collapse:collapse;margin-left: 16%;">
        <tr>
-         <th>Upload Your file here</th>
-         <th>Enter Url/Content</th>
+          <th>Upload Your file here</th>
+          <th>Enter Url/Content</th>
+          <th>Save</th>
        </tr>
+         <tr>
+          <td></td>
+        <td>
+          <center>
+              <paper-checkbox id=homeurl{{id}} on-change="Fnhomeurl">Url</paper-checkbox>
+              <paper-checkbox id=homecontent{{id}} on-change="Fnhomecontent">Content</paper-checkbox>
+          </center>
+        </td>
+         <td></td>
+      </tr>
+    <tr>
+      <td>
+        <body onload="myFunction()">  
+          <form id="lphomeworkdialog" method="post" enctype="multipart/form-data" action="/home" target="_blank">
+          <p>
+           <input type="file" name="upl1" id="homefile{{rowid}}" onchange="fnhomeuplode()"/>
+          </p>
+           <p  >
+            <input type="submit"  class="inputstyle" value="Submit"  onclick="fnhomes()"/>
+          </p>
+          </form>  
+        </body>
+      </td>
+      <td>
+       
+          <iron-autogrow-textarea id="homeworkvalu{{rowid}}" placeholder="Enter your homeurl here..." value="{{value}}"   class="remarka1"></iron-autogrow-textarea>
+       
+        
+      </td>
+      <td>
+         <paper-icon-button on-click="homesave" icon='save'></paper-icon-button>
+      </td>
+        </tr>
+   </table>
+  
+   <div style="margin-top: -22%; margin-left: 93%;color: #a99f9f;" >
+            <paper-icon-button id="taid1" icon='close'  on-click="closehomeid" ></paper-icon-button>
+    </div>
+
+  <div class="home">
+   <table style="border-collapse:collapse;">
        <tr>
-       <td>
-      <body onload="myFunction()">  
-       <form id="lphomeworkdialog" method="post" enctype="multipart/form-data" action="/home" target="_blank">
-      <p>
-     <input type="file" name="upl1" id="homefile{{rowid}}" onchange="fnhomeuplode()"/>
-    </p>
-    <p>
-        <input type="submit"  value="Submit"  onclick="fnhomes()"/>
-    </p>
-    </form>  
-  </body>
-   </td>
-     <td>
-      <iron-autogrow-textarea id="homeworkvalu{{rowid}}" placeholder="Enter your homeurl here..." value="{{value}}" ></iron-autogrow-textarea>
-    </td>
+          <template is="dom-repeat" items="{{currenthometemp}}" as="nt">
+             <aproval-book-homework-card homefilename="{{nt.homeglfilename}}"  homecurrurl="{{nt.homecurrurl}}" homeflag="{{nt.homeflag}}" currenthomeurl="{{nt.currenthomeurl}}" fonts="{{nt.fonts}}" hideopenplan="{{nt.hideopenplan}}"  hidecloseplan="{{nt.hidecloseplan}}"  hidcontent="{{nt.hidcontent}}" hidurl="{{nt.hidurl}}" rowid={{rowid}}  ></aproval-book-homework-card>
+          </template> 
        </tr>
    </table>
-            
-        </div>
-
-       <center style="margin-top: 5%;" >
-            <paper-button   hidden on-click="homesave" style="color:white;background-color:black">Save</paper-button>
-            <paper-button id="taid1" style="color:white;background-color:black" on-click="closehomeid" >Close</paper-button>
-          </center>
-    </paper-dialog>
-  <paper-dialog id="teachingopendialog{{rowid}}"  class="teachingopendialog1" >
+   </div>
+   </paper-dialog>
    
-    <center><h3>Teaching Aids</h3></center>
-       
-   <table style="width:20%">
-       <tr>
+  <paper-dialog id="teachingopendialog{{rowid}}"  class="teachingopendialog1" modal >
+   <center><h3>Teaching Aids</h3></center>
+    <table style="width:20%;border-collapse:collapse;margin-left: 16%;">
+      <tr>
          <th>Upload your file here</th>
          <th> Enter Url/Content</th>
-       </tr>
-       <tr>
-          <td>
-            
+         <th> Save</th>
+          
+      </tr>
+      <tr>
+        <td></td>
+        <td>
+          <center>
+              <paper-checkbox id=url{{id}} on-change="Fnurl">Url</paper-checkbox>
+              <paper-checkbox id=content{{id}} on-change="Fncontent">Content</paper-checkbox>
+          </center>
+        </td>
+         <td></td>
+      </tr>
+      <tr>
+       <td>
         <body onload="myFunction()">  
-       <form id="lpteachingaidupload" method="post" enctype="multipart/form-data" action="/upload" target="_blank">
-     <p>
-      <input type="file" name="upl" id="myFile{{rowid}}" onchange="eatFood()"/>
-    </p>
-    <p>
-        <input type="submit"  value="Submit"  onclick="fnfood1()" / >
-    </p>
-    </form>  
-  </body>
-   </td>
+         <form id="lpteachingaidupload" method="post" enctype="multipart/form-data" action="/upload" target="_blank">
+         <p>
+         <input type="file" name="upl" id="myFile{{rowid}}" onchange="eatFood()"/>
+        </p>
+        <p >
+          <input class="inputstyle" type="submit"  value="Submit"  onclick="fnfood1()" / >
+        </p>
+       </form>  
+       </body>
+       </td>
      <td>
-        <iron-autogrow-textarea id="curriculam{{rowid}}" placeholder=" Enter your url here..." value="{{value}}" ></iron-autogrow-textarea>
+        <iron-autogrow-textarea id="curriculam{{rowid}}" placeholder=" Enter your url here..." value="{{value}}" class="remarka1"></iron-autogrow-textarea>
+    </td>
+     <td>
+         <paper-icon-button   icon='save' on-click="Teachsave"></paper-icon-button>
+        
     </td>
        </tr>
    </table>  
-   <!-- <paper-textarea label="Textarea label"></paper-textarea>
- -->      
+ 
+   <div style="margin-top: -22%; margin-left: 93%;color: #a99f9f;">
+       <paper-icon-button  pid="taid1" on-click="closeteachingaaid" icon='close'></paper-icon-button>
+   </div>
 
-   <center style="margin-top: 5%;">
-          <!-- <a href="https://s3.ap-south-1.amazonaws.com/samsidhreportcard/13-4-2018lassonpantables.zip">Click</a> -->
-            <!-- <paper-button  on-click="fnupload" style="color:white;background-color:black" hidden>Upload</paper-button> -->
-            <paper-button id="taid1" style="color:white;background-color:black" on-click="closeteachingaaid" >Close</paper-button>
-        </center>
-   </paper-dialog>
+
+<div class="home">
+   <table style="border-collapse:collapse;">
+       <tr>
+          <template is="dom-repeat" items="{{currenttechtemp}}" as="nt">
+             <aproval-book-teaching-card glfilename="{{nt.glfilename}}"  currentteachurl="{{nt.currentteachurl}}" techflag="{{nt.techflag}}" currurl="{{nt.currurl}}" fonts="{{nt.fonts}}" hideopenplan="{{nt.hideopenplan}}"  hidecloseplan="{{nt.hidecloseplan}}"  hidcontent="{{nt.hidcontent}}" hidurl="{{nt.hidurl}}" rowid={{rowid}}  ></aproval-book-teaching-card>
+          </template> 
+       </tr>
+   </table>
+   </div>
+  </paper-dialog>
      
     
-     <paper-dialog id="savedialog" >
+     <paper-dialog id="savedialog" modal>
        <h3><center>SUCCESS</center></h3>
        <center>
        <paper-button on-click="closedialog" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
        </center>
      </paper-dialog>
+  <paper-dialog id="conceptcheckid" modal>
+       <h3><center>All Ready mapped for this concept  
+do you want add this concept</center></h3>
+       <center>
+       <paper-button on-click="conceptyes" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
+         <paper-button on-click="conceptno" style="color:white;background-color:black;margin-top: 15%;">cancel</paper-button>
+       </center>
 
-      <paper-dialog id="failuredialog" >
+     </paper-dialog>
+      <paper-dialog id="failuredialog" modal>
        <h3><center>FAILURE</center></h3>
        <center>
            <paper-button on-click="failureclose" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
@@ -550,6 +631,16 @@ h4{
         content-type="application/json"
         on-response="seturlResponse"
         debounce-duration="300" />
+       </iron-ajax>
+       <iron-ajax
+        method="post"
+        id="checkconceptajax"
+        url="{{checkconcepturl}}"
+        params="{{checkconceptparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="checkconceptResponse"
+        debounce-duration="300" />
        </iron-ajax> 
        <teacher-book-service-card id="bookservice"></teacher-book-service-card>
    </template>
@@ -557,11 +648,12 @@ h4{
 </script>
 
 <script type="text/javascript">
- 
-  var rowid;
-  var glfilename;
+   var rowid;
+  var glfilename="";
+  var homeglfilename="";
+  var currenthomeurl="";
+  var currentteachurl="";
   var teachertempaids=[];
-  var homeglfilename;
   var hometeachertempaids=[];
   var mainurl="";
   var homefilearrurl=[];
@@ -570,10 +662,11 @@ h4{
   var d=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
 function fnhomes(){
   
-  document.getElementById("homeworkdialog"+rowid).opened=false;
-   //document.getElementById("homefomeid"+rowid).value=homeglfilename;
+  
+   
    hometeachertempaids.push({"filenames":homeglfilename});
      homefilearrurl.push({"homeurl":mainurl+"/"+d+homeglfilename,"filename":homeglfilename})
+   currenthomeurl=mainurl+"/"+d+homeglfilename;
      var homefilenames="";
     var filenames="";
          for(var j=0;j<hometeachertempaids.length;j++){
@@ -584,7 +677,7 @@ function fnhomes(){
                 this.filenames=filenames;
            }
       document.getElementById("homefomeid"+rowid).value=this.filenames;
-     //   alert(JSON.stringify(teaceraidsarrurl));
+      //   alert(JSON.stringify(teaceraidsarrurl));
      //   alert(JSON.stringify(teachertempaids));
        // alert(this.filenames);
     }
@@ -633,11 +726,11 @@ function fnhomeuplode(){
 }
 
 function fnfood1(){
-
-   document.getElementById("teachingopendialog"+rowid).opened=false;
-   //document.getElementById("fomeid"+rowid).value=glfilename;
+var m=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).getFullYear();
    teachertempaids.push({"filenames":glfilename});
-   teaceraidsarrurl.push({"teachurl":mainurl+"/"+glfilename,"filename":glfilename});
+   teaceraidsarrurl.push({"teachurl":mainurl+"/"+m+glfilename,"filename":glfilename});
+   currentteachurl=mainurl+"/"+m+glfilename;
+   
      var filenames="";
          for(var j=0;j<teachertempaids.length;j++){
              if(filenames=="")
@@ -691,40 +784,74 @@ function eatFood(){
   <script>
   (function() {
     'use strict';
-     var tempvaluarr=[];
+     
      var conarr=[];
      var valuearr=[];
      var skarr=[];
      var setsubarr=[];
      var sethomearr=[];
      var subsarrr=[];
- 
+     var techtemp=[];
+     var hometemp=[];
      var trmp=[];
      var len1=0;
      var len2=0;
      var len11=0;
      var len12=0;
-     var bldvaluearr=[];
-    
+     var editpasshomeurl="";
+     var editpassteachurl="";
+      
     Polymer({
       is: 'aproval-book-innovatiosn-item-card',
   fnupload:function(){
-    
-   
- document.getElementById("teachingopendialog"+this.rowid).opened=false;
+     this.homeflag="";
+  document.getElementById("teachingopendialog"+this.rowid).opened=false;
   },
+  Fnhomeurl:function(e){
+   if(document.querySelector("#homeurl"+this.id).checked==true){
+      document.querySelector("#homecontent"+this.id).checked=false;
+       this.homeflag="0";
+   }
+ 
+  },
+  Fnhomecontent:function(e){
+    this.homeflag="";
+   if(document.querySelector("#homecontent"+this.id).checked==true){
+      document.querySelector("#homeurl"+this.id).checked=false;
+       this.homeflag="1";
+   }
+    },
+    Fnurl:function(e){
+      this.techflag="";
+   if(document.querySelector("#url"+this.id).checked==true){
+     this.techflag="0";
+      document.querySelector("#content"+this.id).checked=false;
+   }
+ 
+  },
+  Fncontent:function(e){
+        this.techflag="";
+     if(document.querySelector("#content"+this.id).checked==true){
+      document.querySelector("#url"+this.id).checked=false;
+        this.techflag="1";
+   }
+    },
+ 
+ 
 ready:function()
-    {
+    {      
+             this.homeflag="";
+             this.techflag="";
             this.remark="";
             this.innovation="";
             this.teachingaid="";
             this.currurl="";
             this.homeworkurl="";
             this.homework="";
-            this.showdate=moment(new Date()).format('L');
-            localStorage.setItem("localsess_from_service",this.showdate);
-        
-     },
+      this.showdate=moment(new Date()).format('L');
+       localStorage.setItem("localsess_from_service",this.showdate);
+    
+           },
    FnShowDialog:function(){
     this.date=new Date();
     this.$.dialog.toggle();
@@ -760,7 +887,7 @@ fndates:function(e){
 
  
     fnsubmit1:function(e){
-     // alert(JSON.stringify(valuearr));
+    
      this.$.dzfsd1xsasa.toggle();
      this.hidedbvalue=true;
      var temp1=[];
@@ -787,11 +914,11 @@ fndates:function(e){
      },
     subconcept:function(e){
       this.$.fngetdialogid.toggle();
-   var temp1=[];
-     this.hidedbsubconcept=true;
-     for(var i=0;i<subsarrr.length;i++){
-      if(subsarrr[i].rowid==this.rowid){
-        temp1.push({"subconceptname":subsarrr[i].subconceptname});
+      var temp1=[];
+      this.hidedbsubconcept=true;
+       for(var i=0;i<subsarrr.length;i++){
+        if(subsarrr[i].rowid==this.rowid){
+         temp1.push({"subconceptname":subsarrr[i].subconceptname});
       }
      }
      this.subconceptarr1=[];
@@ -801,18 +928,356 @@ fndates:function(e){
    },
 
  homesave:function(e){
-  document.getElementById("homeworkdialog"+this.rowid).opened=false;
-   /*   var temp1=[];
-     this.hidedbhomewok=true;
-     for(var i=0;i<hworkarr.length;i++){
-      if(hworkarr[i].rowid==this.rowid){
-        temp1.push({"homeworkurl":hworkarr[i].hometype});
-      }
+  var temp=[];
+
+  this.homecurrurl=document.getElementById('homeworkvalu'+this.rowid).textarea.value;
+  document.getElementById('homeworkvalu'+this.rowid).textarea.value=""; 
+   if(this.homeflag=="" ){
+    alert("pls insert the value");
+   }
+   else if(this.homecurrurl=="" && homeglfilename==""){
+      alert("pls insert the value");
+   }
+  else{
+
+   temp.push({"homeglfilename":"Home File Name","currenthomeurl":"currenthomeurl","homeflag":"homeflag","homecurrurl":"Home content/Url","fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","hidecloseplan":false,"hideopenplan":true});
+    var obj={};
+      obj.homeglfilename=homeglfilename;
+      obj.currenthomeurl=currenthomeurl;
+      obj.homeflag=this.homeflag;
+      obj.homecurrurl=this.homecurrurl;
+      obj.rowid=this.rowid;
+   var flage=0;
+       if(hometemp.length==0){
+          hometemp.push(obj);
+          }
+     for(var i=0;i<hometemp.length;i++){
+          if(hometemp[i].homecurrurl==this.homecurrurl){
+             hometemp[i].fonts="";
+             flage=1;
+          }
+          if(editpasshomeurl!=""){
+            if(hometemp[i].homecurrurl==editpasshomeurl){
+               flage=1;
+              var home=hometemp[i].homeglfilename;
+              var current=hometemp[i].currenthomeurl;
+              var homeflag=hometemp[i].homeflag;
+              var homecurrurl=hometemp[i].homecurrurl;
+              var rowid=hometemp[i].rowid;
+              hometemp.splice(i,1);
+              var obj1={};
+                  obj1.homefilename=home;
+                  obj1.currenthomeurl=current;
+                  obj1.homeflag=homeflag;
+                  obj1.homecurrurl=this.homecurrurl;
+                  obj1.rowid=rowid;
+             hometemp.push(obj1);
+           }
+         }
+   }
+ if(flage==0){
+        hometemp.push(obj);
+        flage=1;
      }
-     this.homeworks=[];
-     this.homeworks=temp1;
-   */
+  for(var i=0;i<hometemp.length;i++){
+   if(hometemp[i].homeflag=="1"){
+      hometemp[i].hidcontent=false;
+      hometemp[i].hidurl=true;
+    } 
+  else if(hometemp[i].homeflag=="0"){
+     hometemp[i].hidcontent=true;
+     hometemp[i].hidurl=false;
+   }
+    
+     hometemp[i].fonts="font-weight:bold;text-transform:uppercase;text-align:center;width:10%;";
+   hometemp[i].hidecloseplan=true;
+   hometemp[i].hideopenplan=false;
+    temp.push(hometemp[i]);
+    }
+   this.currenthometemp=temp;
+  }
+  document.getElementById("homefile"+this.rowid).value="";
  },
+Editpassvalue:function(values,id){
+  editpasshomeurl=values;
+   document.getElementById('homeworkvalu'+id).textarea.value=values;
+  
+},
+Editpasscurrvalue:function(values,id){
+  
+   var deletehome=[];
+   deletehome.push({"homefilename":"Home File Name","currenthomeurl":"currenthomeurl","homeflag":"homeflag","homecurrurl":"Home content/Url","fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","hidecloseplan":false,"hideopenplan":true});
+     for(var i=0;i<hometemp.length;i++){
+      if(hometemp[i].homecurrurl==values){
+          hometemp.splice(i,1);
+       }
+     }
+   
+    for (var i=0;i<hometemp.length;i++){
+        deletehome.push(hometemp[i]);
+        }
+document.querySelector('teacher-book-approve-card').currenthometemp=deletehome;
+ 
+    
+},
+
+teachclosevalue:function(values,id){
+
+   var deletehome=[];
+   deletehome.push({"glfilename":"Teaching File Name","currentteachurl":"currentteachurl","techflag":"techflag","currurl":"Teching content/Url","fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","hidecloseplan":false,"hideopenplan":true});
+     for(var i=0;i<techtemp.length;i++){
+      if(techtemp[i].currurl==values){
+          techtemp.splice(i,1);
+       }
+     }
+   
+    for (var i=0;i<techtemp.length;i++){
+        deletehome.push(techtemp[i]);
+        }
+document.querySelector('teacher-book-approve-card').currenttechtemp=deletehome;
+ },
+
+Fnhomeworks:function(e){
+   rowid=this.rowid;
+      document.getElementById("homeworkdialog"+this.rowid).opened=true;
+    mainurl="";  
+    this.homefileprefix="Homework"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+this.rowid;
+  mainurl=this.homefileprefix;
+ //this.Fnpasshomeworks();
+},
+  Fnpasshomeworks:function(){
+   
+    this.homeworkurl=sessionStorage.getItem("addrinfo")+"/homeworkurl";
+    var obj={};
+        obj.homefileprefix=this.homefileprefix;
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        obj.termid=sessionStorage.getItem("termid");
+        obj.rowid=this.rowid;
+         this.homeworkparam=obj;
+        this.$.homeworkajax.generateRequest();
+    },
+  homeworkResponse:function(e){
+     var res=e.detail.response.returnval;
+      
+     var flg=0;
+     if(res=="invalid") {
+       if(hometemp.length==0)
+        this.currenthometemp="";
+        else{
+             for(var i=0;i<hometemp.length;i++){
+                if(this.rowid==hometemp[i].rowid){
+                  flg=1;
+                   break; 
+                }}
+            if(flg==0)
+       this.currenthometemp=""; 
+        }
+     }
+     else{
+       var deletehome=[];
+       deletehome.push({"homefilename":"Home File Name","currenthomeurl":"currenthomeurl","homeflag":"homeflag","homecurrurl":"Home content/Url","fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","hidecloseplan":false,"hideopenplan":true});
+       for(var i=0;i<res.length;i++){
+        var obj={};
+        obj.homeglfilename=res[i].filename;
+        obj.currenthomeurl=res[i].url;
+        obj.homeflag=res[i].flag;
+        obj.homecurrurl=res[i].link;
+        obj.rowid=res[i].row_id;
+        hometemp.push(obj);
+      }
+for(var i=0;i<hometemp.length;i++){
+      if(hometemp[i].homeflag=="1"){
+      hometemp[i].hidcontent=false;
+      hometemp[i].hidurl=true;
+      } 
+    else if(hometemp[i].homeflag=="0"){
+     hometemp[i].hidcontent=true;
+     hometemp[i].hidurl=false;
+   }
+    hometemp[i].fonts="font-weight:bold;text-transform:uppercase;text-align:center;width:10%;";
+   hometemp[i].hidecloseplan=true;
+   hometemp[i].hideopenplan=false;
+    deletehome.push(hometemp[i]);
+    }
+   this.currenthometemp=deletehome;
+}
+  },
+fnteachingaid:function(e){
+ document.getElementById("teachingopendialog"+this.rowid).opened=true;
+      rowid=this.rowid;
+   
+     mainurl="";
+    this.fileprefix="Teachingaid"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+this.rowid;
+   // this.Fnpassteachingid();
+},
+
+    Fnpassteachingid:function()
+    {
+   
+        
+    this.seturlurl=sessionStorage.getItem("addrinfo")+"/lessonplanseturl";
+     var obj={};
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
+        obj.termid=sessionStorage.getItem("termid"); 
+        obj.rowid=this.rowid
+        obj.fileprefix=this.fileprefix;
+        this.seturlparam=obj;
+        this.$.seturlajax.generateRequest();
+        mainurl=this.fileprefix;
+     },
+ seturlResponse:function(e){
+ var res=e.detail.response.returnval;
+      
+     var flg=0;
+     if(res=="invalid") {
+       if(techtemp.length==0)
+        this.currenttechtemp="";
+        else{
+             for(var i=0;i<techtemp.length;i++){
+                if(this.rowid==techtemp[i].rowid){
+                  flg=1;
+                   break; 
+                }}
+            if(flg==0)
+        this.currenttechtemp=""; 
+        }
+     }
+     else{
+       var deletehome=[];
+       deletehome.push({"glfilename":"Teaching File Name","currentteachurl":"currentteachurl","techflag":"techflag","currurl":"Teching content/Url","fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","hidecloseplan":false,"hideopenplan":true});
+       for(var i=0;i<res.length;i++){
+        var obj={};
+        obj.glfilename=res[i].filename;
+        obj.currentteachurl=res[i].url;
+        obj.techflag=res[i].flag;
+        obj.currurl=res[i].link;
+        obj.rowid=res[i].row_id;
+        techtemp.push(obj);
+      }
+
+
+     for(var i=0;i<techtemp.length;i++){
+      if(techtemp[i].techflag=="1"){
+      techtemp[i].hidcontent=false;
+      techtemp[i].hidurl=true;
+      } 
+    else if(techtemp[i].techflag=="0"){
+     techtemp[i].hidcontent=true;
+     techtemp[i].hidurl=false;
+   }
+    techtemp[i].fonts="font-weight:bold;text-transform:uppercase;text-align:center;width:10%;";
+   techtemp[i].hidecloseplan=true;
+   techtemp[i].hideopenplan=false;
+    deletehome.push(techtemp[i]);
+    }
+   this.currenttechtemp=deletehome;
+}
+
+ },  
+
+
+ Teachsave:function(e){
+
+
+
+
+ var temp=[];
+
+  this.currurl=document.getElementById('curriculam'+this.rowid).textarea.value;
+  document.getElementById('curriculam'+this.rowid).textarea.value=""; 
+   if(this.techflag=="" ){
+    alert("pls insert the value");
+   }
+   else if(this.currurl=="" && glfilename==""){
+      alert("pls insert the value");
+   }
+  else{
+
+   temp.push({"glfilename":"Teaching File Name","currentteachurl":"currentteachurl","techflag":"techflag","currurl":"Teching content/Url","fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","hidecloseplan":false,"hideopenplan":true});
+   
+var obj={};
+      obj.glfilename=glfilename;
+      obj.currentteachurl=currentteachurl;
+      obj.techflag=this.techflag;
+      obj.currurl=this.currurl;
+      obj.rowid=this.rowid;
+      
+ var flage=0;
+       if(techtemp.length==0){
+          techtemp.push(obj);
+          }
+     for(var i=0;i<techtemp.length;i++){
+          if(techtemp[i].currurl==this.currurl){
+             techtemp[i].fonts="";
+             flage=1;
+          }
+          if(editpassteachurl!=""){
+            if(techtemp[i].currurl==editpassteachurl){
+               flage=1;
+              var teach=techtemp[i].glfilename;
+              var current=techtemp[i].currentteachurl;
+              var techflag=techtemp[i].techflag;
+              var currurl=techtemp[i].currurl;
+              var rowid=techtemp[i].rowid;
+              techtemp.splice(i,1);
+              var obj1={};
+                  obj1.glfilename=teach;
+                  obj1.currentteachurl=current;
+                  obj1.techflag=techflag;
+                  obj1.currurl=this.currurl;
+                  obj1.rowid=rowid;
+             techtemp.push(obj1);
+           }
+         }
+   }
+ if(flage==0){
+        techtemp.push(obj);
+        flage=1;
+     }
+  for(var i=0;i<techtemp.length;i++){
+   if(techtemp[i].techflag=="1"){
+      techtemp[i].hidcontent=false;
+      techtemp[i].hidurl=true;
+    } 
+  else if(techtemp[i].techflag=="0"){
+     techtemp[i].hidcontent=true;
+     techtemp[i].hidurl=false;
+   }
+    
+     techtemp[i].fonts="font-weight:bold;text-transform:uppercase;text-align:center;width:10%;";
+   techtemp[i].hidecloseplan=true;
+   techtemp[i].hideopenplan=false;
+    temp.push(techtemp[i]);
+    }
+  
+   this.currenttechtemp=temp;
+   document.getElementById("myFile"+this.rowid).value="";
+ }
+},
+Editteachvalue:function(values,id){
+  editpassteachurl=values;
+   document.getElementById('curriculam'+id).textarea.value=values;
+  
+},
+
+
 fnpasssubarr:function(subsarr){
     subsarrr=subsarr;
     },
@@ -826,9 +1291,7 @@ workvalue:function(workarr){
 fnpasparr1:function(e){
     valuearr=e;
     },
-fnpassbld:function(e){
-      bldvaluearr=e;
-    },
+
 fnconceptvalue:function(arr){
   conarr=arr;
   },
@@ -838,51 +1301,117 @@ fnconceptvalue:function(arr){
     },
     fnsavebook:function(e)
     {
-   // alert(conarr.length+" "+valuearr.length+" "+skarr.length); 
-       this.homeaids="";
-      if(conarr.length!=0 && valuearr.length!=0 && skarr.length!=0)
+    
+if(conarr.length!=0 && valuearr.length!=0 && skarr.length!=0 &&hometemp.length!=0 && techtemp.length!=0)
       {
-        //   alert('1');
-     
-        if(this.period==""|| this.period==null )
+         if(this.period==""|| this.period==null )
            {
             alert("Please Enter All Fields");
             this.hidecheck1=false;
             this.hidecheck=true;
            }
            
-       else if(this.planneddate=="empty")
+    else if(this.planneddate=="empty")
       {
-     //  alert('1');
-          this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.teachingaid,this.sno,this.currurl,this.homework,teaceraidsarrurl,homefilearrurl,this.homecurrurl,this.homeaids);
-          this.showdate=moment(new Date()).format('L');
-          localStorage.setItem("localsess_from_service",this.showdate);
-    
-           
-          }
+          this.checkconcept();
+      
+        
+       }
         else  
           {
-     /*   alert(2);
-          alert(JSON.stringify(conarr));
-         alert(JSON.stringify(valuearr));
-         alert(JSON.stringify(skarr));
-         alert(JSON.stringify(subsarrr));*/
-      this.$.bookservice.fnmasterplanedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowidz,this.teachingaid,this.sno,this.assesmentdate,this.homework,this.homeaids);
-      /*  this.$.bookservice.fnmasterplandisplyedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowidz,this.teachingaid,this.sno,this.assesmentdate,this.homework,this.homeaids);*/
-           
-           
-            }
-           this.conceptjhkhzz="";
+      this.$.bookservice.fnmasterplanedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.sno,techtemp,hometemp);
+          }
+     
            }
            else{
             alert("pls check the value");
            }
-          
-     },
+       },
+       checkconcept:function(){
+      this.checkconcepturl=sessionStorage.getItem("addrinfo")+"/checkconcept-service";
+        var obj={};
 
-     edifref:function(){
+
+
+
+         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
+        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+        obj.gradename=localStorage.getItem("curr_sess_gradename");
+        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+        obj.termid=sessionStorage.getItem("termid");
+        obj.rowid=this.rowid;
+         this.checkconceptparam=obj;
+        this.$.checkconceptajax.generateRequest();    
+       
+       },
+       checkconceptResponse:function(e){
+         var res1=e.detail.response.returnval;
+         
+       if(res1=='invalid'){
+       this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.sno,techtemp,hometemp);
+         res1=[];
+       }
+       else{
+       var flagg=0;
+       var gltemp=[];
+
+         if(res1!=""){
+     for(var n=0;n<res1.length;n++){
+         var k;
+         var temp=[];
+         k=res1[n].sub_concept_id;
+             temp=k.split(",");
+            for(var i=0;i<temp.length;i++){ 
+                   gltemp.push(temp[i]);
+              }
+        }
+        }
+   for(var i=0;i<subsarrr.length;i++){
+     for(var j=0;j<gltemp.length;j++){
+      if(subsarrr[i].subconceptid==gltemp[j]){
+        flagg=1;
+        gltemp=[];
+         break;
+          }}}
+
+       }
+if(flagg==1){
+        
+          this.fnpassconceptcheckvalue();
+            flagg=0;
+            res1=[];
+            }
+    if(res1.length>0){
+        this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.sno,techtemp,hometemp);
+      }
+},
+       fnpassconceptcheckvalue:function(e){
+        
+        this.$.conceptcheckid.open();
+
+       },
+       conceptyes:function(e){
+      
+        this.$.bookservice.fnmasterplandisplyinsert(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.sno,techtemp,hometemp);
+       this.$.conceptcheckid.close();
+       },
+       conceptno:function(e){
+        this.$.conceptcheckid.close();
+         this.conceptzz="";
+         document.querySelector('teacher-book-approve-card').conceptzz=this.conceptzz;
+        this.allrefesh();
+       },
+  edifref:function(){
           this.bldvaluez="";
-          document.querySelector('aproval-book-concept-card').FnClear(this.id);
+  document.querySelector('aproval-book-concept-card').FnClear(this.id);
+            this.currenttechtemp="";
+            this.currenthometemp="";
+            this.homeflag="";
+            this.techflag="";
             this.mainarr="";
             this.skillarrzx="";
             this.subconceptarr1="";
@@ -891,12 +1420,19 @@ fnconceptvalue:function(arr){
             this.hidedbskill=false;
             this.hidedbhomewok=false;
             this.hidedbsubconcept=false;
-           subsarrr=[];
-           this.subconceptarr=""; 
+            subsarrr=[];
+            this.subconceptarr=""; 
+            hometemp=[]; 
+            techtemp=[];
      },
 allrefesh:function(){
-   this.conceptzz="";
-            document.querySelector('aproval-book-concept-card').FnClear(this.id);
+  this.currenttechtemp="";
+   this.currenthometemp="";
+    document.querySelector('aproval-book-concept-card').FnClear(this.id);
+    this.remark ="";
+    this.innovation="";
+ this.conceptzz="";
+         this.period=""
             this.mainarr="";
             this.skillarrzx="";
             this.subconceptarr1="";
@@ -924,7 +1460,7 @@ allrefesh:function(){
             setsubarr=[];
             sethomearr=[];
             trmp=[];
-            tempvaluarr=[];
+         
             conarr=[];
             valuearr=[];
             skarr=[];
@@ -932,7 +1468,12 @@ allrefesh:function(){
             sethomearr=[];
             subsarrr=[];
            this.subconceptarr=""; 
-          
+            hometemp=[]; 
+            techtemp=[];
+      /* this.showdate=moment(new Date()).format('L');
+       localStorage.setItem("localsess_from_service",this.showdate);
+       localStorage.setItem("assement_curr_sess_date",this.showdate);
+        localStorage.setItem("localsess_last_service",this.showdate);*/
            document.querySelector('concept-check-card').fnclean();
            document.querySelector('aproval-book').fnclean1();
            document.querySelector('skill-dialog-card').fnclean1();
@@ -1175,36 +1716,7 @@ fngetskill:function(e){
    this.fnskilldialog();
     
     },
-     Fnhomeworks:function(e){
-     
-      rowid=this.rowid;
-       document.getElementById('homeworkvalu'+this.rowid).textarea.value=this.homecurrurl;
-       document.getElementById("homeworkdialog"+this.rowid).opened=true;
-    mainurl="";  
-    this.homefileprefix="Homework"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.rowid;
-     //alert(this.homefileprefix);
-  mainurl=this.homefileprefix;
-    this.homeworkurl=sessionStorage.getItem("addrinfo")+"/homeworkurl";
-    var obj={};
-        obj.homefileprefix=this.homefileprefix;
-        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
-        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
-        obj.gradename=localStorage.getItem("curr_sess_gradename");
-        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
-        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
-        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
-        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
-        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
-        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
-        obj.termid=sessionStorage.getItem("termid");
-        obj.rowid=this.rowid;
-        obj.currurl=this.homecurrurl;
-    //    alert(this.homecurrurl);
-     this.homeworkparam=obj;
-     this.$.homeworkajax.generateRequest();
-    },
-
+   
     fnskilldialog:function(e){
   this.fngetskillsurl=sessionStorage.getItem("addrinfo")+"/fngetskills-service";
    var obj={};
@@ -1313,7 +1825,7 @@ document.querySelector('subconcept-dialog-card').setsubchpterclean(subsarrr);
           }
    }
       var obj={};
-obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+    obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
 obj.academic_year=localStorage.getItem("curr_sess_academicyear");
 obj.capter_id=localStorage.getItem("curr_sess_capters");
   obj.subjectid=sessionStorage.getItem("subjectidz");
@@ -1369,32 +1881,24 @@ this.fngetbookvaluezparam=obj;
 
   this.valuearrz=res;            
 },
-   
-   FnfromClearfff:function(e){
-    
-           
-            this.mainarr="";
-            this.skillarrzx="";
-            this.homeworks="";
-            this.subconceptarr1="";
-            this.bldvaluez="";
-            conarr=[];
-           valuearr=[];
-           skarr=[];
-          subsarrr=[];
-         
-   },  
-    fndelete:function(e){
+fndelete:function(e){
     this.$.bookservice.buffdel();
     },
      fneditbook:function(e){
-     
+     this.showdate=this.planneddate;
+     localStorage.setItem("localsess_last_service",this.plannedtoate);
+     localStorage.setItem("localsess_from_service",this.planneddate);
+     localStorage.setItem("assement_curr_sess_date",this.assesmentdate);
       this.fnskilldialog();
       this.fngetinchaptvaluevalue();
-      conarr=[];
-      valuearr=[];
+      this.Fnpassteachingid();
+      this.Fnpasshomeworks();
+       conarr=[];
+       valuearr=[];
        skarr=[];
        subsarrr=[];
+       hometemp=[];
+       techtemp=[];
      document.querySelector('aproval-book-concept-card').fngetconceptcheck1(this.rowidz,this.iddate);
       this.hidecheck1=false;
       this.hidecheck=true;
@@ -1405,10 +1909,7 @@ this.fngetbookvaluezparam=obj;
   document.querySelector('aproval-book-concept-card').fnref(this.id);
     },
  
-    fnsetpassvalz:function(e){
-     tempvaluarr=e;
-    },
-
+    
     lsnskill:function(e)
     {
       this.$.skilldialog.toggle();
@@ -1481,37 +1982,7 @@ this.fngetbookvaluezparam=obj;
       alert('You are allowed to select future date only..!');
     },
     
-    
-
-    fnteachingaid:function(e)
-    {
-   
-      rowid=this.rowid;
-    document.getElementById('curriculam'+this.rowid).textarea.value=this.currurl;
-     mainurl="";
-    this.fileprefix="Teachingaid"+"/"+sessionStorage.getItem("curr_sess_loggedschoolid")+"/"+localStorage.getItem("curr_sess_academicyear")+"/"+localStorage.getItem("curr_sess_subjectid")+"/"+localStorage.getItem("curr_sess_gradeid")+"/"+sessionStorage.getItem("termid")+"/"+localStorage.getItem("curr_sess_chapterid")+"/"+localStorage.getItem("curr_sess_conceptid")+"/"+this.rowid;
-        
-    this.seturlurl=sessionStorage.getItem("addrinfo")+"/lessonplanseturl";
-     var obj={};
-        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-        obj.academicyear=localStorage.getItem("curr_sess_academicyear"); 
-        obj.gradeid=localStorage.getItem("curr_sess_gradeid");
-        obj.gradename=localStorage.getItem("curr_sess_gradename");
-        obj.subjectid=localStorage.getItem("curr_sess_subjectid");
-        obj.subjectname=localStorage.getItem("curr_sess_subjectname");
-        obj.chapterid=localStorage.getItem("curr_sess_chapterid");
-        obj.chaptername=localStorage.getItem("curr_sess_chaptername");
-        obj.conceptid=localStorage.getItem("curr_sess_conceptid");
-        obj.termid=sessionStorage.getItem("termid"); 
-        obj.currurl=this.currurl;
-        obj.rowid=this.rowid
-     obj.fileprefix=this.fileprefix;
-     this.seturlparam=obj;
-     this.$.seturlajax.generateRequest();
-    
-    mainurl=this.fileprefix;
-     document.getElementById("teachingopendialog"+this.rowid).opened=true;
-    },
+ 
    
 
     closeteachingaaid:function()
@@ -1520,6 +1991,12 @@ this.fngetbookvaluezparam=obj;
     this.currurl=document.getElementById('homeworkvalu'+this.rowid).textarea.value;
      
     },
+   /* Teachsave:function()
+    {
+     document.getElementById("teachingopendialog"+this.rowid).opened=false;
+    this.currurl=document.getElementById('homeworkvalu'+this.rowid).textarea.value;
+     
+    },*/
     closehomeid:function(e){
     
    // document.querySelector('homework-card').FnRefreshhhh();
@@ -1539,8 +2016,6 @@ this.fngetbookvaluezparam=obj;
              valuearr=[];
              skarr=[];
         
-             bldvaluearr=[];
-           
             document.querySelector('concept-check-card').fnclean();
             document.querySelector('aproval-book').fnclean1();
             document.querySelector('skill-dialog-card').fnclean1();

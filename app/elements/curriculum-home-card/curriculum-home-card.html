@@ -19,11 +19,26 @@
       border-left: 1px solid #ddd;
      
       border-right: 1px solid #ddd;
-     }
+     } #maildialog
+     {
+      border-radius: 8px;
+    width: 38%;
+    height: 66%;
+    margin-left: 28%;
+    margin-top: -6%;
+      }
+      .remarka
+     
+      {
+        overflow-x: hidden;
+        overflow-y: hidden;   
+        height: 90px;
+        width: 80%;
+        }
     </style>
     <div>
        <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}
-        {{subconceptid}}{{fromdate}}{{todate}}
+        {{subconceptid}}{{fromdate}}{{todate}}{{parentarr}}
       </div>
        <table  class="teach1" >
         <tr>
@@ -37,28 +52,135 @@
             <p hidden$="{{hidecloseplan}}"><a href="{{url}}" target="_blank">{{filename}}</a></p>
            </div>
           </td>
+
           <td style="{{fonts}}"  width="10%">
            <p hidden$="{{hideopenplan}}"> LINK</p>
-           <p hidden$="{{hidecloseplan}}"><a href="{{link}}" target="_blank">{{link}}</a></p> </td>
+
+     
+           
+          <div hidden$="{{hidecloseplan}}">
+            <div hidden$="{{hidurl}}">
+              <p>{{link}}</p>
+            </div>
+            <div hidden$="{{hidecontent}}">
+                <a href="{{link}}" target="_blank">{{link}}</a>
+            </div>
+          </div> 
+
+           </td>
           <td style="{{fonts}}" hidden width="10%">{{homeaids}}  </td>
           <td style="{{fonts}}"  width="10%">{{filename}}</td>
-         
+          <td style="{{fonts}}"  width="3.2%"  > 
+                <p hidden$="{{hideopenplan}}">Mail</p>
+                <p  hidden$="{{hidecloseplan}}"><paper-icon-button icon="icons:mail" on-click="FnMail"></paper-icon-button></p>
+          </td>
         </tr>
       </table>
       <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
+       <paper-dialog id="maildialog" >
+              <paper-icon-button icon='close' on-click='fnmailcancel' style='color:#ffffffbd;margin-left: 77%; width: 40%;height: 5%;margin-top: 0%;position: absolute;'></paper-icon-button>
+           <div style="width: 90.4%; height: 10%;margin-top: 0%;
+                  background-color: black;color: white;">{{subject}}
+               
+          </div>
+             <paper-input   value="{{subject}}" label="Subject"></paper-input><br> 
+              <iron-autogrow-textarea style="width: 75%;margin-left: 18%;"  placeholder="Your content" value="{{mailcontent}}" id="maildilaog{{rowid}}" class="remarka" >
+              </iron-autogrow-textarea><br>
+              <div style="margin-left: 14%;">
+                <p>Home Work Content/Url:</p>
+                  <div hidden$="{{hidecloseplan}}">
+                   <div hidden$="{{hidurl}}">
+                     <p>{{link}}</p>
+                   </div>
+                    <div hidden$="{{hidecontent}}">
+                      <a href="{{link}}" target="_blank">{{link}}</a>
+                    </div>
+                  </div> 
+              </div>
+              
+               <center>
+                <paper-button style="color:white;background-color:black" on-click="fnmailsend">Sand</paper-button> 
+                <paper-button style="color:white;background-color:black" on-click="fnmailcancel">cancel</paper-button> 
+              </center>
+      </paper-dialog>
     </div>
+      <iron-ajax
+        method="post"
+        id="curriculmsendmailajax"
+        url="{{curriculmsendmailurl}}"
+        params="{{curriculmsendmailparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="curriculmsendmailResponse"
+        debounce-duration="300"/>
+       </iron-ajax>
   </template>
   <script>
   (function() {
     'use strict';
-
+var c1=0,c2=0;
     Polymer({
       is: 'curriculum-home-card',
-
-      FnSave:function(e){
-        // alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+this.link+2+this.url+2+this.filename+2+this.rowid+2+this.sno+2+this.fromdate+2+this.todate+2+this.homeaids);
-         // this.$.crriculambookservice.Fnpasscurriculumhomework(this.conceptname,this.conceptid,this.chapterid,this.chaptername,this.link,this.url,this.filename,this.rowid,this.sno,this.fromdate,this.todate,this.homeaids);
+   ready:function(e){
+      this.subject="New Massage";
+      this.mailcontent="";
+   },
+       fnmailcancel:function(e){
+         this.$.maildialog.close();
+        },
+       fnmailsend:function(e){
+        if(this.subject=="New Massage"){
+          alert("pls enter the subject");
+        }
+        else{
+         
+           this.$.maildialog.close();
+       document.getElementById('maildilaog'+this.rowid).textarea.value="";
+  this.curriculmsendmail(this.mailcontent,this.subject,this.link,this.parentarr)
+        }
+      
      },
+     curriculmsendmail:function(mailcontent,subject,link,parentarr){
+    c1=parentarr.length;
+    for(var i=0;i<parentarr.length;i++){
+  this.curriculmsendmailurl=sessionStorage.getItem("addrinfo")+"/curriculmsendmail-service";
+   var obj={};
+       obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+      obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+       obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+       obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+       obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+       obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+       obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+       obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+       obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+       obj.termid=sessionStorage.getItem("termid");
+       obj.mailcontent=mailcontent;
+       obj.subject=subject;
+       obj.link=link;
+       obj.secondmail=parentarr[i].secondmail;
+       obj.firstmail=parentarr[i].firstmail;
+       this.curriculmsendmailparam=obj;
+     
+       this.$.curriculmsendmailajax.generateRequest();
+
+     }
+    },
+   curriculmsendmailResponse:function(e){
+   c2++;
+   if(c1==c2){
+         var res=e.detail.response.returnval;
+         alert(JSON.stringify(res));
+         c1=0;
+         c2=0;
+    }
+      }, 
+    FnMail:function(e){
+     this.$.maildialog.open();
+      this.subject="New Massage";
+      this.$.crriculambookservice.fngetinparnetmail();
+     //this.$.crriculambookservice.fnmailprocess();
+    },
     });
   })();
   </script>

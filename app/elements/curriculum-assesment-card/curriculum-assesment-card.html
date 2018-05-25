@@ -321,6 +321,7 @@ var ids;
    var status="no";
    var  finalvalue;
    var checinfo="";
+   
     Polymer({
       is: 'curriculum-assesment-card',
 fnchange:function(e){
@@ -342,12 +343,12 @@ fnclick:function(e){
 this.$.fnsetdialogs.close();
 },
 fnedit:function(e){
-  localStorage.setItem("localsess_comp_service",this.completiondate);
+localStorage.setItem("localsess_comp_service",this.completiondate);
   this.hideinfovalue=false;
   this.hideinfovalue1=true;
 },
   FnSave:function(e){
- 
+ //alert(localStorage.getItem("localsess_comp_service"));
          if(array.length==0){
            setassesment='no';
          }
@@ -355,11 +356,15 @@ fnedit:function(e){
            setassesment='yes';
          }
           /*alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+this.link+2+this.url+2+this.filename+2+this.rowid+2+this.sno+2+this.fromdate+2+this.todate+2+this.homeaids+2+this.subconceptid+2+setassesment);*/
+
+         
+         
       if(temp.length==0){
         
             if(this.editvalue=="editvalue"){
               if(finalvalue=="sucess"){
-             this.$.crriculambookservice.fncurriculampassassesmentvaluefninal(this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,this.assmentstatus,this.subconceptid,this.subconceptname,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
+                 setassesment='yes';
+             this.$.crriculambookservice.fncurriculampassassesmentvaluefninal(this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
               }
               else{
                 this.dialogvalue="Please Check the value";
@@ -376,17 +381,30 @@ fnedit:function(e){
        else
       {
         if(finalvalue=="sucess"){
-       for(var i=0;i<temp.length;i++){
-        //alert(this.sno);
-          this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].StudentId,temp[i].StudentName,temp[i].Mark,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,temp.length,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
-        }
+           if(this.assemensarr.length==temp.length){
+            for(var i=0;i<temp.length;i++){
+               this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].StudentId,temp[i].StudentName,temp[i].Mark,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,temp.length,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
+              }
+           }
+           else{
+
+            this.dialogvalue="Please  insert the all student mark";
+              this.$.curriculamdialog.open();
+              status="no";
+              document.querySelector("#cpayes1"+checinfo).checked=false;  
+             document.querySelector("#cpayes"+ids).checked=false;
+             temp=[];
+              document.getElementById("assesmentreadfile1"+this.id).value ="";
+           }
       }
       else{
         this.dialogvalue="Please Check the value";
         this.$.curriculamdialog.open();
         status="no";
-         document.querySelector("#cpayes1"+checinfo).checked=false;  
-         document.querySelector("#cpayes"+ids).checked=false;
+         document.querySelector("#cpayes1"+checinfo).checked=false; document.querySelector("#cpayes"+ids).checked=false;
+          temp=[];
+          array=[];
+          document.getElementById("assesmentreadfile1"+this.id).value ="";
       }
       }
        document.querySelector("#cpayes1"+checinfo).checked=false;  
@@ -398,7 +416,7 @@ fnedit:function(e){
        array=[];
      },
         FnClick:function(){
-         // alert(JSON.stringify(array));
+         
 
       if(array.length==0){
         alert("Pls save the file in EXCEL WORKBOOK extension!");
@@ -414,23 +432,26 @@ fnedit:function(e){
            setarr=Object.keys(array[i]);
              setarr.splice(0,3);
              
-        
-          var obj={};
+          
+       
+
+        if(setarr.length==1){
+        var obj={};
            obj.SNo=array[i].SNo;
            obj.StudentId=array[i].StudentId;
            obj.StudentName=array[i].StudentName;
            obj.Mark=array[i].Mark;
            temp.push(obj);
-       //   alert(JSON.stringify(temp));
-             
+          
+
+               }
            }}
-           if(temp.length==0){
+            if(temp.length==0){
       alert("pls Upload the Correct value");
            }
            else{
       alert("Upload Sucess...!");
-
-           }
+        }
  
         }
 
@@ -579,6 +600,7 @@ curriculamassesmentmarkResponse:function(e){
         }
      
         this.assemensarr=res;
+     
         },
    fnpass1:function(arr){
      this.dialogvalue=arr;
@@ -635,24 +657,10 @@ curriculamassesmentmarkResponse:function(e){
 
 
 },checkcompleteplanResponse:function(e){
-            //var teacharr=e.detail.response.teacharr;  
+            
           
             var lessonarr=e.detail.response.lessonarr;  
-          //  var homearr=e.detail.response.homearr;
-            // alert(JSON.stringify(teacharr));
-            // alert(JSON.stringify(assesmentarr));
-            // alert(JSON.stringify(lessonarr));
-            //  alert(JSON.stringify(homearr));
-          /*if(teacharr=="empty"){
-           alert("please Check the teaching Aids");
-           document.querySelector("#cpayes"+checinfo).checked=false;
-           }*/
-          /* if(assesmentarr=="empty"){
-           //alert("please Check the Assesment Values");
-           this.dialogvalue="please Check the Assesment Values";
-           this.$.curriculamdialog.open();
-           document.querySelector("#cpayes"+checinfo).checked=false;
-           }*/
+           
             if(lessonarr=="empty"){
           
             this.dialogvalue="please Check the Lesson";
@@ -660,21 +668,16 @@ curriculamassesmentmarkResponse:function(e){
             document.querySelector("#cpayes"+checinfo).checked=false;
 
             }
-           /*  else if(homearr=="empty"){
-           alert("please Check the Home value");
-           document.querySelector("#cpayes"+checinfo).checked=false;
-
-          }*/
-          else {
-            //alert("All Process are sucess");
-            this.dialogvalue="All Process are sucess";
-            this.$.curriculamdialog.open();
-           finalvalue="sucess";
-           document.querySelector("#cpayes"+checinfo).checked=true;
-
-          }
-
-   },
+         
+        
+            else{
+                  this.dialogvalue="All Process are sucess";
+                  this.$.curriculamdialog.open();
+                  finalvalue="sucess";
+                  document.querySelector("#cpayes"+checinfo).checked=true;
+             }
+         
+      },
 
     });
   })();

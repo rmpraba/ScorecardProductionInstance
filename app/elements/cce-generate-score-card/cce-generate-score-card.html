@@ -298,6 +298,7 @@
 
        },
     FnSelectacademicyear:function(e){  
+      //alert(1);
       document.querySelector('#scorecardterm').selected=-1;
       document.querySelector('#scorecardgrade').selected=-1;
       document.querySelector('#scorecardsection').selected=-1;
@@ -305,7 +306,7 @@
         academicarr1 = e.target.selectedItem.value.trim();
       //alert(localStorage.getItem('curr_sess_loggedassesmenttype'));
         localStorage.setItem("curr_sess_academicyear",academicarr1); 
-        this.$.assesmentservice.callTermService("Term");
+        this.$.assesmentservice.callTermService1("Term");
 
       },
 

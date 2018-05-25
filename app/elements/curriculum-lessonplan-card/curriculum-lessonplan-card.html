@@ -7,27 +7,21 @@
       :host {
         display: block;
       }
-  /* table{
-    width: 80%;
-   }*/
+  
      table{
         border-collapse: collapse;
         width: 100%;
-     
-      }
+        }
       table { table-layout:fixed; }
      table td { overflow: hidden; }
 
       th,td{
-     /*border-bottom: 1px solid #ddd;
-      border-top: 1px solid #ddd; */
-      border-left: 1px solid #ddd;
-     
-      border-right: 1px solid #ddd;
+       border-left: 1px solid #ddd;
+       border-right: 1px solid #ddd;
      }
       #curriculamsubjectdialog
       {
-        border-radius: 30px;
+    border-radius: 30px;
     width: 34%;
     height: 33%;
     margin-left: 33%;
@@ -46,12 +40,13 @@
       }
 #curriculamenrichmentdialog1
       {
-   border-radius: 30px;
+    border-radius: 30px;
     width: 34%;
     height: 33%;
     margin-left: 33%;
    
       }
+     
       h4{
         text-transform:lowercase;
       }
@@ -81,6 +76,7 @@
                  <paper-button on-click="fnenrichclick"  hidden$="{{hidecloseplan}}"><h4>{{enrichmentsuggest}}</h4></paper-button>
 
               </td>
+             
               <td style="{{fonts}}"  width="3.2%">
                <div hidden$="{{hideinfovalue}}"> 
                <p hidden$="{{hideopenplan}}">Save</p>
@@ -118,6 +114,7 @@
          <center><h2>{{dialogvalue}}</h2></center> 
            <center><paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose1">Close</paper-button> </center>
       </paper-dialog>
+      
     </div>
   </template>
   <script>
@@ -128,19 +125,17 @@
       is: 'curriculum-lessonplan-card',
    ready:function(e){
     this.subremak=null;
-   this.enrichmentsuggest=null;
-   },
+    },
    FnSave:function(e){
    
    if(this.subremak=="" || this.enrichmentsuggest==""){
-      alert("pls check the value");
-       }
-  else{
-     this.$.crriculambookservice.Fnpasscurriculumlessonplan(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
-    }
-    
-
-    },
+       alert("pls check the value");
+      }
+    else{
+           this.$.crriculambookservice.Fnpasscurriculumlessonplan(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
+      } 
+  },
+   
      fnsubclick:function(){
        this.$.curriculamsubjectdialog.open();
      },

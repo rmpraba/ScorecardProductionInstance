@@ -26,7 +26,7 @@
     <div>
       <div class="card">
 
-        {{showdate}}<iron-icon icon="icons:date-range"  style="color:#20BFEE;" class="btn" on-click="FnShowDialog" ></iron-icon>
+        {{assesmentdate}}<iron-icon icon="icons:date-range"  style="color:#20BFEE;" class="btn" on-click="FnShowDialog" ></iron-icon>
   
       <paper-dialog id="dialog" class="paper-date-picker-dialog"  on-iron-overlay-closed="FnDismissDialog">
         <paper-date-picker id="picker" date="{{date}}"></paper-date-picker>
@@ -48,8 +48,9 @@
 
      ready:function()
   {
-    this.showdate=moment(new Date()).format('L');
-    localStorage.setItem("assement_curr_sess_date",this.showdate);
+    
+    this.assesmentdate=moment(new Date()).format('L');
+    localStorage.setItem("assement_curr_sess_date",this.assesmentdate);
     //this.$.service.feereport(this.showdate);
   },
   FnShowDialog:function(){
@@ -57,10 +58,11 @@
     this.$.dialog.toggle();
   },
 fndates:function(e){
-    this.showdate=moment(new Date()).format('L');
-    localStorage.setItem("assement_curr_sess_date",this.showdate);
+    this.assesmentdate=moment(new Date()).format('L');
+    localStorage.setItem("assement_curr_sess_date",this.assesmentdate);
   
 },
+
   FnDismissDialog:function(e)
   { 
     if(e.detail.confirmed)
@@ -75,8 +77,8 @@ fndates:function(e){
           }
           else
           {
-              this.showdate = moment(this.$.picker.date).format('L');
-              localStorage.setItem("assement_curr_sess_date",this.showdate);
+            this.assesmentdate = moment(this.$.picker.date).format('L');
+              localStorage.setItem("assement_curr_sess_date",this.assesmentdate);
           }      
       }
     },

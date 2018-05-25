@@ -18,14 +18,16 @@
       --paper-input-container-label: { color: red };
       text-align:center;
     }
+    .position{
+      margin-left:6% !important;
+    }
     </style>
-    <div>  
+  
       <center>
         <h3>CURRICULAM REPORT</h3>
       </center>
     </div>  
-      <div style="margin-left: 15%;">
-        <span>
+    <span class="position">
           <paper-dropdown-menu  label="Grade">
             <paper-menu id="cprgrade" class="dropdown-content"   on-iron-select="FnSelectGrade">
               <template is="dom-repeat" items="{{gradearr}}">
@@ -33,29 +35,33 @@
               </template>    
             </paper-menu>
           </paper-dropdown-menu>
-        </span>
-        <span>
-          <paper-dropdown-menu  label="Subject" style="margin-left: 5%;">
+      </span>
+       <span class="position">
+          <paper-dropdown-menu  label="Subject" >
             <paper-menu id="cprsubject" class="dropdown-content"   on-iron-select="FnSelectSubject">
             <template is="dom-repeat" items="{{subjectarr}}">
               <paper-item value="{{item.subject_id}}">{{item.subject_name}}</paper-item>
             </template>    
             </paper-menu>
           </paper-dropdown-menu>
-       </span> 
-        <div style="margin-left: 40%;margin-top: -5%;width: 100%;">
-          <curriculum-from-date-picker-card></curriculum-from-date-picker-card>
-        </div>
-        <div style="margin-left: 53%;margin-top: -5.5%;width: 100%;">
-          <curriculum-to-date-picker-card></curriculum-to-date-picker-card>
-        </div> 
-        <div style="margin-left: 67%;margin-top: -4%;">
-          <paper-button style="background-color: black;color: white;" on-click="fnsearch">Search</paper-button>
-        </div>  
-       
-      </div>
-      
-      <div class="curriculamreport" hidden$="{{fullreport}}">
+       </span > 
+          <span class="position">
+            <div style="margin-left: 45%;margin-top: -4.7%;">
+             <curriculum-from-date-picker-card></curriculum-from-date-picker-card>
+           </div>
+          </span>
+        <span class="position">
+           <div style="margin-left: 59%; margin-top: -5.9%;">
+             <curriculum-to-date-picker-card></curriculum-to-date-picker-card>
+          </div> 
+        </span>
+            <span class="position">
+              <div style="margin-left: 74%;margin-top: -4%;">
+                <paper-button style="background-color: black;color: white;" on-click="fnsearch">Search</paper-button>
+             </div>  
+            </span>
+    
+      <div  hidden$="{{fullreport}}">
        <table id="cprreport" border="1" style="border-collapse: collapse;margin-left: 5%;width: 90%; margin-top: 4%;">
         
         <template  is="dom-repeat" items="{{fullreportarr}}" as="view">

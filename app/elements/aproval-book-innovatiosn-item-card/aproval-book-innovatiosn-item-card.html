@@ -1394,12 +1394,14 @@ if(flagg==1){
        this.$.conceptcheckid.close();
        },
        conceptno:function(e){
+        
         this.$.conceptcheckid.close();
          this.conceptzz="";
          document.querySelector('teacher-book-approve-card').conceptzz=this.conceptzz;
-        this.allrefesh();
+        this.allrefesh1();
        },
   edifref:function(){
+
           this.bldvaluez="";
   document.querySelector('aproval-book-concept-card').FnClear(this.id);
             this.currenttechtemp="";
@@ -1419,18 +1421,56 @@ if(flagg==1){
             hometemp=[]; 
             techtemp=[];
      },
+     allrefesh1:function(){
+        
+         this.subconceptarr1="";
+         this.period="";
+         this.skillarrzx="";
+         this.mainarr="";
+         this.hidecheck1=false;
+         this.hidecheck=true;
+        document.getElementById('homeworkvalu'+this.rowid).textarea.value="";
+        document.getElementById('curriculam'+this.rowid).textarea.value="";
+        this.innovation="";
+        this.remark="";
+         this.showdate=moment(new Date()).format('L');
+         localStorage.setItem("localsess_from_service",this.showdate);
+         this.currenttechtemp="";
+         this.currenthometemp="";
+         glfilename="";
+         teachertempaids=[];
+         this.currurl="";
+         this.homecurrurl="";
+          glfilename="";;
+            teachertempaids=[];
+            homeglfilename="";;
+            hometeachertempaids=[];
+            mainurl="";
+            homefilearrurl=[];
+            teaceraidsarrurl=[];
+            setsubarr=[];
+            sethomearr=[];
+            trmp=[];
+            conarr=[];
+            valuearr=[];
+            skarr=[];
+            setsubarr=[];
+            sethomearr=[];
+            subsarrr=[];
+            this.subconceptarr=""; 
+            hometemp=[]; 
+            techtemp=[];
+           this.currurl="";
+           document.querySelector('concept-check-card').fnclean();
+           document.querySelector('aproval-book').fnclean1();
+           document.querySelector('skill-dialog-card').fnclean1();
+           document.querySelector('subconcept-dialog-card').fnclean1();
+           document.querySelector('aproval-book-concept-card').FnClear();
+     },
 allrefesh:function(){
-  this.currenttechtemp="";
-   this.currenthometemp="";
-    document.querySelector('aproval-book-concept-card').FnClear(this.id);
-    this.remark ="";
-    this.innovation="";
- this.conceptzz="";
-         this.period=""
-            this.mainarr="";
-            this.skillarrzx="";
-            this.subconceptarr1="";
-            this.bldvaluez="";
+         
+            
+            
             //this.homeworks="";
             this.hidecheck1=true;
             this.hidecheck=false;  
@@ -1454,8 +1494,7 @@ allrefesh:function(){
             setsubarr=[];
             sethomearr=[];
             trmp=[];
-         
-            conarr=[];
+           conarr=[];
             valuearr=[];
             skarr=[];
             setsubarr=[];
@@ -1464,10 +1503,7 @@ allrefesh:function(){
            this.subconceptarr=""; 
             hometemp=[]; 
             techtemp=[];
-      /* this.showdate=moment(new Date()).format('L');
-       localStorage.setItem("localsess_from_service",this.showdate);
-       localStorage.setItem("assement_curr_sess_date",this.showdate);
-        localStorage.setItem("localsess_last_service",this.showdate);*/
+      
            document.querySelector('concept-check-card').fnclean();
            document.querySelector('aproval-book').fnclean1();
            document.querySelector('skill-dialog-card').fnclean1();

@@ -20,8 +20,8 @@ var connection = mysql.createConnection({
   // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : 'admin',
-  database : 'samsidhreportcard'
+  password : '',
+  database : 'scorecardtemp'
 });
 var app = express();
 var logfile;
@@ -544,16 +544,11 @@ app.post('/lessonplan-grade',  urlencodedParser,function (req, res)
 
 app.post('/lessonplan-section',  urlencodedParser,function (req, res)
 {
-<<<<<<< HEAD
+
     connection.query("SELECT distinct(section_id),UPPER(section_id) as section_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher') and grade_id in(SELECT grade_id FROM md_grade WHERE grade_name='"+req.body.grade+"')",
     function(err, rows)
-=======
-    var que = "SELECT * FROM mp_teacher_grade g join md_curriculum_planning p on(g.grade_id=p.grade_id) WHERE "+
-    " g.school_id='"+req.body.schoolid+"' and g.id='"+req.body.empid+"' and g.academic_year='2017-2018' and g.flage='active' and "+
-    " g.role_id='co-ordinator' and p.school_id='"+req.body.schoolid+"' and p.academic_year='2017-2018'";
+
   
-    var query = connection.query(que, function(err, rows)
->>>>>>> 7ca9c50316e26a2f4226553edffbc48e2bdc58c2
     {
     if(!err)
     {

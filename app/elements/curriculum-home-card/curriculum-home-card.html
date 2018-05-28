@@ -114,6 +114,16 @@
         on-response="curriculmsendmailResponse"
         debounce-duration="300"/>
        </iron-ajax>
+             <iron-ajax
+        method="post"
+        id="curriculmsendmail1ajax"
+        url="{{curriculmsendmail1url}}"
+        params="{{curriculmsendmail1param}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="curriculmsendmail1Response"
+        debounce-duration="300"/>
+       </iron-ajax>
   </template>
   <script>
   (function() {
@@ -143,10 +153,10 @@ var c1=0,c2=0;
      curriculmsendmail:function(mailcontent,subject,link,parentarr){
     c1=parentarr.length;
     for(var i=0;i<parentarr.length;i++){
-  this.curriculmsendmailurl=sessionStorage.getItem("addrinfo")+"/curriculmsendmail-service";
-   var obj={};
+       this.curriculmsendmailurl=sessionStorage.getItem("addrinfo")+"/curriculmsendmail-service";
+       var obj={};
        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-      obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+       obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
        obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
        obj.empid=sessionStorage.getItem("curr_sess_loggedid");
@@ -161,11 +171,44 @@ var c1=0,c2=0;
        obj.secondmail=parentarr[i].secondmail;
        obj.firstmail=parentarr[i].firstmail;
        this.curriculmsendmailparam=obj;
-     
        this.$.curriculmsendmailajax.generateRequest();
+
+       this.curriculmsendmail1url=sessionStorage.getItem("addrinfo")+"/curriculmsendmail1-service";
+       var obj={};
+       obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+       obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+       obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+       obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+       obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+       obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+       obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+       obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+       obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+       obj.termid=sessionStorage.getItem("termid");
+       obj.mailcontent=mailcontent;
+       obj.subject=subject;
+       obj.link=link;
+       obj.secondmail=parentarr[i].secondmail;
+       obj.firstmail=parentarr[i].firstmail;
+       obj.conceptname=this.conceptname;
+       obj.subconceptname=this.subconceptname;
+       obj.conceptid=this.conceptid;
+       obj.subconceptid=this.subconceptid;
+       obj.rowid=this.rowid;
+       obj.homecontent=mailcontent;
+       obj.subjectcontent=subject;
+       obj.studentid=parentarr[i].studentid;
+       obj.studentname=parentarr[i].student_name;
+       this.curriculmsendmail1param=obj;
+       this.$.curriculmsendmail1ajax.generateRequest();
+
 
      }
     },
+   curriculmsendmail1Response:function(e){
+    var res=e.detail.response.returnval;
+    
+  },  
    curriculmsendmailResponse:function(e){
    c2++;
    if(c1==c2){

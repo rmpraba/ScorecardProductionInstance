@@ -237,7 +237,7 @@ h4{
               <td width="12.56%">
            
               <div style="height: 50px; overflow:hidden;">  
-               <paper-icon-button hidden$="{{hidecheck1}}" icon="add" on-click="fngetsubconcept" style="color:#6699ff;float: right;"></paper-icon-button>
+                <paper-icon-button hidden$="{{hidecheck1}}" icon="add" on-click="fngetsubconcept" style="color:#6699ff;float: right;"></paper-icon-button>
                   <template is="dom-repeat" items="{{subconceptarr1}}" as="rse">
                     <h4 >{{rse.subconceptname}}</h4>
                   </template>
@@ -531,7 +531,8 @@ h4{
    <table style="border-collapse:collapse;">
        <tr>
           <template is="dom-repeat" items="{{currenttechtemp}}" as="nt">
-             <aproval-book-teaching-card glfilename="{{nt.glfilename}}"  currentteachurl="{{nt.currentteachurl}}" techflag="{{nt.techflag}}" currurl="{{nt.currurl}}" fonts="{{nt.fonts}}" hideopenplan="{{nt.hideopenplan}}"  hidecloseplan="{{nt.hidecloseplan}}"  hidcontent="{{nt.hidcontent}}" hidurl="{{nt.hidurl}}" rowid={{rowid}}  ></aproval-book-teaching-card>
+              <aproval-book-teaching-card glfilename="{{nt.glfilename}}"  currentteachurl="{{nt.currentteachurl}}" techflag="{{nt.techflag}}" currurl="{{nt.currurl}}" fonts="{{nt.fonts}}" hideopenplan="{{nt.hideopenplan}}"  hidecloseplan="{{nt.hidecloseplan}}"  hidcontent="{{nt.hidcontent}}" hidurl="{{nt.hidurl}}" rowid={{rowid}}  >
+           </aproval-book-teaching-card>
           </template> 
        </tr>
    </table>
@@ -739,19 +740,12 @@ var m=(new Date()).getDate()+"-"+((new Date()).getMonth()+1)+"-"+(new Date()).ge
                 filenames=filenames+","+teachertempaids[j].filenames;
                 this.filenames=filenames;
            }
-
-        
-     document.getElementById("fomeid"+rowid).value=this.filenames;
-     //   alert(JSON.stringify(teaceraidsarrurl));
-     //   alert(JSON.stringify(teachertempaids));
-      //  alert(this.filenames);
+      document.getElementById("fomeid"+rowid).value=this.filenames;
+   
     }
 
 function eatFood(){
-
-
     var x = document.getElementById("myFile"+rowid);
-   // alert("You selected " + x.value);
     var txt = "";
     if ('files' in x) {
         if (x.files.length == 0) {
@@ -772,11 +766,11 @@ function eatFood(){
     } 
 
     else {
-        if (x.value == "") {
+        if (x.value == ""){
             txt += "Select one or more files.";
         } else {
             txt += "The files property is not supported by your browser!";
-            txt  += "<br>The path of the selected file: " + x.value; // If the browser does not support the files property, it will return the path of the selected file instead. 
+            txt  += "<br>The path of the selected file: " + x.value; // If the 
         }
     }
     }
@@ -1293,28 +1287,26 @@ fnconceptvalue:function(arr){
      this.$.dzfsd1xsasa.close();
      document.querySelector('aproval-book').newRefreshdddd();
     },
-    fnsavebook:function(e)
+  fnsavebook:function(e)
     {
-    
+
 if(conarr.length!=0 && valuearr.length!=0 && skarr.length!=0 &&hometemp.length!=0 && techtemp.length!=0)
       {
-         if(this.period==""|| this.period==null )
-           {
-            alert("Please Enter All Fields");
-            this.hidecheck1=false;
-            this.hidecheck=true;
-           }
+        if(this.period==""|| this.period==null)
+            {
+               alert("Please Enter All Fields");
+               this.hidecheck1=false;
+               this.hidecheck=true;
+            }
            
     else if(this.planneddate=="empty")
-      {
+        {
           this.checkconcept();
-      
-        
-       }
-        else  
-          {
-      this.$.bookservice.fnmasterplanedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.sno,techtemp,hometemp);
-          }
+        }
+     else  
+        {
+          this.$.bookservice.fnmasterplanedit(conarr,valuearr,skarr,subsarrr,this.period,this.innovation,this.remark,this.rowid,this.sno,techtemp,hometemp);
+         }
      
            }
            else{
@@ -1357,25 +1349,24 @@ if(conarr.length!=0 && valuearr.length!=0 && skarr.length!=0 &&hometemp.length!=
      for(var n=0;n<res1.length;n++){
          var k;
          var temp=[];
-         k=res1[n].sub_concept_id;
+         k=res1[n].concept_id;
              temp=k.split(",");
             for(var i=0;i<temp.length;i++){ 
                    gltemp.push(temp[i]);
               }
         }
         }
-   for(var i=0;i<subsarrr.length;i++){
+   for(var i=0;i<conarr.length;i++){
      for(var j=0;j<gltemp.length;j++){
-      if(subsarrr[i].subconceptid==gltemp[j]){
+      if(conarr[i].conceptid==gltemp[j]){
         flagg=1;
         gltemp=[];
          break;
           }}}
 
        }
-if(flagg==1){
-        
-          this.fnpassconceptcheckvalue();
+   if(flagg==1){
+        this.fnpassconceptcheckvalue();
             flagg=0;
             res1=[];
             }
@@ -1420,7 +1411,7 @@ if(flagg==1){
             this.subconceptarr=""; 
             hometemp=[]; 
             techtemp=[];
-     },
+      },
      allrefesh1:function(){
         
          this.subconceptarr1="";
@@ -1429,10 +1420,10 @@ if(flagg==1){
          this.mainarr="";
          this.hidecheck1=false;
          this.hidecheck=true;
-        document.getElementById('homeworkvalu'+this.rowid).textarea.value="";
-        document.getElementById('curriculam'+this.rowid).textarea.value="";
-        this.innovation="";
-        this.remark="";
+         document.getElementById('homeworkvalu'+this.rowid).textarea.value="";
+         document.getElementById('curriculam'+this.rowid).textarea.value="";
+         this.innovation="";
+         this.remark="";
          this.showdate=moment(new Date()).format('L');
          localStorage.setItem("localsess_from_service",this.showdate);
          this.currenttechtemp="";
@@ -1461,11 +1452,15 @@ if(flagg==1){
             hometemp=[]; 
             techtemp=[];
            this.currurl="";
-           document.querySelector('concept-check-card').fnclean();
+          
+           if(skarr.length!=0)   
+            document.querySelector('skill-dialog-card').fnclean1();
+           if(subsarrr.length!=0) 
+            document.querySelector('subconcept-dialog-card').fnclean1();
+            if(conarr.length!=0) 
+              document.querySelector('aproval-book-concept-card').FnClear();
+            if(valuearr.length!=0) 
            document.querySelector('aproval-book').fnclean1();
-           document.querySelector('skill-dialog-card').fnclean1();
-           document.querySelector('subconcept-dialog-card').fnclean1();
-           document.querySelector('aproval-book-concept-card').FnClear();
      },
 allrefesh:function(){
          
@@ -1504,11 +1499,14 @@ allrefesh:function(){
             hometemp=[]; 
             techtemp=[];
       
-           document.querySelector('concept-check-card').fnclean();
+            if(skarr.length!=0)   
+            document.querySelector('skill-dialog-card').fnclean1();
+           if(subsarrr.length!=0) 
+            document.querySelector('subconcept-dialog-card').fnclean1();
+            if(conarr.length!=0) 
+              document.querySelector('aproval-book-concept-card').FnClear();
+            if(valuearr.length!=0) 
            document.querySelector('aproval-book').fnclean1();
-           document.querySelector('skill-dialog-card').fnclean1();
-           document.querySelector('subconcept-dialog-card').fnclean1();
-           document.querySelector('aproval-book-concept-card').FnClear();
 },
     fngetconceptz1:function(e){
        this.$.dzfsd1xsasa.toggle(); 
@@ -1526,10 +1524,13 @@ allrefesh:function(){
     this.rowid1=rowid1;
     this.iddate1=iddate1;
    var localconarr=[];
-     for(var i=0;i<conarr.length;i++){
+   if(conarr.length!=0){
+ for(var i=0;i<conarr.length;i++){
       if(this.rowid1==conarr[i].rowid)      
       localconarr.push(conarr[i]);
      } 
+   }
+     
      len1=localconarr.length;
      for(var i=0;i<localconarr.length;i++){
      this.fngetsubconcepts1url=sessionStorage.getItem("addrinfo")+"/fngetsubconcepts-service";
@@ -1637,10 +1638,12 @@ fngetsubconcepts1Response:function(e){
   
    
     var localconarr=[];
-     for(var i=0;i<conarr.length;i++){
+     if(conarr.length!=0){
+      for(var i=0;i<conarr.length;i++){
       if(this.rowid==conarr[i].rowid)      
       localconarr.push(conarr[i]);
      } 
+     }
      len1=localconarr.length;
      for(var i=0;i<localconarr.length;i++){
      this.fngetsubconceptsurl=sessionStorage.getItem("addrinfo")+"/fngetsubconcepts-service";
@@ -1947,6 +1950,7 @@ fndelete:function(e){
     },
     subconceptclose:function(e){
      this.$.fngetdialogid.close();
+     if(subsarrr.length!=0)
      document.querySelector('subconcept-dialog-card').fnrefreshccc();
       },
      skillclose:function()

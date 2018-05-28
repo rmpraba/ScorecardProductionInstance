@@ -2304,12 +2304,11 @@ app.post('/assesmenttype-service',  urlencodedParser,function (req, res)
 app.post('/term-service',  urlencodedParser,function (req, res)
 {
   
-
-if(req.query.roleid=='subject-teacher'||req.query.roleid=='class-teacher'||req.query.roleid=='co-ordinator')
-       var qur="select distinct(term_id),term_name from md_grade_assesment_mapping where academic_year='"+req.query.academicyear+"' and school_id='"+req.query.schoolid+"' and "+
+  if(req.query.roleid=='subject-teacher'||req.query.roleid=='class-teacher'||req.query.roleid=='co-ordinator')
+         var qur="select distinct(term_id),term_name from md_grade_assesment_mapping where academic_year='"+req.query.academicyear+"' and school_id='"+req.query.schoolid+"' and "+
   " grade_id in (select grade_id from mp_teacher_grade where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and id='"+req.query.loggedid+"' and role_id='"+req.query.roleid+"')";
   else
-    var qur="select distinct(term_id),term_name from md_grade_assesment_mapping where academic_year='"+req.query.academicyear+"' and school_id='"+req.query.schoolid+"'";
+  var qur="select distinct(term_id),term_name from md_grade_assesment_mapping where academic_year='"+req.query.academicyear+"' and school_id='"+req.query.schoolid+"'";
  
   console.log('term service....');
   console.log(qur);
@@ -10892,7 +10891,7 @@ app.post('/fetchfahealthinfo-service' ,  urlencodedParser,function (req, res)
 });
 app.post('/getinparnetmail-service' ,  urlencodedParser,function (req, res)
 {  
-   var qur="SELECT  id  as studentid ,(select  email from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')  as firstmail ,(select  alternate_mail from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')as secondmail FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
+   var qur="SELECT student_name,id as studentid ,(select  email from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')  as firstmail ,(select  alternate_mail from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')as secondmail FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
  
     console.log('..............parent info.............');
     console.log(qur);
@@ -17728,11 +17727,10 @@ app.post('/bookrefsection-service',  urlencodedParser,function (req,res)
   });
 });
 
-
 app.post('/getcaptervalue-service',  urlencodedParser,function (req,res)
   {  
     var qur="SELECT * FROM md_chapter where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and gradeid='"+req.query.grade_id+"' and subjectid='"+req.query.subject_id+"'and term_id='"+req.query.termid+"'";
-    
+     console.log(qur)
     connection.query(qur,
     function(err, rows)
     {
@@ -17912,7 +17910,7 @@ app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
   {  
     var qur="INSERT INTO md_concept SET ?";
     var response={ 
-      concept_id:req.query.concept_id,
+       concept_id:req.query.concept_id,
        concept:req.query.concept,
        capter_id:req.query.capter_id,
        flag:req.query.flag
@@ -17936,6 +17934,8 @@ app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
      res.status(200).json({'returnval': 'no rows'}); 
   });
 }); 
+
+
 
 
 app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
@@ -25066,6 +25066,45 @@ app.post('/fnteacheraid2-service',  urlencodedParser,function (req, res)
     }
     });
 });
+
+app.post('/curriculmsendmail1-service',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      section_id:req.query.sectionid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      concept_name:req.query.concept_name,
+      sub_concept_id:req.query.subconceptid,
+      sub_concept_name:req.query.subconceptname, 
+      row_id: req.query.rowid,
+      subject_content:req.query.subjectcontent,
+      home_content:req.query.homecontent,
+      student_id:req.query.studentid,
+      student_name:req.query.studentname,
+      link:req.query.link,
+      emp_id:req.query.empid,
+    };
+    console.log(response);
+    connection.query("INSERT INTO md_concept_current_homework SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'inserted'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not inserted'}); 
+    }
+    });
+});
+
+
+
 app.post('/fetchexceptionsubjectinfo-service',  urlencodedParser,function (req, res)
 {
   // var response={ 

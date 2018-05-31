@@ -237,18 +237,32 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
        this.curriculmsendmail1param=obj;
        this.$.curriculmsendmail1ajax.generateRequest();
 
+
       },
       curriculmsendmail1Response:function(e){
       var res=e.detail.response.returnval;
       //alert(JSON.stringify(res));
        this.FnToggleSpinner(false);
       },
+
+     
+   
+   curriculmsendmailResponse:function(e){
+   c2++;
+   if(c1==c2){
+         var res=e.detail.response.returnval;
+         alert(JSON.stringify(res));
+         c1=0;
+         c2=0;
+    }
+    }, 
+
     FnMail:function(e){
      this.$.maildialog.open();
-      this.subject="New Massage";
+      this.subject="New Message";
       this.$.crriculambookservice.fngetinparnetmail();
      //this.$.crriculambookservice.fnmailprocess();
-    },
+    }
     });
   })();
   </script>

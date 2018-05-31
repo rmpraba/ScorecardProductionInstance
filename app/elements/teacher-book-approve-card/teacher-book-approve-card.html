@@ -143,7 +143,7 @@ th{
        <paper-dropdown-menu  label="Select the chapter">
               <paper-menu id="teacherapprovechapter" class="dropdown-content"   on-iron-select="fnselectchapter">
                    <template is="dom-repeat" items="{{chapterarr}}">
-                    <paper-item value="{{item.capter_id}}">{{item.capter}}</paper-item>
+                   <paper-item value="{{item.capter_id}}">{{item.capter}}</paper-item>
                   </template>    
                 </paper-menu>
          </paper-dropdown-menu>
@@ -344,12 +344,13 @@ document.querySelector('aproval-book-innovatiosn-item-card').currenthometemp=arr
       this.$.bookservice.conceptseq();
        //document.querySelector('concept-check-card').fnclean();
        
-      document.querySelector('concept-check-card').fnRefreshzyz();
-      document.querySelector('subconcept-dialog-card').fnrefreshhccc();
+     
       document.querySelector('skill-dialog-card').FnRefreshhhh();
       document.querySelector('aproval-book').newRefreshkmdddd();
       document.querySelector('aproval-book-innovatiosn-item-card').allrefesh();
-      
+      document.querySelector('subconcept-dialog-card').fnrefreshhccc();
+      document.querySelector('concept-check-card').fnRefreshzyz();
+      document.querySelector('subconcept-dialog-card').fnrefreshhccc();
     //  document.querySelector('from-book-date-picker').FnClearrrtyz();
       
        },
@@ -426,16 +427,16 @@ document.querySelector('aproval-book-innovatiosn-item-card').teachclosevalue(val
 
      fnchaperrefersh:function(e){
  this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid,this.termid);
-
+//alert("22");
       this.$.zdsasddsasfsa.hidden=false;
       this.overallarr1="";
       this.$.bookservice.conceptseq();
       
       document.querySelector('concept-check-card').fnRefreshzyz();
-      document.querySelector('subconcept-dialog-card').fnrefreshhccc();
       document.querySelector('skill-dialog-card').FnRefreshhhh();
       document.querySelector('aproval-book').newRefreshkmdddd();
       document.querySelector('aproval-book-innovatiosn-item-card').allrefesh();
+      document.querySelector('subconcept-dialog-card').fnrefreshhccc();
      },
 
 

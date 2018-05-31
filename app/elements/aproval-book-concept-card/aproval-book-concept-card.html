@@ -11,9 +11,10 @@
        #dzfsd
       {
           border-radius: 10px;
-          width: 700px;
-          height: 360px;
+          width: 711px;
+          height: 491px;
           margin-left: -3%;
+          margin-top: -4%;
          
       }
         .concptcard
@@ -26,19 +27,20 @@
       
     </style>
    <div hidden>
-     {{hidecheck}}{{conceptid}}{{iddate}}{{rowid}}
-     {{sno}}{{plannedtoate}}{{rowidz}}{{hidecheck1}}</div>
-<table >
+      {{hidecheck}}{{conceptid}}{{iddate}}{{rowid}}
+      {{sno}}{{plannedtoate}}{{rowidz}}{{hidecheck1}}
+    </div>
+<table>
  <tr>
 <td style="width: 12.56%;padding-left: 2%;">
     <paper-icon-button  id="ENR{{id}}" hidden icon="add" on-click="fnsetglobal" style="color:#6699ff;float: right;"></paper-icon-button>
-
+             
         <div style="height: 50px; overflow:hidden;">
            <paper-icon-button  hidden$="{{infovalue}}"  icon="add" on-click="fngetconceptz" style="color:#6699ff;float: right;"></paper-icon-button>
-        <template is="dom-repeat" items="{{conceptzz}}" as="r">
-                   <h4 style="margin-left: 11%; width: 90%;">{{r.conceptname}}</h4>
-          </template>
-             <h4  style="margin-left: 11%; width: 90%;" hidden$="{{hidedbconcept}}">{{conceptname}}</h4>
+            <template is="dom-repeat" items="{{conceptzz}}" as="r">
+                <h4 style="margin-left: 11%; width: 90%;">{{r.conceptname}}</h4>
+            </template>
+             <h4 style="margin-left: 11%; width: 90%;" hidden$="{{hidedbconcept}}">{{conceptname}}</h4>
         </div>
    </td>      
 </tr>
@@ -46,7 +48,9 @@
 
 <paper-dialog id="dzfsd" modal >
        <h3>Concept Name</h3>
-       <div class="concptcard">    
+        <paper-input label=" Add New Concept" value="{{addconcept}}" style='width:60%'></paper-input>
+       <div class="concptcard"><paper-icon-button icon='add' on-click="fnaddconcept"  style="color:black;color: black; margin-top: -9%;margin-left: 59%;
+    position: absolute;"></paper-icon-button>    
         <template is="dom-repeat" items="{{conceparr}}" as="s">
           <concept-check-card conceptid="{{s.concept_id}}" id="FFYJ{{rowid}}{{iddate}}{{s.concept_id}}" conceptname="{{s.concept}}" check="{{s.check}}" rowid="{{rowid}}"></concept-check-card>
         </template>  
@@ -76,6 +80,26 @@
         on-response="fngetconceptcheck1Response"
         debounce-duration="300" />
        </iron-ajax>
+         <iron-ajax
+        method="post"
+        id="passaddconceptajax"
+        url="{{passaddconcepturl}}"
+        params="{{passaddconceptparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="passaddconceptResponse"
+        debounce-duration="300" />
+       </iron-ajax>
+        <iron-ajax
+        method="post"
+        id="getchapteridajax"
+        url="{{getchapteridurl}}"
+        params="{{getchapteridparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="getchapteridResponse"
+        debounce-duration="300" />
+       </iron-ajax>
   </template>
   <script>
   (function() {
@@ -86,23 +110,67 @@ var  rowid1="";
     Polymer({
       is: 'aproval-book-concept-card',
       ready:function(){
-       
+       this.addconcept="";
+
       },
-   fnsubmit:function(e){
-     //this.$.bookservice.fnpassinsetconcept(conarr1);
-     this.$.dzfsd.toggle();
-     var temp=[];
-     this.hidedbconcept=true;
-    for(var i=0;i<conarr1.length;i++){
-      if(conarr1[i].rowid==this.rowid){
-        temp.push({"conceptname":conarr1[i].conceptname});
-      }
-     }
-     this.conceptzz=[];
+      fnaddconcept:function(e){
+         //alert(this.addconcept+"----"+this.addconcept);
+         if(this.addconcept==""||this.addconcept==""){
+            
+              alert('Please Add the concept'); 
+         }
+          else
+         {
+            this.passaddconcept();
+         }
+      },
+      GetChapterid:function(e){
+          this.getchapteridurl=sessionStorage.getItem("addrinfo")+"/generateterm-service";
+            this.$.getchapteridajax.generateRequest();
+         
+         },
+      getchapteridResponse:function(e){
+         var res= e.detail.response.returnval;
+         this.addconceptid=res[0].concept_prefix+res[0].concept_sequence;
+        // alert(this.addconceptid);
+      },
+      passaddconcept:function(e){
+this.passaddconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept-service";
+        var obj={};
+        obj.concept_id=this.addconceptid;
+        obj.concept=this.addconcept;
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+        obj.capter_id=localStorage.getItem("curr_sess_capters");
+        obj.subjectid=sessionStorage.getItem("subjectidz");
+        obj.gradeid=sessionStorage.getItem("grdeidz");
+        obj.termid=sessionStorage.getItem("termid");
+        obj.flag='active';
+        this.passaddconceptparam=obj;
+     
+        this.$.passaddconceptajax.generateRequest();
+          },
+passaddconceptResponse:function(e){
+         var res1=e.detail.response.returnval;
+          this.GetChapterid();
+          this.fngetconceptcheck();
+          this.addconceptid="";
+      },
+      fnsubmit:function(e){
+       //this.$.bookservice.fnpassinsetconcept(conarr1);
+       this.$.dzfsd.toggle();
+        var temp=[];
+        this.hidedbconcept=true;
+        for(var i=0;i<conarr1.length;i++){
+         if(conarr1[i].rowid==this.rowid){
+          temp.push({"conceptname":conarr1[i].conceptname});
+        }
+       }
+      this.conceptzz=[];
      this.conceptzz=temp;
     },
     fnsetchapterz:function(e){
-document.querySelector('concept-check-card').setchpterclean(conarr1);
+   document.querySelector('concept-check-card').setchpterclean(conarr1);
 }, 
 fnsetglobal:function(){
   //alert(this.id);
@@ -119,6 +187,7 @@ fnsetglobal:function(){
       conarr1=[];
       this.conceparr="";
       this.fngetconceptcheck();
+      this.GetChapterid();
       this.$.dzfsd.toggle(); 
     },
     fngetconceptcheck:function(rowid)

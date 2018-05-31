@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
-// const nodemailer = require('nodemailer');
+const nodemailer = require('nodemailer');
 var connection = mysql.createConnection({  
   // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   // database:"scorecarddb",
@@ -548,6 +548,7 @@ app.post('/lessonplan-grade',  urlencodedParser,function (req, res)
 app.post('/lessonplan-section',  urlencodedParser,function (req, res)
 {
 
+
     // connection.query("SELECT distinct(section_id),UPPER(section_id) as section_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher') and grade_id in(SELECT grade_id FROM md_grade WHERE grade_name='"+req.body.grade+"')",
     // var que = "SELECT * FROM mp_teacher_grade g join md_curriculum_planning p on(g.grade_id=p.grade_id) WHERE "+
     // " g.school_id='"+req.body.schoolid+"' and g.id='"+req.body.empid+"' and g.academic_year='2017-2018' and g.flage='active' and "+
@@ -555,7 +556,9 @@ app.post('/lessonplan-section',  urlencodedParser,function (req, res)
     var que = "SELECT distinct(section_id),UPPER(section_id) as section_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher') and grade_id in(SELECT grade_id FROM md_grade WHERE grade_name='"+req.body.grade+"')";
     console.log('-----------Section----------');
     console.log(que);
-    connection.query(que, function(err, rows)
+    // connection.query(que, function(err, rows)
+    connection.query("SELECT distinct(section_id),UPPER(section_id) as section_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher') and grade_id in(SELECT grade_id FROM md_grade WHERE grade_name='"+req.body.grade+"')",
+    function(err, rows)
     {
     if(!err)
     {
@@ -2318,12 +2321,11 @@ app.post('/assesmenttype-service',  urlencodedParser,function (req, res)
 app.post('/term-service',  urlencodedParser,function (req, res)
 {
   
-
-if(req.query.roleid=='subject-teacher'||req.query.roleid=='class-teacher'||req.query.roleid=='co-ordinator')
-       var qur="select distinct(term_id),term_name from md_grade_assesment_mapping where academic_year='"+req.query.academicyear+"' and school_id='"+req.query.schoolid+"' and "+
+  if(req.query.roleid=='subject-teacher'||req.query.roleid=='class-teacher'||req.query.roleid=='co-ordinator')
+         var qur="select distinct(term_id),term_name from md_grade_assesment_mapping where academic_year='"+req.query.academicyear+"' and school_id='"+req.query.schoolid+"' and "+
   " grade_id in (select grade_id from mp_teacher_grade where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and id='"+req.query.loggedid+"' and role_id='"+req.query.roleid+"')";
   else
-    var qur="select distinct(term_id),term_name from md_grade_assesment_mapping where academic_year='"+req.query.academicyear+"' and school_id='"+req.query.schoolid+"'";
+  var qur="select distinct(term_id),term_name from md_grade_assesment_mapping where academic_year='"+req.query.academicyear+"' and school_id='"+req.query.schoolid+"'";
  
   console.log('term service....');
   console.log(qur);
@@ -8718,144 +8720,164 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
         var dancearr=[];
         
         for(var i=0;i<global.scholasticinfo.length;i++){          
-          var obj={"category":"","t1grade":"","t2grade":"","t3grade":"","comment":""};          
+          var obj={"category":"","t1grade":"","t2grade":"","t3grade":"","comment":""}; 
+         
           if(global.scholasticinfo[i].subject_name=="English"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+              var obj1={"English":"","Term1":"","Term2":"","Term3":"","Comments":""};          
+            obj1.English=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;    
-            engarr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;    
+            engarr.push(obj1);
           }
           if(global.scholasticinfo[i].subject_name=="Mathematics"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+           var obj1={"Mathematics":"","Term1":"","Term2":"","Term3":"","Comments":""};
+             obj1.Mathematics=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            matharr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            matharr.push(obj1);
           }
           if(global.scholasticinfo[i].subject_name=="EVS"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+           var obj1={"EVS":"","Term1":"","Term2":"","Term3":"","Comments":""};
+
+            obj1.EVS=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            evsarr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            evsarr.push(obj1);
           }
           if((global.scholasticinfo[i].subject_name).trim()=="II Language Hindi"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+            var obj1={"HindiandKannada":"","Term1":"","Term2":"","Term3":"","Comments":""};
+            obj1.HindiandKannada=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            hinarr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            hinarr.push(obj1);
           }
         if((global.scholasticinfo[i].subject_name).trim()=="II Language Kannada"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+          var obj1={"HindiandKannada":"","Term1":"","Term2":"","Term3":"","Comments":""};
+            obj1.HindiandKannada=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            hinarr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            hinarr.push(obj1);
           }
-          if((global.scholasticinfo[i].subject_name).trim()=="Computer"){            
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+          if((global.scholasticinfo[i].subject_name).trim()=="Computer"){ 
+          var obj1={"Computer":"","Term1":"","Term2":"","Term3":"","Comments":""};
+
+            obj1.Computer=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            comarr.push(obj);            
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            comarr.push(obj1);            
           }          
           if(global.scholasticinfo[i].subject_name=="GK"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+          var obj1={"GK":"","Term1":"","Term2":"","Term3":"","Comments":""};
+
+            obj1.GK=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            gkarr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            gkarr.push(obj1);
           }          
                    
-          if(global.scholasticinfo[i].subject_name=="Art&Craft"){            
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+          if(global.scholasticinfo[i].subject_name=="Art&Craft"){
+          var obj1={"ArtandCraft":"","Term1":"","Term2":"","Term3":"","Comments":""};
+
+            obj1.ArtandCraft=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;     
-            acarr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;     
+            acarr.push(obj1);
           }
           if(global.scholasticinfo[i].subject_name=="music"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+          var obj1={"music":"","Term1":"","Term2":"","Term3":"","Comments":""};
+
+            obj1.music=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            mdarr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            mdarr.push(obj1);
           }
           if(global.scholasticinfo[i].subject_name=="dance"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+            var obj1={"dance":"","Term1":"","Term2":"","Term3":"","Comments":""};
+            obj1.dance=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            dancearr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            dancearr.push(obj1);
           }
 
           if(global.scholasticinfo[i].subject_name=="Games"){
-            obj.category=global.scholasticinfo[i].category;
-            obj.comment=global.scholasticinfo[i].description;
+            var obj1={"Games":"","Term1":"","Term2":"","Term3":"","Comments":""};
+
+            obj1.Games=global.scholasticinfo[i].category;
+            obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
-            obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj.t3grade=global.scholasticinfo[i].term_cat_grade;
-            gamearr.push(obj);
+            obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+            gamearr.push(obj1);
           }
 
-        if(global.scholasticinfo[i].subject_name=="Personality Development"){ 
-          obj.category=global.scholasticinfo[i].category; 
-          obj.comment=global.scholasticinfo[i].description;      
+        if(global.scholasticinfo[i].subject_name=="Personality Development"){
+            var obj1={"Personality_Development":"","Term1":"","Term2":"","Term3":"","Comments":""};
+
+          obj1.Personality_Development=global.scholasticinfo[i].category; 
+          obj1.Comments=global.scholasticinfo[i].description;      
           if(global.scholasticinfo[i].term_name=="Term1"){            
-          obj.t1grade=global.scholasticinfo[i].term_cat_grade;
+          obj1.Term1=global.scholasticinfo[i].term_cat_grade;
           }
           if(global.scholasticinfo[i].term_name=="Term2"){            
-          obj.t2grade=global.scholasticinfo[i].term_cat_grade;
+          obj1.Term2=global.scholasticinfo[i].term_cat_grade;
           }
           if(global.scholasticinfo[i].term_name=="Term3"){            
-          obj.t3grade=global.scholasticinfo[i].term_cat_grade;
+          obj1.Term3=global.scholasticinfo[i].term_cat_grade;
           }
-          parr.push(obj);          
+          parr.push(obj1);          
         }
        }
 
@@ -9010,75 +9032,20 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
     console.log('....................schoolname.........................');
     console.log(req.query.schoolname+"   "+req.query.academicyear); 
     console.log('........................................');
-/*
-
-var headers = {
-    fila_0:{
-        col_1:{ text: 'Faltas', style: 'tableHeader',rowSpan: 2, alignment: 'center',margin: [0, 8, 0, 0] },
-        col_2:{ text: 'Fecha', style: 'tableHeader',rowSpan: 2, alignment: 'center',margin: [0, 8, 0, 0] },
-        col_3:{ text: 'Descripción', style: 'tableHeader',rowSpan: 2, alignment: 'center',margin: [0, 8, 0, 0] },
-        col_4:{ text: 'Cita con acudientes', style: 'tableHeader',colSpan: 2, alignment: 'center' }
-    },
-    fila_1:{
-        col_1:{ text: 'Header 1', style: 'tableHeader', alignment: 'center' },
-        col_2:{ text: 'Header 2', style: 'tableHeader', alignment: 'center' }, 
-        col_3:{ text: 'Header 3', style: 'tableHeader', alignment: 'center' },
-        col_4:{ text: 'Citación', style: 'tableHeader', alignment: 'center' },
-        col_5:{ text: 'Cumplimiento', style: 'tableHeader', alignment: 'center'}
-    }
-}
-var rows = {
-    a: {
-        peaje: '1',
-        ruta: '2',
-        fechaCruce: '3',
-        hora: '4',
-        valor: '5'
-    },
-    b: {
-        peaje: '1',
-        ruta: '2',
-        fechaCruce: '3',
-        hora: '4',
-        valor: '5'
-    }
-}
-
-var bodys = [];
-for (var key in headers){
-    if (headers.hasOwnProperty(key)){
-        var header = headers[key];
-        var row = new Array();
-        row.push( header.col_1 );
-        row.push( header.col_2 );
-        row.push( header.col_3 );
-        row.push( header.col_4 );
-        row.push( header.col_5 );
-        bodys.push(row);
-    }
-}
-for (var key in rows) 
-{
-    if (rows.hasOwnProperty(key))
-    {
-        var data = rows[key];
-        var row = new Array();
-        row.push( data.peaje.toString() );
-        row.push( data.ruta.toString()  );
-        row.push( data.fechaCruce.toString() );
-        row.push( data.hora.toString()  );
-        row.push( data.valor.toString() );
-        bodys.push(row);
-    }
-}*/
- console.log(engarr);
-
- var externalDataRetrievedFromServer = [
-    { name: 'Bartek', age: 34 },
-    { name: 'John', age: 27 },
-    { name: 'Elizabeth', age: 30 },
-];
-
+console.log("-------english arr------------");
+ var myJson = {"Elements":engarr,"Kamera":"c1"}
+ var jstr = JSON.stringify(myJson);
+    //alert(jstr);
+    var jstr_2 = jstr.slice(13);
+    //alert(jstr_2);    
+    var jstr_3 = jstr_2.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_4 = "[" + jstr_3 + "]";
+    //alert(jstr_4);  
+    var obj = JSON.parse(jstr_4);
+    var externalDataRetrievedFromServer = obj;   
+    
+   
 function buildTableBody(data, columns) {
     var body = [];
 
@@ -9096,26 +9063,590 @@ function buildTableBody(data, columns) {
 
     return body;
 }
-
 function table(data, columns) {
     return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
         table: {
             headerRows: 1,
             body: buildTableBody(data, columns)
+        },
+          layout: {
+
+
+          hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#4d94ff' : null;
+        },
+
+      }
+      
+    };
+}
+console.log("-------------Start---------------------------");
+  
+       
+console.log("----------------mathsarr-----------------");
+ var myJson1 = {"Elements":matharr,"Kamera":"c1"}
+ var jstr1 = JSON.stringify(myJson1);
+    //alert(jstr);
+    var jstr_21 = jstr1.slice(13);
+    //alert(jstr_2);    
+    var jstr_31 = jstr_21.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_41 = "[" + jstr_31 + "]";
+    //alert(jstr_4);  
+    var obj1 = JSON.parse(jstr_41);
+    var externalDataRetrievedFromServer1 = obj1;   
+
+function buildTableBody1(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table1(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
+        table: {
+            headerRows: 1,
+            body: buildTableBody1(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#86b300' : null;
         }
+      }
+      
+    };
+}
+console.log("----------------evsarr-----------------");
+ var myJson10 = {"Elements":evsarr,"Kamera":"c1"}
+ var jstr10 = JSON.stringify(myJson10);
+    //alert(jstr);
+    var jstr_210 = jstr10.slice(13);
+    //alert(jstr_2);    
+    var jstr_310 = jstr_210.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_410 = "[" + jstr_310 + "]";
+    //alert(jstr_4);  
+    var obj2 = JSON.parse(jstr_410);
+    var externalDataRetrievedFromServer11 = obj2;   
+
+function buildTableBody2(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table2(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
+        table: {
+            headerRows: 1,
+            body: buildTableBody2(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#ffad33' : null;
+        }
+      }
+      
     };
 }
 
+console.log("-----------------------");
+console.log("----------------hinarr-----------------");
+ var myJson11 = {"Elements":hinarr,"Kamera":"c1"}
+ var jstr11 = JSON.stringify(myJson11);
+    //alert(jstr);
+    var jstr_211 = jstr11.slice(13);
+    //alert(jstr_2);    
+    var jstr_311 = jstr_211.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_411 = "[" + jstr_311 + "]";
+    //alert(jstr_4);  
+    var obj3 = JSON.parse(jstr_411);
+    var externalDataRetrievedFromServer3 = obj3;   
+
+function buildTableBody3(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table3(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
+        table: {
+            headerRows: 1,
+            body: buildTableBody3(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#ac39ac' : null;
+        }
+      }
+      
+    };
+}
+
+console.log("-----------------------");
+   
+console.log("----------------comarr-----------------");
+ var myJson12 = {"Elements":comarr,"Kamera":"c1"}
+ var jstr12 = JSON.stringify(myJson12);
+    //alert(jstr);
+    var jstr_212 = jstr12.slice(13);
+    //alert(jstr_2);    
+    var jstr_312 = jstr_212.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_412 = "[" + jstr_312 + "]";
+    //alert(jstr_4);  
+    var obj4 = JSON.parse(jstr_412);
+    var externalDataRetrievedFromServer4 = obj4;   
+
+function buildTableBody4(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table4(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
+
+        table: {
+            headerRows: 1,
+            body: buildTableBody4(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#4d94ff' : null;
+        }
+      }
+      
+    };
+}
+console.log("-----------------------");
+
+console.log("----------------gkarr-----------------");
+ var myJson13 = {"Elements":gkarr,"Kamera":"c1"}
+ var jstr13 = JSON.stringify(myJson13);
+    //alert(jstr);
+    var jstr_213 = jstr13.slice(13);
+    //alert(jstr_2);    
+    var jstr_313 = jstr_213.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_413 = "[" + jstr_313 + "]";
+    //alert(jstr_4);  
+    var obj5 = JSON.parse(jstr_413);
+    var externalDataRetrievedFromServer5 = obj5;   
+
+function buildTableBody5(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table5(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
+        table: {
+            headerRows: 1,
+            body: buildTableBody5(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#ac39ac' : null;
+        }
+      }
+      
+    };
+}
+console.log("-----------------------");
 
 
+console.log("----------------acarr-----------------");
+ var myJson14 = {"Elements":acarr,"Kamera":"c1"}
+ var jstr14 = JSON.stringify(myJson14);
+    //alert(jstr);
+    var jstr_214 = jstr14.slice(13);
+    //alert(jstr_2);    
+    var jstr_314 = jstr_214.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_414 = "[" + jstr_314 + "]";
+    //alert(jstr_4);  
+    var obj6 = JSON.parse(jstr_414);
+    var externalDataRetrievedFromServer6= obj6;   
 
+function buildTableBody6(data, columns) {
+    var body = [];
 
+    body.push(columns);
 
+    data.forEach(function(row) {
+        var dataRow = [];
 
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
 
+        body.push(dataRow);
+    });
 
+    return body;
+}
+function table6(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
+        table: {
+            headerRows: 1,
+            body: buildTableBody6(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#86b300' : null;
+        }
+      }
+      
+    };
+}
+console.log("-----------------------");
+  
+console.log("----------------mdarr-----------------");
+ var myJson15 = {"Elements":mdarr,"Kamera":"c1"}
+ var jstr15 = JSON.stringify(myJson15);
+    //alert(jstr);
+    var jstr_215 = jstr15.slice(13);
+    //alert(jstr_2);    
+    var jstr_315= jstr_215.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_415 = "[" + jstr_315 + "]";
+    //alert(jstr_4);  
+    var obj7= JSON.parse(jstr_415);
+    var externalDataRetrievedFromServer7= obj7;   
 
-var fonts = {
+function buildTableBody7(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table7(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
+        table: {
+            headerRows: 1,
+            body: buildTableBody7(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#ac39ac' : null;
+        }
+      }
+      
+    };
+}
+console.log("-----------------------");
+            
+ console.log("----------------gamearr-----------------");
+ var myJson16 = {"Elements":gamearr,"Kamera":"c1"}
+ var jstr16 = JSON.stringify(myJson16);
+    //alert(jstr);
+    var jstr_216 = jstr16.slice(13);
+    //alert(jstr_2);    
+    var jstr_316= jstr_216.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_416 = "[" + jstr_316 + "]";
+    //alert(jstr_4);  
+    var obj8= JSON.parse(jstr_416);
+    var externalDataRetrievedFromServer8= obj8;   
+
+function buildTableBody8(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table8(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+         alignment: 'center',
+      
+        table: {
+            headerRows: 1,
+            body: buildTableBody8(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#CCCCCC' : null;
+        }
+      }
+      
+    };
+}
+console.log("-----------------------");
+  console.log("----------------parr-----------------");
+ var myJson17 = {"Elements":parr,"Kamera":"c1"}
+ var jstr17 = JSON.stringify(myJson17);
+    //alert(jstr);
+    var jstr_217 = jstr17.slice(13);
+    //alert(jstr_2);    
+    var jstr_317= jstr_217.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_417 = "[" + jstr_317 + "]";
+    //alert(jstr_4);  
+    var obj9= JSON.parse(jstr_417);
+    var externalDataRetrievedFromServer9= obj9;   
+
+function buildTableBody9(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table9(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+      alignment: 'center',
+        table: {
+            headerRows: 1,
+            body: buildTableBody9(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#4d94ff' : null;
+        }
+      }
+      
+    };
+}
+console.log("-----------------------");           
+       
+ console.log("----------------dancearr-----------------");
+ var myJson18 = {"Elements":dancearr,"Kamera":"c1"}
+ var jstr18 = JSON.stringify(myJson18);
+    //alert(jstr);
+    var jstr_218 = jstr18.slice(13);
+    //alert(jstr_2);    
+    var jstr_318= jstr_218.replace('],"Kamera":"c1"}','');
+    //alert(jstr_3);  
+    var jstr_418 = "[" + jstr_318 + "]";
+    //alert(jstr_4);  
+    var obj10= JSON.parse(jstr_418);
+    var externalDataRetrievedFromServer10=obj10;   
+
+function buildTableBody10(data, columns) {
+    var body = [];
+
+    body.push(columns);
+
+    data.forEach(function(row) {
+        var dataRow = [];
+
+        columns.forEach(function(column) {
+            dataRow.push(row[column].toString());
+        })
+
+        body.push(dataRow);
+    });
+
+    return body;
+}
+function table10(data, columns) {
+    return {
+        fontSize: 12,
+        margin: [20, 20],
+       alignment: 'center',
+        table: {
+            headerRows: 1,
+            body: buildTableBody10(data, columns)
+        },
+          layout: {
+              hLineColor: function (i, node) {
+          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
+        },
+        vLineColor: function (i, node) {
+          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
+        },
+        fillColor: function (rowIndex, node, columnIndex) {
+          return (rowIndex % 2 === 0) ? '#86b300' : null;
+        }
+      }
+      
+    };
+}
+console.log("-----------------------");
+       
+        
+     
+        var dancearr=[];
+  var fonts = {
   Roboto: {
     normal: 'fonts/Roboto-Regular.ttf',
     bold: 'fonts/Roboto-Medium.ttf',
@@ -9128,7 +9659,16 @@ var PdfPrinter = require('pdfmake/src/printer');
 var printer = new PdfPrinter(fonts);
 
 var docDefinition = {
- 
+  footer: function(currentPage, pageCount) { 
+      return {
+      
+        fontSize: 8,
+        alignment: 'right',
+        
+        text: 'Seite ' + currentPage.toString() + ' von ' + pageCount
+      }; 
+    }, 
+      
   content: [
   { 
       alignment: 'justify',
@@ -9534,28 +10074,123 @@ var docDefinition = {
         widths: [200,30,30,30,200],
 
         body: [
-             [{text:'English',alignment:'center'}, {text:'T1',alignment: 'center'}, {text:'T2',alignment: 'center'}, {text:'T3',alignment: 'center'},{text:'Comments',alignment: 'center'}],
+             [{text:'English',alignment:'center'}, {text:'Term1',alignment: 'center'}, {text:'Term2',alignment: 'center'}, {text:'Term3',alignment: 'center'},{text:'Comments',alignment: 'center'}],
          
         ]
       }
     },
-
  {
-       fillColor: '#3399ff',
-        margin: [0,300, 0, 8],
-        table: {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table(externalDataRetrievedFromServer,
+          ['English', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },
 
-        widths: [200,30,30,30,200],
+  {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table1(externalDataRetrievedFromServer1,
+          ['Mathematics', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },  
 
-        body: engarr
-      }
-    },
-
-table(externalDataRetrievedFromServer, ['name', 'age'])
-
-
-
-
+  {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table2(externalDataRetrievedFromServer11,
+          ['EVS', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },
+      {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table3(externalDataRetrievedFromServer3,
+          ['HindiandKannada', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      }, 
+    
+      },
+        {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table4(externalDataRetrievedFromServer4,
+          ['Computer', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },
+        {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table5(externalDataRetrievedFromServer5,
+          ['GK', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },
+  {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table6(externalDataRetrievedFromServer6,
+          ['ArtandCraft', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },
+     {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table7(externalDataRetrievedFromServer7,
+          ['music', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },   
+        {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table8(externalDataRetrievedFromServer8,
+          ['Games', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },
+        {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table9(externalDataRetrievedFromServer9,
+          ['Personality_Development', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },
+        {
+      layout: 'noBorders',
+      table: {
+        body: [
+          [table10(externalDataRetrievedFromServer10,
+          ['dance', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ]
+      },
+    
+      },
 ],
   styles: {
     header: {
@@ -9585,13 +10220,6 @@ table(externalDataRetrievedFromServer, ['name', 'age'])
     }
  };
  
-
-
-
-
-
-
-
 
  var pdfDoc = printer.createPdfKitDocument(docDefinition);
 // pdfDoc.pipe(fs.createWriteStream(docDefinition));
@@ -10303,7 +10931,7 @@ app.post('/sendmail-service', urlencodedParser,function (req, res){
   
  });
  app.post('/sendmail1-service', urlencodedParser,function (req, res) {
-   console.log(req.query.parentmail+"  "+req.query.secmail);
+  //console.log(req.query.parentmail+"  "+req.query.secmail);
   var secmail=req.query.secmail;
   var server  = email.server.connect({
    user:    "samsidhschools@gmail.com",
@@ -10906,7 +11534,7 @@ app.post('/fetchfahealthinfo-service' ,  urlencodedParser,function (req, res)
 });
 app.post('/getinparnetmail-service' ,  urlencodedParser,function (req, res)
 {  
-   var qur="SELECT  id  as studentid ,(select  email from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')  as firstmail ,(select  alternate_mail from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')as secondmail FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
+   var qur="SELECT student_name,id as studentid ,(select  email from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')  as firstmail ,(select  alternate_mail from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')as secondmail FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
  
     console.log('..............parent info.............');
     console.log(qur);
@@ -17063,7 +17691,7 @@ app.post('/fetchenrichmentgrade-service',  urlencodedParser,function (req,res)
     {
     if(!err)
     { 
-      console.log('length----------------------'+rows[0].weight);
+      console.log('length-----------------'+rows[0].weight);
       res.status(200).json({'weight':rows[0].weight,'detail': detail,'master':grade});
     }
     else
@@ -17128,7 +17756,7 @@ app.post('/Selectempschooltype-service',  urlencodedParser,function (req,res)
 {  
    var qur="SELECT * FROM master_school_type where school_id='"+req.query.school_id+"'";
    console.log(qur);
-  connection.query(qur,
+   connection.query(qur,
     function(err, rows)
     {
     if(!err)
@@ -17171,7 +17799,7 @@ app.post('/emplschooltypezzz-service',  urlencodedParser,function (req, res)
   console.log("----------Employee with School type----------");
   console.log(qur);
 
-  connection.query(qur,
+   connection.query(qur,
     function(err, rows)
     {
     if(!err)
@@ -17218,10 +17846,9 @@ app.post('/selectclass-service',  urlencodedParser,function (req,res)
  
 /* var qur="SELECT UPPER(section_id),class_id FROM master.mp_grade_section where school_id='"+req.query.schlid+"' and grade_id='"+req.query.gradeid+"' and  academic_year='"+req.query.academic_year+"'";*/
 
- var qur="SELECT UPPER(p.section_id)as section_id, p.class_id FROM md_school_grade_mapping s join mp_grade_section p  on s.grade_id=p.grade_id  where p.school_id='"+req.query.schlid+"' and s.school_id='"+req.query.schlid+"' and p.grade_id='"+req.query.gradeid+"' and p.academic_year='"+req.query.academic_year+"' and s.academic_year='"+req.query.academic_year+"'";
+   var qur="SELECT UPPER(p.section_id)as section_id, p.class_id FROM md_school_grade_mapping s join mp_grade_section p  on s.grade_id=p.grade_id  where p.school_id='"+req.query.schlid+"' and s.school_id='"+req.query.schlid+"' and p.grade_id='"+req.query.gradeid+"' and p.academic_year='"+req.query.academic_year+"' and s.academic_year='"+req.query.academic_year+"'";
   console.log(qur);
-
-   connection.query(qur,
+     connection.query(qur,
     function(err, rows){
       if(!err)
       {
@@ -17743,11 +18370,10 @@ app.post('/bookrefsection-service',  urlencodedParser,function (req,res)
   });
 });
 
-
 app.post('/getcaptervalue-service',  urlencodedParser,function (req,res)
   {  
     var qur="SELECT * FROM md_chapter where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and gradeid='"+req.query.grade_id+"' and subjectid='"+req.query.subject_id+"'and term_id='"+req.query.termid+"'";
-    
+     console.log(qur)
     connection.query(qur,
     function(err, rows)
     {
@@ -17927,7 +18553,7 @@ app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
   {  
     var qur="INSERT INTO md_concept SET ?";
     var response={ 
-      concept_id:req.query.concept_id,
+       concept_id:req.query.concept_id,
        concept:req.query.concept,
        capter_id:req.query.capter_id,
        flag:req.query.flag
@@ -17951,6 +18577,8 @@ app.post('/fnsendconcept-service',  urlencodedParser,function (req,res)
      res.status(200).json({'returnval': 'no rows'}); 
   });
 }); 
+
+
 
 
 app.post('/fnbookupdatevalue-service',  urlencodedParser,function (req, res)
@@ -18939,9 +19567,9 @@ app.post('/fnhomework-service',  urlencodedParser,function (req,res)
    
      connection.query(qur,function(err, rows){
     if(!err)
-    {  
-    res.status(200).json({'returnval':rows});
-    }
+     {  
+      res.status(200).json({'returnval':rows});
+     }
     else
      res.status(200).json({'':'no rows'}); 
    });
@@ -18953,10 +19581,10 @@ app.post('/fncompletestatus-service',  urlencodedParser,function (req,res)
     var qur="SELECT * FROM md_curriculum_display WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"'";
 
   
-    console.log('---------------------------------------------------');
+    console.log('-------------------------------------------------');
     console.log(qur);
  
-    console.log('---------------------------------------------------');
+    console.log('-------------------------------------------------');
    
      connection.query(qur,function(err, rows){
     if(!err)
@@ -19070,15 +19698,11 @@ app.post('/checkcompleteplan-service' ,urlencodedParser, function (req, res)
     {  
     
 
-       /*    var qur3="SELECT * FROM md_concept_finalhomework WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"'";
-      */
       var qur1="select * from md_curriculum_planning_approval where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"' and concept_id='"+req.query.conceptid+"'";
 
-    /*  var qur4="SELECT * FROM md_concept_teaching WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+"' and term_id='"+req.query.termid+"' and row_id='"+req.query.rowid+"'";*/
-       console.log('--------------Complete-Concept---------');
-       console.log(qur1);
-      
-       console.log('----------------------------------------');
+      console.log('--------------Complete-Concept---------');
+         console.log(qur1);
+        console.log('----------------------------------------');
           var assesmentarr=[];
           var lessonarr=[];
          
@@ -20172,7 +20796,7 @@ var mapqur="SELECT distinct(category_name),category_id FROM subject_mapping WHER
   {
     if(!err)
     { 
-      res.status(200).json({'maparr':maparr,'returnval': rows});
+       res.status(200).json({'maparr':maparr,'returnval': rows});
     }
     else
     {
@@ -20291,7 +20915,8 @@ app.post('/fngetconceptreport-service',  urlencodedParser,function (req, res)
 app.post('/fngetconceptreport1-service',  urlencodedParser,function (req, res)
 {
 
- var qur="select c.link as teachlink,c.filename as teachfile,f.link as homelink,f.filename as homefile, p.*,s. assesment_status,s.assesment_date,s.status,s.correction_status,s.complete_date from md_curriculum_planning_approval p  join md_concept_assesment_final s join md_concept_homework f join md_concept_teaching_aids c on( s.concept_id=p.concept_id and s.row_id=p.row_id and p.section_id=s.section_id and f.concept_id=s.concept_id and f.row_id=s.row_id and c.concept_id=s.concept_id and c.row_id=s.row_id) where s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academic_year+"' and s.subject_id='"+req.query.subjectid+"' and s.grade_id='"+req.query.gradeid+"'and s.term_id='"+req.query.termid+"' and p.school_id='"+req.query.schoolid+"' and p.academic_year='"+req.query.academic_year+"' and p.subject_id='"+req.query.subjectid+"' and p.grade_id='"+req.query.gradeid+"'and p.term_id='"+req.query.termid+"'  and  p.planned_date_from between '"+req.query.fromdate+"' and '"+req.query.todate+"' and f.school_id='"+req.query.schoolid+"' and f.academic_year='"+req.query.academic_year+"' and f.subject_id='"+req.query.subjectid+"' and f.grade_id='"+req.query.gradeid+"'and f.term_id='"+req.query.termid+"' and c.school_id='"+req.query.schoolid+"' and c.academic_year='"+req.query.academic_year+"' and c.subject_id='"+req.query.subjectid+"' and c.grade_id='"+req.query.gradeid+"'and c.term_id='"+req.query.termid+"'  "
+
+ var qur="select c.link as teachlink,c.filename as teachfile,f.link as homelink,f.filename as homefile,p.* from md_curriculum_planning_approval p join  md_concept_homework f join md_concept_teaching_aids c on(  p.row_id=p.row_id and p.section_id=p.section_id and f.concept_id=p.concept_id and f.row_id=p.row_id and c.concept_id=p.concept_id and c.row_id=p.row_id)  where  p.school_id='"+req.query.schoolid+"' and p.academic_year='"+req.query.academic_year+"' and p.subject_id='"+req.query.subjectid+"' and p.grade_id='"+req.query.gradeid+"'and p.term_id='"+req.query.termid+"'  and  p.planned_date_from between '"+req.query.fromdate+"' and '"+req.query.todate+"' and f.school_id='"+req.query.schoolid+"' and f.academic_year='"+req.query.academic_year+"' and f.subject_id='"+req.query.subjectid+"' and f.grade_id='"+req.query.gradeid+"'and f.term_id='"+req.query.termid+"' and c.school_id='"+req.query.schoolid+"' and c.academic_year='"+req.query.academic_year+"' and c.subject_id='"+req.query.subjectid+"' and c.grade_id='"+req.query.gradeid+"'and c.term_id='"+req.query.termid+"'"
 
 /*
 var qur="select * from md_curriculum_planning_approval where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"'and subject_id='"+req.query.subjectid+"' and grade_id='"+req.query.gradeid+"'and term_id='"+req.query.termid+"' and  planned_date_from between '"+req.query.fromdate+"' and '"+req.query.todate+"'";
@@ -25084,6 +25709,45 @@ app.post('/fnteacheraid2-service',  urlencodedParser,function (req, res)
     }
     });
 });
+
+app.post('/curriculmsendmail1-service',  urlencodedParser,function (req, res)
+{
+  var response={ 
+      school_id: req.query.schoolid,
+      academic_year: req.query.academicyear,
+      grade_id:req.query.gradeid,
+      subject_id:req.query.subjectid,
+      section_id:req.query.sectionid,
+      term_id: req.query.termid,
+      chapter_id: req.query.chapterid,
+      concept_id: req.query.conceptid,
+      concept_name:req.query.concept_name,
+      sub_concept_id:req.query.subconceptid,
+      sub_concept_name:req.query.subconceptname, 
+      row_id: req.query.rowid,
+      subject_content:req.query.subjectcontent,
+      home_content:req.query.homecontent,
+      student_id:req.query.studentid,
+      student_name:req.query.studentname,
+      link:req.query.link,
+      emp_id:req.query.empid,
+    };
+    console.log(response);
+    connection.query("INSERT INTO md_concept_current_homework SET ?",[response],function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': 'inserted'});
+    }
+    else
+    {
+     console.log(err);
+     res.status(200).json({'returnval': 'Not inserted'}); 
+    }
+    });
+});
+
+
+
 app.post('/fetchexceptionsubjectinfo-service',  urlencodedParser,function (req, res)
 {
   // var response={ 

@@ -907,8 +907,15 @@
         obj.rowid=rowid;
         obj.conceptid=this.conceptfid;
         obj.conceptname=this.conceptfname;
-        obj.subconceptid=this.subconcepfid;
+        if(subarr.length==0){
+        obj.subconceptid="";
+        obj.subconceptname="";
+        }
+        else{
+         obj.subconceptid=this.subconcepfid;
         obj.subconceptname=this.subconcepfname;
+        }
+        
         obj.assesmentdate=localStorage.getItem("assement_curr_sess_date");
         obj.period=period;
         obj.sno=sno;
@@ -1035,10 +1042,11 @@ fnteacheraid1Response:function(e){
    if(c3==c4){
         c3=0;
         c4=0;
-         document.querySelector('aproval-book-innovatiosn-item-card').allrefesh();
-     document.querySelector('aproval-book-innovatiosn-item-card').saveopendialog();
-     document.querySelector('teacher-book-approve-card').fnchaperrefersh();
- ghomefilearrurl=[];
+      //  alert("final");
+       document.querySelector('teacher-book-approve-card').fnchaperrefersh();
+    document.querySelector('aproval-book-innovatiosn-item-card').saveopendialog();
+     document.querySelector('aproval-book-innovatiosn-item-card').allrefesh();
+    ghomefilearrurl=[];
   
      }
     
@@ -1180,8 +1188,15 @@ fnteacheraid1Response:function(e){
         obj.rowid=rowid;
         obj.conceptid=this.conceptfid;
         obj.conceptname=this.conceptfname;
-        obj.subconceptid=this.subconcepfid;
-        obj.subconceptname=this.subconcepfname;
+        if(subarr.length==0){
+         obj.subconceptid="";
+         obj.subconceptname="";
+        }
+        else{
+         obj.subconceptid=this.subconcepfid;
+         obj.subconceptname=this.subconcepfname;
+        }
+        
         obj.period=period;
         obj.sno=sno;
       obj.plannedfromdate=localStorage.getItem("localsess_from_service");
@@ -1599,18 +1614,17 @@ var obj={"school_id":"","academic_year":"","grade_id":"","subject_id":""};
 
      buffset:function(bufferperiodzz,pafter){
         bufferperiod=bufferperiodzz;
-      this.periodafter=pafter;
-      this.buffseturl=sessionStorage.getItem("addrinfo")+"/buffset-service";
-      var obj={};
-      obj.capter_id=localStorage.getItem("curr_sess_capters");
-     obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+        this.periodafter=pafter;
+        this.buffseturl=sessionStorage.getItem("addrinfo")+"/buffset-service";
+    var obj={};
+        obj.capter_id=localStorage.getItem("curr_sess_capters");
+        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
         obj.academic_year=localStorage.getItem("curr_sess_academicyear");
-          obj.subjectid=sessionStorage.getItem("subjectidz");
+        obj.subjectid=sessionStorage.getItem("subjectidz");
         obj.gradeid=sessionStorage.getItem("grdeidz");
         obj.termid=sessionStorage.getItem("termid"); 
-     
-      this.buffsetparam=obj;
-      this.$.buffsetajax.generateRequest();
+        this.buffsetparam=obj;
+        this.$.buffsetajax.generateRequest();
      },
      buffsetResponse:function(e){
       var res=e.detail.response.returnval;
@@ -1688,6 +1702,7 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
 
                        res2.push(obj);     
                       }
+     
       var flag=0;
 
 if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafter!=""){
@@ -1714,7 +1729,11 @@ if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafte
                    obj.homecurrurl="";
                    obj.homework="";
                    obj.hidecheck=true; 
-                   obj.hidecheck1=false; 
+                   if(k==0)
+                        obj.hidecheck1=false; 
+                     else
+                        obj.hidecheck1=true; 
+
                    obj.hidecheck11=false;
                    obj.rowid=parseInt(res2.length)+1+k;
                    temp.push(obj); 
@@ -1765,7 +1784,7 @@ if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafte
            
           }                
           else {
-               for(var k=0;k<r;k++){
+  /*             for(var k=0;k<r;k++){
               
                var obj={};
                    obj.concept_id="";  
@@ -1791,7 +1810,7 @@ if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafte
                    obj.hidecheck11=false;
                    obj.rowid=parseInt(temp.length)+1+k;
                    temp.push(obj);
-                } 
+                } */
              for(var i=0;i<temp.length;i++){
              temp[i].sno=i+1;
             }

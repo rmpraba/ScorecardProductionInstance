@@ -201,14 +201,11 @@ var c1=0,c2=0;
        obj.studentname=parentarr[i].student_name;
        this.curriculmsendmail1param=obj;
        this.$.curriculmsendmail1ajax.generateRequest();
-
-
      }
     },
    curriculmsendmail1Response:function(e){
-    var res=e.detail.response.returnval;
-    
-  },  
+    var res=e.detail.response.returnval; 
+   },  
    curriculmsendmailResponse:function(e){
    c2++;
    if(c1==c2){
@@ -217,13 +214,13 @@ var c1=0,c2=0;
          c1=0;
          c2=0;
     }
-      }, 
+    }, 
     FnMail:function(e){
      this.$.maildialog.open();
-      this.subject="New Massage";
+      this.subject="New Message";
       this.$.crriculambookservice.fngetinparnetmail();
      //this.$.crriculambookservice.fnmailprocess();
-    },
+    }
     });
   })();
   </script>

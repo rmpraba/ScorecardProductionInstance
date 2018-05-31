@@ -10230,15 +10230,15 @@ var transporter = nodemailer.createTransport({
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
-  user: 'softabbas@gmail.com', // replace by your email
-  pass: 'abbas@786' // replace by your password
+  user: 'samsidhschools@gmail.com', // replace by your email
+  pass: 'zeeschool' // replace by your password
   }
 });
 
 var mailOptions = {
-  from: 'softabbas@gmail.com',
-  to: 'mohamedsiddiq1992@gmail.com',
-  subject: 'Scorcard-Report Card',
+  from: 'samsidhschools@gmail.com',
+  to: 'rmpraba@gmail.com',
+  subject: 'Report Card',
   
   html: '<h1>Attachments</h1>',
 

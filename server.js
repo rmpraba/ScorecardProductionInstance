@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 var connection = mysql.createConnection({  
   // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   // database:"scorecarddb",
@@ -522,7 +522,10 @@ app.post('/lessonplan-login',  urlencodedParser,function (req, res)
 
 app.post('/lessonplan-grade',  urlencodedParser,function (req, res)
 {
-    connection.query("SELECT distinct(grade_id),(SELECT grade_name FROM md_grade g WHERE g.grade_id=m.grade_id) as grade_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher')",
+    var qur = "SELECT distinct(grade_id),(SELECT grade_name FROM md_grade g WHERE g.grade_id=m.grade_id) as grade_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher')";
+    console.log('-----------Grade----------');
+    console.log(qur);
+    connection.query(qur,
     function(err, rows)
     {
     if(!err)
@@ -544,16 +547,15 @@ app.post('/lessonplan-grade',  urlencodedParser,function (req, res)
 
 app.post('/lessonplan-section',  urlencodedParser,function (req, res)
 {
-<<<<<<< HEAD
-    connection.query("SELECT distinct(section_id),UPPER(section_id) as section_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher') and grade_id in(SELECT grade_id FROM md_grade WHERE grade_name='"+req.body.grade+"')",
-    function(err, rows)
-=======
-    var que = "SELECT * FROM mp_teacher_grade g join md_curriculum_planning p on(g.grade_id=p.grade_id) WHERE "+
-    " g.school_id='"+req.body.schoolid+"' and g.id='"+req.body.empid+"' and g.academic_year='2017-2018' and g.flage='active' and "+
-    " g.role_id='co-ordinator' and p.school_id='"+req.body.schoolid+"' and p.academic_year='2017-2018'";
-  
-    var query = connection.query(que, function(err, rows)
->>>>>>> 7ca9c50316e26a2f4226553edffbc48e2bdc58c2
+
+    // connection.query("SELECT distinct(section_id),UPPER(section_id) as section_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher') and grade_id in(SELECT grade_id FROM md_grade WHERE grade_name='"+req.body.grade+"')",
+    // var que = "SELECT * FROM mp_teacher_grade g join md_curriculum_planning p on(g.grade_id=p.grade_id) WHERE "+
+    // " g.school_id='"+req.body.schoolid+"' and g.id='"+req.body.empid+"' and g.academic_year='2017-2018' and g.flage='active' and "+
+    // " g.role_id='subject-teacher' and p.school_id='"+req.body.schoolid+"' and p.academic_year='2017-2018'";
+    var que = "SELECT distinct(section_id),UPPER(section_id) as section_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher') and grade_id in(SELECT grade_id FROM md_grade WHERE grade_name='"+req.body.grade+"')";
+    console.log('-----------Section----------');
+    console.log(que);
+    connection.query(que, function(err, rows)
     {
     if(!err)
     {
@@ -574,7 +576,10 @@ app.post('/lessonplan-section',  urlencodedParser,function (req, res)
 
 app.post('/Lessonplan-subject',  urlencodedParser,function (req, res)
 {
-    connection.query("SELECT distinct(subject_id),(SELECT subject_name FROM md_subject WHERE subject_id=g.subject_id) as subject_name FROM mp_teacher_grade g WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_id in(SELECT grade_id FROM md_grade where grade_name='"+req.body.grade+"') and section_id in('"+req.body.section+"') and id='"+req.body.empid+"'",
+    var qur = "SELECT distinct(subject_id),(SELECT subject_name FROM md_subject WHERE subject_id=g.subject_id) as subject_name FROM mp_teacher_grade g WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_id in(SELECT grade_id FROM md_grade where grade_name='"+req.body.grade+"') and section_id in('"+req.body.section+"') and id='"+req.body.empid+"'";
+    console.log('-----------Subject----------');
+    console.log(qur);
+    connection.query(qur,
     function(err, rows)
     {
     if(!err)
@@ -596,7 +601,9 @@ app.post('/Lessonplan-subject',  urlencodedParser,function (req, res)
 
 app.post('/lessonplan-term',  urlencodedParser,function (req, res)
 {
+    console.log('-------------term--------------');
     console.log("SELECT distinct(term_id) FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"')");
+    
     connection.query("SELECT distinct(term_id) FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"')",
     function(err, rows)
     {
@@ -609,7 +616,7 @@ app.post('/lessonplan-term',  urlencodedParser,function (req, res)
     else
     {
       console.log(err);
-      res.status(200).json('invalid');
+      res.status(200).json([{'flag':'invalid'}]);
     }
     }
     else
@@ -619,7 +626,9 @@ app.post('/lessonplan-term',  urlencodedParser,function (req, res)
 
 app.post('/Lessonplan-chapter',  urlencodedParser,function (req, res)
 {
-    connection.query("SELECT  distinct(chapter_id),chapter_name FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and term_id in('"+req.body.term+"')",
+  var qur = "SELECT  distinct(chapter_id),chapter_name FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and term_id in('"+req.body.term+"')"
+    console.log('-----------subject-----------');   
+    connection.query(qur,
     function(err, rows)
     {
     if(!err)
@@ -1153,7 +1162,7 @@ console.log(que);
           }   
           else{
             console.log('no row');
-           res.status(200).json([{'error':'Error!'+que}]);   
+           res.status(200).json([{'flag':'invalid'}]);   
           }
         }
           else{
@@ -1610,11 +1619,11 @@ app.post('/smis-login',  urlencodedParser,function (req, res){
       }
       }
       else
-        res.status(200).json({'returnval': 'invalid1'+err});
+        res.status(200).json({'returnval': 'invalid'+err});
       });
       } 
       else {
-        res.status(200).json({'returnval': 'invalid2'+qur+req.body.emp_id});
+        res.status(200).json({'returnval': 'invalid'});
       }
     }
     else{

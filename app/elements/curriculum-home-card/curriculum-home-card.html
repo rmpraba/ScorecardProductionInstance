@@ -26,7 +26,7 @@
     height: 66%;
     margin-left: 28%;
     margin-top: -6%;
-      }
+      }  
       .remarka
      
       {
@@ -35,10 +35,17 @@
         height: 90px;
         width: 80%;
         }
+          #dynamicspinner1Z{
+      margin: 0;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      box-shadow: none;
+    }
     </style>
     <div>
        <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}
-        {{subconceptid}}{{fromdate}}{{todate}}{{parentarr}}
+        {{subconceptid}}{{fromdate}}{{todate}}{{parentarr}}{{sno}}
       </div>
        <table  class="teach1" >
         <tr>
@@ -55,13 +62,10 @@
 
           <td style="{{fonts}}"  width="10%">
            <p hidden$="{{hideopenplan}}"> LINK</p>
-
-     
-           
-          <div hidden$="{{hidecloseplan}}">
-            <div hidden$="{{hidurl}}">
-              <p>{{link}}</p>
-            </div>
+            <div hidden$="{{hidecloseplan}}">
+              <div hidden$="{{hidurl}}">
+                <p>{{link}}</p>
+              </div>
             <div hidden$="{{hidecontent}}">
                 <a href="{{link}}" target="_blank">{{link}}</a>
             </div>
@@ -79,10 +83,7 @@
       <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
        <paper-dialog id="maildialog" modal>
               <paper-icon-button icon='close' on-click='fnmailcancel' style='color:#ffffffbd;margin-left: 77%; width: 40%;height: 5%;margin-top: 0%;position: absolute;'></paper-icon-button>
-           <div style="width: 90.4%; height: 10%;margin-top: 0%;
-                  background-color: black;color: white;">{{subject}}
-               
-          </div>
+           <div style="width: 90.8%;height: 10%;margin-top: 0.5px;background-color: black;color: white;">{{subject}}</div>
              <paper-input   value="{{subject}}" label="Subject"></paper-input><br> 
               <iron-autogrow-textarea style="width: 75%;margin-left: 18%;"  placeholder="Your content" value="{{mailcontent}}" id="maildilaog{{rowid}}" class="remarka" >
               </iron-autogrow-textarea><br>
@@ -103,6 +104,8 @@
                 <paper-button style="color:white;background-color:black" on-click="fnmailcancel">cancel</paper-button> 
               </center>
       </paper-dialog>
+       <div class="spinner"><paper-dialog modal id="dynamicspinner1Z" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner>
+    <h4>{{spinnermsg}}</h4></paper-dialog></div>
     </div>
       <iron-ajax
         method="post"
@@ -129,11 +132,13 @@
   (function() {
     'use strict';
 var c1=0,c2=0;
+var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new Date()).getFullYear();  
     Polymer({
       is: 'curriculum-home-card',
    ready:function(e){
       this.subject="New Massage";
       this.mailcontent="";
+    
    },
        fnmailcancel:function(e){
          this.$.maildialog.close();
@@ -143,12 +148,13 @@ var c1=0,c2=0;
           alert("pls enter the subject");
         }
         else{
-         
-           this.$.maildialog.close();
-       document.getElementById('maildilaog'+this.rowid).textarea.value="";
-  this.curriculmsendmail(this.mailcontent,this.subject,this.link,this.parentarr)
-        }
-      
+              this.$.maildialog.close();
+              document.getElementById('maildilaog'+this.rowid).textarea.value="";
+             
+              this.curriculmsendmail(this.mailcontent,this.subject,this.link,this.parentarr);
+              this.FnToggleSpinner(true);
+           }
+       
      },
      curriculmsendmail:function(mailcontent,subject,link,parentarr){
     c1=parentarr.length;
@@ -173,35 +179,6 @@ var c1=0,c2=0;
        this.curriculmsendmailparam=obj;
        this.$.curriculmsendmailajax.generateRequest();
 
-       this.curriculmsendmail1url=sessionStorage.getItem("addrinfo")+"/curriculmsendmail1-service";
-       var obj={};
-       obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-       obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
-       obj.academicyear=localStorage.getItem("curr_sess_academicyear");
-       obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
-       obj.empid=sessionStorage.getItem("curr_sess_loggedid");
-       obj.sectionid=localStorage.getItem("curr_sess_sectionid");
-       obj.gradeid=localStorage.getItem("curr_sess_gradeid");
-       obj.subjectid=localStorage.getItem("curr_sess_subjectid");
-       obj.chapterid=localStorage.getItem("curr_sess_chapterid");
-       obj.termid=sessionStorage.getItem("termid");
-       obj.mailcontent=mailcontent;
-       obj.subject=subject;
-       obj.link=link;
-       obj.secondmail=parentarr[i].secondmail;
-       obj.firstmail=parentarr[i].firstmail;
-       obj.conceptname=this.conceptname;
-       obj.subconceptname=this.subconceptname;
-       obj.conceptid=this.conceptid;
-       obj.subconceptid=this.subconceptid;
-       obj.rowid=this.rowid;
-       obj.homecontent=mailcontent;
-       obj.subjectcontent=subject;
-       obj.studentid=parentarr[i].studentid;
-       obj.studentname=parentarr[i].student_name;
-       this.curriculmsendmail1param=obj;
-       this.$.curriculmsendmail1ajax.generateRequest();
-
 
      }
     },
@@ -214,10 +191,58 @@ var c1=0,c2=0;
    if(c1==c2){
          var res=e.detail.response.returnval;
          alert(JSON.stringify(res));
-         c1=0;
-         c2=0;
+          this.finalinfo();
+         
+          c1=0;
+          c2=0;
     }
       }, 
+  FnToggleSpinner:function(flag){
+      //  alert(flag);
+        this.$.dynamicspinner1Z.opened=flag;
+        
+      },
+      finalinfo:function(e){
+
+       this.curriculmsendmail1url=sessionStorage.getItem("addrinfo")+"/curriculmsendmail1-service";
+       var obj={};
+       obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+       obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
+       obj.empname=sessionStorage.getItem("curr_sess_loggeduname");
+       obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+       obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+       obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+       obj.sectionid=localStorage.getItem("curr_sess_sectionid");
+       obj.sectionname=localStorage.getItem("curr_sess_sectionname");
+       obj.gradeid=localStorage.getItem("curr_sess_gradeid");
+       obj.gradename=localStorage.getItem("curr_sess_gradename");
+       obj.subjectid=localStorage.getItem("curr_sess_subjectid");
+       obj.subjectname=localStorage.getItem("curr_sess_subjectname");
+       obj.chapterid=localStorage.getItem("curr_sess_chapterid");
+       obj.chaptername=localStorage.getItem("curr_sess_chaptername");
+       obj.termid=sessionStorage.getItem("termid");
+       obj.mailcontent=this.mailcontent;
+       obj.subject=this.subject;
+       obj.link=this.link;
+       obj.conceptid=this.conceptid;
+       obj.conceptname=this.conceptname;
+       obj.subconceptname="";
+       obj.subconceptid="";
+       obj.rowid=this.rowid;
+       obj.homecontent=this.mailcontent;
+       obj.subjectcontent=this.subject;
+       obj.homeworkdate=currentdate;
+       obj.sno=this.sno;
+
+       this.curriculmsendmail1param=obj;
+       this.$.curriculmsendmail1ajax.generateRequest();
+
+      },
+      curriculmsendmail1Response:function(e){
+      var res=e.detail.response.returnval;
+      //alert(JSON.stringify(res));
+       this.FnToggleSpinner(false);
+      },
     FnMail:function(e){
      this.$.maildialog.open();
       this.subject="New Massage";

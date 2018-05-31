@@ -135,7 +135,7 @@ var  rowid1="";
         // alert(this.addconceptid);
       },
       passaddconcept:function(e){
-this.passaddconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept-service";
+    this.passaddconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept-service";
         var obj={};
         obj.concept_id=this.addconceptid;
         obj.concept=this.addconcept;
@@ -146,14 +146,15 @@ this.passaddconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept-servic
         obj.gradeid=sessionStorage.getItem("grdeidz");
         obj.termid=sessionStorage.getItem("termid");
         obj.flag='active';
-        this.passaddconceptparam=obj;
-     
-        this.$.passaddconceptajax.generateRequest();
+       this.passaddconceptparam=obj;
+      this.$.passaddconceptajax.generateRequest();
           },
 passaddconceptResponse:function(e){
          var res1=e.detail.response.returnval;
+
           this.GetChapterid();
           this.fngetconceptcheck();
+          this.addconcept="";
           this.addconceptid="";
       },
       fnsubmit:function(e){

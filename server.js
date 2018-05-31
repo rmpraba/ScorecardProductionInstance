@@ -25693,7 +25693,7 @@ app.post('/fnteacheraid2-service',  urlencodedParser,function (req, res)
     });
 });
 
-app.post('/curriculmsendmail1-service',  urlencodedParser,function (req, res)
+/*app.post('/curriculmsendmail1-service',  urlencodedParser,function (req, res)
 {
   var response={ 
       school_id: req.query.schoolid,
@@ -25704,7 +25704,7 @@ app.post('/curriculmsendmail1-service',  urlencodedParser,function (req, res)
       term_id: req.query.termid,
       chapter_id: req.query.chapterid,
       concept_id: req.query.conceptid,
-      concept_name:req.query.concept_name,
+      concept_name:req.query.conceptname,
       sub_concept_id:req.query.subconceptid,
       sub_concept_name:req.query.subconceptname, 
       row_id: req.query.rowid,
@@ -25727,9 +25727,79 @@ app.post('/curriculmsendmail1-service',  urlencodedParser,function (req, res)
      res.status(200).json({'returnval': 'Not inserted'}); 
     }
     });
+});*/
+
+app.post('/curriculmsendmail1-service' , urlencodedParser,function (req, res)
+   { 
+    var response={ 
+
+       school_id: req.query.schoolid,
+       academic_year: req.query.academicyear,
+       grade_id:req.query.gradeid,
+       grade_name:req.query.gradename,
+       subject_id:req.query.subjectid,
+       subject_name:req.query.subjectname,
+       section_id:req.query.sectionid,
+       section_name:req.query.sectionname,
+       term_id: req.query.termid,
+       chapter_id: req.query.chapterid,
+       chapter_name: req.query.chaptername,
+       concept_id: req.query.conceptid,
+       concept_name:req.query.conceptname,
+       sub_concept_id:req.query.subconceptid,
+       sub_concept_name:req.query.subconceptname, 
+       row_id: req.query.rowid,
+       homework_subject:req.query.subjectcontent,
+       homework_body:req.query.homecontent,
+        sno:req.query.sno,
+       emp_id:req.query.empid,
+       emp_name:req.query.empname,
+       sno:req.query.sno,
+       homework_url:req.query.link,
+       homework_date:req.query.homeworkdate,
+   };
+ 
+     var qur="select  * from   md_daily_homework  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'  and chapter_id='"+req.query.chapterid+"'and row_id='"+req.query.rowid+"' and term_id='"+req.query.termid+"'   and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"'";
+
+     var qur1="update  md_daily_homework set link='"+req.query.link+"',home_content='"+req.query.homecontent+"',subject_content='"+req.query.subjectcontent+"', where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+" and row_id='"+req.query.rowid+"'  and term_id='"+req.query.termid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"'";
+  
+     console.log("-----------teaching Save/ Edit-------------------");
+      console.log(response);
+    console.log("--------------------------------------------------");
+
+    console.log(qur);
+    console.log(qur1);
+   connection.query(qur,
+    function(err, rows)
+    {
+    console.log(rows.length);
+
+     if(rows.length==0){
+     connection.query("INSERT INTO md_daily_homework SET ?",[response],
+    function(err, rows)
+    {
+    if(!err)
+    {
+      res.status(200).json({'returnval': 'succ'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'Not Inserted!'});
+    }
+    });
+    }
+    else{
+       connection.query(qur1,function(err, rows){  
+          console.log('update');
+        if(!err)
+        res.status(200).json({'returnval': 'succ'});
+        else
+        res.status(200).json({'returnval': 'not updated'});
+        });
+        } 
+      });
 });
-
-
 
 app.post('/fetchexceptionsubjectinfo-service',  urlencodedParser,function (req, res)
 {
@@ -25894,7 +25964,8 @@ console.log("--------------------------");
 app.post('/passcurriculumlessonplan-service' , urlencodedParser,function (req, res)
    { 
     var response={
-               school_id:req.query.schoolid,
+
+         school_id:req.query.schoolid,
          academic_year:req.query.academicyear,
          grade_id:req.query.gradeid,
          grade_name:req.query.gradename,
@@ -25925,16 +25996,16 @@ app.post('/passcurriculumlessonplan-service' , urlencodedParser,function (req, r
          subject_name:req.query.subjectname,
          term_id:req.query.termid,
          sub_teacher_temark:req.query.subremak,
-       }
+      }
    
     
-    var qur="select  * from   md_curriculum_planning_approval  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
+    var qur="select  * from   md_curriculum_planning_approval  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and row_id='"+req.query.rowid+"'";
 
-  var qur1="update  md_curriculum_planning_approval set sub_teacher_temark='"+req.query.subremak+"',enrichment_sug='"+req.query.enrichmentsuggest+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
+     var qur1="update  md_curriculum_planning_approval set sub_teacher_temark='"+req.query.subremak+"',enrichment_sug='"+req.query.enrichmentsuggest+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"'  and row_id='"+req.query.rowid+"'";
   
     console.log("-----------LessonPlan Edit/Save-----------");
     console.log(response);
-    console.log("---------------------------------------");
+    console.log("------------------------------------------");
 
     console.log(qur1);
     console.log(qur1);
@@ -25942,8 +26013,7 @@ app.post('/passcurriculumlessonplan-service' , urlencodedParser,function (req, r
     function(err, rows)
     {
     console.log(rows.length);
-
-     if(rows.length==0){
+ if(rows.length==0){
      connection.query("INSERT INTO md_curriculum_planning_approval SET ?",[response],
     function(err, rows)
     {
@@ -26001,7 +26071,7 @@ app.post('/curriculampassassesmentvaluefinal-service' , urlencodedParser,functio
          complete_date:req.query.completedate,
          correction_status:req.query.correctionstatus,
          }
- var qur="select  * from   md_curriculum_planning_approval  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
+ var qur="select  * from   md_curriculum_planning_approval  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and row_id='"+req.query.rowid+"'";
 
   var qur1="update  md_curriculum_planning_approval set assesment_status='"+req.query.assmentstatus+"',status='"+req.query.status+"',assesment_date='"+req.query.assesmentdate+"',complete_date='"+req.query.completedate+"',correction_status='"+req.query.correctionstatus+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"'  and row_id='"+req.query.rowid+"' ";
   
@@ -26080,9 +26150,9 @@ app.post('/curriculampassassesmentvalue-service' , urlencodedParser,function (re
 
    
     
-  var qur="select  * from   md_concept_assesment  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"' and  student_id='"+req.query.StudentId+"'";
+  var qur="select  * from   md_concept_assesment  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"'  and row_id='"+req.query.rowid+"' and  student_id='"+req.query.StudentId+"'";
 
-  var qur1="update  md_concept_assesment set mark='"+req.query.Mark+"'where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"' and student_id='"+req.query.StudentId+"'";
+  var qur1="update  md_concept_assesment set mark='"+req.query.Mark+"'where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"'  and row_id='"+req.query.rowid+"' and student_id='"+req.query.StudentId+"'";
   
     console.log("-----------assesmentset Edit/Save-----------");
     console.log(response);

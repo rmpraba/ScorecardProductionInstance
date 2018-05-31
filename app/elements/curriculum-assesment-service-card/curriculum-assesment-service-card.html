@@ -168,7 +168,7 @@ this.fnmailprocessurl=sessionStorage.getItem("addrinfo")+"/fnmailprocess-service
       },
       fngetinparnetmail:function(e){
     
-this.getinparnetmailurl=sessionStorage.getItem("addrinfo")+"/getinparnetmail-service";
+     this.getinparnetmailurl=sessionStorage.getItem("addrinfo")+"/getinparnetmail-service";
            var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
        obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
@@ -186,8 +186,8 @@ this.getinparnetmailurl=sessionStorage.getItem("addrinfo")+"/getinparnetmail-ser
 },
 getinparnetmailResponse:function(e){
         var res=e.detail.response.returnval;
-        alert(JSON.stringify(res));
-   document.querySelector('curriculum-plan-conceptapproval-card').parentarr=res;
+        // alert(JSON.stringify(res));
+       document.querySelector('curriculum-plan-conceptapproval-card').parentarr=res;
       },
 Fnpasscurriculumlessonplan:function(sno,rowid,conceptname,subconceptname,skill,value,innovation,coremarks,subremak,enrichmentsuggest,chapterid,chaptername,conceptid,subconceptid,fromdate,todate,period){
 this.passcurriculumlessonplanurl=sessionStorage.getItem("addrinfo")+"/passcurriculumlessonplan-service";
@@ -486,9 +486,9 @@ this.passcurriculumassesmenturl=sessionStorage.getItem("addrinfo")+"/passcurricu
 fngetlessonplanvalue:function(e){
 this.lessonplanvalueurl=sessionStorage.getItem("addrinfo")+"/lessonplanvalue-service";
              var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
-         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-        obj.academicyear=localStorage.getItem("curr_sess_academicyear");
-           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+          obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+            obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
            obj.empid=sessionStorage.getItem("curr_sess_loggedid");
            obj.sectionid=localStorage.getItem("curr_sess_sectionid");
            obj.gradeid=localStorage.getItem("curr_sess_gradeid");
@@ -577,7 +577,7 @@ getteacingaidsResponse:function(e){
             res[i].hidurl=true;
             res[i].hidecontent=false;
            }
-         else if(res[i].flag=='1'){
+        else if(res[i].flag=='1'){
            res[i].hidurl=false;
            res[i].hidecontent=true;
          }

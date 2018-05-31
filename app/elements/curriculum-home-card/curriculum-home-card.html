@@ -178,9 +178,7 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
        obj.firstmail=parentarr[i].firstmail;
        this.curriculmsendmailparam=obj;
        this.$.curriculmsendmailajax.generateRequest();
-
-
-     }
+    }
     },
    curriculmsendmail1Response:function(e){
     var res=e.detail.response.returnval;

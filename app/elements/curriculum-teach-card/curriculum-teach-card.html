@@ -34,16 +34,15 @@
            <div hidden$="{{hideopenplan}}"> LINK</div>
 
            <div hidden$="{{hidecloseplan}}">
-              
-             
-           <div hidden$="{{hidurl}}">
-            <p>{{link}}</p>
+              <template is="dom-repeat" items="{{teachtemparr}}" as="rse">
+                  <div hidden$="{{rse.hideteachcont}}">
+                   <h4>{{rse.content}}</h4>
+                 </div>
+                 <div hidden$="{{rse.hideteachurl}}">
+                    <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
+                 </div>
+              </template>
           </div>
-           <div hidden$="{{hidecontent}}">
-             <a href="{{link}}" target="_blank">{{link}}</a>
-          </div>
-           
-    </div>
         <div hidden$="{{hidecloseplan}}">
         </div>
           </td>

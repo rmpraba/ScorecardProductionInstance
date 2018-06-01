@@ -63,12 +63,18 @@
           <td style="{{fonts}}"  width="10%">
            <p hidden$="{{hideopenplan}}"> LINK</p>
             <div hidden$="{{hidecloseplan}}">
-              <div hidden$="{{hidurl}}">
-                <p>{{link}}</p>
-              </div>
-            <div hidden$="{{hidecontent}}">
-                <a href="{{link}}" target="_blank">{{link}}</a>
-            </div>
+            
+            <template is="dom-repeat" items="{{hometemparr}}" as="rse">
+                  <div hidden$="{{rse.hidehomecont}}">
+                   <h4>{{rse.content}}</h4>
+                 </div>
+                 <div hidden$="{{rse.hidehomeurl}}">
+                    <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
+                </div>
+             </template>
+
+
+
           </div> 
 
            </td>
@@ -100,7 +106,7 @@
               </div>
               
                <center>
-                <paper-button style="color:white;background-color:black" on-click="fnmailsend">Sand</paper-button> 
+                <paper-button style="color:white;background-color:black" on-click="fnmailsend">Send</paper-button> 
                 <paper-button style="color:white;background-color:black" on-click="fnmailcancel">cancel</paper-button> 
               </center>
       </paper-dialog>
@@ -190,7 +196,6 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
          var res=e.detail.response.returnval;
          alert(JSON.stringify(res));
           this.finalinfo();
-         
           c1=0;
           c2=0;
     }

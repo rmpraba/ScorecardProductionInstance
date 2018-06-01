@@ -150,12 +150,12 @@
       }
       .home
       {
-        
-     height: 50%;
+    height: 50%;
+    overflow: auto;
+    width: 113.7%;
     overflow-x: hidden;
-    overflow-y: scroll;
-    width: 81.7%;
-    margin-top: 19%;
+    margin-top: 24.4%;
+    margin-left: -21%;
       }
       .bldcard
       {
@@ -174,19 +174,17 @@
 
   .teachingopendialog1
       {
-    border-radius: 10px;
-    width: 1000px;
+   border-radius: 10px;
+    width: 729px;
     height: 502px;
-    margin-left: -2%;
       }
 
     
  .homeworkdialog1
       {
-   border-radius: 10px;
-    width: 1000px;
+    border-radius: 10px;
+    width: 729px;
     height: 502px;
-    margin-left: -2%;
       }
    .remarka1
       {
@@ -245,10 +243,10 @@ h4{
              </div>
                
            </td>
-            <td style="width: 4.45%;text-align: center;">
+            <td style="width: 4.45%;text-align:left;">
                 <paper-input style="width: 80%;" value="{{period}}" allowed-pattern="[0-9]"></paper-input>
             </td>
-             <td style="width: 8.1%;">
+             <td style="width: 8.1%;text-align:left;">
                  <p  hidden$="{{hidecheck}}">{{planneddate}}</p>
                 <div class="card"  hidden$="{{hidecheck1}}">
                    {{showdate}}<iron-icon icon="icons:date-range"  style="color:#20BFEE;" on-click="FnShowDialog" ></iron-icon>
@@ -264,27 +262,35 @@ h4{
                 </div>
                   <dialog-page id="ID_Show_Dialog"></dialog-page>
               </td>
-              <td style="width: 8.1%;">
+              <td style="width: 8.1%;text-align:left;">
               <p hidden$="{{hidecheck}}" >{{plannedtoate}}</p>
           <from-book-date-picker hidden$="{{hidecheck1}}"
         plannedtoate="{{plannedtoate}}"></from-book-date-picker>
              </td>
-            <td style="width: 8.1%;">
+            <td style="width: 8.1%;text-align:left;">
             <p hidden$="{{hidecheck}}" >{{assesmentdate}}</p>
              <assesment-date-picker hidden$="{{hidecheck1}}" assesmentdate="{{assesmentdate}}"></assesment-date-picker>
             </td>
           
-       <td style="width: 8.01%;" >
+       <td style="width: 8.01%;text-align:left;" >
         <div style="height: 50px; overflow:hidden;">
            <paper-icon-button on-click="Fnhomeworks" icon="add" hidden$="{{hidecheck1}}" style="color:#6699ff;float: right;"></paper-icon-button>
-           <a href="{{homecurrurl}}" target="_blank">{{homecurrurl}}</a>
+             <template is="dom-repeat" items="{{hometemparr}}" as="rse">
+                  <div hidden$="{{rse.hidehomecont}}">
+                   <h4>{{rse.content}}</h4>-
+                 </div>
+                 <div hidden$="{{rse.hidehomeurl}}">
+                    <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
+                </div>
+             </template>
+       
            <paper-input id="homefomeid{{rowid}}"  readonly value="{{homework}}"></paper-input>
            <h4 hidden$="{{hidedbhomewok}}">{{homework}}</h4>
         </div>
        </td>
 
 
-        <td style="width: 8.1%;">
+        <td style="width: 8.1%;text-align:left;">
           <div style="height: 50px; overflow:hidden;">
               <paper-icon-button   hidden$="{{hidecheck1}}" icon="add" on-click="fngetskill" style="color:#6699ff;float: right;"></paper-icon-button>
               <template is="dom-repeat" items="{{skillarrzx}}" as="r">
@@ -303,7 +309,7 @@ h4{
  
 
  
- <td style="width: 8.01%;">
+ <td style="width: 8.01%;text-align:left;">
       <div style="height: 50px; overflow:hidden;">        
         <paper-icon-button  hidden$="{{hidecheck1}}"  icon="add" on-click="fngetconceptz1" style="color:#6699ff;float: right;"></paper-icon-button>
         <template is="dom-repeat" items="{{mainarr}}" as="ry">
@@ -312,16 +318,27 @@ h4{
        <h4 hidden$="{{hidedbvalue}}">{{values}}</h4>
     </div>
   </td>
-            <td style="width: 8.01%;">
+            <td style="width: 8.01%;text-align:left;">
               <div style="height: 50px; overflow:hidden;">
                 <paper-icon-button on-click="fnteachingaid" icon="add" hidden$="{{hidecheck1}}" style="color:#6699ff;float: right;"></paper-icon-button>
-                <a href="{{currurl}}" target="_blank">{{currurl}}</a>
+               <!--  <a href="{{currurl}}" target="_blank">{{currurl}}</a>
+  -->
+  <template is="dom-repeat" items="{{teachtemparr}}" as="rse">
+                  <div hidden$="{{rse.hideteachcont}}">
+                   <h4>{{rse.content}}</h4>-
+                 </div>
+                 <div hidden$="{{rse.hideteachurl}}">
+                    <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
+                </div>
+             </template>
+
+                
                  <paper-input id="fomeid{{rowid}}"  readonly value="{{teachingaid}}"></paper-input>
                <h4>{{teachingaid}}</h4>
              </div>
            </td>
 
-           <td style="width: 8.01%;">
+           <td style="width: 8.01%;text-align:left;">
              <div style="height: 50px; overflow:hidden;">
               <paper-button on-click="lsninnovation">
                 <h4 >{{innovation}}</h4>
@@ -329,7 +346,7 @@ h4{
               </div>
             </td>
             
-            <td style="width: 8.01%;">
+            <td style="width: 8.01%;text-align:left;">
                <div style="height: 50px; overflow:hidden;">
               <paper-button on-click="lsnremark">
                 <h4 >{{remark}}</h4>
@@ -424,7 +441,7 @@ h4{
     <center><h2>Home Work</h2> </center> 
         
           
-      <table style="width:20%;border-collapse:collapse;margin-left: 16%;">
+      <table style="width: 20%;border-collapse: collapse;margin-left: 1.3%;">
        <tr>
           <th>Upload Your file here</th>
           <th>Enter Url/Content</th>
@@ -454,10 +471,7 @@ h4{
         </body>
       </td>
       <td>
-       
-          <iron-autogrow-textarea id="homeworkvalu{{rowid}}" placeholder="Enter your homeurl here..." value="{{value}}"   class="remarka1"></iron-autogrow-textarea>
-       
-        
+         <iron-autogrow-textarea id="homeworkvalu{{rowid}}" placeholder="Enter your homeurl here..." value="{{value}}"   class="remarka1"></iron-autogrow-textarea>
       </td>
       <td>
          <paper-icon-button on-click="homesave" icon='save'></paper-icon-button>
@@ -465,8 +479,8 @@ h4{
         </tr>
    </table>
   
-   <div style="margin-top: -22%; margin-left: 93%;color: #a99f9f;" >
-       <paper-icon-button id="taid1" icon='close'  on-click="closehomeid" ></paper-icon-button>
+   <div style="margin-top: -30%;margin-left: 92%;color: #a99f9f;" >
+        <paper-icon-button id="taid1" icon='close'  on-click="closehomeid" ></paper-icon-button>
     </div>
 
   <div class="home">
@@ -482,7 +496,7 @@ h4{
    
   <paper-dialog id="teachingopendialog{{rowid}}"  class="teachingopendialog1" modal >
    <center><h3>Teaching Aids</h3></center>
-    <table style="width:20%;border-collapse:collapse;margin-left: 16%;">
+    <table style="width: 20%;border-collapse: collapse;margin-left: 1.3%;">
       <tr>
          <th>Upload your file here</th>
          <th> Enter Url/Content</th>
@@ -522,7 +536,7 @@ h4{
        </tr>
    </table>  
  
-   <div style="margin-top: -22%; margin-left: 93%;color: #a99f9f;">
+   <div style="margin-top: -30%;margin-left: 92%;color: #a99f9f;">
        <paper-icon-button  pid="taid1" on-click="closeteachingaaid" icon='close'></paper-icon-button>
    </div>
 
@@ -665,9 +679,9 @@ function fnhomes(){
   
   
    
-     hometeachertempaids.push({"filenames":homeglfilename});
+   hometeachertempaids.push({"filenames":homeglfilename});
      homefilearrurl.push({"homeurl":mainurl+"/"+d+homeglfilename,"filename":homeglfilename})
-     currenthomeurl=mainurl+"/"+d+homeglfilename;
+   currenthomeurl=mainurl+"/"+d+homeglfilename;
      var homefilenames="";
     var filenames="";
          for(var j=0;j<hometeachertempaids.length;j++){
@@ -1919,6 +1933,8 @@ fndelete:function(e){
     },
      fneditbook:function(e){
      this.showdate=this.planneddate;
+     this.currenthometemp="";
+     this.currenttechtemp="";
      localStorage.setItem("localsess_last_service",this.plannedtoate);
      localStorage.setItem("localsess_from_service",this.planneddate);
      localStorage.setItem("assement_curr_sess_date",this.assesmentdate);
@@ -1938,7 +1954,7 @@ fndelete:function(e){
       this.innovattionvaluezs=false;
       this.$.rmcls1.hidden=true;
       this.$.innvtt.hidden=true;
-   
+       
   document.querySelector('aproval-book-concept-card').fnref(this.id);
     },
  

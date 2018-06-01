@@ -1509,7 +1509,6 @@ var obj={"school_id":"","academic_year":"","grade_id":"","subject_id":""};
             obj.conceptid=localStorage.getItem("curr_sess_conceptid");
             obj.capterid=capterid;
             this.deleteconceptzzzzparam=obj;
-          // alert(JSON.stringify(obj));
             this.$.deleteconceptzzzzajax.generateRequest();
 
      },
@@ -1672,10 +1671,40 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
       
  var res1=e.detail.response.chapterarr;
  var temp1=e.detail.response.dbarr;
+ 
+    for(var i=0;i<temp1.length;i++){
+           var k,l;
+           var temp=[];
+           var temp2=[];
+           var hometemparr=[];
+           var teachtemparr=[];
+            k=temp1[i].homecurrurl;
+              temp=k.split(",");
+            l=temp1[i].current_url;
+              temp2=l.split(",");
+              
+            
+     for(var j=0;j<temp.length;j++){ 
+           if(temp[j].substring(0,5)=="https")
+              hometemparr.push({"id":"0","content":temp[j],"hidehomeurl":false,"hidehomecont":true});
+              else
+             hometemparr.push({"id":"1","content":temp[j],"hidehomeurl":true,"hidehomecont":false});
+             }
+         for(var j=0;j<temp2.length;j++){ 
+          if(temp2[j].substring(0,5)=="https")
+         teachtemparr.push({"id":"0","content":temp2[j],"hideteachurl":false,"hideteachcont":true});
+             else
+         teachtemparr.push({"id":"1","content":temp2[j],"hideteachurl":true,"hideteachcont":false});
+             }
+        temp1[i].hometemparr=hometemparr;
+        temp1[i].teachtemparr=teachtemparr;
+   //  alert(JSON.stringify(teachtemparr));
+    }
+ //alert(JSON.stringify(temp1));
  var res2=[];
  var r=parseInt(res1[0].buffer_period)+parseInt(res1[0].period)-parseInt(temp1.length);
     for(var i=0;i<temp1.length;i++){
-                      var obj={};
+                  var obj={};
                       obj.concept_id=temp1[i].concept_id;
                       obj.concept_name=temp1[i].concept_name;
                       obj.sub_concept_id=temp1[i].sub_concept_id;
@@ -1694,20 +1723,20 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
                       obj.planned_to_date=temp1[i].planned_to_date;
                       obj.bld_value_name=temp1[i].bld_value_name;
                       obj.homecurrurl=temp1[i].homecurrurl;
+                      obj.hometemparr=temp1[i].hometemparr;
+                      obj.teachtemparr=temp1[i].teachtemparr;
                       obj.currurl=temp1[i].current_url;
-                      var id_date=temp1[i].planned_date_from;
+                   var id_date=temp1[i].planned_date_from;
                        id_date=id_date.replace(/[^\w\s]/gi, '');
                        obj.id_date=id_date;
                        obj.hidecheck=false; 
                        obj.hidecheck1=true; 
                        obj.hidecheck11=true; 
-
                        res2.push(obj);     
                       }
      
-      var flag=0;
-
-if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafter!=""){
+        var flag=0;
+     if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafter!=""){
             flag=1;
             var len=res2.length;
            
@@ -1748,7 +1777,7 @@ if(parseInt(this.periodafter)!=-1&&parseInt(this.periodafter)>0&&this.periodafte
                 }
             }
           }
-        //alert(JSON.stringify(res2));
+     
              
             if(flag==0){
                   for(var k=0;k<r;k++){

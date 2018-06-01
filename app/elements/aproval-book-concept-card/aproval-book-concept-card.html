@@ -11,18 +11,18 @@
        #dzfsd
       {
           border-radius: 10px;
-          width: 711px;
-          height: 491px;
-          margin-left: -3%;
-          margin-top: -4%;
+    width: 703px;
+    height: 307px;
+    margin-left: -3%;
+    margin-top: -4%;
          
       }
         .concptcard
       {
-        width: 93%;
-        height: 55%;
-        overflow-x: hidden;
-        overflow-y: scroll;
+       width: 93%;
+       height: 28%;
+       overflow-x: hidden;
+       overflow-y: scroll;
       }
       
     </style>
@@ -32,15 +32,15 @@
     </div>
 <table>
  <tr>
-<td style="width: 12.56%;padding-left: 2%;">
+<td style="width: 12.56%;padding-left: 2%;text-align:left;">
     <paper-icon-button  id="ENR{{id}}" hidden icon="add" on-click="fnsetglobal" style="color:#6699ff;float: right;"></paper-icon-button>
              
         <div style="height: 50px; overflow:hidden;">
            <paper-icon-button  hidden$="{{infovalue}}"  icon="add" on-click="fngetconceptz" style="color:#6699ff;float: right;"></paper-icon-button>
             <template is="dom-repeat" items="{{conceptzz}}" as="r">
-                <h4 style="margin-left: 11%; width: 90%;">{{r.conceptname}}</h4>
+                <h4 style="width: 90%;">{{r.conceptname}}</h4>
             </template>
-             <h4 style="margin-left: 11%; width: 90%;" hidden$="{{hidedbconcept}}">{{conceptname}}</h4>
+             <h4 style="width: 90%;" hidden$="{{hidedbconcept}}">{{conceptname}}</h4>
         </div>
    </td>      
 </tr>
@@ -48,13 +48,17 @@
 
 <paper-dialog id="dzfsd" modal >
        <h3>Concept Name</h3>
-        <paper-input label=" Add New Concept" value="{{addconcept}}" style='width:60%'></paper-input>
-       <div class="concptcard"><paper-icon-button icon='add' on-click="fnaddconcept"  style="color:black;color: black; margin-top: -9%;margin-left: 59%;
-    position: absolute;"></paper-icon-button>    
+       
+       <div class="concptcard">
+
         <template is="dom-repeat" items="{{conceparr}}" as="s">
           <concept-check-card conceptid="{{s.concept_id}}" id="FFYJ{{rowid}}{{iddate}}{{s.concept_id}}" conceptname="{{s.concept}}" check="{{s.check}}" rowid="{{rowid}}"></concept-check-card>
-        </template>  
-       </div> 
+        </template> 
+         </div> 
+                <paper-input label=" Add New Concept" value="{{addconcept}}" style='width:60%'></paper-input>
+                <paper-icon-button icon='add' on-click="fnaddconcept"  style="color: black;
+    width: 11%;position: absolute;margin-top:-5%;margin-left: 61%;"></paper-icon-button>    
+       
       <center style="margin-top: 5%;">
           <paper-button on-click="fnsubmit"  style="background-color:black;color:white">Submit</paper-button>
   <paper-button on-click="fnclose" style="background-color:black;color:white">Close</paper-button>
@@ -135,7 +139,7 @@ var  rowid1="";
         // alert(this.addconceptid);
       },
       passaddconcept:function(e){
-    this.passaddconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept-service";
+    this.passaddconcepturl=sessionStorage.getItem("addrinfo")+"/fnsendconcept1-service";
         var obj={};
         obj.concept_id=this.addconceptid;
         obj.concept=this.addconcept;
@@ -146,7 +150,7 @@ var  rowid1="";
         obj.gradeid=sessionStorage.getItem("grdeidz");
         obj.termid=sessionStorage.getItem("termid");
         obj.flag='active';
-       this.passaddconceptparam=obj;
+        this.passaddconceptparam=obj;
       this.$.passaddconceptajax.generateRequest();
           },
 passaddconceptResponse:function(e){

@@ -138,9 +138,9 @@
     <paper-dialog id="termmarkdialogid1111" modal>
        <h3 style="color:green"><center>{{getindialogvalu}}</center></h3>
        <center>
-      <paper-button on-click="failureclose" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
+        <paper-button on-click="failureclose" style="color:white;background-color:black;margin-top: 15%;">OK</paper-button>
        </center>
- </paper-dialog>
+  </paper-dialog>
     <scorecard-service id="scorecardservice"></scorecard-service>
     <term-assesment-service id="assesmentservice"></term-assesment-service>
      <div class="spinner"><paper-dialog modal id="dynamicspinneree" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner></paper-dialog></div>
@@ -154,12 +154,13 @@
      <p hidden>{{searchgradename}}</p>
      <p hidden>{{seachclassid}}</p>
      <p hidden>{{searchsectionname}}</p>
-      <term-assesment-service id='assesmentservice'></term-assesment-service>
-      <onetofour-scorecard-service id="otfscorecardservice"></onetofour-scorecard-service>
-      <scorecard-service id="scorecardservice"></scorecard-service>
-      <report-service id="reportservice"></report-service>
-      <reprotcard-newformat-service id="newformatservice"></reprotcard-newformat-service>
-        
+    <term-assesment-service id='assesmentservice'></term-assesment-service>
+    <onetofour-scorecard-service id="otfscorecardservice"></onetofour-scorecard-service>
+    <scorecard-service id="scorecardservice"></scorecard-service>
+    <report-service id="reportservice"></report-service>
+    <reprotcard-newformat-service id="newformatservice"></reprotcard-newformat-service>
+       
+        <div class="spinner"><paper-dialog modal id="dynamicspinneree" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner></paper-dialog></div>    
   </template>
   <script>
   (function() {

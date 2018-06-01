@@ -24,21 +24,21 @@
       #fnsetdialogs
       {
         border-radius: 10px;
-        width: 650px;
-        height: 300px;
-        margin-left: -6%;
+    width: 650px;
+    height: 300px;
+    margin-left: 24%;
       }
       .exceldiv{
-        margin-top: 8%;
-        margin-left: 5%;
+       margin-top: 8%;
+       margin-left: -59%;
       } 
       .exceldiv1{
-        margin-top: -5%;
-        margin-left: 39%;
+       margin-top: -5%;
+      margin-left: 25%;
       }
        .exceldiv2{
-      margin-top: -12%;
-      margin-left: 68%;
+         margin-top: -12%;
+         margin-left: 68%;
       } 
       #curriculamenrichmentdialog11
       {
@@ -65,15 +65,16 @@
     
       } #curriculamenrichmentdialog111
       {
-   border-radius: 30px;
+    border-radius: 30px;
     width: 34%;
     height: 33%;
     margin-left: 33%;
    
       } 
+     
     </style>
-    <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}{{editvalue}}
-    </div>
+        <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}{{editvalue}}{{skill}}{{value}}{{innovation}}{{coremarks}}{{period}}
+      </div>
     <div>
        <table  class="teach1" >
          <tr>
@@ -119,15 +120,15 @@
            <p style="color:green">Completed</p>
          </div>
         </td>
-    <td style="{{fonts}}"  width="2.5%">
+        <td style="{{fonts}}"  width="2.5%">
                <div hidden$="{{hideinfovalue}}"> 
                <p hidden$="{{hideopenplan}}">Save</p>
                 <center><paper-icon-button hidden$="{{hidecloseplan}}" icon="save" on-click="FnSave"></paper-icon-button>
                 </center>
                 </div>
                 <div hidden$="{{hideinfovalue1}}">
-                    <paper-icon-button id="downloads" icon="create" on-click="fnedit"></paper-icon-button>
-            <paper-tooltip for="download">Edit</paper-tooltip>
+                  <paper-icon-button id="downloads" icon="create" on-click="fnedit"></paper-icon-button>
+                  <paper-tooltip for="download">Edit</paper-tooltip>
                 </div>  
           </td>
         </tr>
@@ -204,7 +205,7 @@
         on-response="curriculamassesmentmarkResponse"
         debounce-duration="300"/>
     </iron-ajax>
-     <iron-ajax
+    <iron-ajax
         method="post"
         id="curriculamassesmentmark1ajax"
         url="{{curriculamassesmentmark1url}}"
@@ -214,7 +215,7 @@
         on-response="curriculamassesmentmark1Response"
         debounce-duration="300"/>
      </iron-ajax>
-      <iron-ajax
+     <iron-ajax
         method="post"
         id="curriculamassesmentmark2ajax"
         url="{{curriculamassesmentmark2url}}"
@@ -223,7 +224,7 @@
         content-type="application/json"
         on-response="curriculamassesmentmark2Response"
         debounce-duration="300"/>
-    </iron-ajax>  
+     </iron-ajax>  
      <iron-ajax
         method="post"
         id="checkcompleteplanajax"
@@ -251,6 +252,8 @@
             <paper-button id="rmcls1" style="color:white;background-color:black" on-click="Dialclose">Close</paper-button>
           </center>
       </paper-dialog>
+
+   
   </template>
    <script type="text/javascript">
 
@@ -319,7 +322,7 @@ var ids;
    var temp=[];
    var passarr=[];
    var status="no";
-   var  finalvalue;
+   var  finalvalue="sucess";
    var checinfo="";
    
     Polymer({
@@ -364,7 +367,8 @@ localStorage.setItem("localsess_comp_service",this.completiondate);
             if(this.editvalue=="editvalue"){
               if(finalvalue=="sucess"){
                  setassesment='yes';
-             this.$.crriculambookservice.fncurriculampassassesmentvaluefninal(this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
+             document.querySelector('curriculum-plan-conceptapproval-card').FnToggleSpinner(true);
+             this.$.crriculambookservice.fncurriculampassassesmentvaluefninal(this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus,this.skill,this.value,this.innovation,this.coremarks,this.period);
               }
               else{
                 this.dialogvalue="Please Check the value";
@@ -382,8 +386,9 @@ localStorage.setItem("localsess_comp_service",this.completiondate);
       {
         if(finalvalue=="sucess"){
            if(this.assemensarr.length==temp.length){
+    document.querySelector('curriculum-plan-conceptapproval-card').FnToggleSpinner(true);
             for(var i=0;i<temp.length;i++){
-               this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].StudentId,temp[i].StudentName,temp[i].Mark,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,temp.length,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus);
+               this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].StudentId,temp[i].StudentName,temp[i].Mark,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,temp.length,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus,this.skill,this.value,this.innovation,this.coremarks,this.period);
               }
            }
            else{
@@ -410,7 +415,7 @@ localStorage.setItem("localsess_comp_service",this.completiondate);
        document.querySelector("#cpayes1"+checinfo).checked=false;  
        document.querySelector("#cpayes"+ids).checked=false;
        status="no"; 
-       finalvalue="";
+       finalvalue="sucess";
        document.getElementById("assesmentreadfile1"+this.id).value ="";
        temp=[];
        array=[];
@@ -602,10 +607,10 @@ curriculamassesmentmarkResponse:function(e){
         this.assemensarr=res;
      
         },
-   fnpass1:function(arr){
+    fnpass1:function(arr){
      this.dialogvalue=arr;
       this.$.curriculamenrichmentdialog11.open();
-
+   
     },
     enrichclose1:function(e){
       this.$.curriculamenrichmentdialog11.close();
@@ -673,12 +678,12 @@ curriculamassesmentmarkResponse:function(e){
             else{
                   this.dialogvalue="All Process are sucess";
                   this.$.curriculamdialog.open();
-                  finalvalue="sucess";
+                   finalvalue="sucess";
                   document.querySelector("#cpayes"+checinfo).checked=true;
              }
          
       },
-
+ 
     });
   })();
   </script>

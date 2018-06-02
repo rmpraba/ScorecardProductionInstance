@@ -519,13 +519,13 @@ lessonplanvalueResponse:function(e){
                  res[i].hideinfovalue=false;        
                  res[i].hideinfovalue1=true;        
                  res[i].enrichment_sug="";
-                 res[i].sub_teacher_temark="";
+                 res[i].remarks="";
            }
         for(var i=0;i<res.length;i++){
           for(var j=0;j<aproval.length;j++){
              if(res[i].concept_id==aproval[j].concept_id && res[i].concept_id==aproval[j].concept_id  && res[i].row_id==aproval[j].row_id ){
                  res[i].enrichment_sug=aproval[j].enrichment_sug;
-                 res[i].sub_teacher_temark=aproval[j].sub_teacher_temark;
+                 res[i].remarks=aproval[j].remarks;
                  res[i].hideinfovalue=true;        
                  res[i].hideinfovalue1=false;        
              
@@ -533,7 +533,7 @@ lessonplanvalueResponse:function(e){
           }
         }
   for(var i=0;i<res.length;i++){
-     if(res[i].sub_teacher_temark==""){
+     if(res[i].remarks==""){
           res[i].hideinfovalue=false;        
           res[i].hideinfovalue1=true; 
      }
@@ -542,7 +542,7 @@ lessonplanvalueResponse:function(e){
 
 //alert(JSON.stringify(res));
 var temp=[];
- temp.push({"enrichment_sug":"Enrichment Suggestion","sno":"sno","chapter_id":"Chapterid","chapter_name":"ChapterName","concept_id":"Conceptid","sub_concept_id":"subconceptid","concept_name":"Conceptname","sub_concept_name":"sub conceptname","period":"period","skill":"skill","value":"value","innovation":"innovation","sub_teacher_temark":"remark","remarks":"Co-remark","hidecloseplan":true,"hideopenplan":false,"fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","row_id":0,"hideinfovalue":false,"hideinfovalue1":true,"planned_date_from":"From Date","planned_to_date":"To Date"});
+ temp.push({"enrichment_sug":"Enrichment Suggestion","sno":"sno","chapter_id":"Chapterid","chapter_name":"ChapterName","concept_id":"Conceptid","sub_concept_id":"subconceptid","concept_name":"Conceptname","sub_concept_name":"sub conceptname","period":"period","skill":"skill","value":"value","innovation":"innovation","remarks":"remark","remarks":"Co-remark","hidecloseplan":true,"hideopenplan":false,"fonts":"font-weight:bold;text-transform:uppercase;text-align:center;","row_id":0,"hideinfovalue":false,"hideinfovalue1":true,"planned_date_from":"From Date","planned_to_date":"To Date"});
 
      for(var i=0;i<res.length;i++){
         res[i].hidecloseplan=false;

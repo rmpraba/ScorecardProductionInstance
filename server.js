@@ -20,8 +20,8 @@ var connection = mysql.createConnection({
   // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : '',
-  database : 'scorecardtemp'
+  password : 'admin',
+  database : 'samsidhreportcard'
 });
 var app = express();
 var logfile;
@@ -26331,9 +26331,9 @@ app.post('/fnteacheraid1-service' , urlencodedParser,function (req, res)
       flag:req.query.homeflag,
     };
   
-  var qur="select  * from   md_concept_homework  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"'  and chapter_id='"+req.query.chapterid+"'and row_id='"+req.query.rowid+"' and term_id='"+req.query.termid+"'  and link='"+req.query.currurl+"'";
+  var qur='select  * from   md_concept_homework  where school_id="'+req.query.schoolid+'" and academic_year="'+req.query.academicyear+'" and grade_id="'+req.query.gradeid+'" and subject_id="'+req.query.subjectid+'"  and chapter_id="'+req.query.chapterid+'" and row_id="'+req.query.rowid+'" and term_id="'+req.query.termid+'"  and link="'+req.query.currurl+'"';
 
-  var qur1="update  md_concept_homework set flag='"+req.query.homeflag+"',link='"+req.query.currurl+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and chapter_id='"+req.query.chapterid+" and row_id='"+req.query.rowid+"' and  link='"+req.query.currurl+"'";
+  var qur1='update  md_concept_homework set flag="'+req.query.homeflag+'",link="'+req.query.currurl+'" where school_id="'+req.query.schoolid+'" and academic_year="'+req.query.academicyear+'" and grade_id="'+req.query.gradeid+'" and subject_id="'+req.query.subjectid+'" and chapter_id="'+req.query.chapterid+'" and row_id="'+req.query.rowid+'" and  link="'+req.query.currurl+'"';
   
     console.log("---------Homework Save/ Edit---------------------");
     console.log(response);
@@ -26344,7 +26344,7 @@ app.post('/fnteacheraid1-service' , urlencodedParser,function (req, res)
    connection.query(qur,
     function(err, rows)
     {
-    console.log(rows.length);
+    // console.log(rows.length);
 
      if(rows.length==0){
      connection.query("INSERT INTO md_concept_homework SET ?",[response],

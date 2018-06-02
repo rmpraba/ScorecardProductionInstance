@@ -8702,15 +8702,7 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
         }       
         
 
-
-
-
-
-
-
-
-
-        var engarr=[];
+      var engarr=[];
         var matharr=[];
         var evsarr=[];
         var hinarr=[];
@@ -8721,12 +8713,156 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
         var gamearr=[];
         var parr=[];
         var dancearr=[];
-        
+       var et1="";
+       var et2="";
+       var et3="";
+       var mt1="";
+       var mt2="";
+       var mt3="";
+       var evt1="";
+       var evt2="";
+       var evt3="";
+       var ht1="";
+       var ht2="";
+       var ht3="";
+       var ct1="";
+       var ct2="";
+       var ct3="";
+       var gt1="";
+       var gt2="";
+       var gt3="";
+       var at1="";
+       var at2="";
+       var at3="";
+       var mdt1="";
+       var mdt2="";
+       var mdt3="";
+       var gat1="";
+       var gat2="";
+       var gat3="";
+       var pdt1="";
+       var pdt2="";
+       var pdt3="";
+       var dant1="";
+       var dant2="";
+       var dant3="";
+      
+       for(var i=0;i<global.overalltermwisegrade.length;i++){
+                  
+          if(global.overalltermwisegrade[i].subject_id=="English"){    
+          
+          if(global.overalltermwisegrade[i].term_name=="Term1")
+            et1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            et2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            et3=global.overalltermwisegrade[i].grade;   
+             
+          }
+          if(global.overalltermwisegrade[i].subject_id=="Mathematics"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            mt1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            mt2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            mt3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if(global.overalltermwisegrade[i].subject_id=="EVS"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            evt1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            evt2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            evt3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if((global.overalltermwisegrade[i].subject_id).trim()=="II Language Hindi"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            ht1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            ht2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            ht3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if((global.overalltermwisegrade[i].subject_id).trim()=="II Language Kannada"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            ht1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            ht2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            ht3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if(global.overalltermwisegrade[i].subject_id=="Computer"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            ct1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            ct2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            ct3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if(global.overalltermwisegrade[i].subject_id=="GK"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            gt1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            gt2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            gt3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if(global.overalltermwisegrade[i].subject_id=="Art&Craft"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            at1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            at2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            at3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if(global.overalltermwisegrade[i].subject_id=="music"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            mdt1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            mdt2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            mdt3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if(global.overalltermwisegrade[i].subject_id=="dance"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            dant1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            dant2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            dant3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if(global.overalltermwisegrade[i].subject_id=="Games"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            gat1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            gat2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            gat3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          if(global.overalltermwisegrade[i].subject_id=="Personality Development"){      
+            if(global.overalltermwisegrade[i].term_name=="Term1")
+            pdt1=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term2")
+            pdt2=global.overalltermwisegrade[i].grade;
+            if(global.overalltermwisegrade[i].term_name=="Term3")
+            pdt3=global.overalltermwisegrade[i].grade;   
+            // engarr.push(obj);
+          }
+          }
+   
 
+e
 
-
-
- 
         for(var i=0;i<global.scholasticinfo.length;i++){          
          if(global.scholasticinfo[i].subject_name=="English"){
 
@@ -9174,16 +9310,12 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
 
           obj1.Personality_Development=global.scholasticinfo[i].category; 
           obj1.Comments=global.scholasticinfo[i].description;      
-          if(global.scholasticinfo[i].term_name=="Term1"){            
+          if(global.scholasticinfo[i].term_name=="Term1")           
           obj1.Term1=global.scholasticinfo[i].term_cat_grade;
-          }
-          if(global.scholasticinfo[i].term_name=="Term2"){            
+          if(global.scholasticinfo[i].term_name=="Term2")          
           obj1.Term2=global.scholasticinfo[i].term_cat_grade;
-          }
-          if(global.scholasticinfo[i].term_name=="Term3"){            
+          if(global.scholasticinfo[i].term_name=="Term3")           
           obj1.Term3=global.scholasticinfo[i].term_cat_grade;
-          }
-          parr.push(obj1); 
             if(parr.length==0)
               parr.push(obj1);
            else{
@@ -9211,1386 +9343,16 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             if(flag==0){
              parr.push(obj1);  
             }
-            }           
-        }
-       }
+            }     
+           }}
 
 
 
-       var et1="";
-       var et2="";
-       var et3="";
-       var mt1="";
-       var mt2="";
-       var mt3="";
-       var evt1="";
-       var evt2="";
-       var evt3="";
-       var ht1="";
-       var ht2="";
-       var ht3="";
-       var ct1="";
-       var ct2="";
-       var ct3="";
-       var gt1="";
-       var gt2="";
-       var gt3="";
-       var at1="";
-       var at2="";
-       var at3="";
-       var mdt1="";
-       var mdt2="";
-       var mdt3="";
-       var gat1="";
-       var gat2="";
-       var gat3="";
-       var pdt1="";
-       var pdt2="";
-       var pdt3="";
-       var dant1="";
-       var dant2="";
-       var dant3="";
-       for(var i=0;i<global.overalltermwisegrade.length;i++){
-                  
-          if(global.overalltermwisegrade[i].subject_id=="English"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            et1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            et2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            et3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="Mathematics"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            mt1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            mt2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            mt3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="EVS"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            evt1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            evt2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            evt3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if((global.overalltermwisegrade[i].subject_id).trim()=="II Language Hindi"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            ht1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            ht2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            ht3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if((global.overalltermwisegrade[i].subject_id).trim()=="II Language Kannada"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            ht1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            ht2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            ht3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="Computer"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            ct1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            ct2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            ct3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="GK"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            gt1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            gt2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            gt3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="Art&Craft"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            at1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            at2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            at3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="music"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            mdt1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            mdt2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            mdt3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="dance"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            dant1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            dant2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            dant3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="Games"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            gat1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            gat2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            gat3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          if(global.overalltermwisegrade[i].subject_id=="Personality Development"){      
-            if(global.overalltermwisegrade[i].term_name=="Term1")
-            pdt1=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term2")
-            pdt2=global.overalltermwisegrade[i].grade;
-            if(global.overalltermwisegrade[i].term_name=="Term3")
-            pdt3=global.overalltermwisegrade[i].grade;   
-            // engarr.push(obj);
-          }
-          }
-         
-    console.log(hinarr);
-    console.log('....................schoolname.................');
-    console.log(req.query.schoolname+"   "+req.query.academicyear); 
-    console.log('........................................');
-    console.log("-------english arr------------");
-   var myJson = {"Elements":engarr,"Kamera":"c1"}
-   var jstr = JSON.stringify(myJson);
-   var jstr_2 = jstr.slice(13);
-    //alert(jstr_2);    
-    var jstr_3 = jstr_2.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_4 = "[" + jstr_3 + "]";
-    //alert(jstr_4);  
-    var obj = JSON.parse(jstr_4);
-    var externalDataRetrievedFromServer = obj;   
-    
-   
-function buildTableBody(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody(data, columns)
-        },
-          layout: {
-
-
-          hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#4d94ff' : null;
-        },
-
-      }
-      
-    };
-}
-console.log("-------------Start---------------------------");
-  
-       
-console.log("----------------mathsarr-----------------");
- var myJson1 = {"Elements":matharr,"Kamera":"c1"}
- var jstr1 = JSON.stringify(myJson1);
-    //alert(jstr);
-    var jstr_21 = jstr1.slice(13);
-    //alert(jstr_2);    
-    var jstr_31 = jstr_21.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_41 = "[" + jstr_31 + "]";
-    //alert(jstr_4);  
-    var obj1 = JSON.parse(jstr_41);
-    var externalDataRetrievedFromServer1 = obj1;   
-
-function buildTableBody1(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table1(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody1(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#86b300' : null;
-        }
-      }
-      
-    };
-}
-console.log("----------------evsarr-----------------");
- var myJson10 = {"Elements":evsarr,"Kamera":"c1"}
- var jstr10 = JSON.stringify(myJson10);
-    //alert(jstr);
-    var jstr_210 = jstr10.slice(13);
-    //alert(jstr_2);    
-    var jstr_310 = jstr_210.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_410 = "[" + jstr_310 + "]";
-    //alert(jstr_4);  
-    var obj2 = JSON.parse(jstr_410);
-    var externalDataRetrievedFromServer11 = obj2;   
-
-function buildTableBody2(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table2(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody2(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#ffad33' : null;
-        }
-      }
-      
-    };
-}
-
-console.log("-----------------------");
-console.log("----------------hinarr-----------------");
- var myJson11 = {"Elements":hinarr,"Kamera":"c1"}
- var jstr11 = JSON.stringify(myJson11);
-    //alert(jstr);
-    var jstr_211 = jstr11.slice(13);
-    //alert(jstr_2);    
-    var jstr_311 = jstr_211.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_411 = "[" + jstr_311 + "]";
-    //alert(jstr_4);  
-    var obj3 = JSON.parse(jstr_411);
-    var externalDataRetrievedFromServer3 = obj3;   
-
-function buildTableBody3(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table3(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody3(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#ac39ac' : null;
-        }
-      }
-      
-    };
-}
-
-console.log("-----------------------");
-   
-console.log("----------------comarr-----------------");
- var myJson12 = {"Elements":comarr,"Kamera":"c1"}
- var jstr12 = JSON.stringify(myJson12);
-    //alert(jstr);
-    var jstr_212 = jstr12.slice(13);
-    //alert(jstr_2);    
-    var jstr_312 = jstr_212.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_412 = "[" + jstr_312 + "]";
-    //alert(jstr_4);  
-    var obj4 = JSON.parse(jstr_412);
-    var externalDataRetrievedFromServer4 = obj4;   
-
-function buildTableBody4(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table4(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-
-        table: {
-            headerRows: 1,
-            body: buildTableBody4(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#4d94ff' : null;
-        }
-      }
-      
-    };
-}
-console.log("-----------------------");
-
-console.log("----------------gkarr-----------------");
- var myJson13 = {"Elements":gkarr,"Kamera":"c1"}
- var jstr13 = JSON.stringify(myJson13);
-    //alert(jstr);
-    var jstr_213 = jstr13.slice(13);
-    //alert(jstr_2);    
-    var jstr_313 = jstr_213.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_413 = "[" + jstr_313 + "]";
-    //alert(jstr_4);  
-    var obj5 = JSON.parse(jstr_413);
-    var externalDataRetrievedFromServer5 = obj5;   
-
-function buildTableBody5(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table5(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody5(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#ac39ac' : null;
-        }
-      }
-      
-    };
-}
-console.log("-----------------------");
-
-
-console.log("----------------acarr-----------------");
- var myJson14 = {"Elements":acarr,"Kamera":"c1"}
- var jstr14 = JSON.stringify(myJson14);
-    //alert(jstr);
-    var jstr_214 = jstr14.slice(13);
-    //alert(jstr_2);    
-    var jstr_314 = jstr_214.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_414 = "[" + jstr_314 + "]";
-    //alert(jstr_4);  
-    var obj6 = JSON.parse(jstr_414);
-    var externalDataRetrievedFromServer6= obj6;   
-
-function buildTableBody6(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table6(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody6(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#86b300' : null;
-        }
-      }
-      
-    };
-}
-console.log("-----------------------");
-  
-console.log("----------------mdarr-----------------");
- var myJson15 = {"Elements":mdarr,"Kamera":"c1"}
- var jstr15 = JSON.stringify(myJson15);
-    //alert(jstr);
-    var jstr_215 = jstr15.slice(13);
-    //alert(jstr_2);    
-    var jstr_315= jstr_215.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_415 = "[" + jstr_315 + "]";
-    //alert(jstr_4);  
-    var obj7= JSON.parse(jstr_415);
-    var externalDataRetrievedFromServer7= obj7;   
-
-function buildTableBody7(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table7(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody7(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#ac39ac' : null;
-        }
-      }
-      
-    };
-}
-console.log("-----------------------");
-            
- console.log("----------------gamearr-----------------");
- var myJson16 = {"Elements":gamearr,"Kamera":"c1"}
- var jstr16 = JSON.stringify(myJson16);
-    //alert(jstr);
-    var jstr_216 = jstr16.slice(13);
-    //alert(jstr_2);    
-    var jstr_316= jstr_216.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_416 = "[" + jstr_316 + "]";
-    //alert(jstr_4);  
-    var obj8= JSON.parse(jstr_416);
-    var externalDataRetrievedFromServer8= obj8;   
-
-function buildTableBody8(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table8(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-         alignment: 'center',
-      
-        table: {
-            headerRows: 1,
-            body: buildTableBody8(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#CCCCCC' : null;
-        }
-      }
-      
-    };
-}
-console.log("-----------------------");
-  console.log("----------------parr-----------------");
- var myJson17 = {"Elements":parr,"Kamera":"c1"}
- var jstr17 = JSON.stringify(myJson17);
-    //alert(jstr);
-    var jstr_217 = jstr17.slice(13);
-    //alert(jstr_2);    
-    var jstr_317= jstr_217.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_417 = "[" + jstr_317 + "]";
-    //alert(jstr_4);  
-    var obj9= JSON.parse(jstr_417);
-    var externalDataRetrievedFromServer9= obj9;   
-
-function buildTableBody9(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table9(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-      alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody9(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#4d94ff' : null;
-        }
-      }
-      
-    };
-}
-console.log("-----------------------");           
-       
- console.log("----------------dancearr-----------------");
- var myJson18 = {"Elements":dancearr,"Kamera":"c1"}
- var jstr18 = JSON.stringify(myJson18);
-    //alert(jstr);
-    var jstr_218 = jstr18.slice(13);
-    //alert(jstr_2);    
-    var jstr_318= jstr_218.replace('],"Kamera":"c1"}','');
-    //alert(jstr_3);  
-    var jstr_418 = "[" + jstr_318 + "]";
-    //alert(jstr_4);  
-    var obj10= JSON.parse(jstr_418);
-    var externalDataRetrievedFromServer10=obj10;   
-
-function buildTableBody10(data, columns) {
-    var body = [];
-
-    body.push(columns);
-
-    data.forEach(function(row) {
-        var dataRow = [];
-
-        columns.forEach(function(column) {
-            dataRow.push(row[column].toString());
-        })
-
-        body.push(dataRow);
-    });
-
-    return body;
-}
-function table10(data, columns) {
-    return {
-        fontSize: 12,
-        margin: [20, 20],
-       alignment: 'center',
-        table: {
-            headerRows: 1,
-            body: buildTableBody10(data, columns)
-        },
-          layout: {
-              hLineColor: function (i, node) {
-          return (i === 0 || i === node.table.body.length) ? 'white' : 'white';
-        },
-        vLineColor: function (i, node) {
-          return (i === 0 || i === node.table.widths.length) ? 'white' : 'white';
-        },
-        fillColor: function (rowIndex, node, columnIndex) {
-          return (rowIndex % 2 === 0) ? '#86b300' : null;
-        }
-      }
-      
-    };
-}
-console.log("-----------------------");
-       
-        
-     
-        var dancearr=[];
-  var fonts = {
-  Roboto: {
-    normal: 'fonts/Roboto-Regular.ttf',
-    bold: 'fonts/Roboto-Medium.ttf',
-    italics: 'fonts/Roboto-Italic.ttf',
-    bolditalics: 'fonts/Roboto-MediumItalic.ttf'
-  }
-};
-
-var PdfPrinter = require('pdfmake/src/printer');
-var printer = new PdfPrinter(fonts);
-
-var docDefinition = {
-  footer: function(currentPage, pageCount) { 
-      return {
-      
-        fontSize: 8,
-        alignment: 'right',
-        
-        text: 'Seite ' + currentPage.toString() + ' von ' + pageCount
-      }; 
-    }, 
-      
-  content: [
-  { 
-      alignment: 'justify',
-        columns: [
-        {
-          image: './app/images/zeesouth.png',
-          width: 70,
-          absolutePosition: {x: 50, y: 100}
-        },
-      
-        {
-          
-           image: './app/images/mount.png',
-           width: 300,
-           absolutePosition: {x:150, y: 100},
-           
-        },
-       
-        {
-           image: './app/images/zee.gif',
-            width: 70,
-           absolutePosition: {x: 500, y: 100}
-        }
-      ]
-    
-      
-  },
-{
-      columns: [
-       {
-         style: 'header',
-         text: ""+req.query.schoolname+"",
-         absolutePosition: {x: 190, y: 250}
-      },
-      ]
- },
-  {
-      columns: [
-        {
-       style: 'header',
-       text: "Achievement Record-("+req.query.academicyear+")",
-       absolutePosition: {x: 180, y: 280}
-      },
-      ]
- },
-{
-      columns: [
-       {
-      
-        image: './app/images/saph.jpg',
-       width: 500,
-       height: 150,
-       absolutePosition: {x: 50, y:300},
-       //pageBreak: 'after'
-    },
-
-      ]
-    },
-    {
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Student,s Name:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:500}
-    },
-  {
-       style: 'defaultStyle',
-        text: 'Mohamed Abbas Siddique-I',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:500}
-    },
-     '',
-     '',
-  
-      ]
-    },
-    {
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Parent,s Name:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:520}
-    },
-  {
-       style: 'defaultStyle',
-        text: 'Ibrahim Sha',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:520}
-    },
-     '',
-     '',
-  
-      ]
-    },
 
  
 
 
 
-{
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Attendance',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:540}
-    },
-  {
-       style: 'defaultStyle',
-        text: 'Term1',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:540}
-    },
-     {
-       style: 'defaultStyle',
-        text: 'Term2',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 300, y:540}
-    },
-      {
-       style: 'defaultStyle',
-        text: 'Term3',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:540}
-    },
-  
-      ]
- },
- {
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Total Attended Days:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:560}
-    },
-  {
-       style: 'defaultStyle',
-        text: '50',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:560}
-    },
-     {
-       style: 'defaultStyle',
-        text: '',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 250, y:560}
-    },
-      {
-       style: 'defaultStyle',
-        text: '58',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 300, y:560}
-    },
-  {
-       style: 'defaultStyle',
-        text: '',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 350, y:560}
-    },
-     {
-       style: 'defaultStyle',
-        text: '59',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:560}
-    },
-      {
-       style: 'Term3',
-        text: '',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:560}
-    },
-      ]
- },
-   
-{
-      columns: [
-       {
-       style: 'defaultStyle',
-       text: 'Specific Feedback:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:580}
-    },
-  {
-       style: 'defaultStyle',
-        text: '50',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:580}
-    },
-     {
-       style: 'defaultStyle',
-        text: '50%',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 250, y:580}
-    },
-      {
-       style: 'defaultStyle',
-        text: '58',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 300, y:580}
-    },
-  {
-       style: 'defaultStyle',
-        text: '50%',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 350, y:580}
-    },
-    {
-       style: 'defaultStyle',
-        text: '59',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:580}
-    },
-    {
-       style: 'defaultStyle',
-        text: '50%',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 500, y:580}
-    },
-      ]
-  },
-   
-  {
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Class:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:620}
-    },
-  {
-       style: 'defaultStyle',
-        text: 'Grade-5:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:620}
-    },
-     {
-       style: 'defaultStyle',
-        text: 'Admission No:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 300, y:620}
-    },
-      {
-       style: 'defaultStyle',
-        text: 'Enr101019',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:620}
-    },
-  
-      ]
-    },
-{
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'General Feedback:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:650}
-    },
-    {
-       style: 'defaultStyle',
-        text: 'A R Lakshana Sruthi independently uses self-monitoring strategies that ensures allassignments are completed with quality in mind. During the work done, she is very good,she will at times turn in assignments that are incomplete or contain careless mistakes.Keep up the wonderful things you are doing !',
-       width: 400,
-       height: 20,
-       absolutePosition: {x: 200, y:650},
-        pageBreak: 'after'
-   },
-    
-      ]
-    },  
-    {
-      columns: [
-       {
-        style: 'defaultStyle',
-        text: 'Specific Feedback:',
-        width: 100,
-        height: 20,
-        absolutePosition: {x: 50, y:100}
-     },
-     { 
-       style: 'defaultStyle',
-       text: 'A R Lakshana Sruthi is promoted to Grade 2',
-       width: 400,
-       height: 30,
-       absolutePosition: {x: 200, y:100}
-    },
-      ]
-  }, 
-   {
-      columns: [
-       {
-      
-        image:'./app/images/1433SCH001.jpg',
-        width: 100,
-        height: 50,
-        absolutePosition: {x: 50, y:150}
-     },
-     { 
-       style: 'defaultStyle',
-       image: './app/images/2913SCH002.jpg',
-       width: 100,
-       height:50,
-       absolutePosition: {x: 250, y:150}
-    },
-     { 
-       style: 'defaultStyle',
-         image: './app/images/4517SCH003.jpg',
-       width: 100,
-       height:50,
-       absolutePosition: {x: 400, y:150}
-    },
-     
-      ]
-    },  
-
-   {
-      columns: [
-       {
-        style: 'defaultStyle',
-       text: '----------------------',
-        width: 100,
-        height: 20,
-        absolutePosition: {x: 50, y:200}
-     },
-     { 
-       style: 'defaultStyle',
-       text: '-----------------------',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 250, y:200}
-    },
-     { 
-       style: 'defaultStyle',
-         text: '-------------------------',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 400, y:200}
-    },
-     
-      ]
-    },  
-    {
-      columns: [
-       {
-        style: 'defaultStyle',
-       text: 'Class-Teacher',
-        width: 100,
-        height: 20,
-        absolutePosition: {x: 50, y:220}
-     },
-     { 
-       style: 'defaultStyle',
-       text: 'Subject-Teacher',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 250, y:220}
-    },
-     { 
-       style: 'defaultStyle',
-         text: 'Principel',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 400, y:220}
-    },
-     
-      ]
-    }, 
-
-
-    {
-       fillColor: '#3399ff',
-        margin: [0,300, 0, 8],
-        table: {
-        widths: [200,30,30,30,200],
-
-        body: [
-             [{text:'English',alignment:'center'}, {text:'Term1',alignment: 'center'}, {text:'Term2',alignment: 'center'}, {text:'Term3',alignment: 'center'},{text:'Comments',alignment: 'center'}],
-         
-        ]
-      }
-    },
- {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table(externalDataRetrievedFromServer,
-          ['English', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },
-
-  {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table1(externalDataRetrievedFromServer1,
-          ['Mathematics', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },  
-
-  {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table2(externalDataRetrievedFromServer11,
-          ['EVS', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },
-      {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table3(externalDataRetrievedFromServer3,
-          ['Hindi_and_Kannada', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      }, 
-    
-      },
-        {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table4(externalDataRetrievedFromServer4,
-          ['Computer', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },
-        {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table5(externalDataRetrievedFromServer5,
-          ['GK', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },
-  {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table6(externalDataRetrievedFromServer6,
-          ['Art_and_Craft', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },
-     {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table7(externalDataRetrievedFromServer7,
-          ['music', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },   
-        {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table8(externalDataRetrievedFromServer8,
-          ['Games', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },
-        {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table9(externalDataRetrievedFromServer9,
-          ['Personality_Development', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },
-        {
-      layout: 'noBorders',
-      table: {
-        body: [
-          [table10(externalDataRetrievedFromServer10,
-          ['dance', 'Term1', 'Term2','Term3', 'Comments', ])],
-          ]
-      },
-    
-      },
-],
-  styles: {
-    header: {
-      fontSize: 15,
-      bold: true
-    },
-
-    bigger: {
-      fontSize: 15,
-      italics: true
-    }
-  },
-  defaultStyle: {
-     columnGap: 20
-   },
-   defaultStyleeng:{
-     columnGap: 20,
-   
-   },
-    tableExample: {
-     
-    },
-    tableHeader: {
-      bold: true,
-      fontSize: 13,
-      color: 'black'
-    }
- };
- 
-
- var pdfDoc = printer.createPdfKitDocument(docDefinition);
-
-
-pdfDoc.end();
-var transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, 
-  auth: {
-  user: 'samsidhschools@gmail.com', 
-  pass: 'zeeschool'
-  }
-});
-
-var mailOptions = {
-  from: 'samsidhschools@gmail.com',
-  to: 'mohamedsiddiq1992@gmail.com',
-  subject: 'Report Card',
-  
-  html: '<h1>Attachments</h1>',
-
-
-  attachments: [
-    {  
-         filename: 'basics.pdf',
-          content: pdfDoc,   
-    },
- 
-  ]
-};
- 
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    return console.log(error);
-  }
-  console.log('Email sent: ' + info.response);
-});
 
 
 
@@ -10612,12 +9374,6 @@ transporter.sendMail(mailOptions, (error, info) => {
 
 
 
-
-
-
-
-
-/*
 
     var header = "<table class='logo' style='width:100%;height: 15%; margin-top: 2%;'><tr><th><img src='./app/images/zeesouth.png' height='100px' width='100px'></img></th><th>"
     header += "<img src='./app/images/mount.png' height='110px' width='200px' style='margin-left:100px'></img><center><p>"+req.query.schoolname+"</p>ACHIEVEMENT RECORD("+req.query.academicyear+")</center></th>"
@@ -10806,7 +9562,7 @@ transporter.sendMail(mailOptions, (error, info) => {
           console.log('Converted');
           res.status(200).json({'returnval': 'converted'});     
   
-        }*/
+        }
    
 });
 
@@ -11293,484 +10049,6 @@ app.post('/sendmail-service', urlencodedParser,function (req, res){
      });
   
 });
-
-/*
- app.post('/fnmailprocess-service', urlencodedParser,function (req, res) {
-var fonts = {
-  Roboto: {
-    normal: 'fonts/Roboto-Regular.ttf',
-    bold: 'fonts/Roboto-Medium.ttf',
-    italics: 'fonts/Roboto-Italic.ttf',
-    bolditalics: 'fonts/Roboto-MediumItalic.ttf'
-  }
-};
-
-var PdfPrinter = require('pdfmake/src/printer');
-var printer = new PdfPrinter(fonts);
-
-var docDefinition = {
- 
-  content: [
-  { 
-      alignment: 'justify',
-        columns: [
-        {
-          image: './app/images/zeesouth.png',
-          width: 70,
-          absolutePosition: {x: 50, y: 100}
-        },
-      
-        {
-          
-           image: './app/images/mount.png',
-           width: 300,
-           absolutePosition: {x:150, y: 100},
-           
-        },
-       
-        {
-           image: './app/images/zee.gif',
-            width: 70,
-           absolutePosition: {x: 500, y: 100}
-        }
-      ]
-    
-      
-  },
-{
-      columns: [
-       {
-         style: 'header',
-         text: ""+req.query.schoolname+"",
-         absolutePosition: {x: 190, y: 250}
-      },
-      ]
- },
-  {
-      columns: [
-        {
-       style: 'header',
-       text: "Achievement Record-("+req.query.academicyear+")",
-       absolutePosition: {x: 180, y: 280}
-      },
-      ]
-  },
-  {
-      columns: [
-       {
-      
-        image: './app/images/saph.jpg',
-       width: 500,
-       height: 150,
-       absolutePosition: {x: 50, y:300},
-       //pageBreak: 'after'
-    },
-
-      ]
-    },
-    {
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Student,s Name:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:500}
-    },
-  {
-       style: 'defaultStyle',
-        text: 'Mohamed Abbas Siddique-I',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:500}
-    },
-     '',
-     '',
-  
-      ]
-    },
-    {
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Parent,s Name:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:520}
-    },
-  {
-       style: 'defaultStyle',
-        text: 'Ibrahim Sha',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:520}
-    },
-     '',
-     '',
-  
-      ]
-    },
-
- 
-
-
-
-{
-      columns: [
-       {
-        style: 'defaultStyle',
-        text: 'Attendance',
-        width: 100,
-        height: 20,
-       absolutePosition: {x: 50, y:540}
-    },
-  {
-       style: 'defaultStyle',
-        text: 'Term1',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:540}
-    },
-     {
-       style: 'defaultStyle',
-        text: 'Term2',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 300, y:540}
-    },
-      {
-       style: 'defaultStyle',
-        text: 'Term3',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:540}
-    },
-  
-      ]
- },
- {
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Total Attended Days:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:560}
-    },
-  {
-       style: 'defaultStyle',
-        text: '50',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:560}
-    },
-     {
-       style: 'defaultStyle',
-        text: '',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 250, y:560}
-    },
-      {
-       style: 'defaultStyle',
-        text: '58',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 300, y:560}
-    },
-  {
-       style: 'defaultStyle',
-        text: '',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 350, y:560}
-    },
-     {
-       style: 'defaultStyle',
-        text: '59',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:560}
-    },
-      {
-       style: 'Term3',
-        text: '',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:560}
-    },
-      ]
- },
-   
-{
-      columns: [
-       {
-       style: 'defaultStyle',
-       text: 'Specific Feedback:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:580}
-    },
-  {
-       style: 'defaultStyle',
-        text: '50',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:580}
-    },
-     {
-       style: 'defaultStyle',
-        text: '50%',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 250, y:580}
-    },
-      {
-       style: 'defaultStyle',
-        text: '58',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 300, y:580}
-    },
-  {
-       style: 'defaultStyle',
-        text: '50%',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 350, y:580}
-    },
-    {
-       style: 'defaultStyle',
-        text: '59',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:580}
-    },
-    {
-       style: 'defaultStyle',
-        text: '50%',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 500, y:580}
-    },
-      ]
-  },
-   
-  {
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'Class:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:620}
-    },
-  {
-       style: 'defaultStyle',
-        text: 'Grade-5:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 200, y:620}
-    },
-     {
-       style: 'defaultStyle',
-        text: 'Admission No:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 300, y:620}
-    },
-      {
-       style: 'defaultStyle',
-        text: 'Enr101019',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 450, y:620}
-    },
-  
-      ]
-    },
-{
-      columns: [
-       {
-      style: 'defaultStyle',
-        text: 'General Feedback:',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 50, y:650}
-    },
-    {
-        style: 'defaultStyle',
-        text: 'A R Lakshana Sruthi independently uses self-monitoring strategies that ensures allassignments are completed with quality in mind. During the work done, she is very good,she will at times turn in assignments that are incomplete or contain careless mistakes.Keep up the wonderful things you are doing !',
-       width: 400,
-       height: 20,
-       absolutePosition: {x: 200, y:650},
-        pageBreak: 'after'
-   },
-    
-      ]
-    },  
-    {
-      columns: [
-       {
-        style: 'defaultStyle',
-        text: 'Specific Feedback:',
-        width: 100,
-        height: 20,
-        absolutePosition: {x: 50, y:100}
-     },
-     { 
-       style: 'defaultStyle',
-       text: 'A R Lakshana Sruthi is promoted to Grade 2',
-       width: 400,
-       height: 30,
-       absolutePosition: {x: 200, y:100}
-    },
-      ]
-  }, 
-   {
-      columns: [
-       {
-      
-        image:'./app/images/1433SCH001.jpg',
-        width: 100,
-        height: 50,
-        absolutePosition: {x: 50, y:150}
-     },
-     { 
-       style: 'defaultStyle',
-       image: './app/images/2913SCH002.jpg',
-       width: 100,
-       height:50,
-       absolutePosition: {x: 250, y:150}
-    },
-     { 
-       style: 'defaultStyle',
-         image: './app/images/4517SCH003.jpg',
-       width: 100,
-       height:50,
-       absolutePosition: {x: 400, y:150}
-    },
-     
-      ]
-    },  
-
-   {
-      columns: [
-       {
-        style: 'defaultStyle',
-       text: '-------------------------',
-        width: 100,
-        height: 20,
-        absolutePosition: {x: 50, y:200}
-     },
-     { 
-       style: 'defaultStyle',
-       text: '------------------------',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 250, y:200}
-    },
-     { 
-       style: 'defaultStyle',
-         text: '-------------------------',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 400, y:200}
-    },
-     
-      ]
-    },  
-    {
-      columns: [
-       {
-        style: 'defaultStyle',
-       text: 'Class-Teacher',
-        width: 100,
-        height: 20,
-        absolutePosition: {x: 50, y:220}
-     },
-     { 
-       style: 'defaultStyle',
-       text: 'Subject-Teacher',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 250, y:220}
-    },
-     { 
-       style: 'defaultStyle',
-         text: 'Principel',
-       width: 100,
-       height: 20,
-       absolutePosition: {x: 400, y:220}
-    },
-     
-      ]
-    }, 
-],
-  styles: {
-    header: {
-      fontSize: 15,
-      bold: true
-    },
-
-    bigger: {
-      fontSize: 15,
-      italics: true
-    }
-  },
-  defaultStyle: {
-    columnGap: 20
-  }
-  
-};
- 
- var pdfDoc = printer.createPdfKitDocument(docDefinition);
-// pdfDoc.pipe(fs.createWriteStream(docDefinition));
-pdfDoc.end();
-var transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-  user: 'softabbas@gmail.com', // replace by your email
-  pass: 'abbas@786' // replace by your password
-  }
-});
-
-var mailOptions = {
-  from: 'softabbas@gmail.com',
-  to: 'mohamedsiddiq1992@gmail.com',
-  subject: 'Scorcard-Report Card',
-  
-  html: '<h1>Attachments</h1>',
-
-
-  attachments: [
-    {   
-         filename: 'basics.pdf',
-          content: pdfDoc,   
-    },
- 
-  ]
-};
- 
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    return console.log(error);
-  }
-  console.log('Email sent: ' + info.response);
-});
-
-
-
-
-
-});
-*/
-
-
-
-
 
 app.post('/fetchoveralltermwisegrade-service' ,  urlencodedParser,function (req, res)
 {  
@@ -26058,42 +24336,6 @@ app.post('/fnteacheraid2-service',  urlencodedParser,function (req, res)
     });
 });
 
-/*app.post('/curriculmsendmail1-service',  urlencodedParser,function (req, res)
-{
-  var response={ 
-      school_id: req.query.schoolid,
-      academic_year: req.query.academicyear,
-      grade_id:req.query.gradeid,
-      subject_id:req.query.subjectid,
-      section_id:req.query.sectionid,
-      term_id: req.query.termid,
-      chapter_id: req.query.chapterid,
-      concept_id: req.query.conceptid,
-      concept_name:req.query.conceptname,
-      sub_concept_id:req.query.subconceptid,
-      sub_concept_name:req.query.subconceptname, 
-      row_id: req.query.rowid,
-      subject_content:req.query.subjectcontent,
-      home_content:req.query.homecontent,
-      student_id:req.query.studentid,
-      student_name:req.query.studentname,
-      link:req.query.link,
-      emp_id:req.query.empid,
-    };
-    console.log(response);
-    connection.query("INSERT INTO md_concept_current_homework SET ?",[response],function(err, rows){
-    if(!err)
-    {  
-    res.status(200).json({'returnval': 'inserted'});
-    }
-    else
-    {
-     console.log(err);
-     res.status(200).json({'returnval': 'Not inserted'}); 
-    }
-    });
-});*/
-
 app.post('/curriculmsendmail1-service' , urlencodedParser,function (req, res)
    { 
     var response={ 
@@ -26191,43 +24433,6 @@ app.post('/fetchexceptionsubjectinfo-service',  urlencodedParser,function (req, 
 });
 
 
-
-/*
-
-app.post('/fnteacheraid1-service',  urlencodedParser,function (req, res)
-{
-  var response={ 
-      school_id: req.query.schoolid,
-      academic_year: req.query.academicyear,
-      grade_id:req.query.gradeid,
-      subject_id:req.query.subjectid,
-      term_id: req.query.termid,
-      chapter_id: req.query.chapterid,
-      concept_id: req.query.conceptid,
-      row_id: req.query.rowid,
-      url: req.query.url,
-      link:req.query.currurl,
-      filename:req.query.filename,
-      from_date:req.query.plannedfromdate,
-      to_date:req.query.plannedtodate,
-   
-      chapter_name:req.query.chaptername,
-      flag:req.query.homeflag,
-    };
-    console.log("md_concept_homework");
-    console.log(response);
-    connection.query("INSERT INTO md_concept_homework SET ?",[response],function(err, rows){
-    if(!err)
-    {  
-    res.status(200).json({'returnval': 'inserted'});
-    }
-    else
-    {
-     console.log(err);
-     res.status(200).json({'returnval': 'Not inserted'}); 
-    }
-    });
-});*/
 
 app.post('/passcurriculumteach-service',  urlencodedParser,function (req, res)
 {  
@@ -26630,7 +24835,7 @@ app.post('/fnteacheraid1-service' , urlencodedParser,function (req, res)
       });
 });
 
-app.post('/fnteacheraid-service' , urlencodedParser,function (req, res)
+app.post('/fnteacheraid-service', urlencodedParser,function (req, res)
    { 
     var response={ 
       school_id: req.query.schoolid,
@@ -26692,39 +24897,7 @@ console.log("-----------teaching  Save/ Edit-------------------");
       });
 });
 
-/*app.post('/fnteacheraid-service',  urlencodedParser,function (req, res)
-{
-  var response={ 
-      school_id: req.query.schoolid,
-      academic_year: req.query.academicyear,
-      grade_id:req.query.gradeid,
-      subject_id:req.query.subjectid,
-      term_id: req.query.termid,
-      chapter_id: req.query.chapterid,
-      concept_id: req.query.conceptid,
-      row_id: req.query.rowid,
-      url: req.query.url,
-      link:req.query.currurl,
-      filename:req.query.filename,
-       from_date:req.query.plannedfromdate,
-      to_date:req.query.plannedtodate,
-      chapter_name:req.query.chaptername,
-      flag:req.query.techflag,
-    };
-    console.log(response);
-    connection.query("INSERT INTO md_concept_teaching_aids SET ?",[response],function(err, rows){
-    if(!err)
-    {  
-    res.status(200).json({'returnval': 'inserted'});
-    }
-    else
-    {
-     console.log(err);
-     res.status(200).json({'returnval': 'Not inserted'}); 
-    }
-    });
-});
-*/
+
 app.post('/curriculmsendmail-servicee', urlencodedParser,function (req, res){
   console.log(req.query.firstmail+"  "+req.query.secondmail);
   var server  = email.server.connect({

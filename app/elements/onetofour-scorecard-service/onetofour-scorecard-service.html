@@ -1059,6 +1059,7 @@
         obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
         obj.loggedid=sessionStorage.getItem("curr_sess_loggedid");
         obj.termname=localStorage.getItem("curr_sess_termname"); 
+        obj.imgid=loggedid+schoolid;
         obj.parentname=parentname;
         this.mailreportcardparam=obj;
         // alert(JSON.stringify(obj));      

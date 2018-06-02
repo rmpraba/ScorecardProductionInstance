@@ -164,7 +164,7 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
      },
      curriculmsendmail:function(mailcontent,subject,link,parentarr){
     c1=parentarr.length;
-    for(var i=0;i<parentarr.length;i++){
+    // for(var i=0;i<parentarr.length;i++){
        this.curriculmsendmailurl=sessionStorage.getItem("addrinfo")+"/curriculmsendmail-service";
        var obj={};
        obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
@@ -180,11 +180,11 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
        obj.mailcontent=mailcontent;
        obj.subject=subject;
        obj.link=link;
-       obj.secondmail=parentarr[i].secondmail;
-       obj.firstmail=parentarr[i].firstmail;
+       // obj.secondmail=parentarr[i].secondmail;
+       // obj.firstmail=parentarr[i].firstmail;
        this.curriculmsendmailparam=obj;
        this.$.curriculmsendmailajax.generateRequest();
-    }
+    // }
     },
    curriculmsendmail1Response:function(e){
     var res=e.detail.response.returnval;
@@ -194,8 +194,9 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
    c2++;
    if(c1==c2){
          var res=e.detail.response.returnval;
-         alert(JSON.stringify(res));
-          this.finalinfo();
+         // alert(JSON.stringify(res));
+          // this.finalinfo();
+          this.FnToggleSpinner(false);
           c1=0;
           c2=0;
     }

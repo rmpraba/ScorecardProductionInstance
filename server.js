@@ -11,6 +11,7 @@ var multerS3 = require('multer-s3');
 const nodemailer = require('nodemailer');
 var async = require("async");
 var http = require("http");
+var validator = require("email-validator");
 var connection = mysql.createConnection({  
   // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   // database:"scorecarddb",
@@ -22,12 +23,12 @@ var connection = mysql.createConnection({
   // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : '',
-  database : 'scorecardtemp'
+  password : 'admin',
+  database : 'samsidhreportcard'
 });
 var app = express();
 var logfile;
-// AWS.config.loadFromPath('app/configfile/credential.json');
+aws.config.loadFromPath('app/configfile/credential.json');
 s3 = new aws.S3();
 app.use(express.static('app'));
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -26744,9 +26745,127 @@ app.post('/curriculmsendmail-servicee', urlencodedParser,function (req, res){
      });  
  });
 
-app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
+app.post('/curriculmsendmail-serviceeeee', urlencodedParser,function (req, res){
+new massMailer();
+}); 
+ var listofemails = ["sariniva@yahoo.com","rmpraba@gmail.com","rmpraba.sessssscxxxx@gmail.com","samsidhmlzs@gmail.com","samsidhschools@gmail.com"]; 
+ // Will store email sent successfully.
+ var success_email = [];
+ // Will store email whose sending is failed. 
+ var failure_email = [];
 
-});
+function massMailer() {
+
+ var self = this;
+     transporter = nodemailer.createTransport({
+         service: "Gmail",
+         auth: {
+             user: "samsidhschools@gmail.com",
+             pass: "zeeschool"
+         }
+     });
+     // Fetch all the emails from database and push it in listofemails
+     self.invokeOperation();
+};
+
+ massMailer.prototype.invokeOperation = function() {
+     var self = this;
+     async.each(listofemails,self.SendEmail,function(){
+         console.log("success: "+success_email);
+         console.log("fail: "+failure_email);
+     });
+ }
+ massMailer.prototype.SendEmail = function(Email,callback) {
+     // console.log("Sending email to " + Email);
+     var self = this;
+     self.status = false;
+     async.waterfall([
+         function(callback) {                
+             var mailOptions = {
+                 from: 'samsidhschools@gmail.com',     
+                 to: Email,
+                 subject: 'Hi ! This is from Async Script', 
+                 text: "Hello World !"
+             };
+             transporter.sendMail(mailOptions, function(error, info) {               
+                 if(error) {
+                     console.log(error)
+                     failure_email.push(Email);
+                 } else {
+                     self.status = true;
+                     var returnval = validator.validate(Email);;
+                     console.log('----------------');
+                     console.log(returnval);
+                     console.log('----------------');
+                     success_email.push(Email);
+                 }
+                console.log('...................printing response message...............');
+                console.log(info); 
+                // console.log(responseStatus.message); // response from the server
+                // console.log(responseStatus.messageId);
+                // response.statusHandler.once("failed", function(data){
+                // console.log(
+                //       "Permanently failed delivering message to %s with the following response: %s",
+                //       data.domain, data.response);
+                // });
+
+                // response.statusHandler.once("requeue", function(data){
+                //     console.log("Temporarily failed delivering message to %s", data.domain);
+                // });
+
+                // response.statusHandler.once("sent", function(data){
+                //     console.log("Message was accepted by %s", data.domain);
+                // });
+                console.log('-----------------------------------------------------------');                 
+                callback(null,self.status,Email);
+             });
+         },
+         function(statusCode,Email,callback) {
+                 console.log("Will update DB here for " + Email + "With " + statusCode);
+                 callback();
+         }
+         ],
+         function(){
+             //When everything is done return back to caller.
+             callback();
+     });
+   }
+
+
+app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
+// load AWS SES
+var ses = new aws.SES({apiVersion: '2010-12-01'});
+// send to list
+var to = ['rmpraba@gmail.com'];
+
+// this must relate to a verified SES account
+var from = 'samsidhmlzs@gmail.com';
+
+
+// this sends the email
+// @todo - add HTML version
+ses.sendEmail( { 
+   Source: from, 
+   Destination: { ToAddresses: to },
+   Message: {
+       Subject: 
+       {
+          Data: 'A Message To You Rudy',
+       },
+       Body: {
+           Text: {
+               Data: 'Stop your messing around',
+           }
+        }
+   }
+}
+, function(err, data) {
+    if(err) throw err
+        console.log('Email sent:');
+        console.log(data);
+ });
+}); 
+
 
 function setvalue(){
   console.log("calling setvalue.....");

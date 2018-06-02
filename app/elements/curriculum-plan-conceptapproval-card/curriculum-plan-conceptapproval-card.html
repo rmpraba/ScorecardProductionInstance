@@ -168,7 +168,7 @@ th,td{
  <center>
 <div class="plan">
   <template is="dom-repeat" items="{{lessonarr}}">
-    <div id="itemcard1">  <curriculum-lessonplan-card  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}"  coremarks="{{item.remarks}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  enrichmentsuggest="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.remarks}}" fonts="{{item.fonts}}" subremak="{{item.remarks}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}">
+    <div id="itemcard1">  <curriculum-lessonplan-card  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.concept_id}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  enrichmentsuggest="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.remarks}}" fonts="{{item.fonts}}" subremak="{{item.remarks1}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}">
    </curriculum-lessonplan-card> </div>
   </template>
  
@@ -327,7 +327,7 @@ th,td{
         this.fnref();
       },
         FnToggleSpinner:function(flag){
-        alert(flag);
+        //alert(flag);
         this.$.dynamicspinneree11.opened=flag;
        },
     });

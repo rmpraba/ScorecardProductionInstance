@@ -9,6 +9,8 @@ var FCM = require('fcm-node');
 var multer = require('multer'); // "multer": "^1.1.0"
 var multerS3 = require('multer-s3');
 const nodemailer = require('nodemailer');
+var async = require("async");
+var http = require("http");
 var connection = mysql.createConnection({  
   // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   // database:"scorecarddb",
@@ -26722,9 +26724,8 @@ console.log("-----------teaching  Save/ Edit-------------------");
     });
 });
 */
-app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
-   console.log(req.query.firstmail+"  "+req.query.secondmail);
- 
+app.post('/curriculmsendmail-servicee', urlencodedParser,function (req, res){
+  console.log(req.query.firstmail+"  "+req.query.secondmail);
   var server  = email.server.connect({
    user:    "softabbas@gmail.com",
    password:"abbas@786",
@@ -26732,24 +26733,20 @@ app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
    ssl:     true
   });
   server.send({
-
    text:    "Report Card",
    from:    "softabbas@gmail.com",
    to:      "mohamedsiddiq1992@gmail.com",
-  
    subject: req.query.subject,
-     text: "Home work:-"+"\n\n\n"+req.query.mailcontent+",Link:-"+"\n\n\n"+req.query.link+"\n\n\n"+"Thanks&Regards," +"\n"+"Class Teacher",
-  
-
+   text: "Home work:-"+"\n\n\n"+req.query.mailcontent+",Link:-"+"\n\n\n"+req.query.link+"\n\n\n"+"Thanks&Regards," +"\n"+"Class Teacher",
   },function(err, message) { 
     console.log(err || message);
- 
     res.status(200).json({'returnval': 'mail sent'});
-     });
-  
+     });  
  });
 
+app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
 
+});
 
 function setvalue(){
   console.log("calling setvalue.....");

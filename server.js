@@ -8719,21 +8719,53 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
         var parr=[];
         var dancearr=[];
         
+
+
+
+
+ 
         for(var i=0;i<global.scholasticinfo.length;i++){          
-          var obj={"category":"","t1grade":"","t2grade":"","t3grade":"","comment":""}; 
-         
-          if(global.scholasticinfo[i].subject_name=="English"){
-              var obj1={"English":"","Term1":"","Term2":"","Term3":"","Comments":""};          
+         if(global.scholasticinfo[i].subject_name=="English"){
+
+        var obj1={"English":"","Term1":"","Term2":"","Term3":"","Comments":""};      
             obj1.English=global.scholasticinfo[i].category;
             obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
             obj1.Term1=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term2")
-            obj1.Term2=global.scholasticinfo[i].term_cat_grade;
+             obj1.Term2=global.scholasticinfo[i].term_cat_grade; 
             if(global.scholasticinfo[i].term_name=="Term3")
-            obj1.Term3=global.scholasticinfo[i].term_cat_grade;    
-            engarr.push(obj1);
-          }
+             obj1.Term3=global.scholasticinfo[i].term_cat_grade;    
+              if(engarr.length==0)
+              engarr.push(obj1);
+
+         else{
+            var flag=0;
+            for(var j=0;j<engarr.length;j++)
+            {            
+            if(engarr[j].English==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            engarr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            engarr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            engarr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            engarr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             engarr.push(obj1);  
+            }
+            }
+           }
           if(global.scholasticinfo[i].subject_name=="Mathematics"){
            var obj1={"Mathematics":"","Term1":"","Term2":"","Term3":"","Comments":""};
              obj1.Mathematics=global.scholasticinfo[i].category;
@@ -8744,7 +8776,34 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
-            matharr.push(obj1);
+            if(matharr.length==0)
+             matharr.push(obj1);
+            else{
+            var flag=0;
+            for(var j=0;j<matharr.length;j++)
+            {            
+            if(matharr[j].Mathematics==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            matharr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            matharr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            matharr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            matharr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             matharr.push(obj1);  
+            }
+            }
           }
           if(global.scholasticinfo[i].subject_name=="EVS"){
            var obj1={"EVS":"","Term1":"","Term2":"","Term3":"","Comments":""};
@@ -8757,11 +8816,38 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+           if(evsarr.length==0)
             evsarr.push(obj1);
+           else{
+            var flag=0;
+            for(var j=0;j<evsarr.length;j++)
+            {            
+            if(evsarr[j].EVS==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            evsarr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            evsarr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            evsarr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            evsarr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             evsarr.push(obj1);  
+            }
+            }
           }
           if((global.scholasticinfo[i].subject_name).trim()=="II Language Hindi"){
-            var obj1={"HindiandKannada":"","Term1":"","Term2":"","Term3":"","Comments":""};
-            obj1.HindiandKannada=global.scholasticinfo[i].category;
+            var obj1={"Hindi_and_Kannada":"","Term1":"","Term2":"","Term3":"","Comments":""};
+            obj1.Hindi_and_Kannada=global.scholasticinfo[i].category;
             obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
             obj1.Term1=global.scholasticinfo[i].term_cat_grade;
@@ -8769,11 +8855,38 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+          if(hinarr.length==0)
             hinarr.push(obj1);
+              else{
+            var flag=0;
+            for(var j=0;j<hinarr.length;j++)
+            {            
+            if(hinarr[j].Hindi_and_Kannada==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            hinarr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            hinarr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            hinarr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            hinarr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             hinarr.push(obj1);  
+            }
+            }
           }
         if((global.scholasticinfo[i].subject_name).trim()=="II Language Kannada"){
-          var obj1={"HindiandKannada":"","Term1":"","Term2":"","Term3":"","Comments":""};
-            obj1.HindiandKannada=global.scholasticinfo[i].category;
+          var obj1={"Hindi_and_Kannada":"","Term1":"","Term2":"","Term3":"","Comments":""};
+            obj1.Hindi_and_Kannada=global.scholasticinfo[i].category;
             obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
             obj1.Term1=global.scholasticinfo[i].term_cat_grade;
@@ -8781,11 +8894,37 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
+           if(hinarr.length==0)
             hinarr.push(obj1);
+              else{
+            var flag=0;
+            for(var j=0;j<hinarr.length;j++)
+            {            
+            if(hinarr[j].Hindi_and_Kannada==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            hinarr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            hinarr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            hinarr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            hinarr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             hinarr.push(obj1);  
+            }
+            }
           }
           if((global.scholasticinfo[i].subject_name).trim()=="Computer"){ 
-          var obj1={"Computer":"","Term1":"","Term2":"","Term3":"","Comments":""};
-
+        var obj1={"Computer":"","Term1":"","Term2":"","Term3":"","Comments":""};
             obj1.Computer=global.scholasticinfo[i].category;
             obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
@@ -8794,7 +8933,34 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
-            comarr.push(obj1);            
+           if(comarr.length==0)
+           comarr.push(obj1);
+              else{
+            var flag=0;
+            for(var j=0;j<comarr.length;j++)
+            {            
+            if(comarr[j].Computer==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            comarr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            comarr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            comarr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            comarr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             comarr.push(obj1);  
+            }
+            }            
           }          
           if(global.scholasticinfo[i].subject_name=="GK"){
           var obj1={"GK":"","Term1":"","Term2":"","Term3":"","Comments":""};
@@ -8807,13 +8973,41 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
-            gkarr.push(obj1);
+            
+          if(gkarr.length==0)
+           gkarr.push(obj1);
+              else{
+            var flag=0;
+            for(var j=0;j<gkarr.length;j++)
+            {            
+            if(gkarr[j].GK==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            gkarr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            gkarr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            gkarr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            gkarr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             gkarr.push(obj1);  
+            }
+            }     
           }          
                    
           if(global.scholasticinfo[i].subject_name=="Art&Craft"){
-          var obj1={"ArtandCraft":"","Term1":"","Term2":"","Term3":"","Comments":""};
+          var obj1={"Art_and_Craft":"","Term1":"","Term2":"","Term3":"","Comments":""};
 
-            obj1.ArtandCraft=global.scholasticinfo[i].category;
+            obj1.Art_and_Craft=global.scholasticinfo[i].category;
             obj1.Comments=global.scholasticinfo[i].description;
             if(global.scholasticinfo[i].term_name=="Term1")
             obj1.Term1=global.scholasticinfo[i].term_cat_grade;
@@ -8821,7 +9015,34 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;     
-            acarr.push(obj1);
+           if(acarr.length==0)
+           acarr.push(obj1);
+              else{
+            var flag=0;
+            for(var j=0;j<acarr.length;j++)
+            {            
+            if(acarr[j].Art_and_Craft==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            acarr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            acarr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            acarr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            acarr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             acarr.push(obj1);  
+            }
+            }     
           }
           if(global.scholasticinfo[i].subject_name=="music"){
           var obj1={"music":"","Term1":"","Term2":"","Term3":"","Comments":""};
@@ -8834,7 +9055,34 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
-            mdarr.push(obj1);
+             if(mdarr.length==0)
+             mdarr.push(obj1);
+              else{
+            var flag=0;
+            for(var j=0;j<mdarr.length;j++)
+            {            
+            if(mdarr[j].music==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            mdarr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            mdarr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            mdarr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            mdarr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             mdarr.push(obj1);  
+            }
+            }     
           }
           if(global.scholasticinfo[i].subject_name=="dance"){
             var obj1={"dance":"","Term1":"","Term2":"","Term3":"","Comments":""};
@@ -8846,7 +9094,35 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
-            dancearr.push(obj1);
+           
+            if(dancearr.length==0)
+             dancearr.push(obj1);
+              else{
+            var flag=0;
+            for(var j=0;j<dancearr.length;j++)
+            {            
+            if(dancearr[j].dance==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            dancearr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            dancearr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            dancearr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            dancearr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             dancearr.push(obj1);  
+            }
+            }  
           }
 
           if(global.scholasticinfo[i].subject_name=="Games"){
@@ -8860,7 +9136,34 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             obj1.Term2=global.scholasticinfo[i].term_cat_grade;
             if(global.scholasticinfo[i].term_name=="Term3")
             obj1.Term3=global.scholasticinfo[i].term_cat_grade;
-            gamearr.push(obj1);
+            if(gamearr.length==0)
+              gamearr.push(obj1);
+              else{
+            var flag=0;
+            for(var j=0;j<gamearr.length;j++)
+            {            
+            if(gamearr[j].Games==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            gamearr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            gamearr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            gamearr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            gamearr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             gamearr.push(obj1);  
+            }
+            }  
           }
 
         if(global.scholasticinfo[i].subject_name=="Personality Development"){
@@ -8877,7 +9180,35 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
           if(global.scholasticinfo[i].term_name=="Term3"){            
           obj1.Term3=global.scholasticinfo[i].term_cat_grade;
           }
-          parr.push(obj1);          
+          parr.push(obj1); 
+            if(parr.length==0)
+              parr.push(obj1);
+           else{
+            var flag=0;
+            for(var j=0;j<parr.length;j++)
+            {            
+            if(parr[j].Personality_Development==global.scholasticinfo[i].category)
+            {
+            flag=1;
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term1"){
+            parr[j].Term1=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term2")
+            {
+            parr[j].Term2=global.scholasticinfo[i].term_cat_grade;
+            }
+            if((global.scholasticinfo[i].term_name).toLowerCase()=="term3"){
+            parr[j].Term3=global.scholasticinfo[i].term_cat_grade;    
+            }
+           if((req.query.termname).toUpperCase()==(global.scholasticinfo[i].term_name).toUpperCase()){
+            parr[j].Comments=global.scholasticinfo[i].description;
+            }
+            }  
+            }
+            if(flag==0){
+             parr.push(obj1);  
+            }
+            }           
         }
        }
 
@@ -9028,15 +9359,14 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
           }
           }
          
-
-    console.log('....................schoolname.........................');
+    console.log(hinarr);
+    console.log('....................schoolname.................');
     console.log(req.query.schoolname+"   "+req.query.academicyear); 
     console.log('........................................');
-console.log("-------english arr------------");
- var myJson = {"Elements":engarr,"Kamera":"c1"}
- var jstr = JSON.stringify(myJson);
-    //alert(jstr);
-    var jstr_2 = jstr.slice(13);
+    console.log("-------english arr------------");
+   var myJson = {"Elements":engarr,"Kamera":"c1"}
+   var jstr = JSON.stringify(myJson);
+   var jstr_2 = jstr.slice(13);
     //alert(jstr_2);    
     var jstr_3 = jstr_2.replace('],"Kamera":"c1"}','');
     //alert(jstr_3);  
@@ -10116,7 +10446,7 @@ var docDefinition = {
       table: {
         body: [
           [table3(externalDataRetrievedFromServer3,
-          ['HindiandKannada', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ['Hindi_and_Kannada', 'Term1', 'Term2','Term3', 'Comments', ])],
           ]
       }, 
     
@@ -10146,7 +10476,7 @@ var docDefinition = {
       table: {
         body: [
           [table6(externalDataRetrievedFromServer6,
-          ['ArtandCraft', 'Term1', 'Term2','Term3', 'Comments', ])],
+          ['Art_and_Craft', 'Term1', 'Term2','Term3', 'Comments', ])],
           ]
       },
     
@@ -10222,22 +10552,22 @@ var docDefinition = {
  
 
  var pdfDoc = printer.createPdfKitDocument(docDefinition);
-// pdfDoc.pipe(fs.createWriteStream(docDefinition));
+
 
 pdfDoc.end();
 var transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
-  secure: false, // true for 465, false for other ports
+  secure: false, 
   auth: {
-  user: 'samsidhschools@gmail.com', // replace by your email
-  pass: 'zeeschool' // replace by your password
+  user: 'samsidhschools@gmail.com', 
+  pass: 'zeeschool'
   }
 });
 
 var mailOptions = {
   from: 'samsidhschools@gmail.com',
-  to: 'rmpraba@gmail.com',
+  to: 'mohamedsiddiq1992@gmail.com',
   subject: 'Report Card',
   
   html: '<h1>Attachments</h1>',
@@ -10961,7 +11291,7 @@ app.post('/sendmail-service', urlencodedParser,function (req, res){
   
 });
 
-
+/*
  app.post('/fnmailprocess-service', urlencodedParser,function (req, res) {
 var fonts = {
   Roboto: {
@@ -11413,10 +11743,7 @@ var mailOptions = {
 
 
   attachments: [
-    {   // utf-8 string as an attachment
-        /*filename: 'fileName.pdf',
-        path: './app/reportcard/Manya Sugathan  Iyer.pdf',
-        contentType: 'application/pdf'*/
+    {   
          filename: 'basics.pdf',
           content: pdfDoc,   
     },
@@ -11436,7 +11763,7 @@ transporter.sendMail(mailOptions, (error, info) => {
 
 
 });
-
+*/
 
 
 
@@ -26113,7 +26440,6 @@ app.post('/curriculampassassesmentvaluefinal-service' , urlencodedParser,functio
          period:req.query.period,
          sub_teacher_temark:"",
          enrichment_sug:"",
-
          }
  var qur="select  * from   md_curriculum_planning_approval  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and row_id='"+req.query.rowid+"'";
 
@@ -26237,79 +26563,7 @@ app.post('/curriculampassassesmentvalue-service' , urlencodedParser,function (re
 });
 
 
-/*
 
-app.post('/passcurriculumcomplete-service' , urlencodedParser,function (req, res)
-   { 
-    var response={
-         row_id:req.query.rowid,
-         sno:req.query.sno,
-         school_id:req.query.schoolid,
-         academic_year:req.query.academicyear,
-         grade_id:req.query.gradeid,
-         grade_name:req.query.gradename,
-         section_name:req.query.sectionname,
-         section_id:req.query.sectionid,
-         emp_id:req.query.empid,   
-         chapter_id:req.query.chapterid,
-         chapter_name:req.query.chaptername,
-         concept_id:req.query.conceptid,
-         concept_name:req.query.conceptname,
-         subject_name:req.query.subjectname,
-         subject_id:req.query.subjectid,
-         from_date:req.query.fromdate,   
-         to_date:req.query.todate,   
-         emp_name:req.query.empname,
-         status:req.query.status,
-         compete_date:req.query.completedate, 
-         sub_concept_id:req.query.subconceptid,
-         sub_concept_name:req.query.subconceptname, 
-         term_id:req.query.termid,
-         correction_status:req.query.correctionstatus,
-       }
-  
-  var qur="select  * from   md_concept_curriculumcompete  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"'";
-
-  var qur1="update  md_concept_curriculumcompete set compete_date='"+req.query.completedate+"',correction_status='"+req.query.correctionstatus+"' where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and sub_concept_id='"+req.query.subconceptid+"' and row_id='"+req.query.rowid+"' ";
-  
-    console.log("-----------assesmentset completedate Edit/Save-----------");
-    console.log(response);
-    console.log("---------------------------------------------------------");
-
-    console.log(qur);
-    console.log(qur1);
-   connection.query(qur,
-    function(err, rows)
-    {
-    console.log(rows.length);
-
-     if(rows.length==0){
-     connection.query("INSERT INTO md_concept_curriculumcompete SET ?",[response],
-    function(err, rows)
-    {
-    if(!err)
-    {
-      res.status(200).json({'returnval': 'succ'});
-    }
-    else
-    {
-      console.log(err);
-      res.status(200).json({'returnval': 'Not Inserted!'});
-    }
-    });
-    }
-    else{
-       connection.query(qur1,function(err, rows){  
-          console.log('update');
-        if(!err)
-        res.status(200).json({'returnval': 'succ'});
-        else
-        res.status(200).json({'returnval': 'not updated'});
-        });
-        } 
-      });
-});
-*/
 
 app.post('/fnteacheraid1-service' , urlencodedParser,function (req, res)
    { 

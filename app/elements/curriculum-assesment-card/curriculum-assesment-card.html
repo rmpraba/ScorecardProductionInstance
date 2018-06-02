@@ -386,7 +386,7 @@ localStorage.setItem("localsess_comp_service",this.completiondate);
       {
         if(finalvalue=="sucess"){
            if(this.assemensarr.length==temp.length){
-    document.querySelector('curriculum-plan-conceptapproval-card').FnToggleSpinner(true);
+      document.querySelector('curriculum-plan-conceptapproval-card').FnToggleSpinner(true);
             for(var i=0;i<temp.length;i++){
                this.$.crriculambookservice.fncurriculampassassesmentvalue(temp[i].StudentId,temp[i].StudentName,temp[i].Mark,this.conceptid,this.conceptname,this.chapterid,this.chaptername,this.rowid,this.sno,this.assesmentdate,this.fromdate,this.todate,setassesment,this.subconceptid,this.subconceptname,temp.length,status,localStorage.getItem("localsess_comp_service"),this.correctionstatus,this.skill,this.value,this.innovation,this.coremarks,this.period);
               }

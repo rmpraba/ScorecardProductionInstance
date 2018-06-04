@@ -11,7 +11,7 @@ var multerS3 = require('multer-s3');
 const nodemailer = require('nodemailer');
 var async = require("async");
 var http = require("http");
-var validator = require("email-validator");
+//var validator = require("email-validator");
 var connection = mysql.createConnection({  
   // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
   // database:"scorecarddb",
@@ -23,8 +23,8 @@ var connection = mysql.createConnection({
   // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : 'admin',
-  database : 'samsidhreportcard'
+  password : '',
+  database : 'scorecardtemp'
 });
 var app = express();
 var logfile;
@@ -9361,7 +9361,7 @@ e
 
 
 
-
+/*
 
 
 
@@ -9563,7 +9563,7 @@ e
           res.status(200).json({'returnval': 'converted'});     
   
         }
-   
+   */
 });
 
 app.post('/fmailreportcard-service' ,  urlencodedParser,function (req, res)
@@ -19477,7 +19477,7 @@ app.post('/fngetconceptreport-service' ,urlencodedParser, function (req, res)
 
     var qur="select * from md_curriculum_planning_approval where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"'and subject_id='"+req.query.subjectid+"' and grade_id='"+req.query.gradeid+"' and term_id='"+req.query.termid+"' and section_id='"+req.query.sectionid+"'";
 
-   var qur1="select * from md_curriculum_display where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"'and subject_id='"+req.query.subjectid+"' and grade_id='"+req.query.gradeid+"'and term_id='"+req.query.termid+"'";
+   var qur1="select * from md_curriculum_display where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academic_year+"'and subject_id='"+req.query.subjectid+"' and grade_id='"+req.query.gradeid+"'and term_id='"+req.query.termid+"' ";
  
 
        console.log('--------------Complete-Concept---------');

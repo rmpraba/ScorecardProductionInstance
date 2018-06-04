@@ -3189,8 +3189,8 @@ fetchchapterResponse:function(e){
         {
           var curriculamarr=e.detail.response.curriculamarr;
           var displayarr=e.detail.response.displayarr;
-
-           for(var i=0;i<curriculamarr.length;i++){
+         // alert(curriculamarr.length+"=="+displayarr.length);
+for(var i=0;i<curriculamarr.length;i++){
             for(var j=0;j<displayarr.length;j++){
     if(curriculamarr[i].chapter_id==displayarr[j].chapter_id && curriculamarr[i].concept_id==displayarr[j].concept_id &&curriculamarr[i].row_id==displayarr[j].row_id){
         displayarr.splice(j,1);

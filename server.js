@@ -10142,7 +10142,7 @@ app.post('/fetchfahealthinfo-service' ,  urlencodedParser,function (req, res)
       console.log(err);
 });
 });
-app.post('/getinparnetmail-service' ,  urlencodedParser,function (req, res)
+/*app.post('/getinparnetmail-service' ,  urlencodedParser,function (req, res)
 {  
    var qur="SELECT student_name,id as studentid ,(select  email from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')  as firstmail ,(select  alternate_mail from parent where student_id=studentid and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')as secondmail FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
  
@@ -10167,7 +10167,7 @@ app.post('/getinparnetmail-service' ,  urlencodedParser,function (req, res)
       console.log(err);
 });
 });
-
+*/
 app.post('/fetchartinfo-service' ,  urlencodedParser,function (req, res)
 {  
     var qur="select * from tr_term_art_verticals where school_id='"+req.query.schoolid+"' and "+

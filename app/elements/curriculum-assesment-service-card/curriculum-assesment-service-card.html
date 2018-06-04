@@ -124,16 +124,7 @@
         on-response="fnmailprocessResponse"
         debounce-duration="300"/>
        </iron-ajax>
-       <iron-ajax
-        method="post"
-        id="getinparnetmailajax"
-        url="{{getinparnetmailurl}}"
-        params="{{getinparnetmailparam}}"
-        handle-as="json"
-        content-type="application/json"
-        on-response="getinparnetmailResponse"
-        debounce-duration="300"/>
-       </iron-ajax>
+      
      
   </template>
   <script>
@@ -166,29 +157,7 @@ this.fnmailprocessurl=sessionStorage.getItem("addrinfo")+"/fnmailprocess-service
         alert(JSON.stringify(res));
          
       },
-      fngetinparnetmail:function(e){
-    
-     this.getinparnetmailurl=sessionStorage.getItem("addrinfo")+"/getinparnetmail-service";
-           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
-       obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-       obj.schoolname=sessionStorage.getItem("curr_sess_loggedschoolname");
-       obj.academicyear=localStorage.getItem("curr_sess_academicyear");
-       obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
-       obj.empid=sessionStorage.getItem("curr_sess_loggedid");
-       obj.sectionid=localStorage.getItem("curr_sess_sectionid");
-       obj.gradeid=localStorage.getItem("curr_sess_gradeid");
-       obj.subjectid=localStorage.getItem("curr_sess_subjectid");
-       obj.chapterid=localStorage.getItem("curr_sess_chapterid");
-       obj.termid=sessionStorage.getItem("termid"); 
-       this.getinparnetmailparam=obj;
-      this.$.getinparnetmailajax.generateRequest();
-
-},
-getinparnetmailResponse:function(e){
-        var res=e.detail.response.returnval;
-        // alert(JSON.stringify(res));
-       document.querySelector('curriculum-plan-conceptapproval-card').parentarr=res;
-      },
+   
 Fnpasscurriculumlessonplan:function(sno,rowid,conceptname,subconceptname,skill,value,innovation,coremarks,subremak,enrichmentsuggest,chapterid,chaptername,conceptid,subconceptid,fromdate,todate,period){
 this.passcurriculumlessonplanurl=sessionStorage.getItem("addrinfo")+"/passcurriculumlessonplan-service";
     var obj={};

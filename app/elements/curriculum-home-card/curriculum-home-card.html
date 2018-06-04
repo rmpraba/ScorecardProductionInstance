@@ -45,7 +45,7 @@
     </style>
     <div>
        <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}
-        {{subconceptid}}{{fromdate}}{{todate}}{{parentarr}}{{sno}}
+        {{subconceptid}}{{fromdate}}{{todate}}{{sno}}
       </div>
        <table  class="teach1" >
         <tr>
@@ -162,13 +162,13 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
               this.$.maildialog.close();
               document.getElementById('maildilaog'+this.rowid).textarea.value="";
              
-              this.curriculmsendmail(this.mailcontent,this.subject,this.link,this.parentarr);
+              this.curriculmsendmail(this.mailcontent,this.subject,this.link);
               // this.FnToggleSpinner(true);
            }
        
      },
-     curriculmsendmail:function(mailcontent,subject,link,parentarr){
-    c1=parentarr.length;
+     curriculmsendmail:function(mailcontent,subject,link){
+   
     // for(var i=0;i<parentarr.length;i++){
        this.curriculmsendmailurl=sessionStorage.getItem("addrinfo")+"/curriculmsendmail-service";
        var obj={};
@@ -269,7 +269,7 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
     FnMail:function(e){
      this.$.maildialog.open();
       this.subject="";
-      this.$.crriculambookservice.fngetinparnetmail();
+     //    this.$.crriculambookservice.fngetinparnetmail();
      //this.$.crriculambookservice.fnmailprocess();
     }
     });

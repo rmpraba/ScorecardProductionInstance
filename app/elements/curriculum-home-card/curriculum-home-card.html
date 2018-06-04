@@ -196,15 +196,12 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
     
   },  
    curriculmsendmailResponse:function(e){
-   c2++;
-   if(c1==c2){
+  
          var res=e.detail.response.returnval;
-         // alert(JSON.stringify(res));
-          // this.finalinfo();
+        
           this.FnToggleSpinner(false);
           c1=0;
           c2=0;
-    }
       }, 
   FnToggleSpinner:function(flag){
       //  alert(flag);
@@ -257,20 +254,17 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
      
    
    curriculmsendmailResponse:function(e){
-   c2++;
-   if(c1==c2){
+   
          var res=e.detail.response.returnval;
          alert(JSON.stringify(res));
-         c1=0;
-         c2=0;
-    }
+        
+    
     }, 
 
     FnMail:function(e){
      this.$.maildialog.open();
       this.subject="";
-     //    this.$.crriculambookservice.fngetinparnetmail();
-     //this.$.crriculambookservice.fnmailprocess();
+    
     }
     });
   })();

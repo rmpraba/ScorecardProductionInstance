@@ -28,7 +28,7 @@ var connection = mysql.createConnection({
 });
 var app = express();
 var logfile;
-aws.config.loadFromPath('app/configfile/credential.json');
+// aws.config.loadFromPath('app/configfile/credential.json');
 s3 = new aws.S3();
 app.use(express.static('app'));
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -8859,9 +8859,6 @@ app.post('/mailreportcard-service' ,  urlencodedParser,function (req, res)
             // engarr.push(obj);
           }
           }
-   
-
-e
 
         for(var i=0;i<global.scholasticinfo.length;i++){          
          if(global.scholasticinfo[i].subject_name=="English"){
@@ -9375,6 +9372,7 @@ e
 
 
 
+
     var header = "<table class='logo' style='width:100%;height: 15%; margin-top: 2%;'><tr><th><img src='./app/images/zeesouth.png' height='100px' width='100px'></img></th><th>"
     header += "<img src='./app/images/mount.png' height='110px' width='200px' style='margin-left:100px'></img><center><p>"+req.query.schoolname+"</p>ACHIEVEMENT RECORD("+req.query.academicyear+")</center></th>"
     header += "<th><img src='./app/images/zee.gif' height='100px' width='100px'></img></th></tr></table><br>"
@@ -9402,7 +9400,7 @@ e
     signature += "<th>------------------------------------</th><th></th></tr><tr><th><center>Class Teacher</center></th><th></th><th><center>Principal</center></th><th></th><th><center>Parent</center></th><th></th></tr></table><br><br><br><br>";
 
     console.log('signature done....');
- });
+ // });
     var clr;
    var subjecteng = "<table style='width: 95%;margin-left:3%;page-break-after: always; ' class='subject'><tr style='background: #4d94ff;'><th style='width: 35%;'>ENGLISH</th><th style='width:5%;'>T1</th><th style='width: 5%;'>T2</th><th style='width: 5%;'>T3</th><th style='width:50%;'>Comments</th></tr>"
     subjecteng += "<tr style='background: #4d94ff;'><th style='width: 35%;text-align: center;'></th><th style='width:5%;text-align:center;'>"+et1+"</th><th style='width: 5%;text-align: center;' >"+et2+"</th><th style='width: 5%;text-align: center;'>"+et3+"</th><th style='width:50%;'></th></tr>"
@@ -9563,7 +9561,11 @@ e
           res.status(200).json({'returnval': 'converted'});     
   
         }
+
    */
+
+   
+
 });
 
 app.post('/fmailreportcard-service' ,  urlencodedParser,function (req, res)

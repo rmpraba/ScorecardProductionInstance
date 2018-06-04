@@ -15,7 +15,7 @@
      table td { overflow: hidden; }
 
       th,td{
-     /* border-bottom: 1px solid #ddd; border-top: 1px solid #ddd;*/
+    
       border-left: 1px solid #ddd;
      
       border-right: 1px solid #ddd;
@@ -88,20 +88,25 @@
       </table>
       <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
        <paper-dialog id="maildialog" modal>
-              <paper-icon-button icon='close' on-click='fnmailcancel' style='color:#ffffffbd;margin-left: 77%; width: 40%;height: 5%;margin-top: 0%;position: absolute;'></paper-icon-button>
-           <div style="width: 90.8%;height: 10%;margin-top: 0.5px;background-color: black;color: white;">{{subject}}</div>
+       <paper-icon-button icon='close' on-click='fnmailcancel' style='color: #ffffffbd;margin-left: 27%;width: 40%;height: 5%;margin-top: 0%;position: absolute;'></paper-icon-button>
+       <div style="width: 90.8%;height: 10%;margin-top:-0.5px;background-color: black; color: white;">{{subject}}
+       </div>
              <paper-input   value="{{subject}}" label="Subject"></paper-input><br> 
-              <iron-autogrow-textarea style="width: 75%;margin-left: 18%;"  placeholder="Your content" value="{{mailcontent}}" id="maildilaog{{rowid}}" class="remarka" >
+              <iron-autogrow-textarea style="width: 89%;margin-left: -1%;"  placeholder="Your content" value="{{mailcontent}}" id="maildilaog{{rowid}}" class="remarka" >
               </iron-autogrow-textarea><br>
               <div style="margin-left: 14%;">
                 <p>Home Work Content/Url:</p>
                   <div hidden$="{{hidecloseplan}}">
-                   <div hidden$="{{hidurl}}">
-                     <p>{{link}}</p>
-                   </div>
-                    <div hidden$="{{hidecontent}}">
-                      <a href="{{link}}" target="_blank">{{link}}</a>
-                    </div>
+                        <template is="dom-repeat" items="{{hometemparr}}" as="rse">
+                   <div hidden$="{{rse.hidehomecont}}">
+                    <h4>{{rse.content}}</h4>
+                  </div>
+                 <div hidden$="{{rse.hidehomeurl}}">
+                    <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
+                </div>
+             </template>
+
+
                   </div> 
               </div>
               
@@ -142,7 +147,7 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
     Polymer({
       is: 'curriculum-home-card',
    ready:function(e){
-      this.subject="New Massage";
+      this.subject="";
       this.mailcontent="";
     
    },
@@ -263,7 +268,7 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
 
     FnMail:function(e){
      this.$.maildialog.open();
-      this.subject="New Message";
+      this.subject="";
       this.$.crriculambookservice.fngetinparnetmail();
      //this.$.crriculambookservice.fnmailprocess();
     }

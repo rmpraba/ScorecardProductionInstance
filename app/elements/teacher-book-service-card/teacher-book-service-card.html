@@ -2106,25 +2106,25 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
    
    },
 
-   fngetclassbooksectionvalue:function(gradeid){
+   fngetclassbooksectionvalue:function(gradeid,gradename){
 
-          this.fngetclassbooksectionvalueurl=sessionStorage.getItem("addrinfo")+"/fngetclassbooksectionvalue-service";
+          this.fngetclassbooksectionvalueurl=sessionStorage.getItem("addrinfo")+"/section-service";
              var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
            obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
-           obj.academic_year=localStorage.getItem("curr_sess_academicyear");
+           obj.academicyear=localStorage.getItem("curr_sess_academicyear");
            obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
-           obj.empid=sessionStorage.getItem("curr_sess_loggedid");
-           //obj.subjectid=subjectid;
+           obj.loggedid=sessionStorage.getItem("curr_sess_loggedid");
+           obj.gradename=gradename;
            obj.gradeid=gradeid;
            this.fngetclassbooksectionvalueparam=obj;
-          //alert(JSON.stringify(obj));
+           //alert(JSON.stringify(obj));
            this.$.fngetclassbooksectionvalueajax.generateRequest();
         },
 
 
          fngetclassbooksectionvalueResponse:function(e)
          {
-            var res1=e.detail.response.sectionarr;
+            var res1=e.detail.response.returnval;
             document.querySelector('curriculum-plan-conceptapproval-card').sectionarr=res1;    
         },
           fngetclassbooksubjectvalue:function(gradeid,sectionid){

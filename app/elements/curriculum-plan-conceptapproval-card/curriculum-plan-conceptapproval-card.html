@@ -105,7 +105,7 @@ th,td{
         <paper-dropdown-menu  label="Select Section">
           <paper-menu id="cpapprovalsection" class="dropdown-content"  on-iron-select="FnSelectSection">
             <template is="dom-repeat" items="{{sectionarr}}">
-            <paper-item value="{{item.class_id}}">{{item.section_id}}</paper-item>
+            <paper-item value="{{item.class_id}}">{{item.section_name}}</paper-item>
             </template>    
           </paper-menu>
         </paper-dropdown-menu>
@@ -247,7 +247,7 @@ th,td{
         this.gradename=e.target.selectedItem.textContent.trim();
         localStorage.setItem("curr_sess_gradeid",this.gradeid);
         localStorage.setItem("curr_sess_gradename",this.gradename);
-        this.$.bookservice.fngetclassbooksectionvalue(this.gradeid);
+        this.$.bookservice.fngetclassbooksectionvalue(this.gradeid,this.gradename);
         document.querySelector('#cpapprovalsection').selected=-1;
         document.querySelector('#cpapprovalsubject').selected=-1;
         document.querySelector('#cpapprovalchapter').selected=-1;

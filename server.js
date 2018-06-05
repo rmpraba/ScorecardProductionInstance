@@ -23,8 +23,8 @@ var connection = mysql.createConnection({
   // type:"mysql"  
   host     : 'localhost',
   user     : 'root',
-  password : '',
-  database : 'scorecardtemp'
+  password : 'admin',
+  database : 'samsidhreportcard'
 });
 var app = express();
 var logfile;
@@ -683,8 +683,9 @@ app.post('/Lessonplan-currdate-concepts',  urlencodedParser,function (req, res)
     var qur="SELECT  * FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and chapter_id in('"+req.body.chapterid+"') "+
     " AND ((STR_TO_DATE( planned_date_from,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' )) "+
     " OR (STR_TO_DATE( planned_to_date,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' ))) "+
-    " and sub_concept_id not in (SELECT sub_concept_id FROM md_curriculum_planning_approval WHERE "+
-    " school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and chapter_id in('"+req.body.chapterid+"') and section_name in('"+req.body.section+"') and emp_id in('"+req.body.empid+"') and status in('Completed'))";
+    " and (sub_concept_id not in (SELECT sub_concept_id FROM md_curriculum_planning_approval WHERE "+
+    " school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and chapter_id in('"+req.body.chapterid+"') and section_name in('"+req.body.section+"') and emp_id in('"+req.body.empid+"') and status in('Completed')) or row_id not in (SELECT row_id FROM md_curriculum_planning_approval WHERE "+
+    " school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and chapter_id in('"+req.body.chapterid+"') and section_name in('"+req.body.section+"') and emp_id in('"+req.body.empid+"') and status in('Completed')))";
     console.log(qur);
     connection.query(qur,
     function(err, rows)
@@ -1412,9 +1413,11 @@ app.post('/lessonplanchapters',  urlencodedParser,function (req, res)
   " academic_year='2017-2018' and grade_name='"+req.body.grade+"' and subject_name='"+req.body.subject+"' and term_id='"+req.body.term+"' and "+
   " ((STR_TO_DATE( planned_date_from,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' )) "+
   " OR (STR_TO_DATE( planned_to_date,  '%m/%d/%Y' ) >= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' ))) "+
-  " and sub_concept_id not in(select sub_concept_id from md_curriculum_planning_approval "+
+  " and (sub_concept_id not in(select sub_concept_id from md_curriculum_planning_approval "+
   " where school_id =  '"+req.body.schoolid+"' AND academic_year =  '2017-2018' and emp_id='"+req.body.empid+"' "+
-  " and section_name='"+req.body.section+"' and subject_name='"+req.body.subject+"' and status not in('Completed'))";
+  " and section_name='"+req.body.section+"' and subject_name='"+req.body.subject+"' and status not in('Completed')) or row_id not in(select row_id from md_curriculum_planning_approval "+
+  " where school_id =  '"+req.body.schoolid+"' AND academic_year =  '2017-2018' and emp_id='"+req.body.empid+"' "+
+  " and section_name='"+req.body.section+"' and subject_name='"+req.body.subject+"' and status not in('Completed')))";
    console.log('------Fetching chapters------');
    console.log(que);
    var query = connection.query(que, function(err, rows)
@@ -1437,9 +1440,11 @@ app.post('/lessonplanchapterconcepts',  urlencodedParser,function (req, res)
   " ((STR_TO_DATE( planned_date_from,  '%m/%d/%Y' ) <= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' )) "+
   " OR (STR_TO_DATE( planned_to_date,  '%m/%d/%Y' ) >= STR_TO_DATE(  '"+req.body.currdate+"',  '%d/%m/%Y' ))) "+
   " and row_id='"+req.body.rowid+"' and chapter_id='"+req.body.chapterid+"' "+
-  " and sub_concept_id not in(select sub_concept_id from md_curriculum_planning_approval "+
+  " and (sub_concept_id not in(select sub_concept_id from md_curriculum_planning_approval "+
   " where school_id =  '"+req.body.schoolid+"' AND academic_year =  '2017-2018' and emp_id='"+req.body.empid+"' "+
-  " and section_id='"+req.body.section+"' and subject_name='"+req.body.subject+"')";
+  " and section_id='"+req.body.section+"' and subject_name='"+req.body.subject+"')) or (row_id not in(select row_id from md_curriculum_planning_approval "+
+  " where school_id =  '"+req.body.schoolid+"' AND academic_year =  '2017-2018' and emp_id='"+req.body.empid+"' "+
+  " and section_id='"+req.body.section+"' and subject_name='"+req.body.subject+"'))";
     var query = connection.query(que, function(err, rows)
     {
           if(!err){
@@ -24953,8 +24958,29 @@ app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
   new massMailer();
 }); 
 
-function massMailer() {
+app.post('/lessonplansendmail-service', urlencodedParser,function (req, res){
+  mailsubject=req.body.subject;
+  mailcontent=req.body.mailcontent;
+  var qur = "SELECT email FROM parent WHERE student_id in(SELECT id FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class_id in(SELECT class_id FROM mp_grade_section WHERE grade_id='"+req.body.gradeid+"' AND section_id='"+req.body.sectionid+"' AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"')) AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"'";
+  console.log(qur);
+  connection.query("SELECT email FROM parent WHERE student_id in(SELECT id FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class_id in(SELECT class_id FROM mp_grade_section WHERE grade_id='"+req.body.gradeid+"' AND section_id='"+req.body.sectionid+"' AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"')) AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"'",
+    function(err, rows)
+    {
+    if(!err)
+    {
+     for(var i=0;i<rows.length;i++)
+     emails.push(rows[0].email); 
+    }
+    else
+    {
+      console.log(err);      
+    }
+  });
+  console.log(emails);
+  new massMailer();
+}); 
 
+function massMailer() {
  var self = this;
      transporter = nodemailer.createTransport({
          service: "Gmail",

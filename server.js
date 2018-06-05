@@ -24928,6 +24928,7 @@ app.post('/curriculmsendmail-servicee', urlencodedParser,function (req, res){
  var failure_email = [];
 
  var emails = [];
+ 
 app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
   mailsubject=req.query.subject;
   mailcontent=req.query.mailcontent;

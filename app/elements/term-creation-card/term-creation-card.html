@@ -67,11 +67,11 @@
             height: 100px;
             margin-left: 32em;
             min-height: 830px;
-            top: 12.6% !important;
+            top: 15.6% !important;
        } 
      .newcard
        {
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
        }
        .outcardzzzzzzzz
@@ -131,7 +131,7 @@
                 <template is="dom-repeat" items="{{termarr}}" as="s">
                   <tr>
                     <td> 
-                      <term-creation-item-card   termname="{{s.term_name}}" termid="{{s.term_id}}" hideschooltypenameinput="true" hideschooltypenameitem="false"> 
+                         <term-creation-item-card termname="{{s.term_name}}" termid="{{s.term_id}}" hideschooltypenameinput="true" hideschooltypenameitem="false"> 
                       </term-creation-item-card>
                     </td>
                   </tr>
@@ -142,7 +142,7 @@
         </tr>    
       </table>
     </div>
-    <term-dialog-card id="dialog"></term-dialog-card>
+    <term-dialog-card id="dialog" ></term-dialog-card>
    <master-term-mapping-ui-service id="mastertermservice"></master-term-mapping-ui-service>
   </template>
   <script>
@@ -159,7 +159,9 @@
       else{
          var d=this.termname.toLowerCase();
          var c=d;
+       //  alert(this.generatevalue);
          var id=this.generatevalue.substring(1);
+
         this.$.mastertermservice.fnpasstermvalue1(c,this.generatevalue,id); 
       //  this.$.mastertermservice.fngenerateterm();
 

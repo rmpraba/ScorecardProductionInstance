@@ -489,8 +489,16 @@ lessonplanvalueResponse:function(e){
                  res[i].hideinfovalue=false;        
                  res[i].hideinfovalue1=true;        
                  res[i].enrichment_sug="";
-               //  res[i].remarks="";
+                
            }
+            for(var j=0;j<aproval.length;j++){
+              
+                    if(aproval[j].remarks=="undefined"){
+                      aproval[j].remarks="";
+                        
+                    }
+            }
+
         for(var i=0;i<res.length;i++){
           for(var j=0;j<aproval.length;j++){
              if(res[i].concept_id==aproval[j].concept_id && res[i].concept_id==aproval[j].concept_id  && res[i].row_id==aproval[j].row_id ){
@@ -503,9 +511,10 @@ lessonplanvalueResponse:function(e){
           }
         }
   for(var i=0;i<res.length;i++){
-     if(res[i].remarks1==""){
-          res[i].hideinfovalue=false;        
-          res[i].hideinfovalue1=true; 
+     if(res[i].status=="Pending" || res[i].status=="Completed" && res[i].assesment_status=="Pending" || res[i].assesment_status=="Completed" ){
+              res[i].hideinfovalue=true;        
+              res[i].hideinfovalue1=false;        
+             
      }
   }
 

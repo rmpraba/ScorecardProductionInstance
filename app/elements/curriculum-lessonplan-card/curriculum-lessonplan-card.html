@@ -124,16 +124,12 @@
     Polymer({
       is: 'curriculum-lessonplan-card',
    ready:function(e){
-    this.subremak=null;
+    this.subremak="";
+    this.enrichmentsuggest="";
     },
    FnSave:function(e){
-   
-   if(this.subremak=="" || this.enrichmentsuggest==""){
-       alert("pls check the value");
-      }
-    else{
-           this.$.crriculambookservice.Fnpasscurriculumlessonplan(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
-      } 
+        this.$.crriculambookservice.Fnpasscurriculumlessonplan(this.sno,this.rowid,this.conceptname,this.subconceptname,this.skill,this.value,this.innovation,this.coremarks,this.subremak,this.enrichmentsuggest,this.chapterid,this.chaptername,this.conceptid,this.subconceptid,this.fromdate,this.todate,this.period);
+    
   },
    
      fnsubclick:function(){

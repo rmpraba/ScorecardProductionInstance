@@ -24961,6 +24961,7 @@ app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
 app.post('/lessonplansendmail-service', urlencodedParser,function (req, res){
   mailsubject=req.body.subject;
   mailcontent=req.body.mailcontent;
+  maillink=req.body.link;  
   var qur = "SELECT email FROM parent WHERE student_id in(SELECT id FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class_id in(SELECT class_id FROM mp_grade_section WHERE grade_id='"+req.body.gradeid+"' AND section_id='"+req.body.sectionid+"' AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"')) AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"'";
   console.log(qur);
   connection.query("SELECT email FROM parent WHERE student_id in(SELECT id FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class_id in(SELECT class_id FROM mp_grade_section WHERE grade_id='"+req.body.gradeid+"' AND section_id='"+req.body.sectionid+"' AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"')) AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"'",

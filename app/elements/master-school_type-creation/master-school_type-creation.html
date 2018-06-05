@@ -18,8 +18,8 @@
         margin-top: 6%;
         width: 50%;  
         margin-left: 25%;
-        }
-*/      .cbutton
+        }*/
+       .cbutton
       {
         background-color: #363636;
         color: #ffffff;
@@ -68,13 +68,13 @@
     </style>
 
     <div class="title"> 
-      <CENTER>
+       <CENTER>
         <h3><b>SCHOOL TO SCHOOL TYPE</b></h3>
       </CENTER>
     </div>
-
+ <center>
   <div class="outercard">
-     <div id="tbz1">
+   <div id="tbz1">
     <div class="list-group col-sm-12 panel-body form-category">
       <table class="table table-bordered">
       <!-- <table border="1" class="tt"> -->
@@ -83,7 +83,7 @@
             <td class="outcard" style="width: 27%;"></td>
             <td class="innercard">
               <template is="dom-repeat" items="{{setsubjectarr}}" as="view">
-                <h4 style="margin-left:10px;width:100px;">{{view.schooltype}}</h4>   
+                <h4 style="margin-left:13px;width:100px;">{{view.schooltype}}</h4>   
               </template>
             </td>
             <td></td>
@@ -112,9 +112,9 @@
         </tbody>    
       </table>  
     </div>
-    </div>
+   </div>
   </div>
-
+</center>
     <demosumbit-card id="mydialog"></demosumbit-card>
     <master-ui-service id="service"></master-ui-service>
   </template>

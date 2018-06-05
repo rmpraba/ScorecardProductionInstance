@@ -681,7 +681,7 @@ fnassesmenttypesResponse:function(e){
         for(var i=0;i<res.length;i++){
           for(var j=0;j<aproval.length;j++){
              if(res[i].concept_id==aproval[j].concept_id && res[i].concept_id==aproval[j].concept_id  && res[i].row_id==aproval[j].row_id){
-                 if(aproval[j].status=="yes" || aproval[j].status=="no" && aproval[j].assesment_status=="yes"){
+                 if(aproval[j].status=="Completed" || aproval[j].status=="Pending" && aproval[j].assesment_status=="Completed"){
                  res[i].completion_date=aproval[j].complete_date;
                  res[i].correction_status=aproval[j].correction_status;
                  res[i].hideinfovalue=true;        

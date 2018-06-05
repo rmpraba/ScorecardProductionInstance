@@ -4,7 +4,7 @@
 <link rel="import" href="../update-demo-card/update-demo-card.html">
 
 <dom-module id="grade-display-card">
-  <template>
+  <template> 
     <style>
       :host 
       {
@@ -12,7 +12,6 @@
       }
       .card
       {
-        /*margin-top: 4%;*/
         @apply(--layout-center);
         @apply(--layout-horizontal);     
         border-bottom: 1px solid #dedede;
@@ -42,8 +41,8 @@
 
 
     <div class='itemcard' col-sm-12>
-          <paper-item hidden$="{{gradeid}}"></paper-item>
-          <paper-item hidden$="{{hidegradenameitem}}">{{gradename}}</paper-item>
+            <paper-item hidden$="{{gradeid}}"></paper-item>
+            <paper-item hidden$="{{hidegradenameitem}}">{{gradename}}</paper-item>
             <paper-input value="{{gradename}}" hidden$="{{hidegradenameinput}}"></paper-input>
             <paper-icon-button  id="btn1" icon="icons:create" on-click='FnEdit' hidden$="{{hidegradenameitem}}"></paper-icon-button>
             <paper-tooltip for="btn1">Edit</paper-tooltip>

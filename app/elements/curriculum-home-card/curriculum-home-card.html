@@ -45,8 +45,7 @@
     </style>
     <div>
        <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}
-        {{subconceptid}}{{fromdate}}{{todate}}{{sno}}{{link}}
-      </div>
+        {{subconceptid}}{{fromdate}}{{todate}}{{sno}}{{link}}</div>
        <table  class="teach1" >
         <tr>
           <td style="{{fonts}}" width="10%" >{{sno}}</td>
@@ -160,7 +159,7 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
 
         if(this.subject=="New Massage"){
           alert("pls enter the subject");
-        }
+         }
         else{
               this.$.maildialog.close();
               document.getElementById('maildilaog'+this.rowid).textarea.value="";

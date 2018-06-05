@@ -24568,13 +24568,13 @@ app.post('/passcurriculumlessonplan-service' , urlencodedParser,function (req, r
          subject_name:req.query.subjectname,
          term_id:req.query.termid,
          remarks:req.query.subremak,
-
+         status:"Pending",
       }
    
     
     var qur="select  * from   md_curriculum_planning_approval  where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and section_id='"+req.query.sectionid+"' and emp_id='"+req.query.empid+"' and chapter_id='"+req.query.chapterid+"' and concept_id='"+req.query.conceptid+"' and row_id='"+req.query.rowid+"'";
 
-     var qur1='update  md_curriculum_planning_approval set period="'+req.query.period+'",remarks="'+req.query.subremak+'",enrichment_sug="'+req.query.enrichmentsuggest+'" where school_id="'+req.query.schoolid+'" and academic_year="'+req.query.academicyear+'" and grade_id="'+req.query.gradeid+'" and subject_id="'+req.query.subjectid+'" and section_id="'+req.query.sectionid+'" and emp_id="'+req.query.empid+'" and chapter_id="'+req.query.chapterid+'" and concept_id="'+req.query.conceptid+'"  and row_id="'+req.query.rowid+'"';
+     var qur1='update  md_curriculum_planning_approval set status="Completed",period="'+req.query.period+'",remarks="'+req.query.subremak+'",enrichment_sug="'+req.query.enrichmentsuggest+'" where school_id="'+req.query.schoolid+'" and academic_year="'+req.query.academicyear+'" and grade_id="'+req.query.gradeid+'" and subject_id="'+req.query.subjectid+'" and section_id="'+req.query.sectionid+'" and emp_id="'+req.query.empid+'" and chapter_id="'+req.query.chapterid+'" and concept_id="'+req.query.conceptid+'"  and row_id="'+req.query.rowid+'"';
   
     console.log("-----------LessonPlan Edit/Save-----------");
     console.log(response);

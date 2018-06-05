@@ -45,7 +45,7 @@
     </style>
     <div>
        <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}
-        {{subconceptid}}{{fromdate}}{{todate}}{{sno}}
+        {{subconceptid}}{{fromdate}}{{todate}}{{sno}}{{link}}
       </div>
        <table  class="teach1" >
         <tr>
@@ -152,9 +152,12 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
     
    },
        fnmailcancel:function(e){
+      //  alert(this.link);
          this.$.maildialog.close();
         },
        fnmailsend:function(e){
+        //alert(this.link);
+
         if(this.subject=="New Massage"){
           alert("pls enter the subject");
         }
@@ -261,6 +264,7 @@ var currentdate=(new Date()).getDate()+"/"+((new Date()).getMonth()+1)+"/"+(new 
     }, 
 
     FnMail:function(e){
+     // alert(this.link);
      this.$.maildialog.open();
       this.subject="";
     

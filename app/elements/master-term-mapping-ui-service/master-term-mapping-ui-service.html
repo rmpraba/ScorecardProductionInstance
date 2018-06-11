@@ -594,6 +594,9 @@ Fngetassesmentandgrade:function()
               res1[i].sno=i+1;
               res1[i].assesmentbulkvalue=res; 
           }
+         // alert(JSON.stringify(res));
+        //  alert(JSON.stringify(res1));
+
 document.querySelector('assesment-to-subject-mapping-card').assesmentarr=res;
 document.querySelector('assesment-to-subject-mapping-card').subjectarr=res1;
 
@@ -622,6 +625,8 @@ document.querySelector('assesment-to-subject-mapping-card').subjectarr=res1;
               res1[i].sno=i+1;
               res1[i].assesmentbulkvalue=res; 
           }
+    //  alert(JSON.stringify(res1));
+
   document.querySelector('assesment-to-subject-mapping-card').subjectarr=res1;
       document.querySelector('assesment-to-subject-mapping-card').hideassmentinfoid=false;
   

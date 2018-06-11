@@ -72,15 +72,6 @@
     </div>
   </div>
   <div class="cardd">
-  <!-- <app-location route="{{route}}"></app-location>
-  <app-route route="{{route}}" pattern="/:page" data="{{data}}"></app-route>
-   <app-route
-    route="{{route}}"
-    pattern="/:page"
-    data="{{routeData}}"
-    tail="{{subroute}}">
-   </app-route> -->
-   
     <div class="content1">
       <iron-pages selected="{{page}}" attr-for-selected="data-category">
         <section data-category="teacherhomecard">
@@ -372,12 +363,11 @@
   },
   setPage:function(page,title){  
    this.page=page;
-   // this.title=title;
    localStorage.setItem("curr_sess_page",page);
   },   
-  signout:function()
+   signout:function()
   {
-   window.location.href="../index.html";   
+    window.location.href="../index.html";   
   },
   FnHome:function(){ 
    // alert(localStorage.getItem("curr_sess_page"));

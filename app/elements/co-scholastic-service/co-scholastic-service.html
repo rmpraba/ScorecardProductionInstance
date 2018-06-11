@@ -598,8 +598,8 @@
       },
       fetchlifeskilldata:function(idd,name)
       {
-        this.stdid=idd;
-        this.subcat=name;
+         this.stdid=idd;
+         this.subcat=name;
          this.fetchstudentlifeskillurl=sessionStorage.getItem("addrinfo")+"/fetchstudentlifeskill";
          var obj={"schoolid":"","academicyear":"","studid":"","subcategory":""};
          obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");

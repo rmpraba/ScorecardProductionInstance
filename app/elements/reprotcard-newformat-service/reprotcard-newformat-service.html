@@ -460,11 +460,16 @@ undotudentverifyvalues1Response:function(e){
         var master=e.detail.response.master;
         var subject=e.detail.response.subject;
         var grade=e.detail.response.grade;
+          // alert(JSON.stringify(assesment));
+         //  alert(JSON.stringify(master));
+        //  alert(JSON.stringify(subject));
+       //   alert(JSON.stringify(grade));
+
         for(var i=0;i<assesment.length;i++){
           for(var j=0;j<master.length;j++){
             // alert(assesment[i].term_name+" "+master[j].term_name+" "+assesment[i].assesment_type+" "+master[j].assesment_type+" "+assesment[i].grade+" "+master[j].grade_name);
             // if(assesment[i].term_name==master[j].term_name&&assesment[i].assesment_id==master[j].assesment_type&&assesment[i].grade==master[j].grade_name){
-            if((assesment[i].term_name).toLowerCase()==(master[j].term_name).toLowerCase()&&assesment[i].assesment_id==master[j].assesment_type&&assesment[i].grade==master[j].grade_name&&assesment[i].subject_id==master[j].subject_name){
+            if((assesment[i].term_name).toLowerCase()==(master[j].term_name).toLowerCase()&&(assesment[i].assesment_id).toLowerCase()==(master[j].assesment_type).toLowerCase()&&assesment[i].grade==master[j].grade_name&&assesment[i].subject_id==master[j].subject_name){
               if((master[j].scale_type)=="/")
                assesment[i].score=parseFloat(parseFloat(assesment[i].total)/parseFloat(master[j].scalar)).toFixed(2);
               if((master[j].scale_type)=="*")
@@ -498,42 +503,42 @@ undotudentverifyvalues1Response:function(e){
           if(assesment[i].subject_id==temparr[j].subject){
             // alert(temparr[j].subject);
             // alert('yes'+assesment[i].term_name);
-          if(assesment[i].term_name=="Term1"){
+          if((assesment[i].term_name).toLowerCase()=="term1"){
             // alert('in '+assesment[i].term_name+" "+assesment[i].assesment_id);
-            if((assesment[i].assesment_id).trim()=="Periodic Test1"){
-              // alert('in PT'+assesment[i].score);
+            if(((assesment[i].assesment_id).trim()).toLowerCase()=="periodic test1"){
+              // alert('in PT'+assesment[i].score);Periodic test1
               temparr[j].PT1=assesment[i].score;
             }
-            if((assesment[i].assesment_id).trim()=="Note Book"){
+            if(((assesment[i].assesment_id).trim()).toLowerCase()=="note book"){
               temparr[j].NB1=assesment[i].score;
             }
-            if((assesment[i].assesment_id).trim()=="SEA1"){
+            if(((assesment[i].assesment_id).trim()).toLowerCase()=="sea1"){
               temparr[j].SEA1=assesment[i].score;
             }
-            if((assesment[i].assesment_id).trim()=="Half Yearly"){
+            if(((assesment[i].assesment_id).trim()).toLowerCase()=="half yearly"){
               temparr[j].HY=assesment[i].score;
             }
           }
-          if(assesment[i].term_name=="Term2"){
+          if((assesment[i].term_name).toLowerCase()=="term2"){
             // alert(temparr[j].subject+" "+assesment[i].assesment_id);
-            if((assesment[i].assesment_id).trim()=="Periodic Test2"){
+            if(((assesment[i].assesment_id).trim()).toLowerCase()=="periodic test1"){
               // alert("in PT"+assesment[i].score);
               temparr[j].PT2=assesment[i].score;
             }
-            if((assesment[i].assesment_id).trim()=="Note Book")
+            if(((assesment[i].assesment_id).trim()).toLowerCase()=="note book")
               temparr[j].NB2=assesment[i].score;
-            if((assesment[i].assesment_id).trim()=="SEA2"){
+            if(((assesment[i].assesment_id).trim()).toLowerCase()=="sea1"){
               // alert("in SEA"+assesment[i].score);
               temparr[j].SEA2=assesment[i].score;
             }
-            if((assesment[i].assesment_id).trim()=="Yearly")
+            if(((assesment[i].assesment_id).trim()).toLowerCase()=="yearly")
               temparr[j].Y=assesment[i].score;
           }
           }
           }
           // alert(JSON.stringify(temparr));
         }
-        // alert(JSON.stringify(temparr));
+       //  alert(JSON.stringify(temparr));
         for(var i=0;i<temparr.length;i++){
           if(temparr[i].PT1==""||temparr[i].PT1==null)
             temparr[i].PT1=0;

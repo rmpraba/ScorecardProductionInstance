@@ -73,12 +73,8 @@
            temps[i].t=t;
            }
         this.$.coscholasticservice.callinsertcoscholasticsubcategorymarkService(subarr1,temps);
-  //   for(var i=0;i<temps.length;i++){  
-  //     var t=i+1;
-  // this.$.coscholasticservice.callinsertcoscholasticassesmentmarkService(temps[i].studid,temps[i].studname,temps[i].category,temps[i].subcategory,temps[i].summark,t);
-  //        }
-   document.querySelector('subject-dynamic-coscholastic-markentry-cards').fnclear();
-  }
+        document.querySelector('subject-dynamic-coscholastic-markentry-cards').fnclear();
+     }
   else{
   document.querySelector('coscholastic-assesment-card').FnToggleSpinner(false);
   document.querySelector("coscholastic-assesment-card").TermMarkdialog("No changes found to update!!");

@@ -30,34 +30,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
    var temp=[];
     Polymer({
       is: 'assesment-to-subject-card',
+
+
+      ready:function(e){
+     temp=[];
+      },
+
    fnassesmentchange:function(e){
-  alert(this.id);
-  alert(document.querySelector("#"+this.id).checked);
+ // alert(this.id);
+ // alert(document.querySelector("#"+this.id).checked);
+ //alert(temp.length);
+
 if(document.querySelector("#"+this.id).checked==true){
-       var c=[];   
-   document.querySelector('assesment-to-subject-mapping-card').subjectarr=c;
-   document.querySelector('assesment-to-subject-mapping-card').hideassmentinfoid=false;  
-   document.querySelector('assesment-to-subject-mapping-card').fnset();    
-       var obj={};
-           obj.assesmentid=this.id;
+var c=[];   
+document.querySelector('assesment-to-subject-mapping-card').subjectarr=c;
+document.querySelector('assesment-to-subject-mapping-card').hideassmentinfoid=false;  
+document.querySelector('assesment-to-subject-mapping-card').fnset();    
+        var obj={};
+            obj.assesmentid=this.id;
            temp.push(obj);
         localStorage.setItem("curr_sess_assesmentname",this.assesmentname);
 
            this.$.masteruiservice.Fngetassesmentandgrade1();    
-        for(var i=0;i<temp.length;i++)
+       if(temp.length!=0){
+          for(var i=0;i<temp.length;i++)
          {  
+         
           if(temp[i].assesmentid!=this.id)
          {
+           
              var stype=temp[i].assesmentid;  
              document.querySelector('#'+stype).checked=false;
              temp.splice(i,1);
              document.querySelector('assesment-to-subject-mapping-card').hideassmentinfoid=true;
           }
+         }
         }
+        
 
         }
        else if(document.querySelector('#'+this.id).checked==false){
-        document.querySelector('assesment-to-subject-mapping-card').hideassmentinfoid=true;
+  document.querySelector('assesment-to-subject-mapping-card').hideassmentinfoid=true;
      for(var i=0;i<temp.length;i++){
           if(temp[i].assesmentid==this.id){
             temp.splice(i,1);
@@ -65,17 +78,20 @@ if(document.querySelector("#"+this.id).checked==true){
           }}}
 
      },
+     tempset(){
+    temp=[];
+     },
    fnsets:function(e){
    
-  if(temp.length!=0){
+
      for(var i=0;i<temp.length;i++)
          {
             var stype=temp[i].assesmentid;
-            alert(stype);  
+           // alert(stype);  
            document.querySelector('#'+stype).checked=false;
          }
          temp=[];
-  }
+  
  
    },
     });

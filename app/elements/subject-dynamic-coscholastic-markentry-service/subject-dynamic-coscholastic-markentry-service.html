@@ -105,7 +105,7 @@
     Polymer({
       is: 'subject-dynamic-coscholastic-markentry-service',
 
-       subjectsubmittedcheckService1:function(grad,sec,sub){
+       subjectsubmittedcheckService1:function(grad,sec,sub,assment){
          gradename=grad;
          section=sec;
          subject=sub;
@@ -113,7 +113,7 @@
          var obj={"schoolid":"","academicyear":"","gradename":"","section":"","subject":""};
          obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
          obj.academicyear=localStorage.getItem("curr_sess_academicyear");
-         obj.assesment=localStorage.getItem("curr_sess_assesment");
+         obj.assesment=assment
          obj.termname=localStorage.getItem("curr_sess_termname");
          obj.gradename=gradename;
          obj.section=section;
@@ -125,7 +125,7 @@
          if(obj.role=='Co-Ordinator'||obj.role=='HeadMistress'){
             obj.flag='1';
          }
-
+   alert(JSON.stringify(obj));
          this.subjectsubmittedcheck3param= obj;
          this.$.subjectsubmittedcheck3ajax.generateRequest();
       },

@@ -35,6 +35,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
    }
    if(document.querySelector("#"+this.subjecttype).checked==true){
      localStorage.setItem("curr_sess_type",this.subjecttype); 
+     //alert(localStorage.getItem("curr_sess_type"));
+
        if(localStorage.getItem("curr_sess_type")=="Once"){
          localStorage.setItem("curr_sess_assesmentall","passive");
        document.querySelector('assesment-to-subject-mapping-card').hideassmentinfosubid=false;

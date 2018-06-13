@@ -81,6 +81,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           obj.gradeid=localStorage.getItem("curr_sess_gradeid"); 
           obj.id=this.id;
            temp.push(obj); 
+          // alert(JSON.stringify(temp));
       document.querySelector("term-assesment-to-grade-master-card").passarr(temp); 
    }
   else if(document.querySelector("#"+this.id).checked==false){

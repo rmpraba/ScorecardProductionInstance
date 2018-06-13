@@ -89,7 +89,6 @@
         if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
         this.$.otfscorecardservice.callfetchhealthattendanceinfoService(this.studentid);
         this.$.otfscorecardservice.callFetchstudentinfoService(this.studentid);
-    
         this.$.otfscorecardservice.callFetchsubjectinfoService(this.studentid);
         this.$.otfscorecardservice.callfetchscholasticmarkService(this.studentid);
         this.$.otfscorecardservice.fetchoveralltermwisegradeService(this.studentid);
@@ -218,10 +217,9 @@ document.querySelector('home-page').setPage('cce-onetofour-score-card','');
         this.$.otfscorecardservice.FnFetchfaHealthinfo(this.studentid); 
         this.$.otfscorecardservice.FnFetchArtinfo(this.studentid);
         this.$.otfscorecardservice.FnFetchPhysicalinfo(this.studentid); 
-        // this.$.scorecardservice.callFetchmarkService(this.studentid);
         document.querySelector('app-card').setPage('homepage','');
         document.querySelector('home-page').setPage('fivetotencomparisonreport',''); 
-        // document.querySelector('fivetotencomparisonreport-card').setStudentId(this.studentid);
+       
       }
       }
        if(localStorage.getItem('curr_sess_loggedassesmenttype')=="Editinfo"){ 

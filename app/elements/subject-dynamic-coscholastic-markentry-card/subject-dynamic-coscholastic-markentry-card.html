@@ -85,28 +85,14 @@
       <!-- <div class="fileupload"> -->
         <input id="coreadfiles" type="file" onchange="coloadFiles(event)"/>
         <xmp id="output"></xmp>
-      <!-- </div> -->
+      
         <paper-icon-button  id="upload" icon="icons:file-upload" on-click="FnClick1"></paper-icon-button>
         <paper-tooltip for="upload">Upload</paper-tooltip>
-        <!-- <paper-button style="color: white;height: 25px;  background: #252626; font-family:Calibri;"  on-click="FnClick">Upload File</paper-button>     -->
+      
       </div>
       </div>
     </div>   
-    <!--  <div hidden$="{{hideheader1}}">
-            <paper-checkbox style="margin-left: 67%;padding-left: 11%;" 
-             id="coscolasticcheckid1" on-change="excelmark1">Excel Upload
-             </paper-checkbox>
-      </div>
-    <div id=subjectdynamiccoscholasticid>
-      <div class="hrspace">
-        <input type="button" id="btn2" onclick="tableToExcel('coscolaticvaluedynamicreporttable', 'Mark Report')" value="Download Template">
-     </div>
-      <div class="exceldiv" >
-         <input id="coreadfiles" type="file" onchange="coloadFiles(event)"/>
-         <xmp id="output"></xmp>
-        <paper-button style="margin-left: -19%;margin-top: -1%;width: 42%;color: white;height: 30px;  background: #252626; font-family:Calibri;"  on-click="FnClick1">Upload File</paper-button>    
-      </div>
-   </div> -->
+    
    
     <div hidden$="{{hideheader1}}">    
     <center>
@@ -423,8 +409,12 @@ this.$.subjectdynamiccoscholasticid.hidden=true;
         this.grade=localStorage.getItem("curr_sess_grade");
         this.section=localStorage.getItem("curr_sess_section");
         this.subject=localStorage.getItem("curr_sess_subject");
-        this.assesmentname=localStorage.getItem("curr_sess_assesment");
-        exportsubjectnamesolastic1=this.grade+"-"+this.section+"-"+localStorage.getItem("curr_sess_subject")+"-"+this.assesmentname;
+         if(localStorage.getItem("curr_sess_subject")=="Work Education"||localStorage.getItem("curr_sess_subject")=="Life Skills"||localStorage.getItem("curr_sess_subject")=="Visual & Performing Arts"||localStorage.getItem("curr_sess_subject")=="Attitudes And values"||localStorage.getItem("curr_sess_subject")=="Co-Curricular Activities"||localStorage.getItem("curr_sess_subject")=="Health and Physical Education" ||localStorage.getItem("curr_sess_subject")=="Discipline")
+           localStorage.setItem("curr_sess_assesment","")
+          else
+           this.assesmentname=localStorage.getItem("curr_sess_assesment");
+
+  exportsubjectnamesolastic1=this.grade+"-"+this.section+"-"+localStorage.getItem("curr_sess_subject")+"-"+this.assesmentname;
         this.$.dynamicsavebtn1.hidden=false;
         this.hideheader1=false;
         this.FnSetLabel();

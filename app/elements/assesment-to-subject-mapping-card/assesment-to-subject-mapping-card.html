@@ -4,15 +4,15 @@
 <dom-module id="assesment-to-subject-mapping-card">
   <template>
     <style>
-      :host {
+   :host{
         display: block;
       }
-      table{
+     table{
              width: 70%;  
              border-collapse: collapse;                          
              margin-left: 1%;
-      }
-          paper-fab{
+       }
+    paper-fab{
       background-color:solid #dedede;
       color: white;
     }
@@ -50,7 +50,7 @@ paper-dialog.colored {
     .mainclass{
       margin-left: 20%  
        }
-        .gradeclass{
+   .gradeclass{
           @apply(--layout-horizontal);
        margin-left: 20%
        }
@@ -58,17 +58,17 @@ paper-dialog.colored {
      width: 98%;
      height: 92%;
        }
-       .assessmentclass{
-  
-     @apply(--layout-vertical);
-      margin-left: 20% ;
+     .assessmentclass{
+      @apply(--layout-vertical);
+      margin-left: 20%;
+      width: 106%;
      
-       }
+      }
       .assessmentclass1{
       width:60%;
       overflow-x: hidden;
       overflow-y: visible;
-      height: 100px; 
+      height: 100px;   
        }
      .subjectclass{
            @apply(--layout-center-justified);
@@ -104,7 +104,7 @@ paper-dialog.colored {
      <div class="assessmentclass1">
        <paper-checkbox  hidden$="{{hideassmentinfosubid1}}" id="selectallbox" on-change="fnchanges">All Assesments</paper-checkbox>
             <template is="dom-repeat" items="{{assesmentarr}}" as="view" >
-                <a`ssesment-to-subject-card   assesmentid="{{view.assesment_id}}" assesmentname='{{view.assesment_name}}' id='{{view.id}}' check="{{view.check}}">
+                <assesment-to-subject-card   assesmentid="{{view.assesment_id}}" assesmentname='{{view.assesment_name}}' id='{{view.id}}' check="{{view.check}}">
                </assesment-to-subject-card >
          </template>
         </div>  
@@ -160,7 +160,16 @@ FnRefreshcard:function(e){
  this.hideassmentinfosubid=true; 
  this.hideassmentinfosubid1=true; 
  this.hideassmentinfoid=true; 
+ this.hideassmentinfogradeid3=true; 
+
 document.querySelector('assesment-to-subject-mapping-item-card').ref();
+document.querySelector('assesment-to-subject-card').temp=[];
+document.querySelector('assesment-to-subject-collapse-card').temp=[];
+document.querySelector('assesment-to-subject-mapping-item-card').scholtypearr=[];
+document.querySelector('assesment-to-subject-grade-card').temp=[];
+document.querySelector('assesment-to-subject-card').temp=[];
+document.querySelector('assesment-to-subject-card').temp=[];
+
  },
 clear:function(e){
   this.hideassmentinfogradeid=false; 

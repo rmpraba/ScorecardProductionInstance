@@ -4919,28 +4919,36 @@ app.post('/scorecardreadyness-service',  urlencodedParser,function (req,res)
   var qur4="select school_id,term_name,assesment_id,grade,section,subject from tr_term_fa_assesment_import_marks where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"' and flag='1' group by school_id,term_name,assesment_id,grade,section,subject";
 
   var count1=0,count2=0,count3=0;
-  console.log("-----------------------SUB-");
+  console.log("------------SUB-------------");
 
-  var qur6="SELECT count(distinct(subject_id)) as count FROM tr_coscholastic_assesment_marks where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' "+
+   var qur6="SELECT count(distinct(subject_id)) as count FROM tr_coscholastic_assesment_marks where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' "+
   " and term_name='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"'";
-  var qur7="select count(distinct(s.subject_id)) as count from mp_grade_subject s join md_grade_assesment_mapping g on(s.grade_id=g.grade_id) join md_subject sub on(sub.subject_id=s.subject_id) where s.school_id='"+req.query.schoolid+"' and "+
+   var qur7="select count(distinct(s.subject_id)) as count from mp_grade_subject s join md_grade_assesment_mapping g on(s.grade_id=g.grade_id) join md_subject sub on(sub.subject_id=s.subject_id) where s.school_id='"+req.query.schoolid+"' and "+
   " g.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academicyear+"' and g.academic_year='"+req.query.academicyear+"' and "+
   " g.term_name='"+req.query.termname+"' and s.grade_id='"+req.query.gradeid+"' and g.grade_id='"+req.query.gradeid+"' and sub.type='Once' and sub.subject_id not in('s14','s15')";
   
   var count1=0,count2=0,count3=0,count4=0,count5=0;
-
+  console.log("_____________________1");
   console.log(qur1);
-  console.log("--------------");
+  console.log("_____________________2");
   console.log(qur2);
-  console.log("--------------");
+  console.log("_____________________3");
   console.log(qur3);
-  console.log("-------------------");
+  console.log("_____________________4");
   console.log(qur4);
+  console.log("_____________________5");
   console.log(qur5);
+  console.log("_____________________6");
   console.log(qur6);
+  console.log("_____________________7");
   console.log(qur7);
+  console.log("_____________________");
+ 
+ 
+ 
+  
   if(req.query.gradeid=="g1"||req.query.gradeid=="g2"||req.query.gradeid=="g3"||req.query.gradeid=="g4")
-  {
+  {     
     connection.query(qur1,function(err, rows)
     {
     if(!err)
@@ -18798,10 +18806,16 @@ app.post('/fetchnewformatscholasticsubjects-service',  urlencodedParser,function
   " where academic_year='"+req.query.academicyear+"' and id <=(select id from md_term where term_name='"+req.query.termname+"' and academic_year='"+req.query.academicyear+"'))";
   var subqur="SELECT distinct(subject_id) FROM tr_term_fa_assesment_marks WHERE school_id='"+req.query.schoolid+"' AND term_name='"+req.query.termname+"' AND academic_year='"+req.query.academicyear+"' and student_id='"+req.query.studentid+"' order by subject_id";
   var gradequr="SELECT * FROM newformat_scholastic_grademaster";
-  console.log('----------------------------------------');
-  console.log(qur);
-  console.log('----------------------------------------');
-  console.log(scalequr);
+   console.log('----------------------------------------');
+   console.log(qur);
+   console.log('----------------------------------------');
+   console.log(scalequr);
+   console.log('----------------------------------------');
+   console.log(subqur);
+   console.log('----------------------------------------');
+   console.log(gradequr);
+   console.log('----------------------------------------');
+   console.log('----------------------------------------');
   var assesment=[];
   var master=[];
   var subject=[];
@@ -22223,10 +22237,10 @@ app.post('/scorecard-fetchstudentterm-service',  urlencodedParser,function (req,
 
 app.post('/reversalfetchauditlevel-service',  urlencodedParser,function (req, res)
 { 
-    var qur="select assesment_id as level from md_assesment where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and assesment_name in(SELECT assesment_level2 as level FROM tr_term_auditimport WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query
+    var qur="select assesment_id as level from md_assesment where assesment_name in(SELECT assesment_level2 as level FROM tr_term_auditimport WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query
     .grade+"' and section='"+req.query.section+"' and subject_id='"+req.query.subject+"')";
-    var qur1="SELECT MIN(CAST(assesment_id as UNSIGNED)) as minlevel,MAX(CAST(assesment_id as UNSIGNED)) as maxlevel FROM md_assesment where school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'";
-    var qur2="SELECT assesment_id as level FROM md_assesment WHERE assesment_name='"+req.query.assesment+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'";
+    var qur1="SELECT MIN(CAST(assesment_id as UNSIGNED)) as minlevel,MAX(CAST(assesment_id as UNSIGNED)) as maxlevel FROM md_assesment ";
+    var qur2="SELECT assesment_id as level FROM md_assesment WHERE assesment_name='"+req.query.assesment+"'";
     console.log("------------------Fetch student academicyear----------------------");
     console.log(qur);
     var auditlevel="",minlevel="",maxlevel="";
@@ -22260,11 +22274,11 @@ app.post('/reversalupdatelevel-service',  urlencodedParser,function (req, res)
 { 
     
     var qur1="update tr_term_assesment_import_marks set flag='0' where assesment_id in "+
-    "(select assesment_name from md_assesment where assesment_id>='"+req.query.currlevel+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"') and school_id='"+req.query.schoolid+"' "+
+    "(select assesment_name from md_assesment where assesment_id>='"+req.query.currlevel+"') and school_id='"+req.query.schoolid+"' "+
     "and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"' "+
     "and subject='"+req.query.subject+"'";
     var qur2="update tr_term_auditimport set assesment_level2=(select assesment_name from md_assesment where "+
-    "assesment_id='"+req.query.updatelevel+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"') where school_id='"+req.query.schoolid+"' "+
+    "assesment_id='"+req.query.updatelevel+"') where school_id='"+req.query.schoolid+"' "+
     "and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"' "+
     "and subject_id='"+req.query.subject+"'";
     var qur3="delete from tr_term_assesment_overall_assesmentmarks where school_id='"+req.query.schoolid+"' "+
@@ -22273,7 +22287,7 @@ app.post('/reversalupdatelevel-service',  urlencodedParser,function (req, res)
     var qur4="delete from tr_term_assesment_overall_marks where school_id='"+req.query.schoolid+"' "+
     "and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"' "+
     "and subject_id='"+req.query.subject+"' and assesment_id in(select assesment_name from md_assesment where "+
-    "assesment_id>='"+req.query.currlevel+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')";
+    "assesment_id>='"+req.query.currlevel+"')";
 
     console.log("------------------reversal----------------------");
     console.log(qur1);
@@ -22368,17 +22382,17 @@ app.post('/reversalupdateimport-service',  urlencodedParser,function (req, res)
 app.post('/reversalupdatelevel1-service',  urlencodedParser,function (req, res)
 { 
   var qur1="update tr_term_assesment_import_marks set flag='0' where assesment_id in "+
-    "(select assesment_name from md_assesment where assesment_id>='"+req.query.currlevel+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"') and school_id='"+req.query.schoolid+"' "+
+    "(select assesment_name from md_assesment where assesment_id>='"+req.query.currlevel+"') and school_id='"+req.query.schoolid+"' "+
     "and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"' "+
     "and subject='"+req.query.subject+"'";
     var qur2="update tr_term_auditimport set assesment_level2=(select assesment_name from md_assesment where "+
-    "assesment_id='"+req.query.updatelevel+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"') where school_id='"+req.query.schoolid+"' "+
+    "assesment_id='"+req.query.updatelevel+"') where school_id='"+req.query.schoolid+"' "+
     "and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"' "+
     "and subject_id='"+req.query.subject+"'";
     var qur3="delete from tr_term_assesment_overall_marks where school_id='"+req.query.schoolid+"' "+
     "and academic_year='"+req.query.academicyear+"' and term_name='"+req.query.termname+"' and grade='"+req.query.grade+"' and section='"+req.query.section+"' "+
     "and subject_id='"+req.query.subject+"' and assesment_id in(select assesment_name from md_assesment where "+
-    "assesment_id>='"+req.query.currlevel+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')";
+    "assesment_id>='"+req.query.currlevel+"')";
 
     console.log("------------------reversal----------------------");
     console.log(qur1);
@@ -22539,7 +22553,7 @@ app.post('/deletepasstermvalue-service' , urlencodedParser,function (req, res)
   });
 app.post('/getassesmentvalue-service', urlencodedParser,function (req,res)
 {  
-  var qur="SELECT * FROM md_assesment where school_board='"+req.query.board+"' and school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' ";
+  var qur="SELECT * FROM master_assesment where school_board='"+req.query.board+"' and school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' ";
   console.log(qur);
    connection.query(qur,
     function(err, rows)
@@ -22596,11 +22610,11 @@ app.post('/passassesmentvalue-service' , urlencodedParser,function (req, res)
                "assesment_name":req.query.assesment,
             }; 
        console.log(response);
-         var qur="SELECT * FROM md_assesment WHERE school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and assesment_name='"+req.query.assesment+"'";
+          var qur="SELECT * FROM master_assesment WHERE school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and assesment_name='"+req.query.assesment+"'";
    connection.query(qur,function(err, rows)
     {
      if(rows.length==0){
-   connection.query("INSERT INTO md_assesment SET ?",[response],
+   connection.query("INSERT INTO master_assesment SET ?",[response],
      function(err, rows)
      {
      if(!err)
@@ -22627,9 +22641,9 @@ app.post('/passassesmentvalue-service' , urlencodedParser,function (req, res)
 
 app.post('/updatepassassesmentvalue-service' , urlencodedParser,function (req, res)
 {  
-     var qur1="update md_assesment set assesment_name='"+req.query.assesment+"' where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and assesment_id='"+req.query.assesmentid+"' and school_board='"+req.query.board+"'";
+     var qur1="update master_assesment set assesment_name='"+req.query.assesment+"' where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and assesment_id='"+req.query.assesmentid+"' and school_board='"+req.query.board+"'";
      
-     var qur="select * from md_assesment where assesment_name='"+req.query.assesment+"' and school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and  school_board='"+req.query.board+"'";
+     var qur="select * from master_assesment where assesment_name='"+req.query.assesment+"' and school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and  school_board='"+req.query.board+"'";
 console.log(qur);
  connection.query(qur,function(err, rows){  
         if(!err)
@@ -22658,7 +22672,7 @@ console.log(qur);
 
 app.post('/deletepassassesmentvalue-service' , urlencodedParser,function (req, res)
 {  
-      var qur1="delete from md_assesment where assesment_name='"+req.query.assesmenvalue+"' and  school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and assesment_id='"+req.query.assesmenid+"' and school_board='"+req.query.board+"'";
+      var qur1="delete from master_assesment where assesment_name='"+req.query.assesmenvalue+"' and  school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and assesment_id='"+req.query.assesmenid+"' and school_board='"+req.query.board+"'";
     console.log(qur1);
     connection.query(qur1,function(err, result){  
           console.log('update');
@@ -22702,7 +22716,7 @@ app.post('/termgeneratevalue-service' , urlencodedParser,function (req, res)
 {  
      var qur="select * from md_term  where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and school_board='"+req.query.board+"'";
 
-     var qur1="select * from md_assesment  where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and school_board='"+req.query.board+"'";
+     var qur1="select * from master_assesment  where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and school_board='"+req.query.board+"'";
 
      var qur2="select * from md_grade_assesment_mapping  where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"'";
     console.log("-------------Assesment-to-term-grade-mapping---------------");
@@ -22879,11 +22893,10 @@ if(req.query.assesmentset=="active"){
 if(req.query.assesmentset=="passive"){
  qur="SELECT * FROM subject_category_mapping where school_id='"+req.query.school_id+"' and academic_year='"+req.query.academic_year+"' and grade_id='"+req.query.gradeid+"'and subject_id='"+req.query.subjectid+"' and assesment_type='"+req.query.assesmentname+"'";
 
-
 }
+ 
 
-
- console.log('----Assesment category getvalue-------');
+ console.log('-----Assesment category getvalue-------');
  console.log('----------------------------------------');
  console.log(qur);
  console.log('----------------------------------------');

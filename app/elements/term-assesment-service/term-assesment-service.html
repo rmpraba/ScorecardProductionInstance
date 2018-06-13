@@ -1799,7 +1799,7 @@ this.fetchfastudentreporturl=sessionStorage.getItem("addrinfo")+"/fetchfastudent
 
  Fnfaimportmark:function()
  {
-      var obj1={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":"","flag":""};   
+  var obj1={"schoolid":"","academicyear":"","assesmentid":"","termname":"","subject":"","gradename":"","sectionname":"","flag":""};   
          obj1.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
          obj1.academicyear=localStorage.getItem("curr_sess_academicyear");
          obj1.termname=localStorage.getItem("curr_sess_termname");
@@ -1808,14 +1808,9 @@ this.fetchfastudentreporturl=sessionStorage.getItem("addrinfo")+"/fetchfastudent
          obj1.gradename=localStorage.getItem("curr_sess_grade");
          obj1.sectionname=localStorage.getItem("curr_sess_section");
       if(sessionStorage.getItem("curr_sess_loggedrole")=="Co-Ordinator")
-      {
+       {
         this.faapproveService();
-        // obj1.flag=1;
-        // this.updatefaflagurl=sessionStorage.getItem("addrinfo")+"/updatefaflag-service";
-        // this.updatefaflagparam=obj1;
-        // this.$.updatefaflagajax.generateRequest();
-            
-      }
+       }
        else if(sessionStorage.getItem("curr_sess_loggedrole")=="HeadMistress")
       {
         obj1.flag=2;

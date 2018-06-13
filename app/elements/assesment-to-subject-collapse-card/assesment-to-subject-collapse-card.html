@@ -44,11 +44,11 @@
          <th width="10%" >{{sno}}</th>
       
          <th  width="40%">{{subjectname}}</th>
-        <th width="10%"  >
+         <th width="10%"  >
            <ahref class="viewdata" on-click="fnchange" id="views{{subjectid}}"><u>View info</u></ahref>
           <ahref  class="viewdata1" on-click="fnchange1"  hidden$="{{hideinfovalus1}}"  id="close{{subjectid}}"><u>Close info</u></ahref>
         </th>
-        <th width="10%">
+         <th width="10%">
          <iron-icon icon="icons:add" on-click="Fnaddcategory"></iron-icon>
         </th>
        </tr>
@@ -276,11 +276,10 @@ Fnaddcategory:function(e){
 
 if(localStorage.getItem("curr_sess_grade")=="Grade-1"||localStorage.getItem("curr_sess_grade")=="Grade-2"||localStorage.getItem("curr_sess_grade")=="Grade-3"||localStorage.getItem("curr_sess_grade")=="Grade-4"){
   this.hiddenhighlecelinfo=false;
-  //  this.$.markid.hidden=true;
   this.$.markid.hidden=true;
-    this.$.categorygetids.hidden=true;
-    this.$.fnsubmitid.hidden=true;
-    //this.$.fncloseid.hidden=true;
+  this.$.categorygetids.hidden=true;
+  this.$.fnsubmitid.hidden=true;
+   
 document.querySelector('#assesmentnoid'+this.subjectid).checked=false;
 document.querySelector('#assesmentyesid'+this.subjectid).checked=false;
   }
@@ -298,6 +297,8 @@ document.querySelector('#assesmentyesid'+this.subjectid).checked=false;
      this.$.markid.hidden=true;
      this.$.categorygetids.hidden=true;
      this.$.fnsubmitid.hidden=true;
+     document.querySelector('#assesmentnoid'+this.subjectid).checked=false;
+    document.querySelector('#assesmentyesid'+this.subjectid).checked=false;
   }
 
    

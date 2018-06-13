@@ -134,13 +134,14 @@
         }
         else if(this.category=='category2'||this.category=='category3')
         {
+          
         document.querySelector('home-page').setPage('coscholasticassesment','');
         document.querySelector('coscholastic-assesment-card').spinnermsg="Please wait...Loading!";
         document.querySelector('coscholastic-assesment-card').FnToggleSpinner(true);
         document.querySelector('coscholastic-assesment').hidedrop=true;
         document.querySelector('coscholastic-assesment-sheet-card').setPage('subject-dynamic-coscholastic-markentry-card');
         document.querySelector('subject-dynamic-coscholastic-markentry-card').FnRefresh();
-        this.$.subcoslosticservice.subjectsubmittedcheckService1(this.grade,this.section,this.subject);
+        this.$.subcoslosticservice.subjectsubmittedcheckService1(this.grade,this.section,this.subject,"");
         }
         }
         else{

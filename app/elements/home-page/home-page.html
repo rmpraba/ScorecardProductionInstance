@@ -25,45 +25,55 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
   <dom-module id="home-page">
   <template>  
-  <style is="custom-style" >
+  <style is="custom-style">
   .in
-  {  
+  {     
   float:right;
   font-size:12px;
   }
-  
   .headd{
      height: 7%;
      width: 100%;
      background-color: #12A5F4;
      color: white;
-    
+     margin: 0px;
+     padding: 0px;
+     position: absolute;
+     top: 0;
+     overflow: hidden;
   }
-
   .cardd{
     @apply(--layout-vertical);
-    width: 95%;
-    height: 87%;
-    /*padding: 16px;*/
-    /*margin-top: 48px;*/
-    margin-top: 1%;
+    width: 100%;
+    height: 93%;
+    padding: 16px;
+    margin-top: 48px;
+    position: absolute;
+    overflow: scroll;
+    /*margin-top: 7%;*/
     }
-  label{
-    margin-left: 21%;
-  }
   b{
     font-size: 17.9px;
-  }
-  i{
     margin-left: 5%;
     text-transform: capitalize;
   }
-  .content1{
+  .content{
     width: 100%;
   }
- 
+  .outercontainer{
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    min-height:100%;
+  }
+  label{
+    margin-left: 25%;
+  }
+  i{
+    margin-left: 5%;
+  }
   </style>
-  <!-- <div class="outercontainer"> -->
+  <div class="outercontainer">
   <div class="headd">
   <div class="headcontent">
     <paper-icon-button icon="home" on-click="FnHome"></paper-icon-button>      
@@ -72,15 +82,6 @@
     </div>
   </div>
   <div class="cardd">
-  <!-- <app-location route="{{route}}"></app-location>
-  <app-route route="{{route}}" pattern="/:page" data="{{data}}"></app-route>
-   <app-route
-    route="{{route}}"
-    pattern="/:page"
-    data="{{routeData}}"
-    tail="{{subroute}}">
-   </app-route> -->
-   
     <div class="content1">
       <iron-pages selected="{{page}}" attr-for-selected="data-category">
         <section data-category="teacherhomecard">
@@ -357,9 +358,9 @@
     </iron-pages>
     </div>   
     <!-- </div> -->
-    <div class="footer"></div>
+    <!-- <div class="footer"></div> -->
   </div>
-  <!-- </div> -->
+  </div>
   </template> 
   <script>
   Polymer({

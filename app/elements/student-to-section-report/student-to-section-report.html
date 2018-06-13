@@ -127,9 +127,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <paper-item value="{{item.grade_id}}">{{item.grade_name}}</paper-item>
               </template>
             </paper-menu>
-          </paper-dropdown-menu>
-
-          
+          </paper-dropdown-menu>          
           <div class="sec1" hidden$="{{sectionhide}}"> 
             <div style="margin-left: 33%;">
               <label><b>Select Section</b></label>
@@ -234,16 +232,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var selectallarr=[];
     Polymer({
       is: 'student-to-section-report',
-
       ready:function()
-     {
+      {
       this.studentreport1=true;
       this.studentallreport1=true;
       this.spsectionhidecx=true;
-     },
+      },
       FnSelectGrade1:function(e)
-      {
-       
+      {       
         this.gradename1 =(e.target.selectedItem.textContent).trim();
         this.gradeid=e.target.selectedItem.value;
         this.$.reportservice.Fnselectclass(this.gradeid);
@@ -296,8 +292,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       selectallfield:function(e)
       {
-       // alert("Alll");
-           
+       // alert("Alll");           
         if(chk1s.checked==true)
         {
             //this.spsectionhide=true;
@@ -314,13 +309,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             //  this.spsectionhide=true;
           }
           else
-          {
-            
+          {            
             this.studentallreport1=true;
             this.studentreport1=true;
           }
-      }
-      
+      }      
     });
   })();
   </script>

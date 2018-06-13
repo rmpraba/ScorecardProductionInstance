@@ -152,21 +152,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
          var temparr=[];
          for(var i=0;i<res.length;i++)
          {
-        var obj={"id":"","student_name":"","grade_name":"","section":"","squence":"","admission_status":""}
+          var obj={"id":"","student_name":"","grade_name":"","section":"","squence":"","admission_status":""}
           obj.id=res[i].id;
           obj.student_name=res[i].student_name;
           obj.grade_name=res[i].grade_name;
           obj.section=res[i].section;
           obj.admission_status=res[i].admission_status;
-            var m=i+1;
+          var m=i+1;
           obj.squence=m;    
-           temparr.push(obj);
+          temparr.push(obj);
           //alert(JSON.stringify(obj));
          }
         //alert(JSON.stringify(temparr));
-     document.querySelector('student-to-section-report').studentsecctionarr=temparr;
-      }
-     
+        document.querySelector('student-to-section-report').studentsecctionarr=temparr;
+      }     
     });
   })();
   </script>

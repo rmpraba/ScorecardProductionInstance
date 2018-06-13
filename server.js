@@ -13,18 +13,18 @@ var async = require("async");
 var http = require("http");
 var validator = require("email-validator");
 var connection = mysql.createConnection({  
-  // host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
-  // database:"scorecarddb",
-  // port:'3306',
-  // user:"smis",
-  // password:"smispass",
-  // reconnect:true,
-  // data_source_provider:"rds",
-  // type:"mysql"  
-  host     : 'localhost',
-  user     : 'root',
-  password : 'admin',
-  database : 'samsidhreportcard'
+  host:"smis.cpldg3whrhyv.ap-south-1.rds.amazonaws.com",
+  database:"scorecarddb",
+  port:'3306',
+  user:"smis",
+  password:"smispass",
+  reconnect:true,
+  data_source_provider:"rds",
+  type:"mysql"  
+  // host     : 'localhost',
+  // user     : 'root',
+  // password : 'admin',
+  // database : 'samsidhreportcard'
 });
 var app = express();
 var logfile;
@@ -16480,8 +16480,16 @@ app.post('/selectclass-service',  urlencodedParser,function (req,res)
 
 app.post('/selectallsection-service',  urlencodedParser,function (req,res)
 {
-  var qur1="select s.id,s.student_name,g.grade_name,a.admission_status,(select UPPER(section_id) from mp_grade_section ss where ss.grade_id='"+req.query.gradeid+"' and ss.class_id=s.class_id) as section from md_student s join md_school_grade_mapping g on (s.grade_id=g.grade_id) join md_admission a on(s.id=a.admission_no) where s.school_id='"+req.query.schlid1+"' and a.school_id='"+req.query.schlid1+"' and g.school_id='"+req.query.schlid1+"'and s.grade_id='"+req.query.gradeid+"' and s.academic_year='"+req.query.academic_year+"' and g.academic_year='"+req.query.academic_year+"' and a.academic_year='AY-"+req.query.academic_year+"' and s.flag='active' and a.flag='1' order by student_name";
-
+  // var qur1="select s.id,s.student_name,g.grade_name,a.admission_status,(select UPPER(section_id) from mp_grade_section ss where ss.grade_id='"+req.query.gradeid+"' and ss.class_id=s.class_id) as section from md_student s join md_school_grade_mapping g on (s.grade_id=g.grade_id) join md_admission a on(s.id=a.admission_no) where s.school_id='"+req.query.schlid1+"' and a.school_id='"+req.query.schlid1+"' and g.school_id='"+req.query.schlid1+"'and s.grade_id='"+req.query.gradeid+"' and s.academic_year='"+req.query.academic_year+"' and g.academic_year='"+req.query.academic_year+"' and a.academic_year='AY-"+req.query.academic_year+"' and s.flag='active' and a.flag='1' order by student_name";
+var qur1="select s.id,s.student_name,g.grade_name,a.admission_status,(select UPPER(section_id) from mp_grade_section ss where ss.grade_id='"+req.query.gradeid+"' and ss.class_id=s.class_id and "+
+  " ss.school_id='"+req.query.schlid1+"' and ss.academic_year='"+req.query.academic_year+"') as "+
+  " section from md_student s join md_school_grade_mapping g on (s.grade_id=g.grade_id) join "+
+  " md_admission a on(s.id=a.admission_no) where s.school_id='"+req.query.schlid1+"' and "+
+  " a.school_id='"+req.query.schlid1+"' and g.school_id='"+req.query.schlid1+"'and "+
+  " s.grade_id='"+req.query.gradeid+"' and s.academic_year='"+req.query.academic_year+"' and "+
+  " g.academic_year='"+req.query.academic_year+"' and a.academic_year='AY-"+req.query.academic_year+"' "+
+  " and s.flag='active' and a.flag='1' and a.academic_year='AY-"+req.query.academic_year+"' "+
+  " and a.school_id='"+req.query.schlid1+"' order by student_name";
 console.log("-------Report---------");
   console.log(qur1);
 
@@ -16500,8 +16508,16 @@ console.log("-------Report---------");
 });
 app.post('/selectallsection1-service',  urlencodedParser,function (req,res)
 {
-  var qur1="select s.id,s.student_name,g.grade_name,a.admission_status,(select UPPER(section_id) from mp_grade_section ss where ss.grade_id='"+req.query.gradeid+"' and ss.class_id=s.class_id) as section from md_student s join md_school_grade_mapping g on (s.grade_id=g.grade_id) join md_admission a on (s.id=a.admission_no) where s.school_id='"+req.query.schlid1+"' and a.school_id='"+req.query.schlid1+"' and g.school_id='"+req.query.schlid1+"'and s.grade_id='"+req.query.gradeid+"' and s.academic_year='"+req.query.academic_year+"' and g.academic_year='"+req.query.academic_year+"' and s.class_id='"+req.query.classname+"' and s.flag='active' and a.flag='1' order by student_name";
-
+  var qur1="select s.id,s.student_name,g.grade_name,a.admission_status,(select UPPER(section_id) from "+
+  " mp_grade_section ss where ss.grade_id='"+req.query.gradeid+"' and ss.class_id=s.class_id and "+
+  " ss.school_id='"+req.query.schlid1+"' and ss.academic_year='"+req.query.academic_year+"') as section "+
+  " from md_student s join md_school_grade_mapping g on (s.grade_id=g.grade_id) join md_admission a "+
+  " on (s.id=a.admission_no) where s.school_id='"+req.query.schlid1+"' and a.school_id='"+req.query.schlid1+"' "+
+  " and g.school_id='"+req.query.schlid1+"' and s.grade_id='"+req.query.gradeid+"' and "+
+  " s.academic_year='"+req.query.academic_year+"' and g.academic_year='"+req.query.academic_year+"' and "+
+  " s.class_id='"+req.query.classname+"' and s.flag='active' and a.flag='1' and a.academic_year='AY-"+req.query.academic_year+"' "+
+  " and a.school_id='"+req.query.schlid1+"' order by student_name";
+  console.log('Fetching individual students....');
   console.log(qur1);
 
    connection.query(qur1,
@@ -24956,6 +24972,7 @@ app.post('/curriculmsendmail-service', urlencodedParser,function (req, res){
   });
   console.log(emails);
   new massMailer();
+  res.status(200).json({'returnval': 'mail sent'});
 }); 
 
 app.post('/lessonplansendmail-service', urlencodedParser,function (req, res){
@@ -24979,6 +24996,7 @@ app.post('/lessonplansendmail-service', urlencodedParser,function (req, res){
   });
   console.log(emails);
   new massMailer();
+  res.status(200).json({'returnval': 'mail sent'});
 }); 
 
 function massMailer() {

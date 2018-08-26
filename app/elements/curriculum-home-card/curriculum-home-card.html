@@ -23,7 +23,7 @@
      {
       border-radius: 8px;
     width: 38%;
-    height: 66%;
+    /*height: 66%;*/
     margin-left: 28%;
     margin-top: -6%;
       }  
@@ -46,11 +46,11 @@
     <div>
        <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}
         {{subconceptid}}{{fromdate}}{{todate}}{{sno}}{{link}}</div>
-       <table  class="teach1" >
+       <table  class="teach1" cellpadding="5">
         <tr>
-          <td style="{{fonts}}" width="10%" >{{sno}}</td>
-          <td style="{{fonts}}"  width="10%">{{conceptname}}</td>
-          <td style="{{fonts}}"  width="10%">{{subconceptname}}</td>
+          <td style="{{fonts}};width: 2%;">{{sno}}</td>
+          <td style="{{fonts}}"  width="12%">{{conceptname}}</td>
+          <td style="{{fonts}}"  width="12%">{{subconceptname}}</td>
 
           <td style="{{fonts}}"  width="10%">
            <div  hidden$="{{hidefilename}}">
@@ -59,64 +59,57 @@
            </div>
           </td>
 
-          <td style="{{fonts}}"  width="10%">
+          <td style="{{fonts}};word-wrap: break-word;"  width="15%" >
            <p hidden$="{{hideopenplan}}"> LINK</p>
-            <div hidden$="{{hidecloseplan}}">
-            
+            <div hidden$="{{hidecloseplan}}">            
             <template is="dom-repeat" items="{{hometemparr}}" as="rse">
                   <div hidden$="{{rse.hidehomecont}}">
-                   <h4>{{rse.content}}</h4>
-                 </div>
+                   <b>Content: </b>{{rse.content}}
+                 </div><br>
                  <div hidden$="{{rse.hidehomeurl}}">
-                    <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
+                    <b>Url: </b><a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
                 </div>
-             </template>
-
-
-
+            </template>
           </div> 
-
-           </td>
-          <td style="{{fonts}}" hidden width="10%">{{homeaids}}  </td>
+          </td>
+          <td style="{{fonts}}" hidden width="8%">{{homeaids}}  </td>
           <td style="{{fonts}}"  width="10%">{{filename}}</td>
-          <td style="{{fonts}}"  width="3.2%"  > 
+          <td style="{{fonts}};width: 3%;"  width="3.2%"  > 
                 <p hidden$="{{hideopenplan}}">Mail</p>
                 <p  hidden$="{{hidecloseplan}}"><paper-icon-button icon="icons:mail" on-click="FnMail"></paper-icon-button></p>
           </td>
         </tr>
       </table>
       <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
-       <paper-dialog id="maildialog" modal>
-       <paper-icon-button icon='close' on-click='fnmailcancel' style='color: #ffffffbd;margin-left: 27%;width: 40%;height: 5%;margin-top: 0%;position: absolute;'></paper-icon-button>
-       <div style="width: 90.8%;height: 10%;margin-top:-0.5px;background-color: black; color: white;">{{subject}}
-       </div>
-             <paper-input   value="{{subject}}" label="Subject"></paper-input><br> 
-              <iron-autogrow-textarea style="width: 89%;margin-left: -1%;"  placeholder="Your content" value="{{mailcontent}}" id="maildilaog{{rowid}}" class="remarka" >
+          <paper-dialog id="maildialog" modal>
+              <paper-icon-button icon='close' on-click='fnmailcancel' style='color: #ffffffbd;margin-left: 50%;width: 40%;height: 5%;margin-top: 0%;position: absolute;'></paper-icon-button>
+              <div style="width: 90.8%;height: 10%;margin-top:-0.5px;background-color: black; color: white;">{{subject}}
+              </div>
+              <paper-input   value="{{subject}}" label="Subject"></paper-input><br> 
+              <iron-autogrow-textarea style="width: 89%;margin-left: 5%;"  placeholder="Your content" value="{{mailcontent}}" id="maildilaog{{rowid}}" class="remarka" >
               </iron-autogrow-textarea><br>
-              <div style="margin-left: 14%;">
-                <p>Home Work Content/Url:</p>
+              <div style="margin-left: 2%;">
+                <!-- <p>Home Work Content/Url:</p> -->
                   <div hidden$="{{hidecloseplan}}">
-                        <template is="dom-repeat" items="{{hometemparr}}" as="rse">
-                   <div hidden$="{{rse.hidehomecont}}">
-                    <h4>{{rse.content}}</h4>
+                  <template is="dom-repeat" items="{{hometemparr}}" as="rse">
+                  <div hidden$="{{rse.hidehomecont}}">
+                  <b>Content: </b> <h4>{{rse.content}}</h4>
                   </div>
-                 <div hidden$="{{rse.hidehomeurl}}">
-                    <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
-                </div>
-             </template>
-
-
+                  <div hidden$="{{rse.hidehomeurl}}">
+                  <b>Url: </b> <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
+                  </div>
+                  </template>
                   </div> 
               </div>
-              
                <center>
                 <paper-button style="color:white;background-color:black" on-click="fnmailsend">Send</paper-button> 
                 <paper-button style="color:white;background-color:black" on-click="fnmailcancel">cancel</paper-button> 
               </center>
-      </paper-dialog>
-       <div class="spinner"><paper-dialog modal id="dynamicspinner1Z" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner>
-    <h4>{{spinnermsg}}</h4></paper-dialog></div>
-    </div>
+              <br><br>
+          </paper-dialog>
+          <div class="spinner"><paper-dialog modal id="dynamicspinner1Z" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner>
+          <h4>{{spinnermsg}}</h4></paper-dialog></div>
+      </div>
       <iron-ajax
         method="post"
         id="curriculmsendmailajax"

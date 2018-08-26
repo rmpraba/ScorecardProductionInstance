@@ -389,6 +389,8 @@
       fetchdynamicallyenteredmarksResponse:function(e){
         var assesscategory=e.detail.response.maparr;
         var arr=e.detail.response.returnval;
+        var grade=e.detail.response.grade;
+        var weight=e.detail.response.weight;
         var temp=[];
         var obj={};
         var title=[];
@@ -402,20 +404,38 @@
         for(var i=0;i<assesscategory.length;i++){
             row.push(assesscategory[i].category_name);
         }
+        row.push('Grade');
+        row.push('Level');
         overall.push({'row':row});
         for(var i=0;i<arr.length;i++){
             row=[];
+            var x=1;
+            var m=0;
             row.push(i+1);
             row.push(arr[i].student_id);
             row.push(arr[i].student_name);
             row.push(arr[i].mark);
+            m=parseFloat(m)+parseFloat(arr[i].mark);
             for(var j=i+1;j<arr.length;j++){
               if(arr[i].student_id==arr[j].student_id){
+                x++;
+                m=parseFloat(m)+parseFloat(arr[j].mark);
                 row.push(arr[j].mark);
                 arr.splice(j,1);
                 j--;
               }
             }
+            m=(parseFloat(m/(weight[0].weight)).toFixed(2))*100;
+            var gradee="";
+            var level="";
+            for(var x=0;x<grade.length;x++){
+                if(m>=grade[x].minimum&&m<=grade[x].maximum){
+                    gradee=grade[x].grade;
+                    level=grade[x].category;
+                }
+            }
+            row.push(gradee);
+            row.push(level);
             overall.push({'row':row});
         }
         // alert(JSON.stringify(overall));

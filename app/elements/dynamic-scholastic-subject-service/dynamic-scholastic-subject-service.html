@@ -622,6 +622,7 @@
         var assesscategory=e.detail.response.map;
         var assesscategorycnt=e.detail.response.categorycnt;
         var arr=e.detail.response.returnval;
+        var grade=e.detail.response.grade;
         var temp=[];
         var obj={};
         var title=[];
@@ -669,7 +670,7 @@
          }
          // cat.push({"studentname":"","tabwidth":tabwidth,"serialno":"",'category':categorytitle});
          // document.querySelector('dynamic-scholastic-markentry-report').catarr=cat;
-         overall.push({"sno":"S.No","id":"Student Id","studentname":"Student Name","tabwidth":tabwidth,"serialno":"",'category':categorytitle});
+         overall.push({"sno":"S.No","id":"Student Id","studentname":"Student Name","tabwidth":tabwidth,"serialno":"",'category':categorytitle,"grade":"Grade","level":"Level"});
          categorytitle=[]
          temp=[];
         for(var i=0;i<assesscategory.length;i++){
@@ -695,11 +696,13 @@
             obj.width=parseFloat(cnt)*parseFloat(divider)+"%";
             categorytitle.push(obj);
          }
-         overall.push({"sno":"","studentname":"","tabwidth":tabwidth,"serialno":"",'category':categorytitle});
+         overall.push({"sno":"","studentname":"","tabwidth":tabwidth,"serialno":"",'category':categorytitle,"grade":"","level":""});
 
         for(var i=0;i<arr.length;i++){
             var obj={};
             var cnt=1;
+            var x=1;
+            var m=0
             var category=[];
             obj.id=arr[i].student_id;
             obj.studentname=arr[i].student_name;
@@ -707,9 +710,12 @@
             obj.categorycnt=cnt;
             obj.width=parseFloat(cnt)*parseFloat(divider)+"%";
             category.push(obj);
-            for(var j=i+1;j<arr.length;j++){
+            m=parseFloat(m)+parseFloat(arr[i].mark);
+            for(var j=i+1;j<arr.length;j++){            
             obj={};
             if(arr[i].student_id==arr[j].student_id){
+                x++;
+                m=parseFloat(m)+parseFloat(arr[j].mark);
             obj.subcategoryname=arr[j].mark;
             arr.splice(j,1);
             j--;
@@ -718,17 +724,28 @@
             category.push(obj);
             }
             }
+            // obj.total=m;
+            m=(parseFloat(m/x).toFixed(2))*10;
+            var gradee="";
+            var level="";
+            for(var x=0;x<grade.length;x++){
+                if(m>=grade[x].minimum&&m<=grade[x].maximum){
+                    gradee=grade[x].grade;
+                    level=grade[x].category;
+                }
+            }
             // obj.categorycnt=cnt;
             // obj.width=parseFloat(cnt)*parseFloat(divider)+"%";
             // category.push(obj);
             // alert(JSON.stringify(category));
-            overall.push({"id":arr[i].student_id,"studentname":arr[i].student_name,"tabwidth":tabwidth,"category":category});
+            overall.push({"id":arr[i].student_id,"studentname":arr[i].student_name,"tabwidth":tabwidth,"category":category,"total":m,"grade":gradee,"level":level});
             // category=[];
         }
         // alert(JSON.stringify(overall));
         for(var i=2,j=0;i<overall.length;i++,j++){
             overall[i].sno=j+1;
         }
+        // alert(JSON.stringify(overall));
         document.querySelector('dynamic-scholastic-markentry-report').hideheader=false;
         document.querySelector('dynamic-scholastic-markentry-report').setDefaultHeaders();
         document.querySelector('dynamic-scholastic-markentry-report').tabwidth=tabwidth;

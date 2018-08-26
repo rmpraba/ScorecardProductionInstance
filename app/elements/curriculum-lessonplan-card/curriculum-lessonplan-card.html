@@ -22,27 +22,28 @@
       #curriculamsubjectdialog
       {
     border-radius: 30px;
-    width: 34%;
-    height: 33%;
+    width: 35%;
+    /*height: 35%;*/
     margin-left: 33%;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    /*overflow-x: hidden;*/
+    /*overflow-y: scroll;*/
       }
       
+
       #curriculamenrichmentdialog
       {
    border-radius: 30px;
-    width: 34%;
-    height: 33%;
+    width: 35%;
+    /*height: 35%;*/
     margin-left: 33%;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    /*overflow-x: hidden;*/
+    /*overflow-y: scroll;*/
       }
 #curriculamenrichmentdialog1
       {
     border-radius: 30px;
     width: 34%;
-    height: 33%;
+    /*height: 33%;*/
     margin-left: 33%;
    
       }
@@ -50,30 +51,35 @@
       h4{
         text-transform:lowercase;
       }
+      #wordbreak{
+        word-wrap: break-word;
+      }
      
     </style>
      <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}</div>
     <div class="fn1">
-       <table  class="teach1" >
+       <table  class="teach1" cellpadding="5">
         <tr>
               <td style="{{fonts}}" width="3%" >{{sno}}</td>
-              <td style="{{fonts}}"  width="10%">{{conceptname}}</td>
-              <td style="{{fonts}}"  width="10%">{{subconceptname}}</td>
+              <td style="{{fonts}}"  width="13%">{{conceptname}}</td>
+              <td style="{{fonts}}"  width="13%">{{subconceptname}}</td>
               <td style="{{fonts}}; text-align: center;"  width="10%" hidden>{{period}}</td>
-              <td style="{{fonts}}"  width="10%">{{fromdate}}</td>
-              <td style="{{fonts}}"  width="10%">{{todate}}</td>
+              <td style="{{fonts}}"  width="7%">{{fromdate}}</td>
+              <td style="{{fonts}}"  width="7%">{{todate}}</td>
               <td  hidden style="{{fonts}}"  width="10%">{{skill}} </td>
               <td  hidden style="{{fonts}}"  width="10%"> {{value}} </td>
               <td  hidden style="{{fonts}}"  width="10%">{{innovation}}</td>
               <td style="{{fonts}}"  width="10%">{{coremarks}}</td>
               
-              <td style="{{fonts}}"  width="10%" >
-                    <p hidden$="{{hideopenplan}}">{{subremak}}</p>
-                     <paper-button on-click="fnsubclick"  hidden$="{{hidecloseplan}}"><h4>{{subremak}}</h4></paper-button>
+              <td style="{{fonts}}"  width="10%" on-click="fnsubclick">
+                    <p hidden$="{{hideopenplan}}" id="workbreak">{{subremak}}</p>
+                    <p hidden$="{{hidecloseplan}}" id="workbreak">{{subremak}}</p>
+                     <!-- <paper-button on-click="fnsubclick"  hidden$="{{hidecloseplan}}"><h4>{{subremak}}</h4></paper-button> -->
               </td>
-              <td  style="{{fonts}}"  width="10%">
-               <p hidden$="{{hideopenplan}}">{{enrichmentsuggest}}</p>
-                 <paper-button on-click="fnenrichclick"  hidden$="{{hidecloseplan}}"><h4>{{enrichmentsuggest}}</h4></paper-button>
+              <td  style="{{fonts}}"  width="10%" on-click="fnenrichclick">
+               <p hidden$="{{hideopenplan}}" id="workbreak">{{enrichmentsuggest}}</p>
+               <p hidden$="{{hidecloseplan}}" id="workbreak">{{enrichmentsuggest}}</p>
+                 <!-- <paper-button on-click="fnenrichclick"  hidden$="{{hidecloseplan}}"><h4>{{enrichmentsuggest}}</h4></paper-button> -->
 
               </td>
              
@@ -92,29 +98,32 @@
         </tr>
       </table>
      <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
-        <paper-dialog id="curriculamsubjectdialog" >
-      <center>   <iron-autogrow-textarea label="Home Aids"  value="{{subremak}}" placeholder="Your Subject Teacher Remark Here..."></iron-autogrow-textarea></center> 
+      <paper-dialog id="curriculamsubjectdialog" >
+      <paper-dialog-scrollable>
+      <center>   
+      <iron-autogrow-textarea label="Home Aids"  value="{{subremak}}" placeholder="Your Remarks Here..." style="height: 40%;" rows="5"></iron-autogrow-textarea>
+      </center> 
           <center style="margin-top: 10%;">
             <paper-button  on-click="subsave" style="color:white;background-color:black">Save</paper-button>
-            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="subclose">Close</paper-button>
-
-         
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="subclose">Close</paper-button>         
           </center>
+      </paper-dialog-scrollable>
       </paper-dialog>
-   <paper-dialog id="curriculamenrichmentdialog" >
-      <center> <iron-autogrow-textarea   value="{{enrichmentsuggest}}" placeholder="Your Enricment here..."></iron-autogrow-textarea></center> 
+      <paper-dialog id="curriculamenrichmentdialog" >
+      <paper-dialog-scrollable>
+      <center> 
+      <iron-autogrow-textarea   value="{{enrichmentsuggest}}" placeholder="Your Enrichment Suggestion Here ..." style="height: 40%;" rows="5"></iron-autogrow-textarea>
+      </center> 
           <center style="margin-top: 10%;">
             <paper-button  on-click="enrichsave" style="color:white;background-color:black">Save</paper-button>
-            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose">Close</paper-button>
-
-         
+            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose">Close</paper-button>         
           </center>
+      <paper-dialog-scrollable>
       </paper-dialog>
-       <paper-dialog id="curriculamenrichmentdialog1" >
+      <paper-dialog id="curriculamenrichmentdialog1" >
          <center><h2>{{dialogvalue}}</h2></center> 
-           <center><paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose1">Close</paper-button> </center>
-      </paper-dialog>
-      
+         <center><paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose1">Close</paper-button> </center>
+      </paper-dialog>      
     </div>
   </template>
   <script>

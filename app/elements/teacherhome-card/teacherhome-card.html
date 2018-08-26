@@ -94,7 +94,9 @@
     <student-add-service id="studservice"></student-add-service>
     <single-student-markentry-service id="singleservice"></single-student-markentry-service>
     <student-term-comparison-report-service id="comparisonservice"></student-term-comparison-report-service>
-     <master-term-mapping-ui-service id="mastertermservice"></master-term-mapping-ui-service>
+    <master-term-mapping-ui-service id="mastertermservice"></master-term-mapping-ui-service>
+    <reportcard-option-service id="reportcardoptionservice"></reportcard-option-service>
+    <enrichment-service id='enrichmentservice'></enrichment-service>
   </template>
   <script>
   (function() {
@@ -105,7 +107,8 @@
       ready:function(){
 
       },
-      functionName:function(menuid,name){        
+      functionName:function(menuid,name){ 
+      // alert(menuid+"  "+name);       
         if(name=="FnCreateschool")
           this.FnCreateschool();
         else if(name=="FnCreateSchooltype")
@@ -216,8 +219,58 @@
           this.FnComparisonReport();
         else if(name=="FnAssesmentComparison")
           this.FnAssesmentComparison();
+        else if(name=="FnConsolidatedDataAnalysis")
+          this.FnConsolidatedDataAnalysis();
         else
         document.querySelector('login-service').fetchmenuService(menuid,name);
+      },
+      FnSelectEvaluation:function(){
+        document.querySelector('home-page').setPage('beginnerassesment','');
+      },
+      FnSelectBooksCreation:function(){
+        document.querySelector('home-page').setPage('books-creation-card','');
+      },
+      FnSelectMapping:function(){
+        document.querySelector('home-page').setPage('books-issuance-card','');   
+        document.querySelector('books-issuance-card').FnRefresh();
+        this.$.bassesmentservice.callAssesmentService("Enrichment");
+        this.$.bassesmentservice.callGradeService();
+        this.$.enrichmentservice.subjectforenrichmentService();
+      },
+      FnEavaluationMapping:function(){
+        document.querySelector('home-page').setPage('enrichment-evaluationmapping-card','');
+        document.querySelector('enrichment-evaluationmapping-card').callService();
+              this.$.enrichmentservice.FnFetchAllBooks();   
+      },
+      FnBooksMapping:function(){
+        document.querySelector('home-page').setPage('enrichment-booksmapping-card','');
+        document.querySelector('enrichment-booksmapping-card').callService();
+      },
+      FnComparisonReport:function(){
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=="management")
+          document.querySelector('enrichment-comparison-report').hideschool=false;
+        else
+          document.querySelector('enrichment-comparison-report').hideschool=true;
+        document.querySelector('home-page').setPage('enrichment-comparison-report','');   
+        document.querySelector('enrichment-comparison-report').FnRefresh();
+        
+        this.$.bassesmentservice.callAssesmentService("Enrichment");
+        this.$.bassesmentservice.callGradeService();
+        this.$.enrichmentservice.subjectforenrichmentService();
+        this.$.scorecardservice.callSchoolService();
+      },
+      FnAssesmentComparison:function(){
+        if(sessionStorage.getItem("curr_sess_loggedroleid")=="management")
+          document.querySelector('assesment-comparison-homecard').hideschool=false;
+        else
+          document.querySelector('assesment-comparison-homecard').hideschool=true;
+        document.querySelector('home-page').setPage('assesment-comparison-homecard','');   
+        document.querySelector('assesment-comparison-homecard').FnRefresh();
+        
+        this.$.bassesmentservice.callAssesmentService("Enrichment");
+        this.$.bassesmentservice.callGradeService();
+        this.$.enrichmentservice.subjectforenrichmentService();
+        this.$.scorecardservice.callSchoolService();
       },
       FnInitializeContainers:function(){
         document.querySelector('login-service').fetchmainmenuService();
@@ -363,45 +416,46 @@
          {
         //   alert('1'); 
           document.querySelector('app-card').setPage('homepage','');
-      document.querySelector('home-page').setPage('teacher-book-refernce-card','');
+          document.querySelector('home-page').setPage('teacher-book-refernce-card','');
           this.$.bookservice.capterseq();
          // this.$.bookservice.conceptseq();
         //  this.$.bookservice.getcaptervalue();
          } 
-     if(localStorage.getItem('curr_sess_loggedassesmenttype')=="bookapruval")
+       if(localStorage.getItem('curr_sess_loggedassesmenttype')=="bookapruval")
          {
-            document.querySelector('teacher-book-approve-card').fnsetval();
-            document.querySelector('teacher-book-approve-card').fnRefresh();
-            document.querySelector('teacher-book-approve-card').fnhide();
+            localStorage.setItem("curr_sess_report","curriculumplan");
+            this.$.assesmentservice.callTermService("Term");
+            // document.querySelector('teacher-book-approve-card').fnsetval();
+            // document.querySelector('teacher-book-approve-card').fnRefresh();
+            // document.querySelector('teacher-book-approve-card').fnhide();
             
-       document.querySelector('app-card').setPage('homepage','');
-        document.querySelector('home-page').setPage('teacher-book-approve-card','');
-      if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher')
-      {   
-         this.$.bookservice.bookgrade();
-         this.$.bookservice.masterzskill();
-       document.querySelector('teacher-book-approveal-concept-item-card').FnRefresh();
-        }
-      else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
-            this.$.bookservice.getappovedcoordinator();
-            this.$.bookservice.masterzskill();
-     }
-     else if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
-           this.$.bookservice.masterzskill();
-           this.$.bookservice.bookgrade();
-     
-        } 
+            // document.querySelector('app-card').setPage('homepage','');
+            // document.querySelector('home-page').setPage('teacher-book-approve-card','');
+            // if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher')
+            // {   
+            // this.$.bookservice.bookgrade();
+            // this.$.bookservice.masterzskill();
+            // document.querySelector('teacher-book-approveal-concept-item-card').FnRefresh();
+            // }
+            // else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
+            // this.$.bookservice.getappovedcoordinator();
+            // this.$.bookservice.masterzskill();
+            // }
+            // else if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
+            // this.$.bookservice.masterzskill();
+            // this.$.bookservice.bookgrade();
+            // } 
      }    
      if(localStorage.getItem('curr_sess_loggedassesmenttype')=="classplan")
      {
-
       document.querySelector('app-card').setPage('homepage','');
-      document.querySelector('home-page').setPage('curriculum-plan-conceptapproval-card','');
+      document.querySelector('home-page').setPage('curriculum-plan-homecard');
+      this.$.reportcardoptionservice.FnFetchGradeSectionSubject();
+      // /document.querySelector('home-page').setPage('curriculum-plan-conceptapproval-card','');
       // document.querySelector('home-page').setPage('class-teacher-book-approve-card','');
-      this.$.bookservice.fnbookplangrade();
-      this.$.bookservice.fnbookplansubject();
-      // this.$.bookservice.masterzskill();
-      
+      // /this.$.bookservice.fnbookplangrade();
+      // /this.$.bookservice.fnbookplansubject();
+      // this.$.bookservice.masterzskill();      
      }
    if(localStorage.getItem('curr_sess_loggedassesmenttype')=="bookreject")
    {
@@ -623,6 +677,31 @@ document.querySelector('home-page').setPage('student-scorcard-mail-card','');
            document.querySelector('home-page').setPage('student-coordinator-apruval-card','');
          this.$.singleservice.fngetinformationvalue();
          }
+         else if(localStorage.getItem('curr_sess_report')=="curriculumplan"){
+            this.$.reportcardoptionservice.FnFetchGradeSubject();
+            document.querySelector('app-card').setPage('homepage','');
+            document.querySelector('home-page').setPage('curriculum-planning-option-card','');
+            // document.querySelector('teacher-book-approve-card').fnsetval();
+            // document.querySelector('teacher-book-approve-card').fnRefresh();
+            // document.querySelector('teacher-book-approve-card').fnhide();
+            
+            // document.querySelector('app-card').setPage('homepage','');
+            // document.querySelector('home-page').setPage('teacher-book-approve-card','');
+            // if(sessionStorage.getItem("curr_sess_loggedroleid")=='subject-teacher')
+            // {   
+            // this.$.bookservice.bookgrade();
+            // this.$.bookservice.masterzskill();
+            // document.querySelector('teacher-book-approveal-concept-item-card').FnRefresh();
+            // }
+            // else if(sessionStorage.getItem("curr_sess_loggedroleid")=='co-ordinator'){
+            // this.$.bookservice.getappovedcoordinator();
+            // this.$.bookservice.masterzskill();
+            // }
+            // else if(sessionStorage.getItem("curr_sess_loggedroleid")=="principal"||sessionStorage.getItem("curr_sess_loggedroleid")=="headofedn"||sessionStorage.getItem("curr_sess_loggedroleid")=="headmistress"||sessionStorage.getItem("curr_sess_loggedroleid")=="viceprincipal"){
+            // this.$.bookservice.masterzskill();
+            // this.$.bookservice.bookgrade();
+            // } 
+         }
         else
         {
         this.$.assesmentservice.callGradeService();   
@@ -662,7 +741,8 @@ document.querySelector('home-page').setPage('student-scorcard-mail-card','');
       },
       FnConsolidatedDataAnalysis:function(){
         localStorage.setItem('curr_sess_loggedassesmenttype','Consolidateddataanalysis');
-        document.querySelector('consolidated-data-analysis').FnHideSchool();
+        // document.querySelector('consolidated-data-analysis').FnHideSchool();
+        document.querySelector('consolidated-assesment-report').FnHideSchool();
         if(sessionStorage.getItem("curr_sess_loggedroleid")=='management')
         this.$.scorecardservice.callSchoolService();
         if(sessionStorage.getItem("curr_sess_loggedroleid")!='management')
@@ -955,7 +1035,7 @@ document.querySelector('home-page').setPage('student-scorcard-mail-card','');
         fnbookclassplan:function(e){
           localStorage.setItem('curr_sess_loggedassesmenttype','classplan');
           document.querySelector('curriculum-plan-conceptapproval-card').FnRefreshzzz();
-         this.$.cdialog.toggle();       
+          this.$.cdialog.toggle();       
          },
           fnbookreject:function(e)
           {

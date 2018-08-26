@@ -1,0 +1,53 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="curriculum-planning-option-itemcard">
+  <template>
+    <style>
+      h1{
+        color: #8C075D;
+      }
+      h2{
+        color: #268007;
+      }
+      #subject{
+        color: red;
+      }
+      #subject{
+        /*border: 1px solid blue;*/
+      }
+      paper-card{
+        width: 150px;
+        height: 150px;
+        text-align: center;
+      }
+    </style>
+    <div hidden>{{gradeid}}{{subjectid}}</div>
+    <paper-card>
+    <div class="card-content" on-click="FnSelect">
+    <h2>{{grade}}</h2>
+    <h2 id="subject">{{subject}}</h2>
+    </div>
+    </paper-card>
+    <reportcard-option-service id="reportcardoptionservice"></reportcard-option-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'curriculum-planning-option-itemcard',
+      FnRefresh:function(){        
+      },
+      FnSelect:function(){
+        localStorage.setItem("curr_sess_gradeid",this.gradeid);
+        localStorage.setItem("curr_sess_gradename",this.grade);
+        localStorage.setItem("curr_sess_subjectid",this.subjectid);
+        localStorage.setItem("curr_sess_subjectname",this.subject); 
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('curriculum-planning-chaptercard','');
+        this.$.reportcardoptionservice.FnFetchPlanningChapter(this.gradeid,this.gradename,this.subjectid,this.subjectname);        
+      }
+    });
+  })();
+  </script>
+</dom-module>

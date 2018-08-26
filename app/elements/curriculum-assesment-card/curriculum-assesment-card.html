@@ -29,12 +29,12 @@
     margin-left: 24%;
       }
       .exceldiv{
-       margin-top: 8%;
-       margin-left: -59%;
+       margin-top: 10%;
+       margin-left: 5%;
       } 
       .exceldiv1{
        margin-top: -5%;
-      margin-left: 25%;
+      margin-left: 30%;
       }
        .exceldiv2{
          margin-top: -12%;
@@ -51,10 +51,10 @@
       {
         border-radius: 30px;
     width: 34%;
-    height: 33%;
+    /*height: 33%;*/
     margin-left: 33%;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    /*overflow-x: hidden;*/
+    /*overflow-y: scroll;*/
       } 
       #curriculamdialog
       {
@@ -68,15 +68,19 @@
     border-radius: 30px;
     width: 34%;
     height: 33%;
-    margin-left: 33%;
-   
+    margin-left: 33%;   
       } 
+      #correctionstatusbtn{
+        text-transform: none;
+        word-wrap: break-word;
+        /*word-break: break-all;*/
+      }
      
     </style>
         <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}{{editvalue}}{{skill}}{{value}}{{innovation}}{{coremarks}}{{period}}
       </div>
     <div>
-       <table  class="teach1" >
+       <table  class="teach1" cellpadding="5">
          <tr>
           <td style="{{fonts}}" width="2%" >{{sno}}</td>
           <td style="{{fonts}}" width="10%">{{conceptname}}</td>
@@ -103,8 +107,9 @@
            <p>{{completiondate}}</p>
           </div>
         </td>
-          <td style="{{fonts}}"  width="10%">
-           <paper-button on-click="fncorrection">{{correctionstatus}}</paper-button>
+          <td style="{{fonts}}"  width="10%" on-click="fncorrection">
+          <p  id="correctionstatusbtn">{{correctionstatus}}</p>
+           <!-- <paper-button on-click="fncorrection" id="correctionstatusbtn">paper-button> -->
        </td>
        
          <td style="{{fonts}}"  width="10%">
@@ -137,9 +142,9 @@
      
 
   <paper-dialog entry-animation="scale-up-animation" exit-animation="fade-out-animation" id="fnsetdialogs" modal >
-    <center><h2>Assesment value</h2></center>
+    <center><h2>Assesment Mark Upload</h2></center>
       <div class="exceldiv">
-            <h4>Markentry sheet download-</h4><paper-icon-button id="download" icon="icons:file-download" onclick="exportToExcel21()"></paper-icon-button>
+            <h4>Markentry sheet download</h4><paper-icon-button id="download" icon="icons:file-download" onclick="exportToExcel21()"></paper-icon-button>
             <paper-tooltip for="download">Download</paper-tooltip>
      </div>
       <div class="exceldiv1" >
@@ -147,7 +152,7 @@
             <xmp id="output"></xmp>
      </div>
       <div class="exceldiv2" >
-           <h4> Markentry sheet upload-</h4><paper-icon-button  id="upload" icon="icons:file-upload" on-click="FnClick"></paper-icon-button>
+           <h4> Markentry sheet upload</h4><paper-icon-button  id="upload" icon="icons:file-upload" on-click="FnClick"></paper-icon-button>
             <paper-tooltip for="upload">Upload</paper-tooltip>
      </div>
        <center><paper-button on-click="fnclick" style="color:white;background-color:black">Close</paper-button><center>
@@ -235,16 +240,19 @@
         on-response="checkcompleteplanResponse"
         debounce-duration="300"/>
        </iron-ajax>
-   <paper-dialog id="curriculamenrichmentdialog11" >
-         <center><h2>{{dialogvalue}}</h2></center> 
-           <center><paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose1">Close</paper-button> </center>
+      <paper-dialog id="curriculamenrichmentdialog11" >
+      <center><h2>{{dialogvalue}}</h2></center> 
+      <center><paper-button id="rmcls1" style="color:white;background-color:black" on-click="enrichclose1">Close</paper-button></center>
       </paper-dialog>
-   <paper-dialog id="curriculamcorrectiondialog" >
-      <center>   <iron-autogrow-textarea label="Home Aids"  value="{{correctionstatus}}" placeholder="Your Correction Status  Here..."></iron-autogrow-textarea></center> 
-          <center style="margin-top: 10%;">
-            <paper-button  on-click="fncorrectionsave" style="color:white;background-color:black">Save</paper-button>
-            <paper-button id="rmcls1" style="color:white;background-color:black" on-click="fncorrectionclose">Close</paper-button>
-       </center>
+      <paper-dialog id="curriculamcorrectiondialog" >
+      <paper-dialog-scrollable>
+      <center><iron-autogrow-textarea label="Home Aids"  value="{{correctionstatus}}" placeholder="Your Correction Status  Here..." rows="5"></iron-autogrow-textarea>
+      </center>
+      <center style="margin-top: 10%;">
+        <paper-button  on-click="fncorrectionsave" style="color:white;background-color:black">Save</paper-button>
+        <paper-button id="rmcls1" style="color:white;background-color:black" on-click="fncorrectionclose">Close</paper-button>
+      </center>
+      </paper-dialog-scrollable>
       </paper-dialog>
        <paper-dialog id="curriculamdialog" >
        <h1>  <center>{{dialogvalue}}</center> </h1>

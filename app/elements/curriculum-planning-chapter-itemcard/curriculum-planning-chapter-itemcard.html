@@ -1,0 +1,75 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="curriculum-planning-chapter-itemcard">
+  <template>
+    <style>
+      h1{
+        color: #8C075D;
+      }
+      h2{
+        /*color: #268007;*/
+        color: #8C075D;
+        word-wrap: break-word;
+      }
+      #subject{
+        color: red;
+      }
+      #subject{
+        /*border: 1px solid blue;*/
+      }
+      paper-card{
+        width: 150px;
+        height: 150px;
+        text-align: center;
+      }
+    </style>
+    <div hidden>{{chapterid}}{{gradeid}}{{subjectid}}{{termid}}</div>
+    <paper-card>
+    <div class="card-content" on-click="FnSelect">
+    <h2>{{chaptername}}</h2>
+    </div>
+    </paper-card>
+    <teacher-book-service-card id="bookservice"></teacher-book-service-card>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'curriculum-planning-chapter-itemcard',
+      FnRefresh:function(){        
+      },
+      FnSelect:function(){
+        // localStorage.getItem('curr_sess_termname');
+        // localStorage.setItem("curr_sess_chapterid",this.chapterid); 
+        // localStorage.setItem("curr_sess_chaptername",this.chaptername); 
+      localStorage.setItem("curr_sess_capters",this.chapterid);
+      localStorage.setItem("curr_sess_chapterid",this.chapterid); 
+      localStorage.setItem("curr_sess_chaptername",this.chaptername); 
+      sessionStorage.setItem("subjectidz",this.subjectid);
+      sessionStorage.setItem("grdeidz",this.gradeid);
+      sessionStorage.setItem("termid",this.termid); 
+      document.querySelector('app-card').setPage('homepage','');
+      document.querySelector('home-page').setPage('teacher-book-approve-card','');
+      document.querySelector('teacher-book-approve-card').FnInitialize(this.gradeid,this.subjectid,this.chapterid,this.termid); 
+      // document.querySelector('teacher-book-approve-card').fnsetval();  
+      // document.querySelector('teacher-book-approve-card').fnRefresh();
+      // document.querySelector('teacher-book-approve-card').fnhide();
+
+      // this.$.bookservice.FnFetchConceptService(this.gradeid,this.subjectid,this.chapterid,localStorage.getItem('curr_sess_termname'));
+
+      // this.$.zdsasddsasfsa.hidden=false;
+      // this.overallarr1="";
+      // this.$.bookservice.conceptseq();
+       //document.querySelector('concept-check-card').fnclean();      
+      // document.querySelector('skill-dialog-card').FnRefreshhhh();
+      // document.querySelector('aproval-book').newRefreshkmdddd();
+      // document.querySelector('aproval-book-innovatiosn-item-card').allrefesh();
+      // document.querySelector('subconcept-dialog-card').fnrefreshhccc();
+      // document.querySelector('concept-check-card').fnRefreshzyz();
+      // document.querySelector('subconcept-dialog-card').fnrefreshhccc();
+      }
+    });
+  })();
+  </script>
+</dom-module>

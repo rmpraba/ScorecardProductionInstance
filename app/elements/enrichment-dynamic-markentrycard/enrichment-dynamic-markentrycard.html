@@ -379,7 +379,7 @@ else{
         // alert(JSON.stringify(scorearr))
         // alert(JSON.stringify(gradearr))
         // alert(JSON.stringify(temparr))
-        if(localStorage.getItem("curr_sess_assesmentname")=="EBOY"||localStorage.getItem("curr_sess_assesmentname")=="EMOY"||(localStorage.getItem("curr_sess_assesmentname")=="EEOY")&&(this.grade=="Grade-1"||this.grade=="Grade-2"||this.grade=="Grade-3"||this.grade=="Grade-4")){
+        if((localStorage.getItem("curr_sess_assesmentname")=="EBOY"||localStorage.getItem("curr_sess_assesmentname")=="EMOY"||(localStorage.getItem("curr_sess_assesmentname")=="EEOY"))&&(this.grade=="Grade-1"||this.grade=="Grade-2"||this.grade=="Grade-3"||this.grade=="Grade-4")){
         if(this.subject=="English"){
         if((temparr.length)-2==((scorearr.length)/2)){        
         var total=0;

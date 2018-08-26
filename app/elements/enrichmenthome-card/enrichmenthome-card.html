@@ -56,10 +56,6 @@
       attached:function(){
         localStorage.setItem("curr_sess_page","enrichmenthome-card");
       },
-      //     this.nonreport=true;
-      //   else
-      //     this.nonreport=false;
-      // },
       FnSelectEvaluation:function(){
         document.querySelector('home-page').setPage('beginnerassesment','');
       },
@@ -67,7 +63,6 @@
         document.querySelector('home-page').setPage('books-creation-card','');
       },
       FnSelectMapping:function(){
-        // document.querySelector('home-page').setPage('enrichment-studentmap-card','');
         document.querySelector('home-page').setPage('books-issuance-card','');   
         document.querySelector('books-issuance-card').FnRefresh();
         this.$.beginnerservice.callAssesmentService("Enrichment");
@@ -77,8 +72,7 @@
       FnEavaluationMapping:function(){
         document.querySelector('home-page').setPage('enrichment-evaluationmapping-card','');
         document.querySelector('enrichment-evaluationmapping-card').callService();
-              this.$.enrichmentservice.FnFetchAllBooks();
-   
+              this.$.enrichmentservice.FnFetchAllBooks();   
       },
       FnBooksMapping:function(){
         document.querySelector('home-page').setPage('enrichment-booksmapping-card','');

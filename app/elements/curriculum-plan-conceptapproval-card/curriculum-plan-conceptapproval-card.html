@@ -30,9 +30,9 @@
         margin-left: 11%;  
       }
       .plan{
-      margin-top: 8.3%;
+      /*margin-top: 3%;*/
       position: relative;
-      width: 95%;
+      width: 96.5%;
      
         },
 
@@ -89,9 +89,30 @@ th,td{
         --paper-input-container-label: { color: red };
         text-align:center;
       }
+      paper-tab.iron-selected {
+      /*color: #fff;*/
+      /*background-color: #12A5F4;*/
+      color: #2b021c;
+      }
+      /*.classtab{
+        padding: -30px;
+        margin-top: -40px;
+      }*/
     </style>
 
-    <div style="margin-left: -3%;">
+    <!-- <center> -->
+    <div class="classtab">
+      <paper-tabs selected="0" style="color:#8C075D;background-color: #E7F6FD;">
+             <paper-tab on-click="Fnlessonplan"><h4>LESSON PLAN</h4></paper-tab>
+             <paper-tab on-click="Fncomplete"><h4>SKILL/VALUE</h4></paper-tab>
+             <paper-tab on-click="Fnteacingaid"><h4>TEACHING AIDS</h4></paper-tab>
+             <paper-tab on-click="Fnhomework"><h4>HOME WORK</h4></paper-tab>
+             <paper-tab on-click="Fnassesmenttype"><h4>ASSESMENT TYPE</h4></paper-tab>             
+      </paper-tabs>
+    </div>
+    <!-- </center> -->
+    
+    <div style="margin-left: -3%;" hidden>
       <span class="position"> 
         <paper-dropdown-menu  label="Select the Grade">
           <paper-menu id="cpapprovalgrade" class="dropdown-content"   on-iron-select="FnSelectGrade">
@@ -142,15 +163,15 @@ th,td{
    <div hidden$="{{hideinfoheader}}">
      <paper-input value="{{name}}" hidden></paper-input>
       <div id="empidzz" style="position: 
-      absolute;margin-left: 5%;margin-top: 1.4%;">
-        <label><b>Employee Name:</b></label>
+      absolute;margin-left: 5%;margin-top: 1.4%;" hidden>
+        <label hidden><b>Employee Name:</b></label>
      </div>
       <h4 style="margin-top: 1.3%;position: absolute;
-      margin-left: 14%;text-transform:uppercase;">{{name}}</h4>
+      margin-left: 14%;text-transform:uppercase;" hidden>{{name}}</h4>
  
 
-     <center>
-      <paper-tabs selected="0"  style="margin-top: 5.3%;position: absolute;width: 104%;color:#ef2d0bfa;"  >
+     <!-- <center>
+      <paper-tabs selected="0"  style="margin-top: 5.3%;position: absolute;width: 104%;color:#fff;background-color: #12A5F4;"  >
              <paper-tab on-click="Fnlessonplan"><h4>LESSON PLAN</h4></paper-tab>
              <paper-tab on-click="Fncomplete"><h4>SKILL/VALUE</h4></paper-tab>
              <paper-tab on-click="Fnteacingaid"><h4>TEACHING AIDS</h4></paper-tab>
@@ -158,10 +179,10 @@ th,td{
              <paper-tab on-click="Fnassesmenttype"><h4>ASSESMENT TYPE</h4></paper-tab>
              
        </paper-tabs>
-      </center>
-      <br><br><br>
+      </center> -->
+      <!-- <br><br><br> -->
  </div>
- <center>
+ <!-- <center> -->
 <div class="plan">
   <template is="dom-repeat" items="{{lessonarr}}">
     <div id="itemcard1">  <curriculum-lessonplan-card  sno='{{item.sno}}' id="ENR{{item.sno}}{{item.row_id}}{{chapter_id}}"   chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" period="{{item.period}}" fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}"  hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}"  enrichmentsuggest="{{item.enrichment_sug}}" assesmentdate="{{item.assesment_date}}" teachingaid="{{item.teaching_aid}}" coremarks="{{item.remarks}}" fonts="{{item.fonts}}" subremak="{{item.remarks1}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}">
@@ -195,7 +216,7 @@ th,td{
     <div id="itemcard1">  <curriculum-complete-card fromdate="{{item.planned_date_from}}" todate="{{item.planned_to_date}}"  chapterid="{{item.chapter_id}}" chaptername="{{item.chapter_name}}" sno='{{item.sno}}'  id="ENR{{item.sno}}{{item.rowid}}{{item.chapter_id}}" rowid="{{item.row_id}}" conceptid="{{item.concept_id}}" conceptname="{{item.concept_name}}" subconceptid="{{item.sub_concept_id}}" subconceptname="{{item.sub_concept_name}}" correctionstatus="{{item.correction_status}}" completionstatus="{{item.completion_status}}" completiondate="{{item.completion_date}}" hidecloseplan="{{item.hidecloseplan}}" hideopenplan="{{item.hideopenplan}}" fonts="{{item.fonts}}" hideinfovalue="{{item.hideinfovalue}}" hideinfovalue1="{{item.hideinfovalue1}}"  check="{{view.check}}" skill="{{item.skill}}" value="{{item.value}}" innovation="{{item.innovation}}"  coremarks="{{item.remarks}}"  period="{{item.period}}"></curriculum-complete-card></div>
   </template>
 </div>
-</center> 
+<!-- </center>  -->
     <teacher-book-service-card id="bookservice"></teacher-book-service-card>  
     <curriculum-assesment-service-card id="crriculambookservice"></curriculum-assesment-service-card>
      <div class="spinner"><paper-dialog modal id="dynamicspinneree11" entry-animation="scale-up-animation" exit-animation="fade-out-animation" with-backdrop><paper-spinner active></paper-spinner></paper-dialog></div>
@@ -205,39 +226,40 @@ th,td{
     'use strict';
     Polymer({
       is: 'curriculum-plan-conceptapproval-card',     
-       ready:function(){
+      ready:function(){
         this.hideinfoheader=true;
-      } ,
-      
-   Fnlessonplan:function(e){
-      this.fnref();
-    this.$.crriculambookservice.fngetlessonplanvalue();
       },
-   Fnteacingaid:function(e){
+      FnInitialize:function(){
       this.fnref();
-    this.$.crriculambookservice.fngetteacingaids();
+      this.$.crriculambookservice.fngetlessonplanvalue();
+      },      
+      Fnlessonplan:function(e){
+      this.fnref();
+      this.$.crriculambookservice.fngetlessonplanvalue();
+      },
+      Fnteacingaid:function(e){
+      this.fnref();
+      this.$.crriculambookservice.fngetteacingaids();
       },
       Fnhomework:function(e){
-     this.fnref();
-    this.$.crriculambookservice.fnhomework();
-   },
-    
-  Fnassesmenttype:function(e){
       this.fnref();
-    this.$.crriculambookservice.fnassesmenttypes();
-    },
-    Fncomplete:function(e){
+      this.$.crriculambookservice.fnhomework();
+      },
+      Fnassesmenttype:function(e){
       this.fnref();
-    this.$.crriculambookservice.fncompletestatus();
-  },
-  fnref:function(e){
-    this.lessonarr="";
-    this.homearr="";
-    this.completearr="";
-    this.teacharr="";
-    this.assesmentarr="";
-    
-  },
+      this.$.crriculambookservice.fnassesmenttypes();
+      },
+      Fncomplete:function(e){
+      this.fnref();
+      this.$.crriculambookservice.fncompletestatus();
+      },
+      fnref:function(e){
+      this.lessonarr="";
+      this.homearr="";
+      this.completearr="";
+      this.teacharr="";
+      this.assesmentarr="";
+      },
   FnSelectGrade:function(e){
         this.gradeid=e.target.selectedItem.value;
         this.gradename=e.target.selectedItem.textContent.trim();

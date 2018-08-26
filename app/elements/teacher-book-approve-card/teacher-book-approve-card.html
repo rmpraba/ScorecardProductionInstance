@@ -8,13 +8,9 @@
       :host {   
         display: block;
       }
-    
-
   .position{
     margin-left: 6%;
-  
    }
-  
    .report1
    {
           table-layout: fixed;
@@ -30,9 +26,6 @@
     border-bottom: 1px solid #ddd;
       border-top: 1px solid #ddd;
      }
-  
-
-  
     paper-dropdown-menu{
       width: 15%;
       --paper-input-container-label: { color: red };
@@ -43,14 +36,10 @@
         --paper-input-container-label: { color: red };
       text-align:center;
       }
-      
-     
-
        #bufferdialog
        {
          border-radius: 10px;
        }
-
         #planspinxyz
        {
           height: 100%;
@@ -79,15 +68,14 @@
         }
         .zui-scroller {
 
-   margin-left: 311.1px;
-   /*margin-left: 323.1px;*/
+   /*margin-left: 311.1px;*/
+   margin-left: 323.1px;
 
     overflow-x: scroll;
     overflow-y: hidden;
     padding-bottom: 5px;
     width: 1013px;
 }
- 
   .zui-sticky-col1 {
       left: 0;
       position: absolute;
@@ -105,16 +93,12 @@
 th{
  background-color:#ccebff;  
 }
-
-
-     </style>  
+    </style>  
      <div>
     <center><h2 hidden style="color:#00ccff">{{empnamez}}</h2></center>
-     <paper-input hidden value="{{empnamez}}"></paper-input>
-       
-       
+     <paper-input hidden value="{{empnamez}}"></paper-input>       
        <span class="position" hidden$="{{hideallvaluesss}}"> 
-       <paper-dropdown-menu  label="Select The Grade">
+       <paper-dropdown-menu  label="Select The Grade" hidden>
                 <paper-menu id="teacherrefffff" class="dropdown-content"   on-iron-select="fnsetgrade">
                   <template is="dom-repeat" items="{{gradearr}}">
                     <paper-item value="{{item.gradeid}}">{{item.gradename}}</paper-item>
@@ -124,7 +108,7 @@ th{
        </span>
      
        <span class="position" hidden$="{{hideallvaluesss}}"> 
-       <paper-dropdown-menu  label="Select the subject">
+       <paper-dropdown-menu  label="Select the subject" hidden>
               <paper-menu id="teacherrefzz" class="dropdown-content"   on-iron-select="fnsetsubject">
                    <template is="dom-repeat" items="{{subjectarrrr}}">
                     <paper-item value="{{item.subjectid}}">{{item.subject_name}}</paper-item>
@@ -134,7 +118,7 @@ th{
        </span>
 
        <span class="position"  hidden$="{{hideallvaluesss}}"> 
-         <paper-dropdown-menu id="term" label="Select Term">
+         <paper-dropdown-menu id="term" label="Select Term" hidden>
            <paper-menu id="chaptertermidfffff" class="dropdown-content"   on-iron-select="Fnchaptertermid" attr-for-selected="value" required>
                 <paper-item value="Term1">Term1</paper-item>
                 <paper-item value="Term2">Term2</paper-item>
@@ -142,7 +126,7 @@ th{
             </paper-menu>
           </paper-dropdown-menu>
        </span>
-       <span class="position" hidden$="{{hideallvaluesss}}"> 
+       <span class="position" hidden$="{{hideallvaluesss}}" hidden> 
        <paper-dropdown-menu  label="Select the chapter">
               <paper-menu id="teacherapprovechapter" class="dropdown-content"   on-iron-select="fnselectchapter">
                    <template is="dom-repeat" items="{{chapterarr}}">
@@ -152,14 +136,10 @@ th{
          </paper-dropdown-menu>
        </span>
        
-<paper-button style="color:white;background-color:black;margin-left: 3%;" on-click="fnaddbuffer">Add Buffer period</paper-button>  
+<paper-button style="color:white;background-color:black;margin-left: 88%;margin-top: -5%;" on-click="fnaddbuffer">Add Buffer period</paper-button>  
 <!--  <div style="position: relative;overflow-x: hidden;overflow-y: scroll;  height: 442px;">  -->
- 
-
-
- <div id="zdsasddsasfsa" class="zui-scroller">
-      <table class="report1" id="reporttabzzzzz">
-       
+ <div id="zdsasddsasfsa" class="zui-scroller" style="margin-top: -3%;">
+      <table class="report1" id="reporttabzzzzz">       
        <tr>
           <th style="width: 3%; margin-left: 6%;" class="zui-sticky-col1">S.NO</th>
           <th style="width: 14.3%; margin-left: 9.2%;" class="zui-sticky-col1">Concept</th>
@@ -240,6 +220,23 @@ th{
     
     Polymer({
       is: 'teacher-book-approve-card',
+      FnInitialize:function(gradeid,subjectid,chapterid,termid){
+      this.gradeid=gradeid;
+      this.subjectid=subjectid;
+      this.chapterid=chapterid;
+      this.termid=termid;
+      this.$.bookservice.FnFetchConceptService();
+      this.$.zdsasddsasfsa.hidden=false;
+      this.overallarr1="";
+      this.$.bookservice.conceptseq();
+       //document.querySelector('concept-check-card').fnclean();      
+      // document.querySelector('skill-dialog-card').FnRefreshhhh();
+      // document.querySelector('aproval-book').newRefreshkmdddd();
+      // document.querySelector('aproval-book-innovatiosn-item-card').allrefesh();
+      // document.querySelector('subconcept-dialog-card').fnrefreshhccc();
+      // document.querySelector('concept-check-card').fnRefreshzyz();
+      // document.querySelector('subconcept-dialog-card').fnrefreshhccc();
+      },
         fnhide:function()
         {
              Conceptzzzidzz.checked=false;
@@ -302,23 +299,18 @@ th{
           this.Conceptbuffidz=true;
         },
     fnsetval:function(e)
-        {
-   
+        {   
         },
  fnaddbuffer:function(e){
   this.$.bufferdialog.toggle();
   this.$.bookservice.subflagseqe();
-
-
  },
 /*fnpassarr:function(arr){
 document.querySelector('aproval-book-innovatiosn-item-card').currenthometemp=arr;
-
 },*/
-     asdadczcsadcdas:function(e){
-     document.querySelector('#asdadczcsadcdasww').selected=-1;
- 
-   },
+  asdadczcsadcdas:function(e){
+     document.querySelector('#asdadczcsadcdasww').selected=-1; 
+  },
   fnsetgrade:function(e)
   {
     this.gradeid=e.target.selectedItem.value;

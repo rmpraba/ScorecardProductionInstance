@@ -1,0 +1,49 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="curriculum-plan-chapter-itemcard">
+  <template>
+    <style>
+      h1{
+        color: #8C075D;
+      }
+      h2{
+        color: #268007;
+      }
+      #subject{
+        color: red;
+      }
+      #subject{
+        /*border: 1px solid blue;*/
+      }
+      paper-card{
+        width: 150px;
+        height: 150px;
+        text-align: center;
+      }
+    </style>
+    <div hidden>{{termid}}{{chapterid}}</div>
+    <paper-card>
+    <div class="card-content" on-click="FnSelect">
+    <h2>{{chaptername}}</h2>
+    </div>
+    </paper-card>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'curriculum-plan-chapter-itemcard',
+      FnRefresh:function(){        
+      },
+      FnSelect:function(){
+        sessionStorage.setItem("termid",this.termid);
+        localStorage.setItem("curr_sess_chapterid",this.chapterid); 
+        localStorage.setItem("curr_sess_chaptername",this.chaptername); 
+        document.querySelector('home-page').setPage('curriculum-plan-conceptapproval-card','');
+        document.querySelector('curriculum-plan-conceptapproval-card').FnInitialize();
+      }
+    });
+  })();
+  </script>
+</dom-module>

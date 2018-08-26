@@ -46,12 +46,12 @@
     </style>
     <div>
      <div hidden>{{id}}{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{subconceptid}}{{fromdate}}{{todate}}</div>
-      <table  class="teach1" >
+      <table  class="teach1" cellpadding="10">
         <tr>  
-        <td style="{{fonts}}" width="10%" >{{sno}}</td>
-        <td style="{{fonts}}" width="10%">{{conceptname}}</td>
-        <td style="{{fonts}}" width="10%">{{subconceptname}}</td>
-        <td style="{{fonts}}" width="10%">{{period}} 
+        <td style="{{fonts}};width: 2%;" >{{sno}}</td>
+        <td style="{{fonts}}" width="15%">{{conceptname}}</td>
+        <td style="{{fonts}}" width="15%">{{subconceptname}}</td>
+        <td style="{{fonts}};width: 5%;" width="5%">{{period}} 
          <!--  <div hidden$="{{hideinfovalue}}">
            <p hidden$="{{hideopenplan}}">{{completiondate}}</p>
           <complection-date-picker-card hidden$="{{hidecloseplan}}"></complection-date-picker-card>
@@ -60,7 +60,7 @@
            <p>{{completiondate}}</p>
           </div> -->
         </td>
-         <td style="{{fonts}}" width="10%"> {{skill}}
+         <td style="{{fonts}}" width="11%"> {{skill}}
      <!--    <div hidden$="{{hideinfovalue}}">
            <p hidden$="{{hideopenplan}}">{{completionstatus}}</p>
            <P hidden$="{{hidecloseplan}}"> 
@@ -72,7 +72,7 @@
            <p style="color:green">Completed</p>
          </div> -->
         </td>
-        <td style="{{fonts}}" width="10%">{{value}}
+        <td style="{{fonts}}" width="11%">{{value}}
        <!--  <paper-button on-click="fncorrection">{{correctionstatus}}</paper-button> -->
        <!--   <div hidden$="{{hideinfovalue}}">
          <p hidden$="{{hideopenplan}}">{{correctionstatus}}</p>

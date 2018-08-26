@@ -40,6 +40,1890 @@ var serverKey = 'AAAAH0WgSPE:APA91bGgBTHNnBEeYG0V0aUlua0IZnuvF6xz1dcSGGjTuFU0PlR
 var fcm = new FCM(serverKey);
  
 
+app.post('/smis-compliancesaveinfo',  urlencodedParser,function (req, res){
+  var response={
+    school_id:req.body.schoolid,
+    academic_year:req.body.academicyear,
+    observation:req.body.observation,
+    raised_by:req.body.raisedby,
+    raised_by_id:req.body.raisedbyid,
+    action_tobe_taken:req.body.action,
+    responsible_person:req.body.responsible,
+    responsible_person_id:req.body.responsibleid,
+    deadline:req.body.deadline,
+    budget_requirement:req.body.budgetrequirement,
+    budget_amount:req.body.budgetamount,
+    budget_comment:req.body.budgetcomment,
+    compliance_id:'',
+    budget_requirement:req.body.requirement,
+    budget_amount:req.body.amount,
+    budget_comment:req.body.comment,
+    status:'open',
+    reply_flag:'1',
+    read_flag:'0',
+    reply_compliance_id:'',
+    observation_type:req.body.type,
+    created_date:req.body.createddate,
+    created_time:req.body.createdtime
+  };
+  var qur="SELECT * from sequence";  
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       var newid=parseInt(rows[0].compliance_id)+1;
+       response.compliance_id=rows[0].compliance_id;
+       response.reply_compliance_id=rows[0].compliance_id;
+       connection.query("INSERT INTO compliance SET ?",[response],function(err, rows){
+       // res.status(200).json(rows);
+       if(!err)
+       connection.query("UPDATE sequence SET compliance_id='"+newid+"'",function(err, rows){
+       res.status(200).json({'returnval': 'Updated'});
+       });
+       });
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+app.post('/smis-compliancetransferinfo',  urlencodedParser,function (req, res){
+  var response={
+    school_id:req.body.schoolid,
+    academic_year:req.body.academicyear,
+    observation:req.body.observation,
+    raised_by:req.body.raisedby,
+    raised_by_id:req.body.raisedbyid,
+    action_tobe_taken:req.body.action,
+    responsible_person:req.body.responsible,
+    responsible_person_id:req.body.responsibleid,
+    deadline:req.body.deadline,
+    compliance_id:'',
+    budget_comment:req.body.comment,
+    status:'processing',
+    reply_flag:'',
+    read_flag:'0',
+    reply_compliance_id:req.body.compliance_id,
+    observation_type:req.body.type,
+    created_date:req.body.createddate,
+    created_time:req.body.createdtime
+  };
+  var qur="SELECT * from sequence";  
+  var cqur="SELECT max(CAST(reply_flag AS UNSIGNED)) as id FROM compliance WHERE reply_compliance_id='"+req.body.compliance_id+"'";
+  console.log(qur);
+  console.log(cqur);
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       var newid=parseInt(rows[0].compliance_id)+1;
+       response.compliance_id=rows[0].compliance_id;
+       connection.query(cqur,function(err, rows){
+       if(!err){
+       var id=parseFloat(rows[0].id)+1;
+       response.reply_flag=id;
+       connection.query("INSERT INTO compliance SET ?",[response],function(err, rows){
+       // res.status(200).json(rows);
+       if(!err)
+       connection.query("UPDATE compliance SET status='processing' WHERE reply_compliance_id='"+req.body.compliance_id+"'",function(err, rows){
+       if(!err){
+       connection.query("UPDATE sequence SET compliance_id='"+newid+"'",function(err, rows){
+       res.status(200).json({'returnval': 'Updated'});
+       });
+       }
+       });
+       });
+       }
+      });
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+app.post('/smis-compliancereplyinfo',  urlencodedParser,function (req, res){
+  var response={
+    school_id:req.body.schoolid,
+    academic_year:req.body.academicyear,
+    observation:req.body.observation,
+    raised_by:req.body.raisedby,
+    raised_by_id:req.body.raisedbyid,
+    action_tobe_taken:req.body.action,
+    responsible_person:req.body.responsible,
+    responsible_person_id:req.body.responsibleid,
+    deadline:req.body.deadline,
+    compliance_id:'',
+    budget_comment:req.body.comment,
+    status:'processing',
+    reply_flag:'',
+    read_flag:'0',
+    reply_compliance_id:req.body.compliance_id,
+    observation_type:req.body.type,
+    created_date:req.body.createddate,
+    created_time:req.body.createdtime
+  };
+  var qur="SELECT * from sequence";  
+  var cqur="SELECT max(CAST(reply_flag AS UNSIGNED)) as id FROM compliance WHERE reply_compliance_id='"+req.body.compliance_id+"'";
+  console.log(qur);
+  console.log(cqur);
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       var newid=parseInt(rows[0].compliance_id)+1;
+       response.compliance_id=rows[0].compliance_id;
+       connection.query(cqur,function(err, rows){
+       if(!err){
+       var id=parseFloat(rows[0].id)+1;
+       response.reply_flag=id;
+       connection.query("INSERT INTO compliance SET ?",[response],function(err, rows){
+       // res.status(200).json(rows);
+       if(!err)
+       connection.query("UPDATE compliance SET status='processing' WHERE reply_compliance_id='"+req.body.compliance_id+"'",function(err, rows){
+       if(!err){
+       connection.query("UPDATE sequence SET compliance_id='"+newid+"'",function(err, rows){
+       res.status(200).json({'returnval': 'Updated'});
+       });
+       }
+       });
+       });
+       }
+      });
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+
+app.post('/smis-fetchissues',  urlencodedParser,function (req, res){
+  
+  var qur="SELECT count(distinct(reply_compliance_id)) as count,status FROM compliance group by status";  
+  console.log(qur);
+  var arr=[];
+  var status=[{"status":"open","count":""},{"status":"processing","count":""},{"status":"closed","count":""}];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       for(var i=0;i<status.length;i++){
+        var flag=0;
+        for(var j=0;j<rows.length;j++){
+          if(status[i].status==rows[j].status){
+            flag=1;
+            status[i].count=rows[j].count;
+          }
+        }
+        if(flag==0){
+          status[i].count=0;
+        }
+       }
+       console.log(status);
+       res.status(200).json(status);
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+app.post('/smis-fetchissuestracking',  urlencodedParser,function (req, res){
+  
+  if(req.body.status=="open")
+  var qur="SELECT * FROM compliance WHERE status='"+req.body.status+"' and read_flag in('0','1')";
+  else
+  var qur="SELECT * FROM compliance WHERE status='"+req.body.status+"'";
+  console.log(qur);
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       res.status(200).json(rows);
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+
+app.post('/smis-fetchissuesdetailtracking',  urlencodedParser,function (req, res){
+  
+  var qur="SELECT * FROM compliance WHERE reply_compliance_id='"+req.body.compliance_id+"' order by id desc";
+  console.log(qur);
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       res.status(200).json(rows);
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+app.post('/smis-closecompliance',  urlencodedParser,function (req, res){
+  
+  var qur="UPDATE compliance SET action_tobe_taken='"+req.body.action+"',comment='"+req.body.comment+"',status='closed',closed_date='"+req.body.date+"',closed_by='"+req.body.closedby+"',closed_by_id='"+req.body.closedbyid+"' WHERE compliance_id='"+req.body.compliance_id+"'";
+  console.log(qur);
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       res.status(200).json({'returnval':'Updated'});
+      }
+      else{
+       res.status(200).json({'returnval':'not updated'}); 
+      }
+    }
+  });
+});
+
+
+app.post('/smis-upldatecomplianceflag',  urlencodedParser,function (req, res){
+  
+  var qur="UPDATE compliance SET read_flag='1' WHERE reply_compliance_id='"+req.body.compliance_id+"'";
+  console.log(qur);
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      // if(rows.length>0){
+       res.status(200).json({'returnval':'Updated'});
+     }
+      // }
+      else{
+       res.status(200).json({'returnval':'not updated'}); 
+      }
+    
+  });
+});
+
+app.post('/smis-compliancenotification',  urlencodedParser,function (req, res){
+var qur="SELECT * FROM md_register r join md_employee_creation e on(r.id=e.emp_id) WHERE r.id='"+req.body.senttoid+"' AND e.emp_id='"+req.body.senttoid+"' AND e.academic_year='"+req.body.academicyear+"'";
+console.log(qur);
+connection.query("SELECT * FROM md_register r join md_employee_creation e on(r.id=e.emp_id) WHERE r.id='"+req.body.senttoid+"' AND e.emp_id='"+req.body.senttoid+"' AND e.academic_year='"+req.body.academicyear+"'",function(err, rows){  
+if(!err){
+var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera) 
+        to: rows[0].device_id, 
+        // collapse_key: 'your_collapse_key',        
+        notification: {
+            title: req.body.title, 
+            body: req.body.empname+":"+req.body.issue 
+        },        
+        data: {  //you can send only notification or only data(or include both) 
+            name: rows[0].emp_name
+        }
+    };    
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!");
+            res.status(200).json({'returnval': 'sent'+response+" "+response.statusCode+"  "+response.statusMessage});
+        } else {
+            console.log("Successfully sent with response: ", response);
+            res.status(200).json({'returnval': err+"  "+response+" "+response.statusCode+"  "+response.statusMessage});
+        }
+    });
+    // res.status(200).json({'returnval': 'sent'});
+  }
+  else
+    res.status(200).json({'returnval': err});
+  });
+});
+
+app.post('/smis-fetchnames',  urlencodedParser,function (req, res){
+  
+  var qur="SELECT distinct(e.name) as name,r.id as id FROM md_register r join md_employee e on(r.id=e.id);";  
+  console.log(qur);
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       res.status(200).json(rows);
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+
+app.post('/smiscrm-fetchschools',  urlencodedParser,function (req, res){
+  
+  var qur="SELECT * from sandeepanicrm.md_school order by sno";  
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       res.status(200).json(rows);
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+app.post('/smiscrm-fetchschools',  urlencodedParser,function (req, res){
+  
+  var qur="SELECT * from sandeepanicrm.md_school order by sno";  
+  var arr=[];
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       res.status(200).json(rows);
+      }
+      else{
+       res.status(200).json(arr); 
+      }
+    }
+  });
+});
+
+
+app.post('/smiscrm-gradewiseattendancedashboard',  urlencodedParser,function (req, res){
+var qur1="select (select grade_name from samsidhreportcard.md_grade where grade_id=s.grade_id) as grade,count(id) as count from "+
+" samsidhreportcard.md_student s where school_id='"+req.body.schoolid+"' "+
+" and academic_year='"+req.body.academicyear+"' group by grade_id order by grade ";
+
+var qur2="select grade,status,count(student_id) as count from samsidhreportcard.md_daily_attendance where school_id='"+req.body.schoolid+"' "+
+" and academic_year='"+req.body.academicyear+"' and attendance_date='"+req.body.date+"' group by grade,status order by grade";
+ console.log('--------------------------------------------');
+ console.log(qur1);
+ console.log(qur2);
+ var obj={};
+ var arr=[];
+ connection.query(qur1,function(err, rows){
+    if(!err){
+      arr=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err){  
+      for(var i=0;i<arr.length;i++){
+        var f1=0,f2=0,f=0;
+        for(var j=0;j<rows.length;j++){
+          if(arr[i].grade==rows[j].grade){
+            if(rows[j].status=="false"){
+              f1++;
+              arr[i].absent=rows[j].count;
+            }
+            else if(rows[j].status=="true"){
+              f2++;
+              arr[i].present=rows[j].count;
+            }
+          }
+        }
+        if(f1==0){
+          arr[i].absent=0;
+        }
+        if(f2==0){
+          arr[i].present=0;
+        }
+      }    
+      res.status(200).json(arr);
+    }
+    else
+    console.log('attendance...'+err);
+    });
+    }
+    else
+    console.log('overall strength...'+err);
+});
+});
+
+app.post('/smiscrm-sectionwiseattendancedashboard',  urlencodedParser,function (req, res){
+
+var qur1="select c.class as grade,c.section as section,count(s.id) as count from  samsidhreportcard.md_student s  join "+
+" samsidhreportcard.md_class_section c on(s.class_id=c.id) where s.school_id='"+req.body.schoolid+"'  and "+
+" s.academic_year='"+req.body.academicyear+"' and c.school_id='"+req.body.schoolid+"'  and "+
+" c.academic_year='"+req.body.academicyear+"' and c.class='"+req.body.grade+"' group by c.class,c.section order by c.class,c.section ";
+
+var qur2="select grade,section,status,count(student_id) as count from samsidhreportcard.md_daily_attendance where "+
+" school_id='"+req.body.schoolid+"'  and academic_year='"+req.body.academicyear+"' and grade='"+req.body.grade+"' and attendance_date='"+req.body.date+"' group by "+
+" grade,section,status order by grade,section";
+
+ console.log('--------------------------------------------');
+ console.log(qur1);
+ console.log(qur2);
+ var obj={};
+ var arr=[];
+ connection.query(qur1,function(err, rows){
+    if(!err){
+      arr=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err){  
+      for(var i=0;i<arr.length;i++){
+        var f1=0,f2=0,f=0;
+        for(var j=0;j<rows.length;j++){
+          if(arr[i].grade==rows[j].grade&&arr[i].section==rows[j].section){
+            if(rows[j].status=="false"){
+              f1++;
+              arr[i].absent=rows[j].count;
+            }
+            else if(rows[j].status=="true"){
+              f2++;
+              arr[i].present=rows[j].count;
+            }
+          }
+        }
+        if(f1==0){
+          arr[i].absent=0;
+        }
+        if(f2==0){
+          arr[i].present=0;
+        }
+      }    
+      res.status(200).json(arr);
+    }
+    else
+    console.log('attendance...'+err);
+    });
+    }
+    else
+    console.log('overall strength...'+err);
+});
+});
+
+
+app.post('/smiscrm-overallcollectiondashboardstrength',  urlencodedParser,function (req, res){
+var qur1="select (select discount_type from sandeepanicrm.md_discount_type where discount_type_id=a.discount_type) as type, "+
+ " count(admission_no) as count from sandeepanicrm.md_admission a where school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' "+
+ " and active_status='Admitted' group by discount_type";
+ console.log('--------------------------------------------');
+ console.log(qur1);
+ var obj={"RTE":'0',"Total":'0'};
+ var arr=[];
+ connection.query(qur1,function(err, rows){
+    if(!err){
+      for(var i=0;i<rows.length;i++){        
+        if(rows[i].type=="RTE")
+        {
+          obj.RTE=rows[i].count;
+        }        
+        if(rows[i].type=="General")
+        {
+          obj.Total=rows[i].count;
+        }
+      }
+      arr.push(obj);
+      res.status(200).json(arr);
+    }
+    else
+    console.log('strength...'+err);
+});
+});
+
+app.post('/smiscrm-overallcollectiondashboardgradewisestrength',  urlencodedParser,function (req, res){
+if(req.body.type=="General")
+var qur1="select a.class_for_admission,(select discount_type from sandeepanicrm.md_discount_type where "+
+" discount_type_id=a.discount_type) as type, count(admission_no) as count from sandeepanicrm.md_admission a "+
+" where school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and active_status='Admitted' and "+
+" discount_type='4' group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+if(req.body.type=="RTE") 
+var qur1="select a.class_for_admission,(select discount_type from sandeepanicrm.md_discount_type where "+
+" discount_type_id=a.discount_type) as type, count(admission_no) as count from sandeepanicrm.md_admission a "+
+" where school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and active_status='Admitted' and "+
+" discount_type='3' group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+ console.log('--------------------------------------------');
+ console.log(qur1);
+ var obj={};
+ var arr=[];
+ connection.query(qur1,function(err, rows){
+    if(!err){
+      res.status(200).json(rows);
+    }
+    else
+    console.log('strength...'+err);
+});
+});
+
+app.post('/smiscrm-overallcollectiondashboardbookfee',  urlencodedParser,function (req, res){
+var qur1="select count(a.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year)  where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission= m.grade_name and m.common_feetype in('Book Fee')";
+
+var qur2="select count(a.admission_no) as count,sum(installment_amount) as amount from sandeepanicrm.md_student_paidfee f join "+
+" sandeepanicrm.md_admission a  on(f.admission_no=a.admission_no) where f.school_id='"+req.body.schoolid+"' "+
+" and  f.academic_year='"+req.body.academicyear+"' and f.paid_status in('paid','inprogress') and  "+
+" f.cheque_status in('paid','inprogress') and f.installment in('Book Fee') and  "+
+" a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"' and a.discount_type not in('3') and "+
+" a.active_status='Admitted'";
+
+var qur3="select count(f.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join  "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year) join "+
+" sandeepanicrm.md_student_paidfee f  on(f.admission_no=a.admission_no) where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission=  m.grade_name and m.common_feetype='Book Fee' and f.school_id='"+req.body.schoolid+"' "+
+" and f.academic_year='"+req.body.academicyear+"'  and f.installment in('Lumpsum')";
+
+var qur4="select count(distinct(a.admission_no)) as count,sum(d.discount_amount) as amount from sandeepanicrm.md_student_discount d join  "+
+" sandeepanicrm.md_admission a on(a.admission_no=d.admission_no) where d.school_id='"+req.body.schoolid+"' and  d.academic_year='"+req.body.academicyear+"'  "+
+" and a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"'  and a.discount_type not in('3') and "+
+" a.active_status='Admitted' and d.common_feetype='Book Fee'";
+
+console.log('--------------------------------------------');
+ console.log(qur1);
+ console.log(qur2);
+ console.log(qur3);
+ console.log(qur4);
+ 
+var arr=[];
+var obj={};
+connection.query(qur1,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+      if(rows[0].amount==null||rows[0].amount==""){
+      obj.bookfeecount=0;
+      obj.bookfeeamount=0;
+      }
+      else{
+      obj.bookfeecount=rows[0].count;
+      obj.bookfeeamount=rows[0].amount;
+      }
+      }
+      else{
+      obj.bookfeecount=0;
+      obj.bookfeeamount=0;
+      }
+    connection.query(qur2,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+      if(rows[0].amount==null||rows[0].amount==""){
+      obj.bookfeepaidcount=0;
+      obj.bookfeepaidamount=0;
+      }
+      else{
+      obj.bookfeepaidcount=rows[0].count;
+      obj.bookfeepaidamount=rows[0].amount;  
+      }
+      }
+      else{
+      obj.bookfeepaidcount=0;
+      obj.bookfeepaidamount=0;
+      }
+    connection.query(qur3,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+      if(rows[0].amount==null||rows[0].amount==""){
+      obj.lumpsumbookfeepaidcount=0;
+      obj.lumpsumbookfeepaidamount=0;
+      }
+      else{
+      obj.lumpsumbookfeepaidcount=rows[0].count;
+      obj.lumpsumbookfeepaidamount=rows[0].amount; 
+      }
+      }
+      else{
+      obj.lumpsumbookfeepaidcount=0;
+      obj.lumpsumbookfeepaidamount=0;
+      }
+    connection.query(qur4,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+        if(rows[0].amount==null||rows[0].amount==""){
+        obj.bookfeediscount=0;
+        obj.bookfeediscountcount=0;
+        }
+        else{
+        obj.bookfeediscount=rows[0].amount;
+        obj.bookfeediscountcount=rows[0].count;
+        }
+      }
+      else{
+        obj.bookfeediscount=0;
+        obj.bookfeediscountcount=0;
+      }
+      arr.push(obj);
+      res.status(200).json(arr);
+    }
+    });
+    }
+    else
+      console.log('bxxx...'+err);
+    });
+    }
+    else
+      console.log('bxx...'+err);
+    });
+    
+    }
+    else
+      console.log('bx...'+err);
+});
+});
+
+
+app.post('/smiscrm-overallcollectiondashboardgradewisebookfee',  urlencodedParser,function (req, res){
+var qur1="select a.class_for_admission as grade,count(a.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year)  where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission= m.grade_name and m.common_feetype in('Book Fee') group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+var qur2="select a.class_for_admission as grade,count(a.admission_no) as count,sum(installment_amount) as amount from sandeepanicrm.md_student_paidfee f join "+
+" sandeepanicrm.md_admission a  on(f.admission_no=a.admission_no) where f.school_id='"+req.body.schoolid+"' "+
+" and  f.academic_year='"+req.body.academicyear+"' and f.paid_status in('paid','inprogress') and  "+
+" f.cheque_status in('paid','inprogress') and f.installment in('Book Fee') and  "+
+" a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"' and a.discount_type not in('3') and "+
+" a.active_status='Admitted' group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+var qur3="select a.class_for_admission as grade,count(f.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join  "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year) join "+
+" sandeepanicrm.md_student_paidfee f  on(f.admission_no=a.admission_no) where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission=  m.grade_name and m.common_feetype='Book Fee' and f.school_id='"+req.body.schoolid+"' "+
+" and f.academic_year='"+req.body.academicyear+"'  and f.installment in('Lumpsum') group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+var qur4="select a.class_for_admission as grade,count(distinct(a.admission_no)) as count,sum(d.discount_amount) as amount from sandeepanicrm.md_student_discount d join  "+
+" sandeepanicrm.md_admission a on(a.admission_no=d.admission_no) where d.school_id='"+req.body.schoolid+"' and  d.academic_year='"+req.body.academicyear+"'  "+
+" and a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"'  and a.discount_type not in('3') and "+
+" a.active_status='Admitted' and d.common_feetype='Book Fee' group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+console.log('--------------------------------------------');
+ console.log(qur1);
+ console.log(qur2);
+ console.log(qur3);
+ console.log(qur4);
+ 
+var arr=[];
+var obj={};
+var arr1=[];
+var arr2=[];
+var arr3=[];
+var arr4=[];
+connection.query(qur1,function(err, rows){
+    if(!err){
+      arr1=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err){
+      arr2=rows;
+    connection.query(qur3,function(err, rows){
+    if(!err){
+      arr3=rows;
+    connection.query(qur4,function(err, rows){
+    if(!err){
+      arr4=rows;
+      for(var i=0;i<arr1.length;i++){
+        var f1=0,f2=0,f3=0;
+        for(var j=0;j<arr2.length;j++){
+          if(arr1[i].grade==arr2[j].grade){
+            f1=1;
+            arr1[i].bookfeecount=arr2[j].count;
+            arr1[i].bookfeeamount=arr2[j].amount;
+          }
+        }
+        if(f1==0){
+          arr1[i].bookfeecount=0;
+          arr1[i].bookfeeamount=0;
+        }
+        if(arr3.length>0){
+        for(var j=0;j<arr3.length;j++){
+          if(arr1[i].grade==arr3[j].grade){
+            f2=1;
+            arr1[i].bookfeelumpsumcount=arr3[j].count;
+            arr1[i].bookfeelumpsumamount=arr3[j].amount;
+          }
+        }
+        if(f2==0){
+          arr1[i].bookfeelumpsumcount=0;
+          arr1[i].bookfeelumpsumamount=0;
+        }
+        }
+        else{
+          arr1[i].bookfeelumpsumcount=0;
+          arr1[i].bookfeelumpsumamount=0;
+        }
+        if(arr4.length>0){
+        for(var j=0;j<arr4.length;j++){
+          if(arr1[i].grade==arr4[j].grade){
+            f3=1;
+            arr1[i].bookfeediscountcount=arr4[j].count;
+            arr1[i].bookfeediscountamount=arr4[j].amount;
+          }
+        }
+        if(f3==0){
+          arr1[i].bookfeediscountcount=0;
+          arr1[i].bookfeediscountamount=0;
+        }
+        }
+        else{
+          arr1[i].bookfeediscountcount=0;
+          arr1[i].bookfeediscountamount=0;
+        }
+      }
+      console.log(arr1);
+      res.status(200).json(arr1);
+    }
+    });
+    }
+    else
+      console.log('bxxx...'+err);
+    });
+    }
+    else
+      console.log('bxx...'+err);
+    });
+    
+    }
+    else
+      console.log('bx...'+err);
+});
+});
+
+app.post('/smiscrm-overallcollectiondashboardgradewiseschoolfee',  urlencodedParser,function (req, res){
+var qur1="select a.class_for_admission as grade,count(a.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year)  where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission= m.grade_name and m.common_feetype in('School Fee') group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+var qur2="select a.class_for_admission as grade,count(a.admission_no) as count,sum(installment_amount) as amount from sandeepanicrm.md_student_paidfee f join "+
+" sandeepanicrm.md_admission a  on(f.admission_no=a.admission_no) where f.school_id='"+req.body.schoolid+"' "+
+" and  f.academic_year='"+req.body.academicyear+"' and f.paid_status in('paid','inprogress') and  "+
+" f.cheque_status in('paid','inprogress') and f.installment in('School Fee') and  "+
+" a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"' and a.discount_type not in('3') and "+
+" a.active_status='Admitted' group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+var qur3="select a.class_for_admission as grade,count(f.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join  "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year) join "+
+" sandeepanicrm.md_student_paidfee f  on(f.admission_no=a.admission_no) where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission=  m.grade_name and m.common_feetype='School Fee' and f.school_id='"+req.body.schoolid+"' "+
+" and f.academic_year='"+req.body.academicyear+"'  and f.installment in('Lumpsum') group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+var qur4="select a.class_for_admission as grade,count(distinct(a.admission_no)) as count,sum(d.discount_amount) as amount from sandeepanicrm.md_student_discount d join  "+
+" sandeepanicrm.md_admission a on(a.admission_no=d.admission_no) where d.school_id='"+req.body.schoolid+"' and  d.academic_year='"+req.body.academicyear+"'  "+
+" and a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"'  and a.discount_type not in('3') and "+
+" a.active_status='Admitted' and d.common_feetype='School Fee' group by a.class_for_admission order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission)";
+
+console.log('--------------------------------------------');
+ console.log(qur1);
+ console.log(qur2);
+ console.log(qur3);
+ console.log(qur4);
+ 
+var arr=[];
+var obj={};
+var arr1=[];
+var arr2=[];
+var arr3=[];
+var arr4=[];
+connection.query(qur1,function(err, rows){
+    if(!err){
+      arr1=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err){
+      arr2=rows;
+    connection.query(qur3,function(err, rows){
+    if(!err){
+      arr3=rows;
+    connection.query(qur4,function(err, rows){
+    if(!err){
+      arr4=rows;
+      for(var i=0;i<arr1.length;i++){
+        var f1=0,f2=0,f3=0;
+        for(var j=0;j<arr2.length;j++){
+          if(arr1[i].grade==arr2[j].grade){
+            f1=1;
+            arr1[i].bookfeecount=arr2[j].count;
+            arr1[i].bookfeeamount=arr2[j].amount;
+          }
+        }
+        if(f1==0){
+          arr1[i].bookfeecount=0;
+          arr1[i].bookfeeamount=0;
+        }
+        if(arr3.length>0){
+        for(var j=0;j<arr3.length;j++){
+          if(arr1[i].grade==arr3[j].grade){
+            f2=1;
+            arr1[i].bookfeelumpsumcount=arr3[j].count;
+            arr1[i].bookfeelumpsumamount=arr3[j].amount;
+          }
+        }
+        if(f2==0){
+          arr1[i].bookfeelumpsumcount=0;
+          arr1[i].bookfeelumpsumamount=0;
+        }
+        }
+        else{
+          arr1[i].bookfeelumpsumcount=0;
+          arr1[i].bookfeelumpsumamount=0;
+        }
+        if(arr4.length>0){
+        for(var j=0;j<arr4.length;j++){
+          if(arr1[i].grade==arr4[j].grade){
+            f3=1;
+            arr1[i].bookfeediscountcount=arr4[j].count;
+            arr1[i].bookfeediscountamount=arr4[j].amount;
+          }
+        }
+        if(f3==0){
+          arr1[i].bookfeediscountcount=0;
+          arr1[i].bookfeediscountamount=0;
+        }
+        }
+        else{
+          arr1[i].bookfeediscountcount=0;
+          arr1[i].bookfeediscountamount=0;
+        }
+      }
+      res.status(200).json(arr1);
+    }
+    });
+    }
+    else
+      console.log('bxxx...'+err);
+    });
+    }
+    else
+      console.log('bxx...'+err);
+    });
+    
+    }
+    else
+      console.log('bx...'+err);
+});
+});
+
+app.post('/smiscrm-overallcollectiondashboardgradewisestudentlist',  urlencodedParser,function (req, res){
+var qur1="select a.admission_no,a.student_name,a.class_for_admission as grade,count(a.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year)  where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission= m.grade_name and m.common_feetype in('"+req.body.feetype+"') and a.class_for_admission='"+req.body.grade+"' group by a.class_for_admission,a.admission_no,a.student_name order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission),a.student_name";
+
+var qur2="select a.admission_no,a.student_name,a.class_for_admission as grade,count(a.admission_no) as count,sum(installment_amount) as amount from sandeepanicrm.md_student_paidfee f join "+
+" sandeepanicrm.md_admission a  on(f.admission_no=a.admission_no) where f.school_id='"+req.body.schoolid+"' "+
+" and  f.academic_year='"+req.body.academicyear+"' and f.paid_status in('paid','inprogress') and  "+
+" f.cheque_status in('paid','inprogress') and f.installment in('"+req.body.feetype+"') and  "+
+" a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"' and a.discount_type not in('3') and "+
+" a.active_status='Admitted' and a.class_for_admission='"+req.body.grade+"' group by a.class_for_admission,a.admission_no,a.student_name order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission),a.student_name";
+
+var qur3="select a.admission_no,a.student_name,a.class_for_admission as grade,count(f.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join  "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year) join "+
+" sandeepanicrm.md_student_paidfee f  on(f.admission_no=a.admission_no) where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission=  m.grade_name and m.common_feetype='"+req.body.feetype+"' and f.school_id='"+req.body.schoolid+"' "+
+" and f.academic_year='"+req.body.academicyear+"'  and f.installment in('Lumpsum') and a.class_for_admission='"+req.body.grade+"' group by a.class_for_admission,a.admission_no,a.student_name order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission),a.student_name";
+
+var qur4="select a.admission_no,a.student_name,a.class_for_admission as grade,count(distinct(a.admission_no)) as count,sum(d.discount_amount) as amount from sandeepanicrm.md_student_discount d join  "+
+" sandeepanicrm.md_admission a on(a.admission_no=d.admission_no) where d.school_id='"+req.body.schoolid+"' and  d.academic_year='"+req.body.academicyear+"'  "+
+" and a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"'  and a.discount_type not in('3') and "+
+" a.active_status='Admitted' and d.common_feetype='"+req.body.feetype+"' and a.class_for_admission='"+req.body.grade+"' group by a.class_for_admission,a.admission_no,a.student_name order by (select CAST(id AS UNSIGNED) "+
+" from sandeepanicrm.grade_master where grade_name=a.class_for_admission),a.student_name";
+
+console.log('--------------------------------------------');
+ console.log(qur1);
+ console.log(qur2);
+ console.log(qur3);
+ console.log(qur4);
+ 
+var arr=[];
+var obj={};
+var arr1=[];
+var arr2=[];
+var arr3=[];
+var arr4=[];
+connection.query(qur1,function(err, rows){
+    if(!err){
+      arr1=rows;
+    connection.query(qur2,function(err, rows){
+    if(!err){
+      arr2=rows;
+    connection.query(qur3,function(err, rows){
+    if(!err){
+      arr3=rows;
+    connection.query(qur4,function(err, rows){
+    if(!err){
+      arr4=rows;
+      for(var i=0;i<arr1.length;i++){
+        var f1=0,f2=0,f3=0;
+        for(var j=0;j<arr2.length;j++){
+          if(arr1[i].grade==arr2[j].grade&&arr1[i].admission_no==arr2[j].admission_no){
+            f1=1;
+            arr1[i].bookfeecount=arr2[j].count;
+            arr1[i].bookfeeamount=arr2[j].amount;
+          }
+        }
+        if(f1==0){
+          arr1[i].bookfeecount=0;
+          arr1[i].bookfeeamount=0;
+        }
+        if(arr3.length>0){
+        for(var j=0;j<arr3.length;j++){
+          if(arr1[i].grade==arr3[j].grade&&arr1[i].admission_no==arr3[j].admission_no){
+            f2=1;
+            arr1[i].bookfeelumpsumcount=arr3[j].count;
+            arr1[i].bookfeelumpsumamount=arr3[j].amount;
+          }
+        }
+        if(f2==0){
+          arr1[i].bookfeelumpsumcount=0;
+          arr1[i].bookfeelumpsumamount=0;
+        }
+        }
+        else{
+         arr1[i].bookfeelumpsumcount=0;
+          arr1[i].bookfeelumpsumamount=0; 
+        }
+        if(arr4.length>0){
+        for(var j=0;j<arr4.length;j++){
+          if(arr1[i].grade==arr4[j].grade&&arr1[i].admission_no==arr4[j].admission_no){
+            f3=1;
+            arr1[i].bookfeediscountcount=arr4[j].count;
+            arr1[i].bookfeediscountamount=arr4[j].amount;
+          }
+        }
+        if(f3==0){
+          arr1[i].bookfeediscountcount=0;
+          arr1[i].bookfeediscountamount=0;
+        }
+        }
+        else{
+          arr1[i].bookfeediscountcount=0;
+          arr1[i].bookfeediscountamount=0;
+        }
+      }
+      res.status(200).json(arr1);
+    }
+    });
+    }
+    else
+      console.log('bxxx...'+err);
+    });
+    }
+    else
+      console.log('bxx...'+err);
+    });
+    
+    }
+    else
+      console.log('bx...'+err);
+});
+});
+
+app.post('/smiscrm-overallcollectiondashboardschoolfee',  urlencodedParser,function (req, res){
+var qur1="select count(a.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year)  where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission= m.grade_name and m.common_feetype in('School Fee')";
+
+var qur2="select count(a.admission_no) as count,sum(installment_amount) as amount from sandeepanicrm.md_student_paidfee f join "+
+" sandeepanicrm.md_admission a  on(f.admission_no=a.admission_no) where f.school_id='"+req.body.schoolid+"' "+
+" and  f.academic_year='"+req.body.academicyear+"' and f.paid_status in('paid','inprogress') and  "+
+" f.cheque_status in('paid','inprogress') and f.installment in('School Fee') and  "+
+" a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"' and a.discount_type not in('3') and "+
+" a.active_status='Admitted'";
+
+var qur3="select count(f.admission_no) as count,sum(m.total_fee) as amount from sandeepanicrm.md_admission a join  "+
+" sandeepanicrm.fee_splitup m on(a.admission_year=m.admission_year) join "+
+" sandeepanicrm.md_student_paidfee f  on(f.admission_no=a.admission_no) where "+
+" a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' "+
+" and  m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type not in('3') and "+
+" a.class_for_admission=  m.grade_name and m.common_feetype='School Fee' and f.school_id='"+req.body.schoolid+"' "+
+" and f.academic_year='"+req.body.academicyear+"'  and f.installment in('Lumpsum')";
+
+var qur4="select count(distinct(a.admission_no)) as count,sum(d.discount_amount) as amount from sandeepanicrm.md_student_discount d join  "+
+" sandeepanicrm.md_admission a on(a.admission_no=d.admission_no) where d.school_id='"+req.body.schoolid+"' and  d.academic_year='"+req.body.academicyear+"'  "+
+" and a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"'  and a.discount_type not in('3') and "+
+" a.active_status='Admitted' and d.common_feetype='School Fee'";
+
+console.log('--------------------------------------------');
+ console.log(qur1);
+ console.log(qur2);
+ console.log(qur3);
+ console.log(qur4);
+ 
+var arr=[];
+var obj={};
+connection.query(qur1,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+      if(rows[0].amount==null||rows[0].amount==""){
+      obj.schoolfeecount=0;
+      obj.schoolfeeamount=0;
+      }
+      else{
+      obj.schoolfeecount=rows[0].count;
+      obj.schoolfeeamount=rows[0].amount;
+      }
+      }
+      else{
+      obj.schoolfeecount=0;
+      obj.schoolfeeamount=0;
+      }
+    connection.query(qur2,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+      if(rows[0].amount==null||rows[0].amount==""){
+      obj.schoolfeepaidcount=0;
+      obj.schoolfeepaidamount=0;
+      }
+      else{
+      obj.schoolfeepaidcount=rows[0].count;
+      obj.schoolfeepaidamount=rows[0].amount;  
+      }
+      }
+      else{
+      obj.schoolfeepaidcount=0;
+      obj.schoolfeepaidamount=0;
+      }
+    connection.query(qur3,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+      if(rows[0].amount==null||rows[0].amount==""){
+      obj.lumpsumschoolfeepaidcount=0;
+      obj.lumpsumschoolfeepaidamount=0;
+      }
+      else{
+      obj.lumpsumschoolfeepaidcount=rows[0].count;
+      obj.lumpsumschoolfeepaidamount=rows[0].amount; 
+      }
+      }
+      else{
+      obj.lumpsumschoolfeepaidcount=0;
+      obj.lumpsumschoolfeepaidamount=0;
+      }
+    connection.query(qur4,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+        if(rows[0].amount==null||rows[0].amount==""){
+        obj.schoolfeediscount=0;
+        obj.schoolfeediscountcount=0;
+        }
+        else{
+        obj.schoolfeediscount=rows[0].amount;
+        obj.schoolfeediscountcount=rows[0].count;
+        }
+      }
+      else{
+        obj.schoolfeediscount=0;
+        obj.schoolfeediscountcount=0;
+      }
+      arr.push(obj);
+      res.status(200).json(arr);
+    }
+    });
+    }
+    else
+      console.log('bxxx...'+err);
+    });
+    }
+    else
+      console.log('bxx...'+err);
+    });
+    
+    }
+    else
+      console.log('bx...'+err);
+});
+});
+
+app.post('/smiscrm-overallcollectiondashboardtransportfee',  urlencodedParser,function (req, res){
+var qur1="select count(student_id) as count from transport.student_zone_mapping where school_id='"+req.body.schoolid+"' "+ 
+ " and academic_year='"+req.body.academicyear+"' and status='mapped'";
+var qur2="select count(distinct(f.student_id)) as count from transport.student_paidfee f join sandeepanicrm.md_admission a "+
+ " on(f.student_id=a.admission_no) where f.school_id='"+req.body.schoolid+"' and f.academic_year='"+req.body.academicyear+"' "+
+ " and a.school_id='"+req.body.schoolid+"' and a.academic_year='"+req.body.academicyear+"' and a.active_status='Admitted' "+
+ " and a.discount_type='4' and f.installment in('Installment1','Installment2','Lumpsum') and f.status='mapped'";
+var qur3="select sum(m.fees) as amount from transport.student_zone_mapping m where "+
+ " m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.status='mapped'";
+var qur4="select sum(f.installment_amount) as amount from transport.student_zone_mapping m join transport.student_paidfee f "+
+ " on(m.student_id=f.student_id) where f.school_id='"+req.body.schoolid+"' and f.academic_year='"+req.body.academicyear+"' "+
+ " and m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.status='mapped' and f.status='mapped' "+
+ " and f.cheque_status in('paid','inprogress') and f.paid_status in('paid','inprogress')";
+var qur5="select count(distinct(student_id)) as count,sum(discount_amount)  as amount from transport.student_discount where school_id='"+req.body.schoolid+"' and "+
+ " academic_year='"+req.body.academicyear+"' ";
+ console.log('--------------------------------------------');
+ console.log(qur1);
+ console.log(qur2);
+ console.log(qur3);
+ console.log(qur4);
+ console.log(qur5);
+var arr=[];
+var obj={};
+connection.query(qur1,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+      if(rows[0].count==""||rows[0].count==null)
+      obj.transportfeetotalcount=0;
+      else
+      obj.transportfeetotalcount=rows[0].count;
+      }
+      else
+      {
+      obj.transportfeetotalcount=0;
+      }
+    connection.query(qur2,function(err, rows){
+    if(!err){
+      if(rows.length>0)
+      {
+      if(rows[0].count==""||rows[0].count==null)
+      obj.transportfeepaid=0;
+      else
+      obj.transportfeepaid=rows[0].count;
+      }
+      else
+      obj.transportfeepaid=0;
+    connection.query(qur3,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+        if(rows[0].amount==""||rows[0].amount==null)
+        obj.transportfeetotal=0;
+        else
+        obj.transportfeetotal=rows[0].amount;
+      }
+      else
+        obj.transportfeetotal=0;
+    connection.query(qur4,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+        if(rows[0].amount==""||rows[0].amount==null){
+        obj.transportpaid=0;
+        }
+        else
+        obj.transportpaid=rows[0].amount;
+      }
+      else
+        obj.transportpaid=0;
+    connection.query(qur5,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+        if(rows[0].amount==""||rows[0].amount==null){
+        obj.discountcount=0;
+        obj.discount=0;
+        }
+        else{
+        obj.discountcount=rows[0].count;
+        obj.discount=rows[0].amount;  
+        }
+      }
+      else{
+        obj.discountcount=0;
+        obj.discount=0;
+      }
+      arr.push(obj);
+      res.status(200).json(arr);
+    }
+    else
+      console.log('txxxxx...'+err);
+    });
+    }
+    else
+      console.log('txxxx...'+err);
+    });
+    }
+    else
+      console.log('txxx...'+err);
+    });
+    }
+    else
+      console.log('txx...'+err);
+    });
+    
+    }
+    else
+      console.log('tx...'+err);
+});
+});
+
+app.post('/smiscrm-overallcollectiondashboardcount',  urlencodedParser,function (req, res){
+ var arr=[];
+ var obj={};
+ connection.query(qur1,function(err, rows){
+    if(!err){
+      for(var i=0;i<rows.length;i++){        
+        if(rows[i].type=="RTE")
+        {
+          obj.RTE=rows[i].count;
+        }
+        if(rows[i].type=="General")
+        {
+          obj.Total=rows[i].count;
+        }
+      }
+    connection.query(qur2,function(err, rows){
+    if(!err){
+      if(rows.length>0)
+      obj.schoolfeepaid=rows[0].schoolfee_paidcount;
+      else
+      obj.schoolfeepaid=0;
+      connection.query(qur3,function(err, rows){
+      if(!err){
+      if(rows.length>0)
+      obj.bookfeepaid=rows[0].bookfee_paidcount;
+      else
+      obj.schoolfeepaid=0;
+      connection.query(qur4,function(err, rows){
+      if(!err){
+      if(rows.length>0)
+      obj.mappedcount=rows[0].mapped_count;
+      else
+      obj.schoolfeepaid=0;
+      connection.query(qur5,function(err, rows){
+      if(!err){
+      if(rows.length>0)
+      obj.transportfeepaid=rows[0].transportfee_paidcount;
+      else
+      obj.schoolfeepaid=0; 
+      connection.query(qur6,function(err, rows){
+      if(!err){
+      if(rows.length>0)
+      obj.transportfeepaid=rows[0].transportfee_paidcount;
+      else
+      obj.schoolfeepaid=0; 
+      }
+      }); 
+      }
+      });
+      }
+      });
+      }
+      });
+    }
+    else
+      console.log('strength...'+err);
+    });
+    }
+    else
+      console.log('strength...'+err);
+  });
+});
+
+
+app.post('/smiscrm-overallcollectiondashboardcollection',  urlencodedParser,function (req, res){
+  var qur9="select count(a.admission_no),sum(m.fees) from sandeepanicrm.md_admission a join sandeepanicrm.fee_master m on(a.admission_year=m.admission_year)  "+
+ " where a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' and "+
+ " m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type='4' and a.class_for_admission= "+
+ " (select grade_name from sandeepanicrm.grade_master g where g.grade_id=m.grade_id)";
+ var qur10="select sum(m.amount) from sandeepanicrm.md_admission a join sandeepanicrm.md_fee_splitup_master m on(a.admission_year=m.admission_year) "+
+" where a.academic_year='"+req.body.academicyear+"' and m.academic_year='"+req.body.academicyear+"' and a.school_id='"+req.body.schoolid+"' and "+
+" m.school_id='"+req.body.schoolid+"' and a.active_status='Admitted' and a.discount_type='4' and a.class_for_admission= "+
+" (select grade_name from sandeepanicrm.grade_master g where g.grade_id=m.grade)";
+
+
+var qur14="select sum(installment_amount) from sandeepanicrm.md_student_paidfee where school_id='"+req.body.schoolid+"' and "+
+" academic_year='"+req.body.academicyear+"' and paid_status in('paid','inprogress') and "+
+" cheque_status in('paid','inprogress') and installment in('Commitment Fee')";
+
+});
+
+app.post('/smiscrm-logincheck',  urlencodedParser,function (req, res){
+  var checkqur="SELECT * FROM md_register WHERE id='"+req.body.emp_id+"' AND password='"+req.body.emp_pass+"' AND school_id='"+req.body.school_id+"'";
+  var checkqur1="SELECT * FROM md_register WHERE id='"+req.body.emp_id+"' AND password='"+req.body.emp_pass+"' AND device_id!='"+req.body.reg_id+"' AND school_id='"+req.body.school_id+"'";
+  var updatequr="UPDATE md_register SET device_id='"+req.body.reg_id+"' WHERE id='"+req.body.emp_id+"' AND password='"+req.body.emp_pass+"' AND school_id='"+req.body.school_id+"'";
+  var deletequr="DELETE FROM md_register WHERE WHERE id='"+req.body.emp_id+"' AND password='"+req.body.emp_pass+"' AND school_id='"+req.body.school_id+"'";
+  connection.query(checkqur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+       connection.query(updatequr,function(err, result){
+          if(result.affectedRows>0){
+            res.status(200).json({'returnval': 'Updated'});
+          }
+          else
+          {
+            connection.query(deletequr,function(err, result){
+              if(result.affectedRows>0){
+                res.status(200).json({'returnval': 'Deleted'});
+              }
+            });
+          }
+        });
+      }
+    }
+  });
+
+});
+
+app.post('/smiscrm-login',  urlencodedParser,function (req, res){
+
+  var qur="SELECT * FROM md_employee WHERE employee_id='"+req.body.emp_id+"' AND password='"+req.body.emp_pass+"'";
+  var insertqur="INSERT INTO md_register SET ?";
+  var school_id="";
+  var role="";
+  var emp_name="";
+  var param={
+    school_id:'',
+    id:req.body.emp_id,
+    password:req.body.emp_pass,
+    device_id:req.body.reg_id,
+    role:''
+  };
+
+  connection.query(qur,function(err, rows){
+    if(!err){
+      if(rows.length>0){
+        school_id=rows[0].school_id;
+        role=rows[0].role_id;
+        emp_name=rows[0].employee_name;
+        param.school_id=rows[0].school_id;
+        param.role=rows[0].role_id;
+      connection.query("SELECT * FROM md_register WHERE id='"+req.body.emp_id+"' AND password='"+req.body.emp_pass+"' AND school_id='"+school_id+"' ",function(err, rows){        
+      if(!err){
+       if(rows.length==0){
+        connection.query(insertqur,[param],function(err, rows){
+        if(!err)
+        res.status(200).json({'returnval': 'Success','schoolid':school_id,'empname':emp_name,'emprole':role});
+        else
+        res.status(200).json({'returnval': err});
+        });
+      }
+      else{
+        connection.query("UPDATE md_register SET device_id='"+req.body.reg_id+"' WHERE id='"+req.body.emp_id+"' AND password='"+req.body.emp_pass+"' AND school_id='"+school_id+"'",function(err, rows){        
+        if(!err)
+        res.status(200).json({'returnval': 'Exist','schoolid':school_id,'empname':emp_name,'emprole':role});
+        else
+        res.status(200).json({'returnval': err});
+        });
+      }
+      }
+      else
+        res.status(200).json({'returnval': 'invalid'});
+      });
+      } 
+      else {
+        res.status(200).json({'returnval': 'invalid'});
+      }
+    }
+    else{
+      console.log('hi');
+      console.log(err);
+      console.log('hi2');
+    }
+  });
+});
+
+app.post('/smiscrm-getfollowupcount',  urlencodedParser,function (req, res){
+
+    //console.log('qur');
+    var arr=[];
+    connection.query("SELECT p.schedule_status, f.class, COUNT( * ) AS total FROM   sandeepanicrm.student_enquiry_details AS f join sandeepanicrm.followup as p WHERE f.school_id =  '"+req.body.schoolid+"' and f.academic_year =  '"+req.body.academicyear+"' and p.school_id =  '"+req.body.schoolid+"' AND p.schedule_status=  '"+req.body.status+"' AND f.enquiry_no = p.enquiry_id and f.status='Enquired' GROUP BY class ORDER BY (class)",
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      //console.log(rows);
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json(arr);
+    }
+  }
+  else{
+     console.log(err);
+  }
+});
+});
+
+app.post('/smiscrm-getfollowupstudents',  urlencodedParser,function (req, res)
+ {
+   var school={"school_id":req.body.schoolid};
+   var academicyear={"school_id":req.body.academicyear};
+   var grade={"class":req.body.grade};
+   var status={"status":req.body.status};
+
+   var checkstatus=req.body.status;
+   if((checkstatus=='Closed')||(checkstatus=='Exhausted')){
+        var qur = "SELECT f.enquiry_id,f.schedule_flag,s.enquiry_name,f.schedule_status,f.id,f.current_confidence_level,f.upcoming_date FROM sandeepanicrm.followup f join sandeepanicrm.student_enquiry_details s on f.enquiry_id=s.enquiry_no WHERE f.schedule_status='"+req.body.status+"' and s.class='"+req.body.grade+"' and s.academic_year='"+req.body.academicyear+"' and s.school_id = '"+req.body.schoolid+"' and f.followed_by='"+req.body.user+"' and s.status='Enquired' ORDER BY STR_TO_DATE(upcoming_date,'%d-%m-%Y') DESC";
+   }
+   else{
+        var qur = "SELECT f.enquiry_id,f.schedule_flag,s.enquiry_name,f.schedule_status,f.id,f.current_confidence_level,f.upcoming_date FROM sandeepanicrm.followup f join sandeepanicrm.student_enquiry_details s on f.enquiry_id=s.enquiry_no WHERE f.schedule_status='"+req.body.status+"' and s.class='"+req.body.grade+"' and s.academic_year='"+req.body.academicyear+"' and s.school_id = '"+req.body.schoolid+"' and f.followed_by='"+req.body.user+"' and s.status='Enquired'  ORDER BY STR_TO_DATE(upcoming_date,'%d-%m-%Y')";
+   }
+   console.log(qur);
+   var arr=[];
+   connection.query(qur,
+     function(err, rows)
+     {
+       if(!err)
+       {
+         //console.log(rows);
+         res.status(200).json(rows);
+       }
+       else
+       {
+         console.log(err);
+         res.status(200).json(arr);
+       }
+
+     });
+ });
+
+app.post('/smiscrm-currentdate-getfollowupstudents',  urlencodedParser,function (req, res)
+ {
+   var school={"school_id":req.body.schoolid};
+   var academicyear={"school_id":req.body.academicyear};
+   var grade={"class":req.body.grade};
+   var status={"status":req.body.status};
+
+   var checkstatus=req.body.status;
+   var d=new Date();
+   var currdate=d.getDate()+"-"+(d.getMonth()+1)+"-"+d.getFullYear();
+   // var currdate='10-1-2018';
+   // if((checkstatus=='Closed')||(checkstatus=='Exhausted')){
+   //      var qur = "SELECT f.enquiry_id,f.schedule_flag,s.enquiry_name,f.schedule_status,f.id,f.current_confidence_level,f.upcoming_date FROM followup f join student_enquiry_details s on f.enquiry_id=s.enquiry_no WHERE f.schedule_status='"+req.body.status+"' and s.class='"+req.body.grade+"' and s.academic_year='"+req.body.academicyear+"' and s.school_id = '"+req.body.schoolid+"' and f.followed_by='"+req.body.user+"' and s.status='Enquired' ORDER BY STR_TO_DATE(upcoming_date,'%d-%m-%Y') DESC";
+   // }
+   // else{
+   var qur = "SELECT f.enquiry_id,f.schedule_flag,s.enquiry_name,f.schedule_status,f.id,f.current_confidence_level,f.upcoming_date FROM sandeepanicrm.followup f join sandeepanicrm.student_enquiry_details s on f.enquiry_id=s.enquiry_no WHERE s.academic_year='"+req.body.academicyear+"' and s.school_id = '"+req.body.schoolid+"' and f.followed_by='"+req.body.user+"' and s.status='Enquired' and  STR_TO_DATE(upcoming_date,'%d-%m-%Y')=STR_TO_DATE('"+currdate+"','%d-%m-%Y') ORDER BY STR_TO_DATE(upcoming_date,'%d-%m-%Y')";
+   // }
+   console.log(qur);
+   var arr=[];
+   connection.query(qur,
+     function(err, rows)
+     {
+       if(!err)
+       {
+         //console.log(rows);
+         res.status(200).json(rows);
+       }
+       else
+       {
+         console.log(err);
+         res.status(200).json(arr);
+       }
+
+     });
+ });
+
+app.post('/smiscrm-message-send',  urlencodedParser,function (req, res){
+var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera) 
+        to: req.body.senttoid, 
+        // collapse_key: 'your_collapse_key',        
+        notification: {
+            title: req.body.title, 
+            body: req.body.empname+":"+req.body.issue 
+        },        
+        data: {  //you can send only notification or only data(or include both) 
+            name: req.body.empname
+        }
+    };    
+    fcm.send(message, function(err, response){
+        if (err) {
+            console.log("Something has gone wrong!");
+            res.status(200).json({'returnval': 'sent'+response+" "+response.statusCode+"  "+response.statusMessage});
+        } else {
+            console.log("Successfully sent with response: ", response);
+            res.status(200).json({'returnval': err+"  "+response+" "+response.statusCode+"  "+response.statusMessage});
+        }
+    });
+});
+
+app.post('/smiscrm-viewdetail',  urlencodedParser,function (req, res)
+ {
+   var school={"school_id":req.body.schoolid};
+   var id={"enquiry_no":req.body.enquiryno};
+   var qur = "select f.enquiry_id,f.current_confidence_level,f.id,f.schedule_no,f.last_schedule_date,f.schedule_Status,d.enquiry_no,d.enquiry_name,d.class,d.created_on,d.father_name,d.father_mob,d.guardian_mobile,d.guardian_name from sandeepanicrm.followup as f Join sandeepanicrm.student_enquiry_details d on d.enquiry_no=f.enquiry_id where f.id='"+req.body.followupid+"' and f.enquiry_id='"+req.body.enquiryno+"' and f.school_id='"+req.body.schoolid+"' and f.schedule_status='"+req.body.status+"' and d.academic_year='"+req.body.academicyear+"'";
+   var arr=[];
+   connection.query(qur,
+     function(err, rows)
+     {
+       if(!err)
+       {
+         res.status(200).json(rows);
+       }
+       else
+       {
+         console.log(err);
+         res.status(200).json(arr);
+       }
+     });
+ });
+
+app.post('/smiscrm-getlistdetails',  urlencodedParser,function (req, res){
+    var school={"school_id":req.body.schoolid};
+    var flwpid={"schedule_id":req.body.followupid};
+    var scheduleno={"schedule":req.body.schduleno};
+    var qur="SELECT * FROM sandeepanicrm.followupdetail WHERE school_id='"+req.body.schoolid+"' and schedule_id='"+req.body.followupid+"' and schedule='"+req.body.scheduleno+"' and followup_status!='Cancelled' ORDER BY(str_to_date(schedule_date,'%Y-%m-%d'))";
+    var arr=[];
+    connection.query(qur,function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+     // console.log(rows);
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json(arr);
+    }
+  }
+  else{
+     console.log(err);
+  }
+});
+});
+
+/*this function is used to update the followup details of the current followup*/
+ app.post('/smiscrm-updatefollowupdetails',  urlencodedParser,function (req, res)
+{
+  var school={"school_id":req.body.schoolid};
+  var scheduledon={"schedule_date":req.body.scheduleddate};
+  var followupid={"schedule_id":req.body.followupid};
+  var no={"followup_no":req.body.followupno};
+  var schedule={"schedule":req.body.scheduleid};
+  var collection={"actual_date":req.body.currdate,"schedule_date":req.body.currdate,"next_followup_date":req.body.nextdate,"followup_comments":req.body.comments,"followup_status":req.body.callstatus,"confidence_level":req.body.confidencelevel};
+    connection.query('update sandeepanicrm.followupdetail set ? where ? and ? and ? and ?',[collection,school,followupid,no,schedule],
+    function(err, result)
+    {
+    if(!err)
+    {
+      console.log('updated');
+      if(result.affectedRows>0)
+      res.status(200).json({'returnval': 'Success'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'invalid'});
+    }
+});
+});
+
+
+app.post('/smiscrm-updatefollowupschedule-service',  urlencodedParser,function (req, res){
+  var followupno=req.body.followupno;
+  var nextdate=new Date(req.body.nextdate);
+  var date=new Date(req.body.currdate);
+  var qur2="update sandeepanicrm.followupdetail set schedule_date=DATE_FORMAT(DATE_ADD(STR_TO_DATE('"+req.body.nextdate+"','%d-%m-%Y'),INTERVAL start_interval DAY),'%d-%m-%Y'), "+
+  " next_followup_date=DATE_FORMAT(DATE_ADD(STR_TO_DATE('"+req.body.nextdate+"','%d-%m-%Y'),INTERVAL end_interval DAY),'%d-%m-%Y') where followup_status='F' and "+
+  " enquiry_id='"+req.body.enquiryid+"' AND school_id='"+req.body.schoolid+"' AND schedule_id='"+req.body.followupid+"' AND schedule='"+req.body.scheduleid+"'";
+  console.log('-------------------followup sch update----------------');
+  console.log(qur2);
+         connection.query(qur2,function(err, result)
+         {
+          //console.log(rows);
+          if(!err){
+          if(result.affectedRows>0){            
+           res.status(200).json({'returnval': 'Success'});
+          }
+          }
+          else{
+            console.log(err);
+            res.status(200).json({'returnval':err});
+          }
+         });
+});
+
+ /*this function is used to update the followup of the current followup*/
+ app.post('/smiscrm-updatefollowupconfidencelvl',  urlencodedParser,function (req, res)
+{
+
+  var school={"school_id":req.body.schoolid};
+  var followupid={"id":req.body.followupid};
+  var scheduleno={"schedule_no":req.body.scheduleid};
+  var qur="SELECT * FROM sandeepanicrm.followupdetail WHERE school_id='"+req.body.schoolid+"' AND schedule_id='"+req.body.followupid+"' AND enquiry_id='"+req.body.enquiryid+"' AND schedule='"+req.body.scheduleid+"' order by followup_no desc";
+  console.log('-----------------confidencelevel update---------------------');
+  console.log(qur);
+  connection.query("SELECT * FROM sandeepanicrm.followupdetail WHERE school_id='"+req.body.schoolid+"' AND schedule_id='"+req.body.followupid+"' AND enquiry_id='"+req.body.enquiryid+"' AND schedule='"+req.body.scheduleid+"' order by followup_no desc",function(err, rows)
+    {
+    if(!err){ 
+    if(rows.length>0){ 
+    var lastdate=rows[0].schedule_date;
+
+    var confidence={"last_schedule_date":lastdate,"current_confidence_level":req.body.confidencelevel,"schedule_status":'Inprogress',"schedule_flag":req.body.followupno,"upcoming_date":req.body.nextdate};
+    // res.status(200).json({'returnval': lastdate+"......"+confidence+"..."+school+"..."+followupid+"..."+scheduleno});
+    connection.query('update sandeepanicrm.followup set ? where ? and ? and ?',[confidence,school,followupid,scheduleno],
+    function(err, result)
+    {
+    if(!err)
+    {
+      // console.log('updated1');
+      if(result.affectedRows>0)
+          res.status(200).json({'returnval': 'Success'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': err});
+    }
+
+    });
+  }
+  else
+    res.status(200).json({'returnval': 'no rows'+qur});
+}
+else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'Out......'+err});
+    }
+});
+});
+
+app.post('/smiscrm-collectiondashboard-service',  urlencodedParser,function (req, res){
+
+   var paidqur = "select admission_no,student_name,grade,sum(installment_amount) as paidamount,sum(discount_amount) as discountamount from "+
+   "sandeepanicrm.md_student_paidfee where academic_year='"+req.body.academicyear+"' and school_id='"+req.body.schoolid+"' and paid_status in "+
+   "('paid','cleared','inprogress') and cheque_status not in('bounced','cancelled') group by school_id,admission_no,student_name,grade";
+   var totalqur = "select * from sandeepanicrm.md_admission pf join sandeepanicrm.fee_master m "+
+    "on(pf.admission_year=m.admission_year) where pf.academic_year='"+req.body.academicyear+"' "+
+    " and pf.academic_year='"+req.body.academicyear+"' and pf.school_id='"+req.body.schoolid+"' "+
+    " and m.school_id='"+req.body.schoolid+"' and pf.class_for_admission= "+
+    " (select grade_name from sandeepanicrm.grade_master where grade_id=m.grade_id) and pf.discount_type not in('3') and pf.active_status not in('Cancelled','Withdrawn')"+
+    " group by pf.admission_no";
+   var discountqur="SELECT admission_no,sum(discount_amount) as discount_amount FROM sandeepanicrm.md_student_discount WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' group by admission_no";
+   var d=new Date();
+   var date=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
+   var dayqur = "SELECT pdc_flag,sum(installment_amount)+sum(fine_amount) as amount FROM sandeepanicrm.md_student_paidfee where (STR_TO_DATE(paid_date,'%m/%d/%Y')=STR_TO_DATE('"+date+"','%m/%d/%Y')) "+
+             "and paid_status in('paid','inprogress','cleared') and cheque_status in('paid','inprogress','cleared') and school_id='"+req.body.schoolid+"' group by pdc_flag";          
+   var fromdate=(d.getMonth()+1)+"/"+"1"+"/"+d.getFullYear();
+   var todate=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
+   var monthqur = "SELECT pdc_flag,sum(installment_amount)+sum(fine_amount) as amount FROM sandeepanicrm.md_student_paidfee where ((STR_TO_DATE(paid_date,'%m/%d/%Y')>=STR_TO_DATE('"+fromdate+"','%m/%d/%Y') and STR_TO_DATE(paid_date,'%m/%d/%Y')<=STR_TO_DATE('"+todate+"','%m/%d/%Y')) "+
+             ") and paid_status in('paid','inprogress','cleared') and cheque_status in('paid','inprogress','cleared') and school_id='"+req.body.schoolid+"' group by pdc_flag";          
+ 
+ console.log('-----------------------pending fee report--------------------------');
+ console.log(totalqur);
+ console.log('-------------------------------------------------');
+  console.log(paidqur);
+ console.log('-------------------------------------------------');
+  console.log(dayqur);
+ console.log('-------------------------------------------------');
+ console.log(monthqur);
+ var totalarr=[];
+ var paidarr=[];
+ var pendingarr=[];
+ var regfee=[];
+ var discount=[];
+   connection.query(totalqur,function(err, rows){
+       if(!err){         
+          totalarr=rows;
+          connection.query(paidqur,function(err, rows){
+          if(!err){
+          paidarr=rows;
+          connection.query(discountqur,function(err, rows){
+          if(!err){
+            discount=rows;
+        if(totalarr.length>0){
+        var pflag=0;
+        var npflag=0;
+        for(var i=0;i<totalarr.length;i++)
+        {
+          totalarr[i].sno=(i+1);
+          var paidamount=0;
+          var paidflag=0;
+          var pendingamount=0;
+          var pendingflag=0;
+          var discountamount=0;
+          if(paidarr.length>0){
+          for(var j=0;j<paidarr.length;j++){
+            if(totalarr[i].admission_no==paidarr[j].admission_no)
+            {
+              paidflag=1;
+              paidamount=parseFloat(paidamount)+(parseFloat(paidarr[j].paidamount)-parseFloat(0));
+              totalarr[i].paid_amount=paidamount;
+              pflag++;
+            }
+          }
+          if(paidflag==0)
+            {
+            paidamount=parseFloat(paidamount)+parseFloat(0);
+            totalarr[i].paid_amount=paidamount;
+            // totalarr[i].discount_amount=0;
+            npflag++;
+            }
+          paidamount=0;
+          paidflag=0;
+          discountamount=0;
+          }
+        }
+        }
+
+        if(discount.length>0){
+        for(var i=0;i<totalarr.length;i++){
+          var f=0;
+          for(var j=0;j<discount.length;j++){
+            if(totalarr[i].admission_no==discount[j].admission_no){
+              f=1;
+              totalarr[i].discount_amount=discount[j].discount_amount;
+            }
+          }
+          if(f==0)
+            totalarr[i].discount_amount=0;
+        }
+        }
+        for(var i=0;i<totalarr.length;i++){          
+          totalarr[i].total_amount=parseFloat(totalarr[i].fees)-parseFloat(totalarr[i].discount_amount);
+          totalarr[i].pending_amount=parseFloat(totalarr[i].total_amount)-parseFloat(totalarr[i].paid_amount);
+        }
+        var actual=0,discount=0,total=0,paid=0,pending=0;
+        for(var i=0;i<totalarr.length;i++){
+          actual=parseFloat(totalarr[i].fees)+parseFloat(actual);
+          discount=parseFloat(totalarr[i].discount_amount)+parseFloat(discount);
+          total=parseFloat(totalarr[i].total_amount)+parseFloat(total);
+          paid=parseFloat(totalarr[i].paid_amount)+parseFloat(paid);
+          pending=parseFloat(totalarr[i].pending_amount)+parseFloat(pending);
+        }
+      var dayarr=[];
+       var montharr=[];
+       var daycoll=0,daypdc=0,monthcoll=0,monthpdc=0;
+       connection.query(dayqur,function(err, rows){
+       if(!err){ 
+        dayarr=rows;
+       connection.query(monthqur,function(err, rows){
+       if(!err){ 
+        montharr=rows;
+        if(dayarr.length>0){
+          for(var i=0;i<dayarr.length;i++){
+            if(dayarr[i].pdc_flag=="1")
+              daycoll=dayarr[i].amount;
+            if(dayarr[i].pdc_flag=="2")
+              daypdc=dayarr[i].amount;
+          }
+        }
+        if(montharr.length>0){
+          for(var i=0;i<montharr.length;i++){
+            if(montharr[i].pdc_flag=="1")
+              monthcoll=montharr[i].amount;
+            if(montharr[i].pdc_flag=="2")
+              monthpdc=montharr[i].amount;
+          }
+        }
+        var display=[];
+        display.push({'dc':daycoll,'dp':daypdc,'mc':monthcoll,'mp':monthpdc,'actual':actual,'discount':discount,'total':total,'paid':paid,'pending':pending});
+
+        res.status(200).json(display);
+       }
+       });
+       }
+       });
+        
+              }
+              });              
+            }
+          });
+        }
+       else{
+         console.log(err);
+       }
+     });
+  
+});
+
+app.post('/smiscrm-enrollmentdashboard-service',  urlencodedParser,function (req, res){
+  
+  var arr=[];
+  var totalqur="SELECT status,count(enquiry_no) as total FROM sandeepanicrm.student_enquiry_details WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' group by status";
+  var d=new Date();
+  var fromdate=(d.getMonth()+1)+"/"+"1"+"/"+d.getFullYear();
+  var todate=(d.getMonth()+1)+"/"+d.getDate()+"/"+d.getFullYear();
+  var dayqur="SELECT status,count(enquiry_no) as total FROM sandeepanicrm.student_enquiry_details WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and (STR_TO_DATE(enquired_date,'%m/%d/%Y')=STR_TO_DATE('"+todate+"','%m/%d/%Y')) group by status";
+  var monthqur="SELECT status,count(enquiry_no) as total FROM sandeepanicrm.student_enquiry_details WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and (STR_TO_DATE(enquired_date,'%m/%d/%Y')>=STR_TO_DATE('"+fromdate+"','%m/%d/%Y')) and (STR_TO_DATE(enquired_date,'%m/%d/%Y')<=STR_TO_DATE('"+todate+"','%m/%d/%Y')) group by status";
+  var totalarr=[];
+  var day=[];
+  var month=[];
+  console.log(totalqur);
+  console.log('---------------------------------------');
+  console.log(dayqur);
+  console.log('---------------------------------------');
+  console.log(monthqur);
+  console.log('---------------------------------------');
+        connection.query(totalqur,function(err, rows){
+          if(!err){
+          if(rows.length>0){ 
+            totalarr=rows;
+          connection.query(dayqur,function(err, rows){
+          if(!err){ 
+            day=rows;
+          connection.query(monthqur,function(err, rows){
+          if(!err){  
+            month=rows;
+            var dayenq=0,monthenq=0,totalenq=0;
+            var dayadmn=0,monthadmn=0,totaladmn=0;  
+            var daywith=0,monthwith=0,totalwith=0;   
+            if(totalarr.length>0){
+              for(var i=0;i<totalarr.length;i++){
+                totalenq=parseInt(totalarr[i].total)+parseInt(totalenq);
+                if(totalarr[i].status=="Admitted"){
+                  totaladmn=parseInt(totalarr[i].total)+parseInt(totaladmn);
+                }
+                if(totalarr[i].status=="Withdrawn"){
+                  totalwith=parseInt(totalarr[i].total)+parseInt(totalwith);
+                }
+              }
+            }
+            if(day.length>0){
+              for(var i=0;i<day.length;i++){
+                dayenq=parseInt(day[i].total)+parseInt(dayenq);
+                if(day[i].status=="Admitted"){
+                  dayadmn=parseInt(day[i].total)+parseInt(dayadmn);
+                }
+                if(day[i].status=="Withdrawn"){
+                  daywith=parseInt(day[i].total)+parseInt(daywith);
+                }
+              }
+            }
+            if(month.length>0){
+              for(var i=0;i<month.length;i++){
+                monthenq=parseInt(month[i].total)+parseInt(monthenq);
+                if(month[i].status=="Admitted"){
+                  monthadmn=parseInt(month[i].total)+parseInt(monthadmn);
+                }
+                if(month[i].status=="Withdrawn"){
+                  monthwith=parseInt(month[i].total)+parseInt(monthwith);
+                }
+              }
+            }
+            var display=[];
+            display.push({"todayenq":dayenq,"monthenq":monthenq,"totalenq":totalenq,"todayadmn":dayadmn,"monthadmn":monthadmn,"totaladmn":totaladmn,"todaywith":daywith,"monthwith":monthwith,"totalwith":totalwith});
+           res.status(200).json(display);
+          }
+          else
+            console.log(err);
+          });
+          }
+          else
+            console.log(err);
+          });
+          }
+          else{
+            console.log(err);
+          }
+          }
+          else{
+            console.log(err);
+            res.status(200).json(arr);
+          }
+         });
+});
+
+
+
 // var upload = multer({
 //     storage: multerS3({
 //         s3: s3,
@@ -525,27 +2409,21 @@ app.post('/lessonplan-login',  urlencodedParser,function (req, res)
 
 app.post('/lessonplan-grade',  urlencodedParser,function (req, res)
 {
-    var qur = "SELECT distinct(grade_id),(SELECT grade_name FROM md_grade g WHERE g.grade_id=m.grade_id) as grade_name FROM mp_teacher_grade m WHERE m.id='"+req.body.empid+"' AND m.school_id='"+req.body.schoolid+"' and m.academic_year='"+req.body.academicyear+"' and m.flage='active' and m.role_id in('subject-teacher')";
-    console.log('-----------Grade----------');
+    var qur="select distinct (select UPPER(grade_name) from md_grade where grade_id=t.grade_id) as grade_name,"+
+  " UPPER(section_id) as section_name,(select subject_name from md_subject where "+
+  " subject_id=t.subject_id) as subject_name,grade_id,section_id,subject_id from mp_teacher_grade t where role_id='subject-teacher' "+
+  " and id='"+req.body.empid+"' and school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"'";
+    console.log('------------------grade section subject chapter-------------');
     console.log(qur);
-    connection.query(qur,
-    function(err, rows)
-    {
+    console.log('---------------------------------------------------');
+    connection.query(qur,function(err, rows){
     if(!err)
-    {
-    if(rows.length>0)
-    {
-      res.status(200).json(rows);
+    {  
+    res.status(200).json(rows);
     }
     else
-    {
-      console.log(err);
-      res.status(200).json('invalid');
-    }
-    }
-    else
-      console.log(err);
-});
+     res.status(200).json('no rows'); 
+    });
 });
 
 app.post('/lessonplan-section',  urlencodedParser,function (req, res)
@@ -632,7 +2510,7 @@ app.post('/lessonplan-term',  urlencodedParser,function (req, res)
 
 app.post('/Lessonplan-chapter',  urlencodedParser,function (req, res)
 {
-  var qur = "SELECT  distinct(chapter_id),chapter_name FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') and term_id in('"+req.body.term+"')"
+  var qur = "SELECT  distinct(chapter_id),chapter_name FROM md_curriculum_display WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade_name in('"+req.body.grade+"') and subject_name in('"+req.body.subject+"') "
     console.log('-----------subject-----------');   
     connection.query(qur,
     function(err, rows)
@@ -1581,10 +3459,12 @@ app.post('/smis-login',  urlencodedParser,function (req, res){
   var qur="SELECT * FROM parent WHERE student_id='"+req.body.emp_id+"' AND mobile='"+req.body.mob_no+"' and academic_year='2017-2018'";
   else
   var qur="SELECT * FROM md_employee_creation WHERE emp_id='"+req.body.emp_id+"' AND emp_mobile='"+req.body.mob_no+"' and flage='active' and academic_year='2017-2018'";
+  var qur1="select * from sandeepanicrm.md_academic_year where flag='0'";
   var insertqur="INSERT INTO md_register SET ?";
   var school_id="";
   var role="";
   var emp_name="";
+  var rolename="";
   var param={
     school_id:'',
     id:req.body.emp_id,
@@ -1614,16 +3494,32 @@ app.post('/smis-login',  urlencodedParser,function (req, res){
       if(!err){
        if(rows.length==0){
         connection.query(insertqur,[param],function(err, rows){
+        if(!err){
+        connection.query(qur1,function(err, rows){
         if(!err)
-        res.status(200).json({'returnval': 'Success','schoolid':school_id,'empname':emp_name,'emprole':role});
+        {
+        res.status(200).json({'academicyear':rows[0].academic_year,'returnval': 'Success','schoolid':school_id,'empname':emp_name,'emprole':role});
+        }
+        else
+        res.status(200).json({'returnval': err});
+        });
+        }
         else
         res.status(200).json({'returnval': err});
         });
       }
       else{
         connection.query("UPDATE md_register SET device_id='"+req.body.reg_id+"' WHERE id='"+req.body.emp_id+"' AND password='"+req.body.mob_no+"' AND school_id='"+school_id+"'",function(err, rows){        
+        if(!err){
+        connection.query(qur1,function(err, rows){
         if(!err)
-        res.status(200).json({'returnval': 'Exist','schoolid':school_id,'empname':emp_name,'emprole':role});
+        {
+        res.status(200).json({'academicyear':rows[0].academic_year,'returnval': 'Exist','schoolid':school_id,'empname':emp_name,'emprole':role});
+        }
+        else
+        res.status(200).json({'returnval': err});
+        });
+        }
         else
         res.status(200).json({'returnval': err});
         });
@@ -1832,6 +3728,72 @@ app.post('/smis-fetchsubjects',  urlencodedParser,function (req, res)
     {
       console.log(err);
       res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/smis-fetchstudents',  urlencodedParser,function (req, res)
+{
+    var qur="SELECT * FROM md_student WHERE class_id in (SELECT id FROM md_class_section WHERE school_id='"+req.body.school_id+"' and academic_year='"+req.body.academic_year+"' and class='"+req.body.grade+"' and section='"+req.body.section+"')";
+    console.log(qur);
+    connection.query("SELECT * FROM md_student WHERE class_id in (SELECT id FROM md_class_section WHERE school_id='"+req.body.school_id+"' and academic_year='"+req.body.academic_year+"' and class='"+req.body.grade+"' and section='"+req.body.section+"')",
+    function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      res.status(200).json(rows);
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json('invalid');
+    }
+    }
+    else
+      console.log(err);
+});
+});
+
+app.post('/smis-saveattendance',  urlencodedParser,function (req, res)
+{
+    var qur="SELECT * FROM md_daily_attendance WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade='"+req.body.grade+"' and section='"+req.body.section+"' and student_id='"+req.body.studentid+"' and attendance_date='"+req.body.date+"'";
+    console.log(qur);
+    var response={
+      school_id : req.body.schoolid,
+      academic_year : req.body.academicyear,
+      student_id : req.body.studentid,
+      student_name : req.body.studentname,
+      grade : req.body.grade,
+      section : req.body.section,
+      status : req.body.status,
+      attendance_date : req.body.date,
+      created_by : req.body.empid
+    };
+    var response1={
+      status : req.body.status,
+      created_by : req.body.empid
+    };
+    connection.query(qur,function(err, rows)
+    {
+    if(!err)
+    {
+    if(rows.length>0)
+    {
+      // res.status(200).json(rows);
+      connection.query("UPDATE md_daily_attendance SET ? WHERE school_id='"+req.body.schoolid+"' and academic_year='"+req.body.academicyear+"' and grade='"+req.body.grade+"' and section='"+req.body.section+"' and student_id='"+req.body.studentid+"' and attendance_date='"+req.body.date+"'",[response1],function(err, rows){
+        res.status(200).json({'returnval':'updated'});
+      });
+    }
+    else
+    {
+      connection.query("INSERT INTO md_daily_attendance SET ? ",[response],function(err, rows){
+        res.status(200).json({'returnval':'updated'});
+      });
     }
     }
     else
@@ -19122,7 +21084,7 @@ var categorycnt="SELECT subject_id,subject_name,category_id,category_name,count(
 " grade_name='"+req.query.grade+"' and subject_name='"+req.query.subject+"' and assesment_type='"+req.query.assesmenttype+"' group by subject_id,subject_name,category_id,category_name";
 var mapqur="SELECT * FROM subject_mapping WHERE school_id='"+req.query.schoolid+"' and  academic_year='"+req.query.academicyear+"' and "+
 " grade_name='"+req.query.grade+"' and subject_name='"+req.query.subject+"' and assesment_type='"+req.query.assesmenttype+"' order by category_id";
-
+var grade="SELECT * FROM scorecarddb.enrichment_grade_master WHERE subject_id='s2' and assesment_type='BOY'";
  console.log('--------------------------enrichment stud fetch for report------------------------------');
  console.log('--------------------------------------------------------');
  console.log(qur);
@@ -19131,6 +21093,7 @@ var mapqur="SELECT * FROM subject_mapping WHERE school_id='"+req.query.schoolid+
  console.log('--------------------------------------------------------');
  var arr1=[];
  var arr2=[];
+ var arr3=[];
  connection.query(qur,
     function(err, rows)
     {
@@ -19143,12 +21106,17 @@ var mapqur="SELECT * FROM subject_mapping WHERE school_id='"+req.query.schoolid+
     if(!err)
     { 
       arr2=rows;
-    connection.query(mapqur,
-    function(err, rows)
+    connection.query(mapqur,function(err, rows)
     {
     if(!err)
     {
-     res.status(200).json({'returnval': arr1,'categorycnt':arr2,'map':rows});
+      arr3=rows;
+    connection.query(grade,function(err, rows){
+    if(!err)
+    {  
+     res.status(200).json({'grade':rows,'returnval': arr1,'categorycnt':arr2,'map':arr3});
+    }
+    });
     }
     });
     }
@@ -19445,6 +21413,10 @@ var qur="SELECT * FROM tr_term_fa_assesment_marks WHERE school_id='"+req.query.s
 " grade='"+req.query.grade+"' and section='"+req.query.section+"' and subject_id='"+req.query.subject+"' order by student_name,category";
 var mapqur="SELECT distinct(category_name),category_id FROM subject_mapping WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and "+
 " grade_name='"+req.query.grade+"' and subject_name='"+req.query.subject+"' and assesment_type='"+req.query.assesmenttype+"' order by category_name";
+var grade="SELECT * FROM scorecarddb.enrichment_grade_master WHERE subject_id='s2' and "+
+" assesment_type='BOY'";
+var weightqur="SELECT sum(weight) as weight FROM subject_mapping WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and "+
+" grade_name='"+req.query.grade+"' and subject_name='"+req.query.subject+"' and assesment_type='"+req.query.assesmenttype+"' order by category_name";
 
  console.log('--------------------------dynamic report------------------------------');
  console.log(mapqur);
@@ -19452,6 +21424,8 @@ var mapqur="SELECT distinct(category_name),category_id FROM subject_mapping WHER
  console.log(qur);
  console.log('--------------------------------------------------------');
  var maparr=[];
+ var mark=[];
+ var gradee=[];
  connection.query(mapqur,function(err, rows)
  {
  maparr=rows;
@@ -19459,7 +21433,21 @@ var mapqur="SELECT distinct(category_name),category_id FROM subject_mapping WHER
   {
     if(!err)
     { 
-       res.status(200).json({'maparr':maparr,'returnval': rows});
+       mark=rows;
+      connection.query(grade,function(err, rows)
+      {
+      if(!err)
+      {
+        gradee=rows;
+     connection.query(weightqur,function(err, rows)
+      {
+      if(!err)
+      {
+       res.status(200).json({'weight':rows,'maparr':maparr,'returnval': mark,'grade':gradee});
+     }
+     });
+      }
+      });
     }
     else
     {
@@ -22043,7 +24031,7 @@ app.post('/performance-fetchassesmentinfo-service',  urlencodedParser,function (
     " and grade_id='"+req.query.grade+"' and section_id='"+req.query.section+"' group by school_id,academic_year,assesment_type, "+
     " subject_name,grade_id,section_id,grade,level order by (select id from enrichment_assesment_type where name=b.assesment_type),subject_name,grade";      
     var qur1="SELECT * FROM enrichment_grade_master";
-    var qur2="SELECT count(id) as total FROM md_student WHERE class_id in(SELECT id FROM md_class_section WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and class='"+req.query.grade+"' and section='"+req.query.section+"')";
+    var qur2="SELECT count(id) as total FROM md_student WHERE flag='active' and class_id in(SELECT id FROM md_class_section WHERE school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"' and class='"+req.query.grade+"' and section='"+req.query.section+"')";
     console.log("------------------Fetch performance1 data----------------------");
     console.log(qur);
     console.log(qur1);
@@ -22569,7 +24557,9 @@ app.post('/getassesmentvalue-service', urlencodedParser,function (req,res)
 });
 app.post('/curriculamassesmentmark-service', urlencodedParser,function (req,res)
 {  
-  var qur="SELECT *  FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
+  // var qur="SELECT *  FROM md_student where   school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'   and grade_id='"+req.query.gradeid+"' and class_id='"+req.query.sectionid+"'";
+  var qur="SELECT *  FROM md_student where   school_id='"+req.query.schoolid+"' and "+
+  " academic_year='"+req.query.academicyear+"' class_id in (select )";
   console.log(qur);
    connection.query(qur,
     function(err, rows)
@@ -24992,9 +26982,9 @@ app.post('/lessonplansendmail-service', urlencodedParser,function (req, res){
   mailsubject=req.body.subject;
   mailcontent=req.body.mailcontent;
   maillink=req.body.link;  
-  var qur = "SELECT email FROM parent WHERE student_id in(SELECT id FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class_id in(SELECT class_id FROM mp_grade_section WHERE grade_id='"+req.body.gradeid+"' AND section_id='"+req.body.sectionid+"' AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"')) AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"'";
+  var qur = "SELECT email FROM parent WHERE student_id in(SELECT id FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class_id in(SELECT class_id FROM mp_grade_section WHERE grade_id='"+req.body.gardeid+"' AND section_id='"+req.body.sectionid+"' AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"')) AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"'";
   console.log(qur);
-  connection.query("SELECT email FROM parent WHERE student_id in(SELECT id FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class_id in(SELECT class_id FROM mp_grade_section WHERE grade_id='"+req.body.gradeid+"' AND section_id='"+req.body.sectionid+"' AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"')) AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"'",
+  connection.query("SELECT email FROM parent WHERE student_id in(SELECT id FROM md_student WHERE school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"' AND class_id in(SELECT class_id FROM mp_grade_section WHERE grade_id='"+req.body.gardeid+"' AND section_id='"+req.body.sectionid+"' AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"')) AND school_id='"+req.body.schoolid+"' AND academic_year='"+req.body.academicyear+"'",
     function(err, rows)
     {
     if(!err)
@@ -25079,6 +27069,330 @@ function massMailer() {
      });
    }
 
+app.post('/gradesectionsubject-service',  urlencodedParser,function (req, res)
+{  
+  var qur="select distinct (select UPPER(grade_name) from md_grade where grade_id=t.grade_id) as grade_name,"+
+  " UPPER(section_id) as section_name,(select subject_name from md_subject where "+
+  " subject_id=t.subject_id) as subject_name,grade_id,section_id,subject_id from mp_teacher_grade t where role_id='"+req.query.roleid+"' "+
+  " and id='"+req.query.empid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'";
+  console.log('------------------grade section subject-------------');
+  console.log(qur);
+  connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {    
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'no rows'});
+    }  
+
+  });
+});
+
+app.post('/gradesectionsubjectchapter-service',  urlencodedParser,function (req,res)
+  {     
+   var qur="SELECT distinct(chapter_id),chapter_name,term_id  FROM md_curriculum_display WHERE "+
+   "school_id='"+req.query.schoolid+"' and "+
+   "grade_id='"+req.query.gradeid+"' and subject_id='"+req.query.subjectid+"' and "+
+   " academic_year='"+req.query.academicyear+"'";
+    console.log('------------------grade section subject chapter-------------');
+    console.log(qur);
+    console.log('---------------------------------------------------');
+    connection.query(qur,function(err, rows){
+    if(!err)
+    {  
+    res.status(200).json({'returnval': rows});
+    }
+    else
+     res.status(200).json({'returnval': 'no rows'}); 
+  });
+});
+
+app.post('/gradesubject-service',  urlencodedParser,function (req, res)
+{  
+  var qur="select distinct(gradeid),subjectid,(select grade_name from md_grade where grade_id=gradeid) as gradename, "+
+  " (select subject_name from md_subject where subject_id=subjectid) as subjectname from md_chapter where "+
+  " gradeid in(select grade_id from mp_teacher_grade t where role_id='"+req.query.roleid+"'  and "+
+  " id='"+req.query.empid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"')";
+  // var checkqur="select grade_id from mp_teacher_grade t where role_id='"+req.query.roleid+"'  and "+
+  // " id='"+req.query.empid+"' and school_id='"+req.query.schoolid+"' and academic_year='"+req.query.academicyear+"'";
+  console.log('------------------grade subject-------------');
+  console.log(qur);
+  connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {    
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'no rows'});
+    }  
+
+  });
+});
+
+app.post('/gradesubjectchapter-service',  urlencodedParser,function (req, res)
+{  
+  var qur="select * from md_chapter where school_id='"+req.query.schoolid+"' and gradeid='"+req.query.gradeid+"' and subjectid='"+req.query.subjectid+"' and academic_year='"+req.query.academicyear+"' and term_id='"+req.query.termid+"'";
+  console.log('------------------grade subject chapter-------------');
+  console.log(qur);
+  connection.query(qur,
+    function(err, rows)
+    {
+    if(!err)
+    {    
+      res.status(200).json({'returnval': rows});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'no rows'});
+    }  
+
+  });
+});
+
+
+app.post('/consolidatedstudentreport-service',  urlencodedParser,function (req, res)
+{  
+  var qur="select id,student_name from md_student where id in(select s.id from md_student s join "+
+  " mp_grade_section g on(s.class_id=g.class_id) where g.section_id='"+req.query.section+"' "+
+  " and g.grade_id='"+req.query.gradeid+"' and s.school_id=g.school_id and s.grade_id=g.grade_id  and s.academic_year=g.academic_year and "+
+  " s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academicyear+"') and school_id='"+req.query.schoolid+"' and academic_year='2017-2018'";
+  var qur1="select id,student_name from md_student where id in(select s.id from md_student s join "+
+  " mp_grade_section g on(s.class_id=g.class_id) where g.section_id='"+req.query.section+"' "+
+  " and g.grade_id='"+req.query.gradeid+"' and s.school_id=g.school_id and s.grade_id=g.grade_id  and s.academic_year=g.academic_year and "+
+  " s.school_id='"+req.query.schoolid+"' and s.academic_year='"+req.query.academicyear+"') and school_id='"+req.query.schoolid+"' and academic_year='2016-2017'";
+
+  console.log('------------------consolidated report student list-------------');
+  console.log(qur);
+  console.log(qur1);
+  var arr=[];
+  connection.query(qur,function(err, rows)
+    {
+    if(!err)
+    {  
+      arr=rows;
+    // if(rows.length>0)  
+    connection.query(qur1,function(err, rows){
+      res.status(200).json({'returnval': arr,'old':rows});
+    });
+    // else
+      // res.status(200).json({'returnval': 'no rows'});
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'no rows'});
+    }  
+
+  });
+});
+
+app.post('/consolidatedreport-service',  urlencodedParser,function (req, res)
+{  
+  var createqur="INSERT INTO tr_fa_overall SELECT grade,(select distinct(type) from subject_mapping where assesment_type=assesment_id) as type,category,subject_id,student_id, "+
+  " MAX(CAST(mark as DECIMAL(9,2))) as total FROM tr_term_fa_assesment_marks  WHERE school_id='"+req.query.schoolid+"' AND academic_year='"+req.query.academicyear+"' "+
+  " AND student_id='"+req.query.studentid+"' and term_name not in('Annual') and subject_id in('English','Mathematics','Science','Social Science') group by subject_id,(select distinct(type) from subject_mapping where assesment_type=assesment_id), "+
+  " category,student_id,grade order by subject_id";
+  var qur="select grade,type as assesment_id,subject_id,student_id,sum(total) as total from tr_fa_overall group by grade,type,subject_id,student_id "+
+  " order by subject_id";
+  var scalequr="SELECT * FROM scaledown_master WHERE academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id in('s1','s2','s6','s7')";
+  var subqur="SELECT distinct(subject_id) FROM tr_term_fa_assesment_marks WHERE school_id='"+req.query.schoolid+"' AND academic_year='"+req.query.academicyear+"' and student_id='"+req.query.studentid+"' order by subject_id";
+  var gradequr="SELECT * FROM newformat_scholastic_grademaster";
+  var scaleup="SELECT sum(actual_scale) as tot,subject_name,grade_name FROM scaledown_master WHERE academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' group by subject_name,grade_name order by subject_id"
+  var dropqur="DELETE FROM tr_fa_overall";
+  var annualqur="SELECT * FROM tr_term_fa_assesment_marks WHERE school_id='"+req.query.schoolid+"' AND academic_year='"+req.query.academicyear+"' "+
+  " AND student_id='"+req.query.studentid+"' AND term_name in('Annual')";
+  // console.log('--------------------fivetoten reportcard fetch--------------------');
+  // console.log(createqur);
+  // console.log(qur);
+  // console.log(dropqur);
+  // console.log('----------------------------------------');
+  // console.log(scalequr);
+  // console.log('----------------------------------------');
+  // console.log(subqur);
+  // console.log('----------------------------------------');
+  // console.log(gradequr);
+  // console.log('----------------------------------------');
+  // console.log(scaleup);
+  // console.log('----------------------------------------');
+  // console.log(annualqur);
+  var assesment=[];
+  var master=[];
+  var subject=[];
+  var grade=[];
+  var scaleupp=[];
+  var annual=[];
+  connection.query(createqur,function(err, rows){
+  if(!err)
+  { 
+  connection.query(qur,function(err, rows){
+  if(!err)
+  { 
+    global.assesmentarrs=rows;
+    assesment=rows;
+  
+    connection.query(scalequr,function(err, rows){
+    if(!err)
+    {
+    master=rows;
+    global.masterarrs=rows;
+    connection.query(subqur,function(err, rows){
+    if(!err)
+    {
+      global.subjectarrs=rows;
+    subject=rows;
+    connection.query(gradequr,function(err, rows){
+    if(!err)
+    {
+      global.gradearrs=rows;
+    grade=rows;
+    connection.query(scaleup,function(err, rows){
+    if(!err)
+    {
+      global.scaleuparrs=rows;
+      scaleupp=rows;
+    connection.query(annualqur,function(err, rows){
+    if(!err)
+    {
+      console.log(annual);
+      // global.annualarrs=rows;
+      annual=rows;
+    connection.query(dropqur,function(err, rows){
+    if(!err)
+    {
+    res.status(200).json({'studentname':req.query.studentname,'studentid':req.query.studentid,'annual':annual,'assesment': assesment,'master':master,'subject':subject,'grade':grade,'scaleup':scaleupp});
+    }
+    else{
+      console.log('error in drop'+err);
+    }
+    });
+    }
+    else
+      console.log('error in annual');
+    });
+    }
+    else
+      console.log("err...lastin scholastic"+err);
+    });
+    }
+    else
+      console.log("err...last"+err);
+    });
+    }
+    else
+      console.log("err...last before"+err);
+    });
+    }
+    else
+      console.log(err);
+    });
+  }
+  else{
+    console.log(err);
+    res.status(200).json({'returnval': ''});
+  }
+  });
+  }
+  else{
+   console.log('error in table creation...'+err); 
+  }
+  });
+});
+
+app.post('/consolidatedreport-service1',  urlencodedParser,function (req, res)
+{
+var schoolid={school_id:req.query.schoolid};
+  var studid={student_id:req.query.studid}; 
+  var qur="SELECT * FROM tr_term_overallfa_assesment_marks WHERE school_id='"+req.query.schoolid+"' AND student_id='"+req.query.studid+"' order by subject_id";
+var subqur="SELECT distinct(subject_id) as subject_name FROM tr_term_fa_assesment_marks WHERE school_id='"+req.query.schoolid+"' AND academic_year='2016-2017' and student_id='"+req.query.studid+"' order by subject_id";
+  // console.log('----------------------fetch mark------------------------');
+  // console.log(qur);
+  // console.log(subqur);
+  var arr=[];
+  connection.query(qur,function(err, rows)
+    { 
+    if(!err)
+    {       
+      global.fetchmark=rows;
+      arr=rows;
+      // console.log('---------------------------');
+      // console.log(rows);
+      connection.query(subqur,function(err, rows){
+
+      res.status(200).json({'studentid':req.query.studid,'returnval': arr,'subject':rows});
+      });
+    }
+    else
+    {
+      console.log(err);
+      res.status(200).json({'returnval': 'fail'});
+    }  
+  });
+});
+
+app.post('/consolidatedreport-service3',  urlencodedParser,function (req, res)
+{
+  var qur="SELECT grade,term_name,subject_id,assesment_id,student_id,sum(mark) as total FROM tr_term_fa_assesment_marks WHERE school_id='"+req.query.schoolid+"' AND academic_year='"+req.query.academicyear+"' AND student_id='"+req.query.studentid+"' and subject_id in('English','Mathematics','Science','Social Science') group by term_name,assesment_id,subject_id,student_id,grade order by term_name,subject_id";
+  var scalequr="SELECT * FROM scaledown_master WHERE academic_year='"+req.query.academicyear+"' and grade_id='"+req.query.gradeid+"' and subject_id in('s1','s2','s6','s7')";
+  var subqur="SELECT distinct(subject_id) FROM tr_term_fa_assesment_marks WHERE school_id='"+req.query.schoolid+"'  AND academic_year='"+req.query.academicyear+"' and student_id='"+req.query.studentid+"' and subject_id in('English','Mathematics','Science','Social Science') order by subject_id";
+  var gradequr="SELECT * FROM newformat_scholastic_grademaster";
+   // console.log('----------------------------------------');
+   // console.log(qur);
+   // console.log('----------------------------------------');
+   // console.log(scalequr);
+   // console.log('----------------------------------------');
+   // console.log(subqur);
+   // console.log('----------------------------------------');
+   // console.log(gradequr);
+   // console.log('----------------------------------------');
+   // console.log('----------------------------------------');
+  var assesment=[];
+  var master=[];
+  var subject=[];
+  connection.query(qur,function(err, rows){
+  if(!err)
+  { 
+    assesment=rows;
+    global.assesmentarrs=rows;
+    connection.query(scalequr,function(err, rows){
+    if(!err)
+    {
+    master=rows;
+      global.masterarrs=rows;
+    connection.query(subqur,function(err, rows){
+    if(!err)
+    {
+      global.subjectarrs=rows;
+    subject=rows;
+    connection.query(gradequr,function(err, rows){
+    if(!err)
+    {
+      global.gradearrs=rows;
+    res.status(200).json({'studentname':req.query.studentname,'studentid':req.query.studentid,'assesment': assesment,'master':master,'subject':subject,'grade':rows});
+    }
+    });
+    }
+    });
+    }
+    else
+      console.log(err);
+    });
+  }
+  else{
+    console.log(err);
+    res.status(200).json({'returnval': ''});
+  }
+  });
+});
 
 function setvalue(){
   console.log("calling setvalue.....");

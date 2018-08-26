@@ -1,0 +1,37 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="curriculum-planning-chaptercard">
+<style type="text/css">
+  .optioncard{
+      @apply(--layout-horizontal);
+      @apply(--layout-center-justified);
+      @apply(--layout-wrap);      
+      width: 100%;
+      /*padding: 10px;*/
+  }
+  curriculum-planning-chapter-itemcard{
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+  }
+</style>
+  <template>    
+  <div class="optioncard">
+      <template is="dom-repeat" items="{{optionarr}}">   
+      <curriculum-planning-chapter-itemcard gradeid="{{item.gradeid}}" subjectid="{{item.subjectid}}" termid="{{item.term_id}}" chapterid="{{item.capter_id}}" chaptername="{{item.capter}}"></curriculum-planning-chapter-itemcard>
+      </template>    
+  </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'curriculum-planning-chaptercard',
+      FnRefresh:function(){
+
+      }
+    });
+  })();
+  </script>
+</dom-module>

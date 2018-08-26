@@ -324,9 +324,10 @@
       },
       fetchschoolResponse:function(e){
         // alert(JSON.stringify(e.detail.response.returnval))
+        document.querySelector('consolidated-assesment-report').schoolarr=e.detail.response.returnval;
         document.querySelector('consolidated-report-card').schoolarr=e.detail.response.returnval;
         document.querySelector('teacherhome-card').schoolarr=e.detail.response.returnval;
-        document.querySelector('consolidated-data-analysis').schoolarr=e.detail.response.returnval;
+        // document.querySelector('consolidated-data-analysis').schoolarr=e.detail.response.returnval;
         document.querySelector('beginner-term-analysis-card').schoolarr=e.detail.response.returnval;
         document.querySelector('enrichment-comparison-report').schoolarr=e.detail.response.returnval;
         document.querySelector('assesment-comparison-homecard').schoolarr=e.detail.response.returnval;
@@ -390,7 +391,8 @@
         if(localStorage.getItem('curr_sess_loggedassesmenttype')=='Editinfo')
           document.querySelector('cce-generate-score-card').gradearr=e.detail.response.returnval;
         if(localStorage.getItem('curr_sess_loggedassesmenttype')=='Consolidateddataanalysis')
-          document.querySelector('consolidated-data-analysis').gradearr=e.detail.response.returnval;
+          // document.querySelector('consolidated-data-analysis').gradearr=e.detail.response.returnval;
+        document.querySelector('consolidated-assesment-report').gradearr=e.detail.response.returnval;
          if(localStorage.getItem('curr_sess_loggedassesmenttype')=='Approval')
           document.querySelector('approve-one-to-four-card').gradearr=e.detail.response.returnval;
     if(localStorage.getItem('curr_sess_loggedassesmenttype')=='Approvalstatus')
@@ -490,7 +492,8 @@
   if(localStorage.getItem('curr_sess_loggedassesmenttype')=='Editinfo')
           document.querySelector('cce-generate-score-card').sectionarr=e.detail.response.returnval;
    if(localStorage.getItem('curr_sess_loggedassesmenttype')=='Consolidateddataanalysis')
-          document.querySelector('consolidated-data-analysis').sectionarr=e.detail.response.returnval;
+          // document.querySelector('consolidated-data-analysis').sectionarr=e.detail.response.returnval;
+         document.querySelector('consolidated-assesment-report').sectionarr=e.detail.response.returnval;
   if(localStorage.getItem('curr_sess_loggedassesmenttype')=='sendmailsid')
     document.querySelector('student-scorcard-mail-card').sectionarr=e.detail.response.returnval;
  if(localStorage.getItem('curr_sess_loggedassesmenttype')=='Approval')

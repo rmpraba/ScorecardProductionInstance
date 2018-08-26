@@ -1,0 +1,125 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="reportcard-option-service">
+  <template>
+    <iron-ajax
+        method="post"
+        id="gradesubjectajax"
+        url="{{gradesubjecturl}}"
+        params="{{gradesubjectparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="gradesubjectResponse"
+        debounce-duration="300"/>
+    <iron-ajax
+        method="post"
+        id="gradesectionsubjectajax"
+        url="{{gradesectionsubjecturl}}"
+        params="{{gradesectionsubjectparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="gradesectionsubjectResponse"
+        debounce-duration="300"/>
+    <iron-ajax
+        method="post"
+        id="gradesectionsubjectchapterajax"
+        url="{{gradesectionsubjectchapterurl}}"
+        params="{{gradesectionsubjectchapterparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="gradesectionsubjectchapterResponse"
+        debounce-duration="300"/>
+    <iron-ajax
+        method="post"
+        id="gradesubjectchapterajax"
+        url="{{gradesubjectchapterurl}}"
+        params="{{gradesubjectchapterparam}}"
+        handle-as="json"
+        content-type="application/json"
+        on-response="gradesubjectchapterResponse"
+        debounce-duration="300"/>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'reportcard-option-service',
+      FnFetchPlanningChapter:function(gradeid,gradename,subjectid,subjectname){
+        this.gradesubjectchapterurl=sessionStorage.getItem("addrinfo")+"/gradesubjectchapter-service";
+           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+           obj.termid=localStorage.getItem("curr_sess_termname");
+           obj.subjectid=subjectid;
+           obj.subjectname=subjectname;
+           obj.gradeid=gradeid;
+           obj.gradename=gradename;
+           this.gradesubjectchapterparam=obj;
+           this.$.gradesubjectchapterajax.generateRequest();
+      },
+      gradesubjectchapterResponse:function(e){
+        var arr=e.detail.response.returnval;
+        // alert(JSON.stringify(arr));
+        if(arr!='no rows'){
+          document.querySelector('curriculum-planning-chaptercard').optionarr=arr;
+        }
+      },
+      FnFetchGradeSubject:function(){
+        this.gradesubjecturl=sessionStorage.getItem("addrinfo")+"/gradesubject-service";
+           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+           this.gradesubjectparam=obj;
+           this.$.gradesubjectajax.generateRequest();
+      },
+      gradesubjectResponse:function(e){
+        var arr=e.detail.response.returnval;
+        // alert(JSON.stringify(arr));
+        if(arr!='no rows'){
+          document.querySelector('curriculum-planning-option-card').optionarr=arr;
+        }
+      },
+      FnFetchGradeSectionSubject:function(){
+        this.gradesectionsubjecturl=sessionStorage.getItem("addrinfo")+"/gradesectionsubject-service";
+           var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+           this.gradesectionsubjectparam=obj;
+           this.$.gradesectionsubjectajax.generateRequest();
+      },
+      gradesectionsubjectResponse:function(e){
+        var arr=e.detail.response.returnval;
+        // alert(JSON.stringify(arr));
+        if(arr!='no rows'){
+          document.querySelector('curriculum-plan-homecard').optionarr=arr;
+        }
+      },
+      FnFetchChapter:function(gradeid,gradename,sectionid,sectionname,subjectid,subjectname){
+        this.gradesectionsubjectchapterurl=sessionStorage.getItem("addrinfo")+"/gradesectionsubjectchapter-service";
+             var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
+           obj.schoolid=sessionStorage.getItem("curr_sess_loggedschoolid");
+           obj.academicyear=localStorage.getItem("curr_sess_academicyear");
+           obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
+           obj.empid=sessionStorage.getItem("curr_sess_loggedid");
+           obj.sectionid=sectionid;
+           obj.gradeid=gradeid;
+           obj.subjectid=subjectid;
+           this.gradesectionsubjectchapterparam=obj;
+           this.$.gradesectionsubjectchapterajax.generateRequest();
+      },
+      gradesectionsubjectchapterResponse:function(e){
+        var arr=e.detail.response.returnval;
+        if(arr!='no rows'){
+          document.querySelector('curriculum-plan-chaptercard').optionarr=arr;
+        }
+      }
+    });
+  })();
+  </script>
+</dom-module>

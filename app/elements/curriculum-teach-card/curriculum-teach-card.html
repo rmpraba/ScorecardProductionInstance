@@ -10,53 +10,45 @@
       table{
         border-collapse: collapse;
         width: 100%;
-
       }
       table { table-layout:fixed; }
      table td { overflow: hidden; }
-
       th,td{ 
      /*  border-top: 1px solid #ddd;
        border-bottom: 1px solid #ddd;*/
        border-right: 1px solid #ddd;
         border-left: 1px solid #ddd;
-    
      }
     </style>
      <div>
      <div hidden>{{rowid}}{{chapterid}}{{chaptername}}{{conceptid}}{{fromdate}}{{todate}}</div>
-       <table  class="teach1" >
+       <table  class="teach1" cellpadding="10">
         <tr>
-          <td style="{{fonts}}"  width="10%">{{sno}}</td>
-          <td style="{{fonts}}"  width="10%">{{conceptname}}</td>
-          <td style="{{fonts}}"  width="10%">{{subconceptname}}</td>
-          <td style="{{fonts}}"   width="10%">
+          <td style="{{fonts}};width:2%;">{{sno}}</td>
+          <td style="{{fonts}}"  width="15%">{{conceptname}}</td>
+          <td style="{{fonts}}"  width="12%">{{subconceptname}}</td>
+          <td style="{{fonts}};word-wrap: break-word;"   width="10%">
            <div hidden$="{{hideopenplan}}"> LINK</div>
-
            <div hidden$="{{hidecloseplan}}">
               <template is="dom-repeat" items="{{teachtemparr}}" as="rse">
                   <div hidden$="{{rse.hideteachcont}}">
-                   <h4>{{rse.content}}</h4>
+                   <b>Content:</b> {{rse.content}}
                  </div>
                  <div hidden$="{{rse.hideteachurl}}">
-                    <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
+                   <b>Url:</b> <a href="{{rse.content}}" target="_blank" >{{rse.content}}</a>
                  </div>
               </template>
           </div>
         <div hidden$="{{hidecloseplan}}">
         </div>
           </td>
-          <td style="{{fonts}}"  width="10%">
-         
-         
+          <td style="{{fonts}}"  width="10%"> 
         <div hidden$="{{hidefilename}}">
              <p hidden$="{{hideopenplan}}">TEACHING FILES</p>
              <p hidden$="{{hidecloseplan}}"><a href="{{url}}" target="_blank">{{filename}}</a></p>
-       </div> 
+        </div> 
           </td>
            <td style="{{fonts}}"  width="10%">{{filename}}</td>
-         
-         
         </tr>
       </table>
 </div>
@@ -70,7 +62,8 @@
     Polymer({
       is: 'curriculum-teach-card',
 
-     FnSave:function(e){
+     FnSave:function
+     (e){
         // alert(this.conceptname+2+this.conceptid+2+this.chapterid+2+this.chaptername+this.link+2+this.url+2+this.filename+2+this.rowid+2+this.sno+2+this.fromdate+2+this.todate);
         //  this.$.crriculambookservice.Fnpasscurriculumteach(this.conceptname,this.conceptid,this.chapterid,this.chaptername,this.link,this.url,this.filename,this.rowid,this.sno,this.fromdate,this.todate);
      },

@@ -1,0 +1,56 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="curriculum-plan-homeoption-card">
+  <template>
+    <style>
+      h1{
+        color: #8C075D;
+      }
+      h2{
+        color: #268007;
+      }
+      #subject{
+        color: red;
+      }
+      #subject{
+        /*border: 1px solid blue;*/
+      }
+      paper-card{
+        width: 150px;
+        height: 150px;
+        text-align: center;
+      }
+    </style>
+    <div hidden>{{gradeid}}{{sectionid}}{{subjectid}}</div>
+    <paper-card>
+    <div class="card-content" on-click="FnSelect">
+    <h2>{{grade}}</h2>
+    <h3>{{section}}</h3>
+    <h2 id="subject">{{subject}}</h2>
+    </div>
+    </paper-card>
+    <reportcard-option-service id="reportcardoptionservice"></reportcard-option-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    Polymer({
+      is: 'curriculum-plan-homeoption-card',
+      FnRefresh:function(){        
+      },
+      FnSelect:function(){
+        localStorage.setItem("curr_sess_gradeid",this.gradeid);
+        localStorage.setItem("curr_sess_gradename",this.grade);
+        localStorage.setItem("curr_sess_sectionid",this.sectionid);
+        localStorage.setItem("curr_sess_sectionname",this.section);
+        localStorage.setItem("curr_sess_subjectid",this.subjectid);
+        localStorage.setItem("curr_sess_subjectname",this.subject); 
+        this.$.reportcardoptionservice.FnFetchChapter(this.gradeid,this.gradename,this.sectionid,this.sectionname,this.subjectid,this.subjectname);
+        document.querySelector('app-card').setPage('homepage','');
+        document.querySelector('home-page').setPage('curriculum-plan-chaptercard','');
+      }
+    });
+  })();
+  </script>
+</dom-module>

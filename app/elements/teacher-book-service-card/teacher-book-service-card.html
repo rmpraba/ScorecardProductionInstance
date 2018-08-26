@@ -1649,7 +1649,7 @@ var obj={"school_id":"","academic_year":"","grade_id":"","subject_id":""};
          }
 
       },
-FnFetchConceptService:function(gradeid,subjectid,chapterid)
+FnFetchConceptService:function()
         {  
    this.fetchconcepturl=sessionStorage.getItem("addrinfo")+"/fetchconcept-service";
     var obj={"schoolid":"","academic_year":"","roleid":"","emp_id":""};
@@ -1659,6 +1659,10 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
         obj.subjectid=sessionStorage.getItem("subjectidz");
         obj.gradeid=sessionStorage.getItem("grdeidz");
         obj.termid=sessionStorage.getItem("termid"); 
+        // obj.chapterid=chapterid;
+        // obj.subjectid=subjectid;
+        // obj.gradeid=gradeid;
+        // obj.termid=termid;
         obj.roleid=sessionStorage.getItem("curr_sess_loggedroleid");
         obj.emp_id=sessionStorage.getItem("curr_sess_loggedid");
        
@@ -1671,7 +1675,8 @@ FnFetchConceptService:function(gradeid,subjectid,chapterid)
       
  var res1=e.detail.response.chapterarr;
  var temp1=e.detail.response.dbarr;
- 
+ // alert(JSON.stringify(res1));
+ // alert(JSON.stringify(temp1));
     for(var i=0;i<temp1.length;i++){
            var k,l;
            var temp=[];
@@ -2148,7 +2153,7 @@ fnsetcoskill13:function(skarr,period,rowid,sno)
           fngetclassbooksubjectvalueResponse:function(e)
           {
             var res=e.detail.response.subjectarr;
-   document.querySelector('curriculum-plan-conceptapproval-card').subjectarr=res;
+            document.querySelector('curriculum-plan-conceptapproval-card').subjectarr=res;
           },
           fngetclassbookchaptervalue:function(gradeid,sectionid,subjectid){
           this.fngetclassbookchaptervalueurl=sessionStorage.getItem("addrinfo")+"/fngetclassbookchaptervalue-service";
@@ -3030,7 +3035,6 @@ fnfinalbookvalueResponse:function(e)
              masskill=res;
          document.querySelector('teacher-book-approveal-concept-item-card').masskill=masskill;
          },
-
 
           fnbookplangrade:function(e){
        // alert('1');  
